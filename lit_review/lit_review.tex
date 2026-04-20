@@ -1,0 +1,112 @@
+
+\documentclass[paper=a4, fontsize=12pt]{scrartcl} %
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage{mathpazo} % Palatino font
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage{fourier}
+\usepackage[english]{babel}
+\usepackage{amsmath,amsfonts,amsthm}
+\usepackage{lipsum}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{blindtext} 
+\usepackage[]{hyperref}  
+\usepackage{sectsty}
+
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{\thepage} % Empty center footer
+\fancyfoot[R]{} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section}
+\numberwithin{figure}{section} 
+\numberwithin{table}{section} 
+\setlength\parskip{4pt}
+
+
+
+
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+	
+	\center % Centre everything on the page
+
+	
+	\textsc{\LARGE University of Bristol}\\[1.5cm] % Main heading such as the name of your university/college
+	
+	\textsc{\Large MSc Bioinformatics}\\[0.5cm] % Major heading such as course name
+
+	\HRule\\[0.4cm]
+	
+	{\huge\bfseries Evapotranspiration Predictability using Machine Learning}\\[0.4cm] % Title of your document
+	
+	\HRule\\[1.5cm]
+	
+	%------------------------------------------------
+	%	Author(s)
+	%------------------------------------------------
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			\textit{Review by}\\
+			Archie \textsc{Benn} % Your name
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushright}
+			\large
+			\textit{Supervisor}\\
+			Professor Martin \textsc{De Kauwe} % Supervisor's name
+		\end{flushright}
+	\end{minipage}
+	
+\vfill
+\begin{abstract}
+	{\noindent{\Large Abstract} }\\
+
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+	
+	\textbf{Key words:} Machine Learning, FLUXNET, Evapotranspiration.
+\end{abstract}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+%------------------------------------------------
+% BODY
+%------------------------------------------------
+
+\section{Introduction}
+\subsection{Energy consumption in manufacturing industry}
+For governments and manufacturing companies, global warming, rising energy prices, and customers increasing ecological awareness have pushed energy efficient manufacturing to the top of the agenda. The integrating energy efficiency performance in production management, gap analysis between industrial needs and scientific literature. Manufacturing companies need greater capabilities to respond more quicker \cite{Ghani2012} to market dynamics and varying demands. It is obvious that energy efficiency becomes a driver for manufacturing industry, since it has become one of the greatest energy consumers and carbon emitters in the World, higher than transportation, residential and commercial usage. Like shown in Figure
+
+
+% REFERENCES
+\bibliographystyle{abbrv}
+\bibliography{references.bib}
+
+
+\end{document}
