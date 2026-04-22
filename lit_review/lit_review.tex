@@ -138,7 +138,7 @@
 
 \subsubsection{Leaf Area Index}
 \begin{itemize}
-	\item What is LAi and how is it measured? 
+	\item What is LAi? 
 	\item How is this related to ET?
 \end{itemize}
 
@@ -157,14 +157,6 @@
 
 
 \subsection{Contemporary ET Prediction Methods ($\sim$ 450 words)}
-\subsubsection{Non-ML methods}
-\begin{itemize}
-	\item Quick look at some of these methods. List below from \cite{xu2018evaluating}:
-	\item Predictive equations which link ET observations (flux towers) to vegetation indices (e.g LAi), land surface temp. observations, and meteorological parameters
-	\item  ``Geostatistical methods'' based on kriging theoretical framework
-	\item  Using semi-theoretical or running theoretical methods
-\end{itemize}
-
 \subsubsection{ML methods}
 \begin{itemize}
 	\item Brief overview of ML methods
@@ -183,7 +175,7 @@
 \begin{itemize}
 \item Suggest the area/question this project is going to address 
 \item Include why this is relevant currently/addressable now
-\item "Do predictive ET ML models trained on historic FLUXNET and satellite data have a loss of performance under new climate conditions?"
+\item "Do predictive ET ML models trained on historic FLUXNET data have a loss of performance under new climate conditions?"
 \end{itemize}
 
 %------------------------------------------------
@@ -201,7 +193,7 @@
 \subsection{Methods Overview ($\sim$ 1300 words)}
 \subsubsection{Data Acquisition and Selection}
 \begin{itemize}
-	\item How the data will be accessed and stored (remote sensing and FLUXNET).
+	\item How the data will be accessed and stored (FLUXNET).
 	\item Time period (requires long term sites) and geographical location of data selected for modelling.
 	\item Why these were selected and appropriate? (in terms of location/times, not specific structure).
 \end{itemize}
@@ -222,7 +214,7 @@
 	\item Overview of model parameters (- might be too much detail?) and how each are trained.
 	\item Why are these model choices/parameters appropriate for this task?
 	\item Target features: FLUXNET latent heat flux (ET approximation)
-	\item Predictor features: Meteorological data (from FLUXNET and others like LAi from satellite data e.g ECoSTRESS)
+	\item Predictor features: Meteorological data (from FLUXNET and others like LAi)
 \end{itemize}
 
 \subsubsection{ML Model Evaluation}
