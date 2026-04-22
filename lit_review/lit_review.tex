@@ -1,7 +1,8 @@
 
-\documentclass[paper=a4, fontsize=12pt]{scrartcl} %
+\documentclass[paper=a4, fontsize=12pt]{scrartcl} 
 
-\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[left=2.7cm,right=2.7cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[utf8]{inputenc} 
 \usepackage{mathpazo} % Palatino font
 \usepackage{microtype}
 \usepackage[T1]{fontenc}
@@ -14,14 +15,24 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{blindtext} 
-\usepackage[]{hyperref}  
+\usepackage[hidelinks]{hyperref}
 \usepackage{sectsty}
+\usepackage{natbib}
+\usepackage{caption} 
+\usepackage{ragged2e}
 
-\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+\sectionfont{\centering \normalfont\scshape}
+\subsectionfont{\centering \normalfont \scshape}
+\subsubsectionfont{\normalfont\itshape}
+
+\captionsetup{font={normal}, 
+	labelfont=bf} % sans serif figure and table captions
 
 \usepackage{fancyhdr} % Custom headers and footers
 \pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
-\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyhead[L]{} % No page header - if you want one, create it in the same way as the footers below
+\fancyhead[R]{}
+\fancyhead[C]{}
 \fancyfoot[L]{} % Empty left footer
 \fancyfoot[C]{\thepage} % Empty center footer
 \fancyfoot[R]{} % Page numbering for right footer
@@ -29,36 +40,43 @@
 \renewcommand{\footrulewidth}{0pt} % Remove footer underlines
 \setlength{\headheight}{13.6pt} % Customize the height of the header
 
-\numberwithin{equation}{section}
-\numberwithin{figure}{section} 
-\numberwithin{table}{section} 
+%\numberwithin{equation}{section}
+%\numberwithin{figure}{section} 
+%\numberwithin{table}{section} 
 \setlength\parskip{4pt}
-
-
-
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{3}
 
 
 \begin{document}
+
+\setcitestyle{authoryear,square,aysep={,},yysep={;}} %bloody hell this took a while but use this for commas between author, year with natbib
+\bibliographystyle{apalike}
+%\renewcommand{\bibfont}{\sffamily\footnotesize}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
 \begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\vspace*{5em} % star for top of page
 	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
 	
-	\center % Centre everything on the page
+	\centering % Centre everything on the page
 
 	
 	\textsc{\LARGE University of Bristol}\\[1.5cm] % Main heading such as the name of your university/college
-	
+	\vspace{-3em}
 	\textsc{\Large MSc Bioinformatics}\\[0.5cm] % Major heading such as course name
+	\vspace{3em}
 
-	\HRule\\[0.4cm]
+	%\HRule\\[0.4cm]
 	
-	{\huge\bfseries Evapotranspiration Predictability using Machine Learning}\\[0.4cm] % Title of your document
+	{\Large\bfseries Evaluating Evapotranspiration Generalisation Under a Changing Climate using Machine Learning}\\[0.4cm] % Title of your document
 	
-	\HRule\\[1.5cm]
+	\vspace{3em}
+	
+%	\HRule\\[1.5cm]
 	
 	%------------------------------------------------
 	%	Author(s)
@@ -67,7 +85,7 @@
 	\begin{minipage}{0.4\textwidth}
 		\begin{flushleft}
 			\large
-			\textit{Review by}\\
+			\textit{Review and Plan by}\\
 			Archie \textsc{Benn} % Your name
 		\end{flushleft}
 	\end{minipage}
@@ -80,14 +98,21 @@
 		\end{flushright}
 	\end{minipage}
 	
-\vfill
-\begin{abstract}
-	{\noindent{\Large Abstract} }\\
+\vspace{5em}
+\begin{abstract} 
+	{\noindent{\textsc{Abstract} (The abstract has a  maximum of 200 words})}
+	\newline
+	%\lipsum[1-10][1-20]
 
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-	
-	\textbf{Key words:} Machine Learning, FLUXNET, Evapotranspiration.
+\begin{itemize}
+	\item Summary of background on ET/ML methods and FLUXNET 
+	\item Overall aim of the project 
+	\item Proposed approach for the project
+\end{itemize}
+
+\vspace{1em}
+\textit{\textbf{Key words:}} Machine Learning, FLUXNET, Evapotranspiration.\\
+\textit{\textbf{Word count:}} 3000
 \end{abstract}
 \end{titlepage}
 
@@ -96,16 +121,149 @@ It is a long established fact that a reader will be distracted by the readable c
 \newpage
 
 %------------------------------------------------
-% BODY
+% LIT REVIEW
 %------------------------------------------------
 
-\section{Introduction}
-\subsection{Energy consumption in manufacturing industry}
-For governments and manufacturing companies, global warming, rising energy prices, and customers increasing ecological awareness have pushed energy efficient manufacturing to the top of the agenda. The integrating energy efficiency performance in production management, gap analysis between industrial needs and scientific literature. Manufacturing companies need greater capabilities to respond more quicker \cite{Ghani2012} to market dynamics and varying demands. It is obvious that energy efficiency becomes a driver for manufacturing industry, since it has become one of the greatest energy consumers and carbon emitters in the World, higher than transportation, residential and commercial usage. Like shown in Figure
+\section{Literature Review ($\sim$ 1200 words)}
+\subsection{Introduction ($\sim$ 500 words)}
+\subsubsection{Evapotranspiration} 
+\begin{itemize}
+	\item Overview of evapotranspiration (ET):
+	\begin{equation}
+		ET = Transpiration + E_{Canopy} + E_{Soil}
+	\end{equation}
+	\item Drivers of ET e.g Leaf Area index (LAi), Vapour pressure deficit (VPD), precipitation, air temperature etc.
+	\item Importance and applications of ET predictability
+\end{itemize}
 
+\subsubsection{Leaf Area Index}
+\begin{itemize}
+	\item What is LAi and how is it measured? 
+	\item How is this related to ET?
+\end{itemize}
+
+
+\subsubsection{FLUXNET}
+\begin{itemize}
+	\item Overview of eddy covariance and how flux towers collect data
+	\item Brief look at FLUXNET and how sites are grouped (region and vegetation types)
+\end{itemize}
+
+\subsubsection{The Changing Climate} 
+\begin{itemize}
+	\item Overview of climate change and effects on carbon dioxide levels 
+	\item How these could link to factors such as changing ET
+\end{itemize}
+
+
+\subsection{Contemporary ET Prediction Methods ($\sim$ 450 words)}
+\subsubsection{Non-ML methods}
+\begin{itemize}
+	\item Quick look at some of these methods. List below from \cite{xu2018evaluating}:
+	\item Predictive equations which link ET observations (flux towers) to vegetation indices (e.g LAi), land surface temp. observations, and meteorological parameters
+	\item  ``Geostatistical methods'' based on kriging theoretical framework
+	\item  Using semi-theoretical or running theoretical methods
+\end{itemize}
+
+\subsubsection{ML methods}
+\begin{itemize}
+	\item Brief overview of ML methods
+	\item Performances of different models in the literature 
+\end{itemize}
+
+\subsection{Knowledge Gaps and Project Scope ($\sim$ 250 words)}
+\subsubsection{Knowledge Gaps and Unresolved Questions}
+\begin{itemize}
+	\item Findings from literature
+	\item Address gaps in the literature
+	\item Suggest areas for future efforts (which are not this project) - ?
+\end{itemize}
+
+\subsubsection{Project Scope}
+\begin{itemize}
+\item Suggest the area/question this project is going to address 
+\item Include why this is relevant currently/addressable now
+\item "Do predictive ET ML models trained on historic FLUXNET and satellite data have a loss of performance under new climate conditions?"
+\end{itemize}
+
+%------------------------------------------------
+% PROJECT PLAN
+%------------------------------------------------
+
+
+\newpage
+\section{Research Project Plan ($\sim$ 1500 words)}
+\subsection{Overall Project Aim ($\sim$ 200 words)}
+\begin{itemize}
+	\item Overview of how this project will answer the question/area proposed at end of introduction.
+\end{itemize}
+
+\subsection{Methods Overview ($\sim$ 1300 words)}
+\subsubsection{Data Acquisition and Selection}
+\begin{itemize}
+	\item How the data will be accessed and stored (remote sensing and FLUXNET).
+	\item Time period (requires long term sites) and geographical location of data selected for modelling.
+	\item Why these were selected and appropriate? (in terms of location/times, not specific structure).
+\end{itemize}
+
+\subsubsection{Feature Engineering}
+\begin{itemize}
+	\item Selection of data features for use in training and why.
+	\item How these were removed or adapted
+	\item Why are these features appropriate?
+\end{itemize}
+
+
+\subsubsection{ML Model Setup and Training}
+\begin{itemize}
+	\item How the data will be accessed and stored (remote sensing and FLUXNET).
+	\item Explanation of model(s) selection (type of ML method)
+	\item e.g If including LAi vs. not with other parameters kept identical across 2 models.
+	\item Overview of model parameters (- might be too much detail?) and how each are trained.
+	\item Why are these model choices/parameters appropriate for this task?
+	\item Target features: FLUXNET latent heat flux (ET approximation)
+	\item Predictor features: Meteorological data (from FLUXNET and others like LAi from satellite data e.g ECoSTRESS)
+\end{itemize}
+
+\subsubsection{ML Model Evaluation}
+\begin{itemize}
+	\item Testing methods on unseen/held out historical (same as training e.g 5-20 years old) validation sets
+	\item Comparison to other predictive models e.g in FLUXCOM
+	\item Overall evaluation of model predictability on historical data
+\end{itemize}
+
+\subsubsection{ML Model Predictions}
+\begin{itemize}
+	\item Predictions made on unseen and more recent data (e.g last 5 years)
+	\item Overall evaluation of model predictability on recent data
+\end{itemize}
+
+
+\subsection{Gantt Chart}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{gantt/gantt1.png}
+	\captionsetup{justification=Centering}
+	\caption{A proposed Gantt Chart for the duration of this project.}
+	\label{fig:gantt}
+\end{figure}
+
+
+
+
+%------------------------------------------------
+% RISK REGISTER
+%------------------------------------------------
+
+\newpage
+\section{Risk Register ($\sim$ 300 words)}
+\begin{itemize}
+	\item 4-5 risks at about 60 words each
+	\item Data access issues, overfitting, data gaps etc.
+\end{itemize}
 
 % REFERENCES
-\bibliographystyle{abbrv}
 \bibliography{references.bib}
 
 

@@ -1,4 +1,24 @@
 \babel@toc {english}{}\relax 
-\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Energy consumption in manufacturing industry}{3}{subsection.1.1}%
+\contentsline {section}{\nonumberline Literature Review ($\sim $ 1200 words)}{3}{section*.3}%
+\contentsline {subsection}{\nonumberline Introduction ($\sim $ 500 words)}{3}{subsection*.5}%
+\contentsline {subsubsection}{\nonumberline Evapotranspiration}{3}{subsubsection*.7}%
+\contentsline {subsubsection}{\nonumberline Leaf Area Index}{3}{subsubsection*.9}%
+\contentsline {subsubsection}{\nonumberline FLUXNET}{3}{subsubsection*.11}%
+\contentsline {subsubsection}{\nonumberline The Changing Climate}{3}{subsubsection*.13}%
+\contentsline {subsection}{\nonumberline Contemporary ET Prediction Methods ($\sim $ 450 words)}{3}{subsection*.15}%
+\contentsline {subsubsection}{\nonumberline Non-ML methods}{3}{subsubsection*.17}%
+\contentsline {subsubsection}{\nonumberline ML methods}{3}{subsubsection*.19}%
+\contentsline {subsection}{\nonumberline Knowledge Gaps and Project Scope ($\sim $ 250 words)}{4}{subsection*.21}%
+\contentsline {subsubsection}{\nonumberline Knowledge Gaps and Unresolved Questions}{4}{subsubsection*.23}%
+\contentsline {subsubsection}{\nonumberline Project Scope}{4}{subsubsection*.25}%
+\contentsline {section}{\nonumberline Research Project Plan ($\sim $ 1500 words)}{5}{section*.27}%
+\contentsline {subsection}{\nonumberline Overall Project Aim ($\sim $ 200 words)}{5}{subsection*.29}%
+\contentsline {subsection}{\nonumberline Methods Overview ($\sim $ 1300 words)}{5}{subsection*.31}%
+\contentsline {subsubsection}{\nonumberline Data Acquisition and Selection}{5}{subsubsection*.33}%
+\contentsline {subsubsection}{\nonumberline Feature Engineering}{5}{subsubsection*.35}%
+\contentsline {subsubsection}{\nonumberline ML Model Setup and Training}{5}{subsubsection*.37}%
+\contentsline {subsubsection}{\nonumberline ML Model Evaluation}{5}{subsubsection*.39}%
+\contentsline {subsubsection}{\nonumberline ML Model Predictions}{6}{subsubsection*.41}%
+\contentsline {subsection}{\nonumberline Gantt Chart}{6}{subsection*.43}%
+\contentsline {section}{\nonumberline Risk Register ($\sim $ 300 words)}{7}{section*.46}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
