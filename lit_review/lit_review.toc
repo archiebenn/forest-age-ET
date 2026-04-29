@@ -1,23 +1,23 @@
 \babel@toc {english}{}\relax 
-\contentsline {section}{\nonumberline Literature Review ($\sim $ 1200 words)}{3}{section*.3}%
-\contentsline {subsection}{\nonumberline Introduction ($\sim $ 500 words)}{3}{subsection*.5}%
+\contentsline {section}{\nonumberline Literature Review ($\sim $ 1750 words)}{3}{section*.3}%
+\contentsline {subsection}{\nonumberline Evapotranspiration and The Water Cycle \\ \textit {(Why does the water cycle matter?)}}{3}{subsection*.5}%
 \contentsline {subsubsection}{\nonumberline Evapotranspiration}{3}{subsubsection*.7}%
-\contentsline {subsubsection}{\nonumberline Leaf Area Index}{3}{subsubsection*.9}%
-\contentsline {subsubsection}{\nonumberline FLUXNET}{3}{subsubsection*.11}%
-\contentsline {subsubsection}{\nonumberline The Changing Climate}{3}{subsubsection*.13}%
-\contentsline {subsection}{\nonumberline Contemporary ET Prediction Methods ($\sim $ 450 words)}{3}{subsection*.15}%
-\contentsline {subsubsection}{\nonumberline ML methods}{3}{subsubsection*.17}%
-\contentsline {subsection}{\nonumberline Knowledge Gaps and Project Scope ($\sim $ 250 words)}{3}{subsection*.19}%
-\contentsline {subsubsection}{\nonumberline Knowledge Gaps and Unresolved Questions}{3}{subsubsection*.21}%
-\contentsline {subsubsection}{\nonumberline Project Scope}{4}{subsubsection*.23}%
-\contentsline {section}{\nonumberline Research Project Plan ($\sim $ 1500 words)}{5}{section*.25}%
-\contentsline {subsection}{\nonumberline Overall Project Aim ($\sim $ 200 words)}{5}{subsection*.27}%
-\contentsline {subsection}{\nonumberline Methods Overview ($\sim $ 1300 words)}{5}{subsection*.29}%
-\contentsline {subsubsection}{\nonumberline Data Acquisition and Selection}{5}{subsubsection*.31}%
-\contentsline {subsubsection}{\nonumberline Feature Engineering}{5}{subsubsection*.33}%
-\contentsline {subsubsection}{\nonumberline ML Model Setup and Training}{5}{subsubsection*.35}%
-\contentsline {subsubsection}{\nonumberline ML Model Evaluation}{5}{subsubsection*.37}%
-\contentsline {subsubsection}{\nonumberline ML Model Predictions}{5}{subsubsection*.39}%
-\contentsline {subsection}{\nonumberline Gantt Chart}{6}{subsection*.41}%
-\contentsline {section}{\nonumberline Risk Register ($\sim $ 300 words)}{7}{section*.44}%
+\contentsline {subsubsection}{\nonumberline Eddy Covariance}{3}{subsubsection*.9}%
+\contentsline {subsection}{\nonumberline The Changing Climate\\ \textit {(How is the water cycle changing?)}}{3}{subsection*.11}%
+\contentsline {subsection}{\nonumberline Evapotranspiration Prediction\\ \textit {(What don't we know and what are the issues?)}}{3}{subsection*.13}%
+\contentsline {subsubsection}{\nonumberline Contemporary ET Prediction Methods}{3}{subsubsection*.15}%
+\contentsline {subsubsection}{\nonumberline Machine Learning Models for ET Prediction}{3}{subsubsection*.17}%
+\contentsline {subsection}{\nonumberline Project Scope and Machine Learning Applicability\\ \textit {(What is the case for using ML here?)}}{3}{subsection*.19}%
+\contentsline {subsubsection}{\nonumberline Project Scope}{3}{subsubsection*.21}%
+\contentsline {subsubsection}{\nonumberline Why is ML applicable here?}{3}{subsubsection*.23}%
+\contentsline {section}{\nonumberline Research Project Plan ($\sim $ 1000 words)}{4}{section*.25}%
+\contentsline {subsection}{\nonumberline Overall Project Aim}{4}{subsection*.27}%
+\contentsline {subsection}{\nonumberline Methods Overview}{4}{subsection*.29}%
+\contentsline {subsubsection}{\nonumberline Data Acquisition and Selection}{4}{subsubsection*.31}%
+\contentsline {subsubsection}{\nonumberline Feature Engineering}{4}{subsubsection*.33}%
+\contentsline {subsubsection}{\nonumberline ML Model Setup and Training}{4}{subsubsection*.35}%
+\contentsline {subsubsection}{\nonumberline ML Model Evaluation}{4}{subsubsection*.37}%
+\contentsline {subsubsection}{\nonumberline ML Model Predictions}{4}{subsubsection*.39}%
+\contentsline {subsection}{\nonumberline Gantt Chart}{4}{subsection*.41}%
+\contentsline {section}{\nonumberline Risk Register ($\sim $ 250 words)}{5}{section*.44}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

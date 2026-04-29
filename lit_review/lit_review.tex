@@ -85,7 +85,7 @@
 	\begin{minipage}{0.4\textwidth}
 		\begin{flushleft}
 			\large
-			\textit{Review and Plan by}\\
+			\textit{Author}\\
 			Archie \textsc{Benn} % Your name
 		\end{flushleft}
 	\end{minipage}
@@ -104,12 +104,6 @@
 	\newline
 	%\lipsum[1-10][1-20]
 
-\begin{itemize}
-	\item Summary of background on ET/ML methods and FLUXNET 
-	\item Overall aim of the project 
-	\item Proposed approach for the project
-\end{itemize}
-
 \vspace{1em}
 \textit{\textbf{Key words:}} Machine Learning, FLUXNET, Evapotranspiration.\\
 \textit{\textbf{Word count:}} 3000
@@ -124,59 +118,28 @@
 % LIT REVIEW
 %------------------------------------------------
 
-\section{Literature Review ($\sim$ 1200 words)}
-\subsection{Introduction ($\sim$ 500 words)}
+\section{Literature Review ($\sim$ 1750 words)}
+\subsection{Evapotranspiration and The Water Cycle \\ \textit{(Why does the water cycle matter?)}}
 \subsubsection{Evapotranspiration} 
-\begin{itemize}
-	\item Overview of evapotranspiration (ET):
-	\begin{equation}
-		ET = Transpiration + E_{Canopy} + E_{Soil}
-	\end{equation}
-	\item Drivers of ET e.g Leaf Area index (LAi), Vapour pressure deficit (VPD), precipitation, air temperature etc.
-	\item Importance and applications of ET predictability
-\end{itemize}
-
-\subsubsection{Leaf Area Index}
-\begin{itemize}
-	\item What is LAi? 
-	\item How is this related to ET?
-\end{itemize}
 
 
-\subsubsection{FLUXNET}
-\begin{itemize}
-	\item Overview of eddy covariance and how flux towers collect data
-	\item Brief look at FLUXNET and how sites are grouped (region and vegetation types)
-\end{itemize}
-
-\subsubsection{The Changing Climate} 
-\begin{itemize}
-	\item Overview of climate change and effects on carbon dioxide levels 
-	\item How these could link to factors such as changing ET
-\end{itemize}
+\subsubsection{Eddy Covariance}
 
 
-\subsection{Contemporary ET Prediction Methods ($\sim$ 450 words)}
-\subsubsection{ML methods}
-\begin{itemize}
-	\item Brief overview of ML methods
-	\item Performances of different models in the literature 
-\end{itemize}
+\subsection{The Changing Climate\\ \textit{(How is the water cycle changing?)}} 
 
-\subsection{Knowledge Gaps and Project Scope ($\sim$ 250 words)}
-\subsubsection{Knowledge Gaps and Unresolved Questions}
-\begin{itemize}
-	\item Findings from literature
-	\item Address gaps in the literature
-	\item Suggest areas for future efforts (which are not this project) - ?
-\end{itemize}
 
+\subsection{Evapotranspiration Prediction\\ \textit{(What don't we know and what are the issues?)}}
+\subsubsection{Contemporary ET Prediction Methods}
+
+
+\subsubsection{Machine Learning Models for ET Prediction}
+
+
+\subsection{Project Scope and Machine Learning Applicability\\ \textit{(What is the case for using ML here?)}}
 \subsubsection{Project Scope}
-\begin{itemize}
-\item Suggest the area/question this project is going to address 
-\item Include why this is relevant currently/addressable now
-\item "Do predictive ET ML models trained on historic FLUXNET data have a loss of performance under new climate conditions?"
-\end{itemize}
+
+\subsubsection{Why is ML applicable here?}
 
 %------------------------------------------------
 % PROJECT PLAN
@@ -184,51 +147,25 @@
 
 
 \newpage
-\section{Research Project Plan ($\sim$ 1500 words)}
-\subsection{Overall Project Aim ($\sim$ 200 words)}
-\begin{itemize}
-	\item Overview of how this project will answer the question/area proposed at end of introduction.
-\end{itemize}
+\section{Research Project Plan ($\sim$ 1000 words)}
+\subsection{Overall Project Aim}
 
-\subsection{Methods Overview ($\sim$ 1300 words)}
+
+\subsection{Methods Overview}
 \subsubsection{Data Acquisition and Selection}
-\begin{itemize}
-	\item How the data will be accessed and stored (FLUXNET).
-	\item Time period (requires long term sites) and geographical location of data selected for modelling.
-	\item Why these were selected and appropriate? (in terms of location/times, not specific structure).
-\end{itemize}
+
 
 \subsubsection{Feature Engineering}
-\begin{itemize}
-	\item Selection of data features for use in training and why.
-	\item How these were removed or adapted
-	\item Why are these features appropriate?
-\end{itemize}
+
 
 
 \subsubsection{ML Model Setup and Training}
-\begin{itemize}
-	\item How the data will be accessed and stored (remote sensing and FLUXNET).
-	\item Explanation of model(s) selection (type of ML method)
-	\item e.g If including LAi vs. not with other parameters kept identical across 2 models.
-	\item Overview of model parameters (- might be too much detail?) and how each are trained.
-	\item Why are these model choices/parameters appropriate for this task?
-	\item Target features: FLUXNET latent heat flux (ET approximation)
-	\item Predictor features: Meteorological data (from FLUXNET and others like LAi)
-\end{itemize}
+
 
 \subsubsection{ML Model Evaluation}
-\begin{itemize}
-	\item Testing methods on unseen/held out historical (same as training e.g 5-20 years old) validation sets
-	\item Comparison to other predictive models e.g in FLUXCOM
-	\item Overall evaluation of model predictability on historical data
-\end{itemize}
+
 
 \subsubsection{ML Model Predictions}
-\begin{itemize}
-	\item Predictions made on unseen and more recent data (e.g last 5 years)
-	\item Overall evaluation of model predictability on recent data
-\end{itemize}
 
 
 \subsection{Gantt Chart}
@@ -249,11 +186,8 @@
 %------------------------------------------------
 
 \newpage
-\section{Risk Register ($\sim$ 300 words)}
-\begin{itemize}
-	\item 4-5 risks at about 60 words each
-	\item Data access issues, overfitting, data gaps etc.
-\end{itemize}
+\section{Risk Register ($\sim$ 250 words)}
+
 
 % REFERENCES
 \bibliography{references.bib}
