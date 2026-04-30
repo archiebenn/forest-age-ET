@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  27 APR 2026 17:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  30 APR 2026 10:58
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -819,18 +819,18 @@ File: bkm-pdftex.def 2023-12-10 v1.31 bookmark driver for pdfTeX and luaTeX (HO
 \BKM@id=\count327
 ))
 LaTeX Font Info:    Trying to load font information for FML+futmi on input line
- 91.
+ 97.
 (/usr/share/texlive/texmf-dist/tex/latex/fourier/fmlfutmi.fd
 File: fmlfutmi.fd 2004/10/30 Fontinst v1.926 font definitions for FML/futmi.
 )
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 11.03998pt on input line 91.
+(Font)              scaled to size 11.03998pt on input line 97.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 91.
+(Font)              scaled to size 8.27998pt on input line 97.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 6.43999pt on input line 91.
+(Font)              scaled to size 6.43999pt on input line 97.
 LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 
-91.
+97.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 )
@@ -839,31 +839,31 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 11.03998pt on input line 91.
+(Font)              scaled to size 11.03998pt on input line 97.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 91.
+(Font)              scaled to size 8.27998pt on input line 97.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 6.43999pt on input line 91.
+(Font)              scaled to size 6.43999pt on input line 97.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 12.50409pt on input line 91.
+(Font)              scaled to size 12.50409pt on input line 97.
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 91.
+(Font)              scaled to size 9.37807pt on input line 97.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 91.
+(Font)              scaled to size 7.29405pt on input line 97.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 12.50409pt on input line 91.
+(Font)              scaled to size 12.50409pt on input line 97.
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 91.
+(Font)              scaled to size 9.37807pt on input line 97.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 91.
+(Font)              scaled to size 7.29405pt on input line 97.
 
-Underfull \hbox (badness 10000) in paragraph at lines 103--106
+Underfull \hbox (badness 10000) in paragraph at lines 109--112
 
  []
 
@@ -877,10 +877,10 @@ Class scrartcl Warning: Incompatible usage of \@ssect detected.
 (scrartcl)              from within a non compatible caller, that does not
 (scrartcl)              \scr@s@ct@@nn@m@ locally.
 (scrartcl)              This could result in several error messages on input li
-ne 114.
+ne 120.
 
 LaTeX Font Info:    Trying to load font information for T1+cmss on input line 1
-14.
+20.
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
@@ -888,95 +888,95 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-Package tocbasic Info: character protrusion at toc deactivated on input line 11
-4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--122
+
+ []
+
+[2]
+
+Class scrartcl Warning: Incompatible usage of \@ssect detected.
+(scrartcl)              You've used the KOMA-Script implementation of \@ssect
+(scrartcl)              from within a non compatible caller, that does not
+(scrartcl)              \scr@s@ct@@nn@m@ locally.
+(scrartcl)              This could result in several error messages on input li
+ne 123.
+
+Package tocbasic Info: character protrusion at toc deactivated on input line 12
+3.
 (./lit_review.toc)
 \tf@toc=\write4
 \openout4 = `lit_review.toc'.
 
-[2{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
-LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 15.89755pt on input line 121.
-LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 15.89755pt on input line 121.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 18.00587pt on input line 121.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 18.00587pt on input line 121.
+[3{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 121.
+LaTeX Font Warning: Font shape `T1/futs/m/scit' undefined
+(Font)              using `T1/futs/m/it' instead on input line 131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 121.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 121.
+(hyperref)                removing `\\' on input line 131.
 
 
 LaTeX Font Warning: Font shape `T1/futs/m/scit' undefined
-(Font)              using `T1/futs/m/it' instead on input line 122.
+(Font)              using `T1/futs/m/it' instead on input line 138.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 122.
+(hyperref)                removing `\\' on input line 138.
 
 
 LaTeX Font Warning: Font shape `T1/futs/m/scit' undefined
-(Font)              using `T1/futs/m/it' instead on input line 129.
+(Font)              using `T1/futs/m/it' instead on input line 141.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 129.
+(hyperref)                removing `\\' on input line 141.
 
 
 LaTeX Font Warning: Font shape `T1/futs/m/scit' undefined
-(Font)              using `T1/futs/m/it' instead on input line 132.
+(Font)              using `T1/futs/m/it' instead on input line 150.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 132.
+(hyperref)                removing `\\' on input line 150.
 
-
-LaTeX Font Warning: Font shape `T1/futs/m/scit' undefined
-(Font)              using `T1/futs/m/it' instead on input line 139.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 139.
-
-[3]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 150.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 150.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 150.
-
-<gantt/gantt1.png, id=81, 433.62pt x 289.08pt>
+[4]
+LaTeX Font Info:    Trying to load font information for TS1+futs on input line 
+164.
+(/usr/share/texlive/texmf-dist/tex/latex/fourier/ts1futs.fd
+File: ts1futs.fd 2003/09/14 Fontinst v1.801 font definitions for TS1/futs.
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `futs' (encoding: TS1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+[5]
+<gantt/gantt1.png, id=100, 433.62pt x 289.08pt>
 File: gantt/gantt1.png Graphic file (type png)
 <use gantt/gantt1.png>
-Package pdftex.def Info: gantt/gantt1.png  used on input line 175.
+Package pdftex.def Info: gantt/gantt1.png  used on input line 193.
 (pdftex.def)             Requested size: 443.86325pt x 295.92516pt.
-[4 <./gantt/gantt1.png>]
+[6 <./gantt/gantt1.png>]
+LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
+(Font)              scaled to size 15.89755pt on input line 207.
+LaTeX Font Info:    Font shape `U/futm/m/n' will be
+(Font)              scaled to size 15.89755pt on input line 207.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 18.00587pt on input line 207.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 18.00587pt on input line 207.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `math shift' on input line 207.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 189.
+(hyperref)                removing `\sim' on input line 207.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 189.
+(hyperref)                removing `math shift' on input line 207.
 
 (./lit_review.bbl
 
@@ -990,7 +990,7 @@ ne 1.
 
 Package natbib Warning: Empty `thebibliography' environment on input line 3.
 
-) [5] (./lit_review.aux)
+) [7] [8] (./lit_review.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2020/03/25>
@@ -999,11 +999,11 @@ Package rerunfilecheck Info: File `lit_review.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 19814 strings out of 474222
- 348177 string characters out of 5748733
- 1933975 words of memory out of 5000000
- 41523 multiletter control sequences out of 15000+600000
- 662706 words of font info for 212 fonts, out of 8000000 for 9000
+ 19924 strings out of 474222
+ 349644 string characters out of 5748733
+ 1934975 words of memory out of 5000000
+ 41562 multiletter control sequences out of 15000+600000
+ 672597 words of font info for 250 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,11n,107p,10905b,524s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/fourier/fourier-ms.pfb></us
@@ -1012,10 +1012,10 @@ ive/texmf-dist/fonts/type1/adobe/utopia/putbi8a.pfb></usr/share/texlive/texmf-d
 ist/fonts/type1/adobe/utopia/putr8a.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/adobe/utopia/putri8a.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx
 1200.pfb>
-Output written on lit_review.pdf (5 pages, 189991 bytes).
+Output written on lit_review.pdf (8 pages, 195575 bytes).
 PDF statistics:
- 208 PDF objects out of 1000 (max. 8388607)
- 186 compressed objects within 2 object streams
- 51 named destinations out of 1000 (max. 500000)
- 96430 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 251 PDF objects out of 1000 (max. 8388607)
+ 225 compressed objects within 3 object streams
+ 64 named destinations out of 1000 (max. 500000)
+ 106702 words of extra memory for PDF output out of 106986 (max. 10000000)
 

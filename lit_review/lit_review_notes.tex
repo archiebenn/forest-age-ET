@@ -20,6 +20,8 @@
 \usepackage{natbib}
 \usepackage{caption} 
 \usepackage{ragged2e}
+\usepackage{tabularx}
+
 
 \sectionfont{\centering \normalfont\scshape}
 \subsectionfont{\centering \normalfont \scshape}
@@ -74,7 +76,7 @@
 		\centering % Centre everything on the page
 		
 		
-		\textsc{\LARGE University of Bristol}\\[1.5cm] % Main heading such as the name of your university/college
+		\textsc{\LARGE University of Bristol}\\[1.5cm] % Main heading such as the name of your university/college\textsc{}
 		\vspace{-3em}
 		\textsc{\Large MSc Bioinformatics}\\[0.5cm] % Major heading such as course name
 		\vspace{3em}
@@ -128,12 +130,15 @@
 	\newpage
 	\tableofcontents
 	\newpage
+
+	
+	\newpage
 	
 	%------------------------------------------------
 	% LIT REVIEW
 	%------------------------------------------------
 	
-	\section{Literature Review ($\sim$ 1750 words)}
+	\section{Literature Review (3000 words)}
 	\subsection{Evapotranspiration and The Water Cycle \\ \textit{(Why does the water cycle matter?)}}
 	\subsubsection{Evapotranspiration} 
 	\begin{itemize}
@@ -141,6 +146,8 @@
 		\begin{equation}
 			ET = Transpiration + E_{Vegetation} + E_{Soil}
 		\end{equation}
+		\item ET as a crucial component of the energy cycle between terrestrial ecosystems and the atmosphere.
+		\item It participates in the water and carbon cycles, reflects the allocation and utilization of the planet’s water resources, and directly affects meteorological phenomena, climate change, and ecosystem functionality through processes such as soil evaporation, plant transpiration, and canopy interception \citep{xue2025review}.
 		\item How this plays into the water cycle globally/regionally/in watersheds more generally.
 		\item Drivers of ET e.g Leaf Area index (LAi), Vapour pressure deficit (VPD), precipitation, air temperature etc.
 		\item Importance and applications of ET predictability
@@ -151,7 +158,6 @@
 	
 	
 	\newpage
-	\notedivider
 	\subsubsection{Eddy Covariance}
 	\begin{itemize}
 		\item Overview of eddy covariance and briefly how flux tower data collection
@@ -173,7 +179,6 @@
 	
 	\newpage
 	\subsection{Evapotranspiration Prediction\\ \textit{(What don't we know and what are the issues?)}}
-	\notedivider
 	\subsubsection{Contemporary ET Prediction Methods}
 	\begin{itemize}
 		\item Very brief description of non-ML methods for background e.g from \cite{xu2018evaluating}
@@ -182,18 +187,50 @@
 	\end{itemize}
 	\notedivider
 	
-	\newpage
+	\textbf{From \citep{xue2025review}:} 
+	\begin{itemize}
+		\item Traditional methods, which are computationally simple and data demanding, may fail to accurately capture small-scale ET variations. 
+		\item Remote sensing methods provide continuous environmental data for large-scale ET estimation but are constrained by the resolution and quality of remote sensing data. 
+		\item Machine learning methods, by extracting features from big data, increase the precision of ET estimation, particularly in data-rich regions. However, the performance of these methods may be limited in data-scarce areas, and model complexity can lead to difficulties in interpretation.
+	\end{itemize}
 	\notedivider
+	\textbf{From \citep{yan2023deep}, an example of an empirical prediction methods' shortcomings:}
+	\begin{itemize}
+		\item Although the FAO-56 PM equation has been recommended as the standard equation to calculate $ET_0$, it requires complete climatic data which are often not available, limiting its application in data-scarce regions.
+		\item In summary, the performance of the standalone HS model cannot be significantly improved by standard local calibrations since these operations can only exert linear changes in the estimations, and thus the proposed approach can further improve the current practice of evaporative capability estimations. (equation \ref{eqn:hs}).
+	\end{itemize} 
+	
+	
+	\newpage
 	\subsubsection{Machine Learning Models for ET Prediction}
 	\begin{itemize}
 		\item Brief overview of current ML methods in ET prediction
 		\item Performances of different models in the literature 
+		\item Look into coupled models (e.g ML-ML coupled like ensembles, or Empirical-ML models such as HS-LSTM from \cite{yan2023deep}).
 	\end{itemize}
 	\notedivider
+	
+	\begin{table}[H]
+		\centering
+		\caption{Advantages and limitations of ML models in the literature.}
+		\label{tab:ml_models}
+		\begin{tabularx}{\textwidth}{X*{5}{>{\arraybackslash}X}} 
+			\hline \hline \\
+			\textbf{Method} & \textbf{Advantages} & \textbf{Limitations \& Unresolved} \\
+			
+			Random Forest \citep{xu2018evaluating} & Outperformed other models (ANN, cubist, SVM, DBN) based on $R^2$, MAPE, RMSE, and relative uncertainties from three-cornered hat. \newline \newline RF  has an ability to handle complex nonlinear relationships between flux and climate and environmental predictors. & Model performs better over areas of dense vegetation compared to barren land. \newline \newline More spatiotemporal continuous land surface variables at fine resolution should be added to potentially enhance predictability.\\
+			
+			\hline
+			\\
+			
+			HS-LSTM coupled model \citep{yan2023deep} & Shown to outperform the standalone ML and classical $ET_0$ models (RMSE reduced $\sim$20\%). \newline\newline Can be used to estimate future ET$_0$ with only air temperature forecasts which can be easily obtained. & Slight underestimates of extreme $ET_0$ values. \newline\newline Each station required a differently-tuned model, so further studies are required to evaluate potential for a generally valid model and assess whether transfer learning may be applied across different regions. \\
+			
+			\hline
+		\end{tabularx} 
+	\end{table}
 
 	\newpage
 	\subsection{Project Scope and Machine Learning Applicability\\ \textit{(What is the case for using ML here?)}}
-	\notedivider
 	\subsubsection{Project Scope}
 	\begin{itemize}
 		\item Address explicit question being asked in project 
@@ -202,11 +239,11 @@
 	\notedivider
 	
 	\newpage
-	\notedivider
 	\subsubsection{Why is ML applicable here?}
 	\begin{itemize}
 		\item Why is ML important for this specific question?
 		\item Include why this is addressable now
+		\item Why is there scope to extract more from the FLUXNET data? - high temporal resolution? Multi year? How does this lend itself to ML modelling?
 	\end{itemize}
 	\notedivider
 	
@@ -216,9 +253,7 @@
 	
 	
 	\newpage
-	\section{Research Project Plan ($\sim$ 1000 words)}
-	\subsection{Overall Project Aim}
-	\notedivider
+	\section{Project Aims and Objectives (500 words)}
 	\subsubsection{Aims}
 	\begin{itemize}
 		\item Overview of how this project will answer the question/area proposed at end of introduction.
@@ -226,8 +261,7 @@
 	\notedivider
 	
 	\newpage
-	\subsection{Methods Overview}
-	\notedivider
+	\section{Project Plan (500 words)}
 	\subsubsection{Data Acquisition and Selection}
 	\begin{itemize}
 		\item How the data will be accessed and stored (FLUXNET).
@@ -283,7 +317,7 @@
 		\includegraphics[width=0.75\textwidth]{photos/xu2018_2.png}
 		\captionsetup{justification=centering}
 		\caption{Examples of some comparisons and testing of model performance in \cite{xu2018evaluating}}
-		\label{fig:plddt}
+		\label{fig:pldt}
 	\end{figure}
 	
 	
@@ -440,28 +474,180 @@
 	
 	\newpage
 	\subsection{A Review of Evapotranspiration Estimation Models: Advances and Future Development \citep{xue2025review}}
-		\subsubsection{Introduction}
+	\subsubsection{Introduction}
+		
 	\begin{itemize}
-		\item 
+		\item Traditional methods, which are computationally simple and data demanding, may fail to accurately capture small-scale ET variations. 
+		\item Remote sensing methods provide continuous environmental data for large-scale ET estimation but are constrained by the resolution and quality of remote sensing data. 
+		\item Machine learning methods, by extracting features from big data, increase the precision of ET estimation, particularly in data-rich regions. However, the performance of these methods may be limited in data-scarce areas, and model complexity can lead to difficulties in interpretation.
+		\item The empirical methods primarily rely on the relationships among meteorological parameters. While these methods are simple in computation but lack a reliable physical basis and are sensitive to changes in meteorological conditions and surface characteristics. In contrast, machine learning model are data-driven, leveraging both linear and non-linear relationships to establish a mapping between inputs (such as meteorological and soil data) and outputs (ET rates).
 	\end{itemize}
 	
 	\subsubsection{Review Main Points}
 	\begin{itemize}
-		\item 
+		\item During the nascent phase of ET research, many observational techniques, including the eddy covariance method, bowen ratio method, and lysimeter, were applied at the plot scale (Bowen 1926). These methods are of great significance for the establishment, validation, evaluation of ET models and the training of machine learning models.
+		\item ML models are distinguished from conventional approaches by their innate capacity to autonomously distill features from datasets and iteratively refine model parameters, all in the pursuit of minimizing predictive discrepancies (Liu et al. 2024)
+		\item ML is used to delineate the intricate interplay between ET and a variety of meteorological and soil data by extracting and assimilating abstractive features from the input dataset. This process cultivates a profound comprehension of the distributional characteristics of the data, encompassing the frequency and probabilistic spread of the data across their spectrum, which in turn empowers the constructed model to more precisely capture and forecast the fluctuating dynamics of ET (Elbeltagi et al. 2023; Hailegnaw et al. 2024).
+		\item ML models can be augmented by their synergy with traditional ET estimation techniques that are underpinned by physical mechanisms, culminating in the realization of more holistic and precise estimation outcomes (Feng et al. 2024; Sun et al. 2022b).
+		\item Previous studies have utilized flux station data to construct ET estimation models on the basis of ML methods such as random forests, extreme gradient boosting, support vector regression, and artificial neural networks and have conducted comparative studies.
+		\item The Hargreaves-Samani long short term memory (HS-LSTM) model, which was proposed by Yan et al. (2023) for estimating daily ET0 and actual ET, was compared with standalone HS, LSTM, adaptive neuro fuzzy inference system (ANFIS), and genetic programming (GP) models, and the HS-ML model was found to outperform the standalone HS and ML methods, with LSTM showing the best performance among the ML algorithms.
 	\end{itemize}
 
 	
 	
 	\subsubsection{Limitations and Unresolved}
 	\begin{itemize}
-		\item 
+		\item ML methods can provide the best possible constraints for ET on the basis of available data, but the internal complexity of these models makes diagnosing the causes and consequences of uncertainty difficult.
+		\item In practical applications, it is necessary to strike a balance between deep learning and traditional methods and to choose the most appropriate solution on the basis of specific circumstances \citep{amani2023review}.
+		\item Owing to the complexity of the land surface, differences in model structure, and uncertainty of input data, there are still many challenges in accurately estimating ET.
 	\end{itemize}
 	
 	
 	\subsubsection{Conclusion/Suggestions}
 	\begin{itemize}
-		\item 
+		\item Wang et al. (2022b) reported that DL models could be used with a select array of key types of observational data to effectively simulate actual ET. The study indicated that while enriching the number of in situ observational data types may enhance a model’s generalization capability, it does not significantly enhance simulation precision; thus, the selection of suitable data types is more important than indiscriminately expanding the diversity of the data
+		\item Data format transformation optimizes feature extraction, captures spatial correlations within the data, and helps CNNs understand the influences of atmospheric environments in detail. When trained with historical data, CNNs learn the complex relationships between meteorological characteristics and ET, which enables the accurate prediction of future ET (Qin et al. 2022; Yan et al. 2023).
+		\item RNNs and LSTM models have distinct advantages in processing time series data. These models capture long-term dependencies within time series data to effectively predict the dynamic changes in ET.
+		\item To address these challenges, users should consider the adaptability of the model, the availability of data, the precision requirements for the estimation, and the complexity of technical operations when selecting an ET estimation method. Specifically, users should prioritize models that can adapt to specific climatic and topographic conditions, match data requirements with availability, and provide accurate estimation results after parameterization and calibration and whose technical demands are commensurate with user capabilities.
+		\item Following 4 points are made for suggestions:\\
+		(1) Expansion of datasets: Increasing the resolution of remote sensing technology and establishing dynamic databases that include detailed information on soil classification, vegetation canopies, and surface reflectance to accommodate different geographical regions and seasonal variations. \\
+		(2) Utilization of high-resolution remote sensing data: Employing satellite and drone technology to acquire key parameters such as surface temperature, vegetation indices, and soil moisture, thereby enhancing the data foundation for ET estimation.\\ 
+		(3) Development of ML techniques: In particular, DL architectures, such as CNNs and RNNs, are calibrated on the basis of large-scale datasets to improve the accuracy and efficiency of ET estimation.\\
+		(4) Refinement of meteorological and hydrological models: Integrating atmospheric and soil hydrological models and considering factors such as terrain, soil, and vegetation to simulate the ET process more accurately.
 	\end{itemize}
+	
+	\newpage
+	\subsection{Deep learning for daily potential evapotranspiration using a HS-LSTM approach \citep{yan2023deep}}
+		\subsubsection{Abstract/Introduction}
+	\begin{itemize}
+		\item The present study proposed a novel deep learning (DL) approach for daily $ET_0$ estimations with limited daily climate data: HS- LSTM. This approach was constructed based on a classic ET0 model and a long short-term memory neural network (LSTM).
+		\item Hargreaves-Samani (HS) model was employed as the classic model, and the predictors were restricted to the daily maximum and minimum air temperature data.
+		\item main objectives of this study were:\\
+		 1) to develop temperature-based LSTM based models for estimating daily ET0 using air temperature data;\\ 
+		 2) to propose a HS-ML technique for estimating daily ET0; and\\
+		 3) to evaluate and compare the estimation capabilities of the standalone HS model, the standalone LSTM approach, and the newly proposed HS-ML approach (HS-LSTM).
+	\end{itemize}
+	
+	\subsubsection{Methods}
+	\begin{itemize}
+		\item This study was conducted in Songliao Basin, Northeast China.
+		\item The historical daily meteorological data ranges from January 1st, 1984 to December 31st, 2019.
+		\item The FAO-56 Penman-Monteith (PM) equation (for ground truth), which is the standard formulation to calculate $ET_0$, was employed to compute the historical daily $ET_0$ (ground truths) at the meteorological stations to train, validate, and test the models
+		\item The FAO-56 PM equation can be expressed as (Allen et al., 1998):\\
+		\begin{equation}
+			ET_0 = \frac{0.408\Delta(R_n - G) + \gamma[900/(T + 273)]U_2(e_s - e_a)}{\Delta + \gamma(1 + 0.34U_2)}
+		\end{equation}
+		where $ET_0$ is the potential evapotranspiration (mm day 1); $\Delta$ is the slope  of vapour pressure curve at a given air temperature (kPa ◦C 1); $R_n$ is the  net radiation at the crop surface (MJ m 2 day 1); $G$ is the soil heat flux  density (MJ m 2 day 1); $\gamma$ is the psychrometric constant (kPa ◦C 1); $T$ is the mean daily air temperature at 2 m height (◦C); $U_2$ is the wind speed at the 2 m height (m/ s); $e_s$ is the saturation vapour pressure (kPa); $e_a$ is the actual vapour pressure (kPa).
+		\item Although the FAO-56 PM equation has been recommended as the standard equation to calculate $ET_0$, it requires complete climatic data which are often not available, limiting its application in data-scarce regions
+		\item The HS model for $ET_0$ has many forms, but the version used here can be shown as:\\
+		\begin{equation}
+			ET_0 = 0.0135(T + 17.78)R_s\left(\frac{238.8}{595.5 - 0.55T}\right)
+			\label{eqn:hs}
+		\end{equation}
+		where $T$ is the mean temperature (C) and $R_s$ is the incident solar radiation (MJ m 2 day 1).
+		\item In the first phase, standalone ML models were established for ET0 estimations.
+		\item In the next phase, HS-ML models were developed.
+		\item LSTM is an advanced version of recurrent neural network (RNN) which deals with sequential time series data.
+		\item HS-LTSM model (best performing) setup:\\
+		(1) Three variables (including $T_{max}$, $T_{min}$, and HS $ET_0$) were used as input variables, and the length of input time step was set as 14 (two weeks). \\
+		(2) Two LSTM layers were than used, followed by two dense layers. \\
+		(3) ReLu activation function was employed. \\
+		(4) The mean squared error (MSE) between the ground truths and estimated data was used as a function. The network was trained to minimize MSE using the Adam optimization algorithm with an initial learning rate of 0.0001.\\
+		(5) Batch size set to 64 and models trained for 300 epochs. \\
+		(6) To eliminate errors due to measurement units, all data were normalized to fall between 0 and 1. The equation for normalization can be represented as:\\
+		\begin{equation}
+			X_n = \frac{X - X_{min}}{X_{max} - X_{min}}
+			\label{eqn:normal}
+		\end{equation} 
+		(7) The hyperparameters for the ML models were primarily determined by comparing the evaluation statistics for the validation datasets.
+	\end{itemize}
+	
+	\subsubsection{Results}
+	\begin{itemize}
+		\item In the present study, the HS model tended to overestimate the $ET_0$ at 6 of the 16 stations, whereas it underestimated the remaining 10 stations. This issue of overestimation or underestimation may be partially resolved by local calibration, i.e., tuning the model coefficient for $R_s$ to improve the model accuracy.
+		\item However, the present study found that there was a good match between the ground truths and HS estimations for low $ET_0$ values while there was a poorer match at some stations for high $ET_0$ values.
+		\item The proposed HS-LSTM approach also outperformed the other ML algorithms.
+		Interestingly, the current study found that the performance results of the standalone traditional ML algorithms were almost equivalent, and they were not found to significantly improve the performance compared to the HS model (Fig. 8). (\textbf{as in \cite{xu2018evaluating}}).
+		\item This observation was inconsistent with  most of the previous ML studies, which concluded that ML models outperformed traditional $ET_0$ formulas
+	\end{itemize}
+	
+	\subsubsection*{Limitations and Unresolved}
+	\begin{itemize}
+		\item In summary, the performance of the standalone HS model cannot be significantly improved by standard local calibrations since these operations can only exert linear changes in the estimations, and thus the proposed approach can further improve the current practice of evaporative capability estimations. (\textbf{limitation of the empirical HS calculation} (equation \ref{eqn:hs}))
+		\item leads to deployment/argument for HS-ML model (ML techniques have been well known to be capable of solving nonlinear problems, and this merit may remedy the limitation of the HS model)
+	\end{itemize}
+	
+	
+	\subsubsection*{Conclusion/Suggestions}
+	\begin{itemize}
+		\item  This study proposed a novel ML approach, HS-LSTM, for $ET_0$ estimates that is superior to the classic formulation. In this work, the HS model was employed as a representative traditional ET0 model. As a classical formula for estimating daily $ET_0$, the HS model has been widely used worldwide because of its acceptable accuracy and low requirements for meteorological data (Allen et al., 1998). Recently, Kaya et al. (2021) showed that the HS estimations were more accurate than the estimations provided by the other tested empirical equations (i.e., the Ritchie and Turc equations).
+		\item Developing new techniques that rely on a reduced number of variables, which are available from public weather forecast services, is of great importance
+		\item Therefore, it is quite common that coupled models exhibit better performance over the standalone models. However, most of the existing studies only coupled different ML algorithms, without utilizing the advantages of classic $ET_0$ equations.
+		\item \textbf{Best of both worlds?} On the one hand, the existing empirical or semi-empirical $ET_0$ models were mostly derived using traditional regression techniques, and ML algorithms can compensate for the relatively weaker generalization capability of the traditional regression techniques. On the other hand, the classical ET0 formulation has been widely tested worldwide, and coupling with these formulations was equivalent to providing an additional dataset for the standalone ML algorithms.
+	\end{itemize}
+	
+	\newpage
+	\subsection{Machine learning-based investigation of forest evapotranspiration, net ecosystem productivity, water use efficiency and their climate controls at meteorological station level \citep{shi2024machine}}
+	
+	\subsubsection{Abstract/Introduction}
+	\begin{itemize}
+		\item In the context of global climate change, assessing changes in the evapotranspiration (ET), net ecosystem productivity (NEP) and ecosystem water use efficiency (EWUE) (Sun et al., 2011; Tian et al., 2016) of global forest ecosystems is important for global carbon neutrality policies and climate adaptation policies.
+		\item However, understanding of the global forest carbon and water cycle processes and their  responses to climate change remains complex and uncertain.
+		\item Generally, Forest ET represents water consumption from soil evaporation and canopy transpiration and is influenced by environmental factors such as vapour pressure deficit (VPD), soil moisture, solar radiation, air temperature, and wind speed (Yang et al., 2023).
+		\item High VPD and strong solar radiation increase ET, while adequate soil moisture and suitable temperatures are necessary to maintain it.
+		\item Looks at tree species and how this can affect transpiration etc.
+		\item These differences in stomatal strategies reflect each species’ adaptability to environmental conditions and their impact on ecosystem carbon dynamics.
+		\item For example, many previous studies did not consider or only used simple representations of the effect of forest age when estimating NEE or NEP. Studies using flux observations (Besnard et al., 2018) have shown that, in addition to climate and soil properties, \textbf{forest age} is powerful in explaining spatial and temporal variations in NEP, and that reliable maps of forest age distributions are important in accurately predicting NEP both spatially and temporally.
+		\item \textbf{How to disentangle effects of ET from climate change vs. effects coming from age of forests?}
+		\item Random Forest (RF) has been widely utilized in constructing various carbon flux datasets (Jung et al., 2020; Tramontana et al., 2016; Zeng et al., 2020) by upscaling flux observations from the site to the regional scale.
+	\end{itemize}
+	
+	\subsubsection{Methods}
+	\begin{itemize}
+		\item Consequently, we employ the RF algorithm to estimate daily-scale ET and NEE data from forest meteorological stations worldwide.
+		\item This allows us to investigate changes in ET, NEP, and EWUE, as well as their relationships with climate dynamics across various forest ages. The findings of this study provide a meteorological station-level understanding of carbon and water flux dynamics and their response to climate change.
+		\item While parameter optimization can enhance accuracy in cross-validation of flux station data, its effectiveness may not necessarily translate when applied to meteorological stations. 
+		\item Random Forest (RF), being an ensemble learning method, inherently possesses the ability to largely avoid overfitting. Given this characteristic, we opted to use the default parameters provided in Python’s ’scikit-learn’ library for all parameters except ’n\_estimators’
+		\item When calculating NEP, ET, and EWUE on an annual scale (predictions), we filtered out values for years with fewer than 270 days of site records. This ensured a robust dataset for our analysis.
+		\item \textbf{Ask Martin about this:} Further, considering the spatio-temporal and nonlinear nature of the Earth system, we employed \textbf{CCM}, a nonlinear state-space causal inference method (Sugihara et al., 2012), to evaluate the effects that Pearson’s correlation methods cannot detect. CCM reconstructs a nonlinear state-space according to Takens’ theorem to reveal causal relationships. Specifically, if we can predict variable X from the reconstruction space of variable Y, then we consider X to have a causal effect on Y, with the causal magnitude measured by the correlation between predicted X and actual X. CCM methods and their derivatives are now widely used in ecology and climate science (Gao et al., 2023; Sugihara et al., 2012). In our study, our X represents climate factors, while Y represents NEP, ET, or EWUE. The specific implementation of CCM relies on the Python package ‘pyEDM’. We used the ‘EmbedDimension’ function to determine the value of the important parameter ‘E’ in the CCM function, while providing larger values for ‘sample’ and ‘libsize’ to ensure convergence and improve the accuracy of results as much as possible.
+	\end{itemize}
+	
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.95\textwidth]{photos/shi_2024.png}
+		\captionsetup{justification=centering}
+		\caption{RF model setup for \cite{shi2024machine}.}
+		\label{fig:pld}
+	\end{figure}
+	
+	\subsubsection{Results}
+	\begin{itemize}
+		\item We evaluated model accuracy by 5-fold random cross-validation. The daily-scale ET model had an R-squared of 0.80 and mean absolute error (MAE) of 0.38 mm/d.
+		\item In the ranking of feature importance (IMP) of the two models, RSDN, TA, and LAI all ranked relatively high.
+		\item Annual scale ET is significantly positively correlated with several variables (e.g. TA, VPD, RSDN). ET and Arid Index (long-term precipitation divided by potential evaporation (Programme, 1997)) showed negative correlations since a lower Aridity Index value represents a higher degree of aridity. It can be explained that the energy limitations in the high Aridity Index region (the more humid regions) correspond to a low ET
+		\item This suggests that as VPD rises, the ET of the forests may increase, but changes in NEP and EWUE may not be significant. This suggests that the effect of increased atmospheric moisture demand on ET in forests is significant, but not on NEP and EWUE.
+	\end{itemize}
+	
+	\subsubsection*{Limitations and Unresolved}
+	\begin{itemize}
+		\item For both process-based modelling and machine learning, the coarse resolution of the forcing data may also cause considerable uncertainties in ET and NEP estimation and in investigating their relations to climate dynamics. 
+		\item This may lead to difficulties in dealing with surface heterogeneity when the model is applied. For example, the resolution of climate reanalysis data commonly used in NEE and ET estimation is usually at ~ 10 km scale (Tramontana et al., 2016), which may make it difficult to accurately represent local meteorological conditions (Fig. 1) and environmental controls with high spatial heterogeneity.
+		\item Water-related effects may be more important than temperature-related effects at small scales because spatial heterogeneity in precipitation, soil moisture, water vapor, etc., may be higher than temperature, and coarse-scale data and large-scale analyses may offset heterogeneity and underestimate the impact of actual water-related factors (Jung et al., 2017)
+		\item It is partially because machine learning tends to underestimate the impact of extreme values (underestimating extremely high values and overestimating extremely low values), thus representation of the response to the impact of extreme events can be inadequate.
+	\end{itemize}
+	
+	
+	\subsubsection*{Conclusion/Suggestions}
+	\begin{itemize}
+		\item This study utilized in-situ meteorological data and machine learning at weather station scales to reassess the variations in global forest carbon and water fluxes and their responses to hydroclimatic changes.
+		\item Incorporating more site-specific observations, such as plant traits, could enhance understanding of climate-plant-ecosystem relationships.
+		\item Utilizing site-scale data can potentially mitigate the negative impacts of coarse-resolution data and their associated uncertainties. Meteorological stations offer a wider and denser distribution in global forests compared to flux station networks. 
+		\item By integrating meteorological station-scale observations, soil moisture data, remote  sensing data, and forest age information, machine learning approaches show promise in estimating ET and NEE at forest meteorological stations. This approach is particularly valuable for reducing errors caused by scale mismatch.
+		\item This knowledge is crucial for forest management strategies aimed at achieving carbon neutrality and enhancing climate adaptation. By offering insights at this scale, our research contributes valuable information to support more targeted and effective forest management practices in the face of ongoing climate challenges.
+		\item future research could explore the use of advanced hyperparameter optimization tools such as Optuna and Hyperopt. These tools hold the potential to further improve prediction accuracy.
+		\item We suggest that future research should focus more on the impact mechanisms of hydroclimatic dynamics on carbon and water fluxes and ecosystem functions at the weather station scale, thereby gaining a deeper understanding of the specific impacts of scale effects in attribution
+	\end{itemize}
+	
 	
 	
 	

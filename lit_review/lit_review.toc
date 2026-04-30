@@ -1,23 +1,27 @@
 \babel@toc {english}{}\relax 
-\contentsline {section}{\nonumberline Literature Review ($\sim $ 1750 words)}{3}{section*.3}%
-\contentsline {subsection}{\nonumberline Evapotranspiration and The Water Cycle \\ \textit {(Why does the water cycle matter?)}}{3}{subsection*.5}%
-\contentsline {subsubsection}{\nonumberline Evapotranspiration}{3}{subsubsection*.7}%
-\contentsline {subsubsection}{\nonumberline Eddy Covariance}{3}{subsubsection*.9}%
-\contentsline {subsection}{\nonumberline The Changing Climate\\ \textit {(How is the water cycle changing?)}}{3}{subsection*.11}%
-\contentsline {subsection}{\nonumberline Evapotranspiration Prediction\\ \textit {(What don't we know and what are the issues?)}}{3}{subsection*.13}%
-\contentsline {subsubsection}{\nonumberline Contemporary ET Prediction Methods}{3}{subsubsection*.15}%
-\contentsline {subsubsection}{\nonumberline Machine Learning Models for ET Prediction}{3}{subsubsection*.17}%
-\contentsline {subsection}{\nonumberline Project Scope and Machine Learning Applicability\\ \textit {(What is the case for using ML here?)}}{3}{subsection*.19}%
-\contentsline {subsubsection}{\nonumberline Project Scope}{3}{subsubsection*.21}%
-\contentsline {subsubsection}{\nonumberline Why is ML applicable here?}{3}{subsubsection*.23}%
-\contentsline {section}{\nonumberline Research Project Plan ($\sim $ 1000 words)}{4}{section*.25}%
-\contentsline {subsection}{\nonumberline Overall Project Aim}{4}{subsection*.27}%
-\contentsline {subsection}{\nonumberline Methods Overview}{4}{subsection*.29}%
-\contentsline {subsubsection}{\nonumberline Data Acquisition and Selection}{4}{subsubsection*.31}%
-\contentsline {subsubsection}{\nonumberline Feature Engineering}{4}{subsubsection*.33}%
-\contentsline {subsubsection}{\nonumberline ML Model Setup and Training}{4}{subsubsection*.35}%
-\contentsline {subsubsection}{\nonumberline ML Model Evaluation}{4}{subsubsection*.37}%
-\contentsline {subsubsection}{\nonumberline ML Model Predictions}{4}{subsubsection*.39}%
-\contentsline {subsection}{\nonumberline Gantt Chart}{4}{subsection*.41}%
-\contentsline {section}{\nonumberline Risk Register ($\sim $ 250 words)}{5}{section*.44}%
+\contentsline {section}{\nonumberline Literature Review (3000 words)}{4}{section*.4}%
+\contentsline {subsection}{\nonumberline Evapotranspiration and The Water Cycle \\ \textit {(Why does the water cycle matter?)}}{4}{subsection*.6}%
+\contentsline {subsubsection}{\nonumberline Evapotranspiration}{4}{subsubsection*.8}%
+\contentsline {subsubsection}{\nonumberline Eddy Covariance}{4}{subsubsection*.10}%
+\contentsline {subsection}{\nonumberline The Changing Climate\\ \textit {(How is the water cycle changing?)}}{4}{subsection*.12}%
+\contentsline {subsection}{\nonumberline Evapotranspiration Prediction\\ \textit {(What don't we know and what are the issues?)}}{4}{subsection*.14}%
+\contentsline {subsubsection}{\nonumberline Contemporary ET Prediction Methods}{4}{subsubsection*.16}%
+\contentsline {subsubsection}{\nonumberline Machine Learning Models for ET Prediction}{4}{subsubsection*.18}%
+\contentsline {subsection}{\nonumberline Project Scope and Machine Learning Applicability\\ \textit {(What is the case for using ML here?)}}{4}{subsection*.20}%
+\contentsline {subsubsection}{\nonumberline Project Scope}{4}{subsubsection*.22}%
+\contentsline {subsubsection}{\nonumberline Why is ML applicable here?}{4}{subsubsection*.24}%
+\contentsline {section}{\nonumberline Project Aims and Objectives (500 words)}{5}{section*.26}%
+\contentsline {subsubsection}{\nonumberline Aims}{5}{subsubsection*.28}%
+\contentsline {section}{\nonumberline Project Plan (500 words)}{6}{section*.30}%
+\contentsline {subsection}{\nonumberline Data Acquisition and Selection}{6}{subsection*.32}%
+\contentsline {subsection}{\nonumberline Analysis}{6}{subsection*.34}%
+\contentsline {subsubsection}{\nonumberline Feature Engineering}{6}{subsubsection*.36}%
+\contentsline {subsubsection}{\nonumberline ML Model Setup and Training}{6}{subsubsection*.38}%
+\contentsline {subsubsection}{\nonumberline ML Model Evaluation}{6}{subsubsection*.40}%
+\contentsline {subsubsection}{\nonumberline ML Model Predictions}{6}{subsubsection*.42}%
+\contentsline {subsection}{\nonumberline Tools}{6}{subsection*.44}%
+\contentsline {subsection}{\nonumberline Interpretation}{6}{subsection*.46}%
+\contentsline {subsection}{\nonumberline Gantt Chart}{6}{subsection*.48}%
+\contentsline {section}{\nonumberline Risk Register ($\sim $ 250 words)}{7}{section*.51}%
+\contentsline {section}{\nonumberline Figures and Tables}{8}{section*.54}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

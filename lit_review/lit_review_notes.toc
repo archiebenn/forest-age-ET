@@ -1,5 +1,5 @@
 \babel@toc {english}{}\relax 
-\contentsline {section}{\numberline {1}Literature Review ($\sim $ 1750 words)}{4}{section.1}%
+\contentsline {section}{\numberline {1}Literature Review (3000 words)}{4}{section.1}%
 \contentsline {subsection}{\numberline {1.1}Evapotranspiration and The Water Cycle \\ \textit {(Why does the water cycle matter?)}}{4}{subsection.1.1}%
 \contentsline {subsubsection}{\numberline {1.1.1}Evapotranspiration}{4}{subsubsection.1.1.1}%
 \contentsline {subsubsection}{\numberline {1.1.2}Eddy Covariance}{5}{subsubsection.1.1.2}%
@@ -11,30 +11,37 @@
 \contentsline {subsection}{\numberline {1.4}Project Scope and Machine Learning Applicability\\ \textit {(What is the case for using ML here?)}}{9}{subsection.1.4}%
 \contentsline {subsubsection}{\numberline {1.4.1}Project Scope}{9}{subsubsection.1.4.1}%
 \contentsline {subsubsection}{\numberline {1.4.2}Why is ML applicable here?}{10}{subsubsection.1.4.2}%
-\contentsline {section}{\numberline {2}Research Project Plan ($\sim $ 1000 words)}{11}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Overall Project Aim}{11}{subsection.2.1}%
-\contentsline {subsubsection}{\numberline {2.1.1}Aims}{11}{subsubsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.2}Methods Overview}{12}{subsection.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.1}Data Acquisition and Selection}{12}{subsubsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2}Feature Engineering}{13}{subsubsection.2.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.3}ML Model Setup and Training}{14}{subsubsection.2.2.3}%
-\contentsline {subsubsection}{\numberline {2.2.4}ML Model Evaluation}{15}{subsubsection.2.2.4}%
-\contentsline {subsubsection}{\numberline {2.2.5}ML Model Predictions}{16}{subsubsection.2.2.5}%
-\contentsline {subsection}{\numberline {2.3}Gantt Chart}{17}{subsection.2.3}%
-\contentsline {section}{\numberline {3}Risk Register ($\sim $ 250 words)}{18}{section.3}%
-\contentsline {section}{\numberline {4}Papers}{19}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Evaluating Different Machine Learning Methods for Upscaling Evapotranspiration from Flux Towers to the Regional Scale \citep {xu2018evaluating}}{19}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1}Introduction}{19}{subsubsection.4.1.1}%
-\contentsline {subsubsection}{\numberline {4.1.2}Methods}{19}{subsubsection.4.1.2}%
-\contentsline {subsubsection}{\numberline {4.1.3}Results}{19}{subsubsection.4.1.3}%
-\contentsline {subsection}{\numberline {4.2}A review of machine learning models and influential factors for estimating evapotranspiration using remote sensing and ground-based data \citep {amani2023review}}{21}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Introduction}{21}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}Review Main Points}{21}{subsubsection.4.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.3}Limitations and Unresolved}{22}{subsubsection.4.2.3}%
-\contentsline {subsubsection}{\numberline {4.2.4}Conclusion/Suggestions}{22}{subsubsection.4.2.4}%
-\contentsline {subsection}{\numberline {4.3}A Review of Evapotranspiration Estimation Models: Advances and Future Development \citep {xue2025review}}{24}{subsection.4.3}%
-\contentsline {subsubsection}{\numberline {4.3.1}Introduction}{24}{subsubsection.4.3.1}%
-\contentsline {subsubsection}{\numberline {4.3.2}Review Main Points}{24}{subsubsection.4.3.2}%
-\contentsline {subsubsection}{\numberline {4.3.3}Limitations and Unresolved}{24}{subsubsection.4.3.3}%
-\contentsline {subsubsection}{\numberline {4.3.4}Conclusion/Suggestions}{24}{subsubsection.4.3.4}%
+\contentsline {section}{\numberline {2}Project Aims and Objectives (500 words)}{11}{section.2}%
+\contentsline {subsubsection}{\numberline {2.0.1}Aims}{11}{subsubsection.2.0.1}%
+\contentsline {section}{\numberline {3}Project Plan (500 words)}{12}{section.3}%
+\contentsline {subsubsection}{\numberline {3.0.1}Data Acquisition and Selection}{12}{subsubsection.3.0.1}%
+\contentsline {subsubsection}{\numberline {3.0.2}Feature Engineering}{13}{subsubsection.3.0.2}%
+\contentsline {subsubsection}{\numberline {3.0.3}ML Model Setup and Training}{14}{subsubsection.3.0.3}%
+\contentsline {subsubsection}{\numberline {3.0.4}ML Model Evaluation}{15}{subsubsection.3.0.4}%
+\contentsline {subsubsection}{\numberline {3.0.5}ML Model Predictions}{16}{subsubsection.3.0.5}%
+\contentsline {subsection}{\numberline {3.1}Gantt Chart}{17}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Risk Register ($\sim $ 250 words)}{18}{section.4}%
+\contentsline {section}{\numberline {5}Papers}{19}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Evaluating Different Machine Learning Methods for Upscaling Evapotranspiration from Flux Towers to the Regional Scale \citep {xu2018evaluating}}{19}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Introduction}{19}{subsubsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.2}Methods}{19}{subsubsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.3}Results}{19}{subsubsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.2}A review of machine learning models and influential factors for estimating evapotranspiration using remote sensing and ground-based data \citep {amani2023review}}{21}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Introduction}{21}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Review Main Points}{21}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}Limitations and Unresolved}{22}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.4}Conclusion/Suggestions}{22}{subsubsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.3}A Review of Evapotranspiration Estimation Models: Advances and Future Development \citep {xue2025review}}{24}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Introduction}{24}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Review Main Points}{24}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Limitations and Unresolved}{25}{subsubsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.4}Conclusion/Suggestions}{25}{subsubsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.4}Deep learning for daily potential evapotranspiration using a HS-LSTM approach \citep {yan2023deep}}{27}{subsection.5.4}%
+\contentsline {subsubsection}{\numberline {5.4.1}Abstract/Introduction}{27}{subsubsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.2}Methods}{27}{subsubsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.4.3}Results}{28}{subsubsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.5}Machine learning-based investigation of forest evapotranspiration, net ecosystem productivity, water use efficiency and their climate controls at meteorological station level \citep {shi2024machine}}{30}{subsection.5.5}%
+\contentsline {subsubsection}{\numberline {5.5.1}Abstract/Introduction}{30}{subsubsection.5.5.1}%
+\contentsline {subsubsection}{\numberline {5.5.2}Methods}{30}{subsubsection.5.5.2}%
+\contentsline {subsubsection}{\numberline {5.5.3}Results}{32}{subsubsection.5.5.3}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
