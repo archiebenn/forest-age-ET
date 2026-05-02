@@ -83,7 +83,7 @@
 		
 		%\HRule\\[0.4cm]
 		
-		{\Large\bfseries Evaluating Evapotranspiration Generalisation Under a Changing Climate using Machine Learning NOTES}\\[0.4cm] % Title of your document
+		{\Large\bfseries Effect of Forest Age on Machine Learning Generalisation of Evapotranspiration Using FLUXNET Data NOTES}\\[0.4cm] % Title of your document
 		
 		\vspace{3em}
 		
@@ -140,7 +140,7 @@
 	
 	\section{Literature Review (3000 words)}
 	\subsection{Evapotranspiration and The Water Cycle \\ \textit{(Why does the water cycle matter?)}}
-	\subsubsection{Evapotranspiration} 
+	\subsubsection{Evapotranspiration and Eddy Covariance} 
 	\begin{itemize}
 		\item Overview of evapotranspiration (ET) (from \citep{wang2012review}):
 		\begin{equation}
@@ -158,7 +158,7 @@
 	
 	
 	\newpage
-	\subsubsection{Eddy Covariance}
+	\subsubsection{Forest age and ET}
 	\begin{itemize}
 		\item Overview of eddy covariance and briefly how flux tower data collection
 		\item How this relates to ET
@@ -167,7 +167,7 @@
 	\notedivider
 	
 	\newpage
-	\subsection{The Changing Climate\\ \textit{(How is the water cycle changing?)}} 
+	\subsection{Changing Forests\\ \textit{(How is climate change affecting forest age?)}} 
 	\notedivider
 	\subsubsection{Climate Change}
 	\begin{itemize}
@@ -234,7 +234,17 @@
 	\subsubsection{Project Scope}
 	\begin{itemize}
 		\item Address explicit question being asked in project 
-		\item "Do predictive ET ML models trained on historic FLUXNET data have a loss of performance under new climate conditions?"
+		\item "As climate change restructures forest age distributions globally, do ML models trained on historical flux data from forests of one age generalise to forests of different ages?"
+		\item Can an ML model trained on a young forest quantitatively predict ET in an older forest without retraining?
+		\item Where exactly does model performance break down — is it gradual or is there a threshold age effect?
+		\item Which ML architectures are more robust to this — does RF handle it better than LSTM for example?
+		\item Which features drive the age-related generalisation failure — is it LAI, VPD response, stomatal conductance?
+		\item If a model trained on a mature forest is then applied to a recently burned/disturbed area (which is increasingly common with climate change), how wrong is it?
+		\item LAI is arguably the mechanistic link between forest age and ET. Including it raises a really interesting question: does the model generalise better with LAI included or without?
+		\item Two experimental designs this opens up:\\
+		(1) Model 1: meteorological variables only\\
+		(2) Model 2: meteorological variables + LAi\\
+		Compare generalisation performance between them — that's a neat additional contribution with minimal extra work
 	\end{itemize}
 	\notedivider
 	
@@ -646,6 +656,31 @@
 		\item This knowledge is crucial for forest management strategies aimed at achieving carbon neutrality and enhancing climate adaptation. By offering insights at this scale, our research contributes valuable information to support more targeted and effective forest management practices in the face of ongoing climate challenges.
 		\item future research could explore the use of advanced hyperparameter optimization tools such as Optuna and Hyperopt. These tools hold the potential to further improve prediction accuracy.
 		\item We suggest that future research should focus more on the impact mechanisms of hydroclimatic dynamics on carbon and water fluxes and ecosystem functions at the weather station scale, thereby gaining a deeper understanding of the specific impacts of scale effects in attribution
+	\end{itemize}
+	
+	
+	
+	\subsection{Evapotranspiration on a greening Earth \citep{yang2023evapotranspiration}}
+	\subsubsection{Introduction and abstract}
+	\begin{itemize}
+		\item Evapotranspiration (ET) — the distribution and partitioning of which is strongly mediated by vegetation
+		\item Evapotranspiration (ET) describes the phase transition of water from liquid to gas at the surface, and the subsequent transfer to the atmosphere.
+		\item However, there are large uncertainties in the magnitude and spatiotemporal patterns of ET estimates16–18, linked to the inability to observe ET directly from satellite sensors, limited coverage by in situ ET observations and difficulty in parameterizing the complex and intertwined physical and biological processes governing ET at different scales1,19
+	\end{itemize}
+	
+	\subsubsection{Methods}
+	\begin{itemize}
+		\item  
+	\end{itemize}
+	
+	\subsubsection{Results}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+	
+	\subsubsection*{Limitations and Unresolved}
+	\begin{itemize}
+		\item
 	\end{itemize}
 	
 	

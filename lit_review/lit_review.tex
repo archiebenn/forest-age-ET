@@ -20,10 +20,11 @@
 \usepackage{natbib}
 \usepackage{caption} 
 \usepackage{ragged2e}
+\usepackage{titlesec}
 
 \sectionfont{\centering \normalfont\scshape}
 \subsectionfont{\centering \normalfont \scshape}
-\subsubsectionfont{\normalfont\itshape}
+\subsubsectionfont{\normalfont\itshape\bfseries}
 
 \captionsetup{font={normal}, 
 	labelfont=bf} % sans serif figure and table captions
@@ -39,6 +40,9 @@
 \renewcommand{\headrulewidth}{0pt} % Remove header underlines
 \renewcommand{\footrulewidth}{0pt} % Remove footer underlines
 \setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\titlespacing*{\subsubsection}
+{0pt}{1.25ex plus .2ex}{0.5ex}
 
 %\numberwithin{equation}{section}
 %\numberwithin{figure}{section} 
@@ -72,7 +76,7 @@
 
 	%\HRule\\[0.4cm]
 	
-	{\Large\bfseries Evaluating Evapotranspiration Generalisation Under a Changing Climate using Machine Learning}\\[0.4cm] % Title of your document
+	{\Large\bfseries Effect of Forest Age on Machine Learning Generalisation of Evapotranspiration Using FLUXNET Data}\\[0.4cm] % Title of your document
 	
 	\vspace{2em}
 	\textsc{\Large Project Plan}\\[0.5cm] % Major heading such as course name
@@ -128,29 +132,39 @@ I declare that the work in this dissertation was carried out in accordance with 
 %------------------------------------------------
 
 \section{Literature Review (3000 words)}
-\subsection{Evapotranspiration and The Water Cycle \\ \textit{(Why does the water cycle matter?)}}
+\subsection{Introduction $\sim$800 Words}
 \subsubsection{Evapotranspiration} 
+Terrestrial evapotranspiration (ET) is a key component of the global hydrological cycle describing the transition of water from liquid to gas at Earth's surface and further transfer to the atmosphere, and is a crucial component of the energy and water exchange between terrestrial ecosystems and the climate system. The term emphasises the combination of water vapourisation flux from (1) abiotic evaporation from soil and plant canopy surfaces, and (2) biotic transpiration through stomata to the atmosphere \citep{katul2012evapotranspiration}. ET can be generally described through:
+
+\begin{equation}
+ET = T + E_{Soil} + E_{Canopy}
+\label{eqn:et}
+\end{equation}
+
+\noindent where $T$ refers to transpiration through plant stomata, $E_{soil}$ to evaporation from the soil surface, and $E_{Canopy}$ to evaporation from plant canopies. The contribution of these variables to overall ET is not equal, with \cite{lian2018partitioning} estimating a global $T/ET$ ratio of 0.62$\pm$0.06, indicating plant transpiration as the leading component of ET worldwide. The partitioning of $ET$ into $E$ ($E_{soil} + E_{Canopy}$) and $T$ within ecosystems is associated with ``water use efficiency" and has use in irrigation management, where $T$ is linked with plant productivity, while $E$ does not directly contribute to production \citep{kool2014review}. This in turn likely explains the elevated $E/ET$ ratios in managed croplands compared to natural ecosystems \citep{yang2023evapotranspiration}. Accurate partitioning estimates are also important in aiding carbon cycle projections given the coupled effect of transpiration and land-atmosphere carbon dioxide exchanges through stomatal conductance.
+
+\subsubsection{Canopy Cover and Vegetation Indices (CHANGE)}
+ET is governed by many environmental factors such as solar radiation, leaf area index (LAI), air temperature, vapour pressure deficit (VPD), soil moisture, and wind speed \citep{yang2023evapotranspiration}. Of these, \cite{lian2018partitioning} identified LAI as the primary driver of $T/ET$ spatial patterns, and \cite{kool2014review} suggest that in systems with full canopy cover (and therefore high LAI) ET is often assumed to be similar enough to $T$ to permit correlation of ET with biomass. However, this assumption may break down in systems with multi-layer canopies such as forests despite high LAI. In these systems, the 2-dimensional measure of LAI will not capture the vertical canopy complexity which drives rainfall interception and subsequent $E_{Canopy}$, implying that canopy cover indices may struggle to explain $T/ET$ ratios in more complex vertical environments. This is reflected by \cite{zhou2016partitioning} who report higher coefficients of determination between enhanced vegetation index (EVI) and $T/ET$ in corn and soybean sites (0.84 and 0.82) with simple canopies, compared to evergreen needle leaf forests (0.37). 
+
+[link to how this means there is more to it than assuming high canopy cover = more T = more biomass and ow forests are complex systems making this hard. and how age affects canopies etc.]
+\subsubsection{Climate Change and Forest Age}
 
 
-\subsubsection{Eddy Covariance}
-
-
-\subsection{The Changing Climate\\ \textit{(How is the water cycle changing?)}} 
-
-
-\subsection{Evapotranspiration Prediction\\ \textit{(What don't we know and what are the issues?)}}
+\subsection{Evapotranspiration Prediction $\sim$1200 Words\\ \textit{(What don't we know and what are the issues?)}}
 \subsubsection{Contemporary ET Prediction Methods}
+
+\subsubsection{FLUXNET}
 
 
 \subsubsection{Machine Learning Models for ET Prediction}
-TABLE
 
 
 
-\subsection{Project Scope and Machine Learning Applicability\\ \textit{(What is the case for using ML here?)}}
-\subsubsection{Project Scope}
 
-\subsubsection{Why is ML applicable here?}
+\subsection{Machine Learning Applicability $\sim$600 Words\\ \textit{(What is the case for using ML here?)}}
+\subsubsection{Why use Machine Learning?}
+
+\subsubsection{Machine Learning Generalisation?}
 
 %------------------------------------------------
 % PROJECT PLAN
@@ -167,7 +181,9 @@ TABLE
 
 \newpage
 \section{Project Plan (500 words)}
-\subsection{Data Acquisition and Selection}
+\subsection{Data Acquisition}
+
+\subsection{Site Selection}
 
 \subsection{Analysis}
 \subsubsection{Feature Engineering}

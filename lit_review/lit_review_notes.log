@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  30 APR 2026 16:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  2 MAY 2026 12:42
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1077,71 +1077,71 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\\' on input line 233.
 
 [9] [10] [11] [12] [13] [14]
-<photos/xu2018.png, id=237, 482.80376pt x 249.93375pt>
+<photos/xu2018.png, id=248, 482.80376pt x 249.93375pt>
 File: photos/xu2018.png Graphic file (type png)
 <use photos/xu2018.png>
-Package pdftex.def Info: photos/xu2018.png  used on input line 316.
+Package pdftex.def Info: photos/xu2018.png  used on input line 326.
 (pdftex.def)             Requested size: 332.89743pt x 172.33624pt.
-<photos/xu2018_2.png, id=239, 800.9925pt x 313.17pt>
+<photos/xu2018_2.png, id=250, 800.9925pt x 313.17pt>
 File: photos/xu2018_2.png Graphic file (type png)
 <use photos/xu2018_2.png>
-Package pdftex.def Info: photos/xu2018_2.png  used on input line 317.
+Package pdftex.def Info: photos/xu2018_2.png  used on input line 327.
 (pdftex.def)             Requested size: 332.89743pt x 130.15427pt.
 [15 <./photos/xu2018.png> <./photos/xu2018_2.png>] [16]
-<gantt/gantt1.png, id=255, 433.62pt x 289.08pt>
+<gantt/gantt1.png, id=266, 433.62pt x 289.08pt>
 File: gantt/gantt1.png Graphic file (type png)
 <use gantt/gantt1.png>
-Package pdftex.def Info: gantt/gantt1.png  used on input line 338.
+Package pdftex.def Info: gantt/gantt1.png  used on input line 348.
 (pdftex.def)             Requested size: 443.86325pt x 295.92516pt.
 [17 <./gantt/gantt1.png>]
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 15.89755pt on input line 352.
+(Font)              scaled to size 15.89755pt on input line 362.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 15.89755pt on input line 352.
+(Font)              scaled to size 15.89755pt on input line 362.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 18.00587pt on input line 352.
+(Font)              scaled to size 18.00587pt on input line 362.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 18.00587pt on input line 352.
+(Font)              scaled to size 18.00587pt on input line 362.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 352.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 352.
+(hyperref)                removing `math shift' on input line 362.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 352.
+(hyperref)                removing `\sim' on input line 362.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 362.
 
 [18]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 361.
+(hyperref)                removing `\begingroup' on input line 371.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 361.
+(hyperref)                removing `\let' on input line 371.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 361.
+(hyperref)                removing `\<let>-command' on input line 371.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\NAT@ctype' on input line 361.
+(hyperref)                removing `\NAT@ctype' on input line 371.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 361.
+(hyperref)                removing `\z@' on input line 371.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 361.
+(hyperref)                removing `\let' on input line 371.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\new@ifnextchar' on input line 361.
+(hyperref)                removing `\new@ifnextchar' on input line 371.
 
 [19]
 
@@ -1150,7 +1150,7 @@ Class scrartcl Warning: Incompatible usage of \@ssect detected.
 (scrartcl)              from within a non compatible caller, that does not
 (scrartcl)              \scr@s@ct@@nn@m@ locally.
 (scrartcl)              This could result in several error messages on input li
-ne 400.
+ne 410.
 
 
 Class scrartcl Warning: Incompatible usage of \@ssect detected.
@@ -1158,125 +1158,125 @@ Class scrartcl Warning: Incompatible usage of \@ssect detected.
 (scrartcl)              from within a non compatible caller, that does not
 (scrartcl)              \scr@s@ct@@nn@m@ locally.
 (scrartcl)              This could result in several error messages on input li
-ne 415.
+ne 425.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 421.
+(hyperref)                removing `\begingroup' on input line 431.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 421.
+(hyperref)                removing `\let' on input line 431.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 421.
+(hyperref)                removing `\<let>-command' on input line 431.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\NAT@ctype' on input line 421.
+(hyperref)                removing `\NAT@ctype' on input line 431.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 421.
+(hyperref)                removing `\z@' on input line 431.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 421.
+(hyperref)                removing `\let' on input line 431.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\new@ifnextchar' on input line 421.
+(hyperref)                removing `\new@ifnextchar' on input line 431.
 
 [20]
-<photos/ground_rs.png, id=280, 1047.915pt x 412.54124pt>
+<photos/ground_rs.png, id=291, 1047.915pt x 412.54124pt>
 File: photos/ground_rs.png Graphic file (type png)
 <use photos/ground_rs.png>
-Package pdftex.def Info: photos/ground_rs.png  used on input line 443.
+Package pdftex.def Info: photos/ground_rs.png  used on input line 453.
 (pdftex.def)             Requested size: 421.66873pt x 166.00186pt.
 [21] [22 <./photos/ground_rs.png>] [23]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 476.
+(hyperref)                removing `\begingroup' on input line 486.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 476.
+(hyperref)                removing `\let' on input line 486.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 476.
+(hyperref)                removing `\<let>-command' on input line 486.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\NAT@ctype' on input line 476.
+(hyperref)                removing `\NAT@ctype' on input line 486.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 476.
+(hyperref)                removing `\z@' on input line 486.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 476.
+(hyperref)                removing `\let' on input line 486.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\new@ifnextchar' on input line 476.
+(hyperref)                removing `\new@ifnextchar' on input line 486.
 
 [24] [25] [26]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 520.
+(hyperref)                removing `\begingroup' on input line 530.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 520.
+(hyperref)                removing `\let' on input line 530.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 520.
+(hyperref)                removing `\<let>-command' on input line 530.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\NAT@ctype' on input line 520.
+(hyperref)                removing `\NAT@ctype' on input line 530.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 520.
+(hyperref)                removing `\z@' on input line 530.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 520.
+(hyperref)                removing `\let' on input line 530.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\new@ifnextchar' on input line 520.
+(hyperref)                removing `\new@ifnextchar' on input line 530.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 536--537
+Underfull \hbox (badness 10000) in paragraph at lines 546--547
 
  []
 
 Package textcomp Info: Symbol \textopenbullet not provided by
 (textcomp)             font family futs in TS1 encoding.
-(textcomp)             Default family used instead on input line 540.
+(textcomp)             Default family used instead on input line 550.
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
 Package textcomp Info: Symbol \textopenbullet not provided by
 (textcomp)             font family futs in TS1 encoding.
-(textcomp)             Default family used instead on input line 540.
+(textcomp)             Default family used instead on input line 550.
 Package textcomp Info: Symbol \textopenbullet not provided by
 (textcomp)             font family futs in TS1 encoding.
-(textcomp)             Default family used instead on input line 540.
+(textcomp)             Default family used instead on input line 550.
 
-Underfull \hbox (badness 10000) in paragraph at lines 542--543
+Underfull \hbox (badness 10000) in paragraph at lines 552--553
 
  []
 
 [27{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-Underfull \hbox (badness 10000) in paragraph at lines 551--558
+Underfull \hbox (badness 10000) in paragraph at lines 561--568
 
  []
 
@@ -1286,7 +1286,7 @@ Class scrartcl Warning: Incompatible usage of \@ssect detected.
 (scrartcl)              from within a non compatible caller, that does not
 (scrartcl)              \scr@s@ct@@nn@m@ locally.
 (scrartcl)              This could result in several error messages on input li
-ne 574.
+ne 584.
 
 [28]
 
@@ -1295,42 +1295,42 @@ Class scrartcl Warning: Incompatible usage of \@ssect detected.
 (scrartcl)              from within a non compatible caller, that does not
 (scrartcl)              \scr@s@ct@@nn@m@ locally.
 (scrartcl)              This could result in several error messages on input li
-ne 581.
+ne 591.
 
 [29]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\begingroup' on input line 590.
+(hyperref)                removing `\begingroup' on input line 600.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 590.
+(hyperref)                removing `\let' on input line 600.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 590.
+(hyperref)                removing `\<let>-command' on input line 600.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\NAT@ctype' on input line 590.
+(hyperref)                removing `\NAT@ctype' on input line 600.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 590.
+(hyperref)                removing `\z@' on input line 600.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\let' on input line 590.
+(hyperref)                removing `\let' on input line 600.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\new@ifnextchar' on input line 590.
+(hyperref)                removing `\new@ifnextchar' on input line 600.
 
 [30]
-<photos/shi_2024.png, id=343, 986.68625pt x 717.68124pt>
+<photos/shi_2024.png, id=354, 986.68625pt x 717.68124pt>
 File: photos/shi_2024.png Graphic file (type png)
 <use photos/shi_2024.png>
-Package pdftex.def Info: photos/shi_2024.png  used on input line 617.
+Package pdftex.def Info: photos/shi_2024.png  used on input line 627.
 (pdftex.def)             Requested size: 421.66873pt x 306.71336pt.
 [31 <./photos/shi_2024.png>]
 
@@ -1339,7 +1339,7 @@ Class scrartcl Warning: Incompatible usage of \@ssect detected.
 (scrartcl)              from within a non compatible caller, that does not
 (scrartcl)              \scr@s@ct@@nn@m@ locally.
 (scrartcl)              This could result in several error messages on input li
-ne 631.
+ne 641.
 
 
 Class scrartcl Warning: Incompatible usage of \@ssect detected.
@@ -1347,9 +1347,46 @@ Class scrartcl Warning: Incompatible usage of \@ssect detected.
 (scrartcl)              from within a non compatible caller, that does not
 (scrartcl)              \scr@s@ct@@nn@m@ locally.
 (scrartcl)              This could result in several error messages on input li
-ne 640.
+ne 650.
 
-[32] [33] (./lit_review_notes.bbl
+[32]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\begingroup' on input line 663.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\let' on input line 663.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\<let>-command' on input line 663.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\NAT@ctype' on input line 663.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\z@' on input line 663.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\let' on input line 663.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\new@ifnextchar' on input line 663.
+
+
+Class scrartcl Warning: Incompatible usage of \@ssect detected.
+(scrartcl)              You've used the KOMA-Script implementation of \@ssect
+(scrartcl)              from within a non compatible caller, that does not
+(scrartcl)              \scr@s@ct@@nn@m@ locally.
+(scrartcl)              This could result in several error messages on input li
+ne 681.
+
+[33] (./lit_review_notes.bbl
 
 Class scrartcl Warning: Incompatible usage of \@ssect detected.
 (scrartcl)              You've used the KOMA-Script implementation of \@ssect
@@ -1367,10 +1404,10 @@ Package rerunfilecheck Info: File `lit_review_notes.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 20427 strings out of 474222
- 357251 string characters out of 5748733
+ 20440 strings out of 474222
+ 357490 string characters out of 5748733
  1940975 words of memory out of 5000000
- 41845 multiletter control sequences out of 15000+600000
+ 41852 multiletter control sequences out of 15000+600000
  680724 words of font info for 384 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,11n,107p,10911b,678s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1383,10 +1420,10 @@ fonts/type1/adobe/utopia/putbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1
 /adobe/utopia/putr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/adobe/utopi
 a/putri8a.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/
 share/texmf/fonts/type1/public/cm-super/sfsx1200.pfb>
-Output written on lit_review_notes.pdf (34 pages, 666826 bytes).
+Output written on lit_review_notes.pdf (34 pages, 670850 bytes).
 PDF statistics:
- 577 PDF objects out of 1000 (max. 8388607)
- 483 compressed objects within 5 object streams
- 104 named destinations out of 1000 (max. 500000)
- 105858 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 606 PDF objects out of 1000 (max. 8388607)
+ 511 compressed objects within 6 object streams
+ 110 named destinations out of 1000 (max. 500000)
+ 105890 words of extra memory for PDF output out of 106986 (max. 10000000)
 

@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex lit_review"] 1777543102.65526 "lit_review.aux" "lit_review.bbl" "lit_review" 1777543104.08045 0
-  "./references.bib" 1777540755.1007 2326 2c23239cd72a81ba6f3a69c07e4fc1ae ""
+["bibtex lit_review"] 1777739254.62968 "lit_review.aux" "lit_review.bbl" "lit_review" 1777739816.21468 0
+  "./references.bib" 1777735202.91842 4804 382f4c25a2583dbcf41d6e3826fa7410 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/apalike.bst" 1292289607 24635 604dafcc79f521a11ea73e506e1fbd98 ""
-  "lit_review.aux" 1777543103.86603 14296 93b9d1ae31d5a1fbe71b98eaacdd707d "pdflatex"
+  "lit_review.aux" 1777739815.96905 14428 6cc124a7dff8b3c01e684313f6a55eb8 "pdflatex"
   (generated)
   "lit_review.bbl"
   "lit_review.blg"
   (rewritten before read)
-["pdflatex"] 1777543102.73297 "lit_review.tex" "lit_review.pdf" "lit_review" 1777543104.08061 0
+["pdflatex"] 1777739814.83437 "lit_review.tex" "lit_review.pdf" "lit_review" 1777739816.21484 0
   "/etc/texmf/web2c/texmf.cnf" 1752868277.91502 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -28,6 +28,8 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/fourier/fourier-bb.tfm" 1575236847 588 30b875a179a99eec0f6f0a2540c942c1 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/fourier/fourier-mcl.tfm" 1136768653 620 19c124db3cfab09e2a270e93c0b94c1c ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/fourier/fourier-mex.tfm" 1575236847 1572 233cc1d2fe9da0b3f64c907e5d58b292 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/public/fourier/fourier-ml.tfm" 1136768653 1120 281c7872a1f3fc686c053051e921a432 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/public/fourier/fourier-mlit.tfm" 1136768653 1076 2f8bbd0154a18a0fd665f046ebdfecb3 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/fourier/fourier-ms.tfm" 1136768653 1184 c045430d3c50e3ac06be4ea09e23cd04 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/fourier/fourier-orns.tfm" 1644269892 520 365c2476e5f6fcc92faf0f42b82d1a21 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/fourier/futb8r.tfm" 1136768653 1632 db17fd263f07874754701ae1606f47de ""
@@ -53,6 +55,7 @@
   "/usr/share/texlive/texmf-dist/fonts/vf/public/fourier/futb8t.vf" 1136768653 2168 d2ac693e07cd79dbc2b914caee3e8df0 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/public/fourier/futbc8t.vf" 1136768653 3552 126daec80a48845c997834d6c215b3ee ""
   "/usr/share/texlive/texmf-dist/fonts/vf/public/fourier/futbi8t.vf" 1136768653 2172 742138c6a7248e3249d40a206c9d66b6 ""
+  "/usr/share/texlive/texmf-dist/fonts/vf/public/fourier/futmii.vf" 1136768653 1332 62b87bc157157fd0616b8398929f8399 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/public/fourier/futr8c.vf" 1575236847 3432 6feece74417bef823a52a9450d7c99dc ""
   "/usr/share/texlive/texmf-dist/fonts/vf/public/fourier/futr8t.vf" 1136768653 2168 e13210e675696694c4e23c8405ebd134 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/public/fourier/futrc8t.vf" 1136768653 3544 7e517f82a1ea2008996633b01973df28 ""
@@ -156,6 +159,7 @@
   "/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty" 1576624809 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
   "/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657483315 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "/usr/share/texlive/texmf-dist/tex/latex/sectsty/sectsty.sty" 1137110779 22423 d476012cd03f82f9475ad54ba6cd3267 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/titlesec/titlesec.sty" 1698436711 48766 0b93839be28e9744a24c45075c75b2e2 ""
   "/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty" 1686341992 4545 9f5ea23ab1c91476c42749893f790666 ""
   "/usr/share/texlive/texmf-dist/tex/latex/url/url.sty" 1388531844 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/usr/share/texlive/texmf-dist/tex/latex/xpatch/xpatch.sty" 1585258158 8314 7803f78066c4f9d008405191a4b43073 ""
@@ -166,11 +170,11 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1752868304.58245 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1752868425 8212915 382e15cb5db5a2db7750ee6ee525cd0c ""
   "gantt/gantt1.png" 1776887555.56504 111609 77a10cf614f4aec497c2d18b3b2823cd ""
-  "lit_review.aux" 1777543103.86603 14296 93b9d1ae31d5a1fbe71b98eaacdd707d "pdflatex"
-  "lit_review.bbl" 1777543102.72901 49 0eba253fc001332e731e8aba3f23127b "bibtex lit_review"
-  "lit_review.out" 1777543103.60103 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "lit_review.tex" 1777543101.1575 6640 eb1c8490b663f085164dafd6ad53e66e ""
-  "lit_review.toc" 1777543103.86903 2489 37d174b239065e5a85eee691affcf8dc "pdflatex"
+  "lit_review.aux" 1777739815.96905 14428 6cc124a7dff8b3c01e684313f6a55eb8 "pdflatex"
+  "lit_review.bbl" 1777739254.72017 1558 cdfe2a73b235c82259153c3f57d4ff8e "bibtex lit_review"
+  "lit_review.out" 1777739815.69404 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "lit_review.tex" 1777739814.72012 9767 acb9003ef68a4a839d8467c9e97d1aae ""
+  "lit_review.toc" 1777739815.97205 2149 5af327f6792311ec4d9dfecc3a552ce0 "pdflatex"
   (generated)
   "lit_review.aux"
   "lit_review.log"

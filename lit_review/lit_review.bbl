@@ -1,3 +1,34 @@
 \begin{thebibliography}{}
 
+\bibitem[Katul et~al., 2012]{katul2012evapotranspiration}
+Katul, G.~G., Oren, R., Manzoni, S., Higgins, C., and Parlange, M.~B. (2012).
+\newblock Evapotranspiration: A process driving mass transport and energy
+  exchange in the soil-plant-atmosphere-climate system.
+\newblock {\em Reviews of Geophysics}, 50(3).
+
+\bibitem[Kool et~al., 2014]{kool2014review}
+Kool, D., Agam, N., Lazarovitch, N., Heitman, J., Sauer, T., and Ben-Gal, A.
+  (2014).
+\newblock A review of approaches for evapotranspiration partitioning.
+\newblock {\em Agricultural and forest meteorology}, 184:56--70.
+
+\bibitem[Lian et~al., 2018]{lian2018partitioning}
+Lian, X., Piao, S., Huntingford, C., Li, Y., Zeng, Z., Wang, X., Ciais, P.,
+  McVicar, T.~R., Peng, S., Ottl{\'e}, C., et~al. (2018).
+\newblock Partitioning global land evapotranspiration using cmip5 models
+  constrained by observations.
+\newblock {\em Nature Climate Change}, 8(7):640--646.
+
+\bibitem[Yang et~al., 2023]{yang2023evapotranspiration}
+Yang, Y., Roderick, M.~L., Guo, H., Miralles, D.~G., Zhang, L., Fatichi, S.,
+  Luo, X., Zhang, Y., McVicar, T.~R., Tu, Z., et~al. (2023).
+\newblock Evapotranspiration on a greening earth.
+\newblock {\em Nature Reviews Earth \& Environment}, 4(9):626--641.
+
+\bibitem[Zhou et~al., 2016]{zhou2016partitioning}
+Zhou, S., Yu, B., Zhang, Y., Huang, Y., and Wang, G. (2016).
+\newblock Partitioning evapotranspiration based on the concept of underlying
+  water use efficiency.
+\newblock {\em Water Resources Research}, 52(2):1160--1175.
+
 \end{thebibliography}
