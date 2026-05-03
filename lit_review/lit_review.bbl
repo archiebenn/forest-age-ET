@@ -1,5 +1,11 @@
 \begin{thebibliography}{}
 
+\bibitem[Hubbard et~al., 1999]{hubbard1999evidence}
+Hubbard, R.~M., Bond, B.~J., and Ryan, M.~G. (1999).
+\newblock Evidence that hydraulic conductance limits photosynthesis in old
+  pinus ponderosa trees.
+\newblock {\em Tree physiology}, 19(3):165--172.
+
 \bibitem[Katul et~al., 2012]{katul2012evapotranspiration}
 Katul, G.~G., Oren, R., Manzoni, S., Higgins, C., and Parlange, M.~B. (2012).
 \newblock Evapotranspiration: A process driving mass transport and energy
@@ -18,6 +24,39 @@ Lian, X., Piao, S., Huntingford, C., Li, Y., Zeng, Z., Wang, X., Ciais, P.,
 \newblock Partitioning global land evapotranspiration using cmip5 models
   constrained by observations.
 \newblock {\em Nature Climate Change}, 8(7):640--646.
+
+\bibitem[Monteith, 1965]{monteith1965evaporation}
+Monteith, J.~L. (1965).
+\newblock Evaporation and environment.
+
+\bibitem[Oishi et~al., 2020]{oishi2020quantifying}
+Oishi, A., Denham, S., Brantley, S., Novick, K., Bolstad, P., and Miniat, C.
+  (2020).
+\newblock Quantifying the effects of stand age on components of forest
+  evapotranspiration.
+\newblock {\em Acta Horticulturae}, 1300:89--96.
+
+\bibitem[Ryan and Yoder, 1997]{ryan1997hydraulic}
+Ryan, M.~G. and Yoder, B.~J. (1997).
+\newblock Hydraulic limits to tree height and tree growth.
+\newblock {\em Bioscience}, 47(4):235--242.
+
+\bibitem[Sch{\"a}fer et~al., 2000]{schafer2000effect}
+Sch{\"a}fer, K., Oren, R., and Tenhunen, J. (2000).
+\newblock The effect of tree height on crown level stomatal conductance.
+\newblock {\em Plant, Cell \& Environment}, 23(4):365--375.
+
+\bibitem[Seidl et~al., 2017]{seidl2017forest}
+Seidl, R., Thom, D., Kautz, M., Martin-Benito, D., Peltoniemi, M., Vacchiano,
+  G., Wild, J., Ascoli, D., Petr, M., Honkaniemi, J., et~al. (2017).
+\newblock Forest disturbances under climate change.
+\newblock {\em Nature climate change}, 7(6):395--402.
+
+\bibitem[Solomon et~al., 2009]{solomon2009irreversible}
+Solomon, S., Plattner, G.-K., Knutti, R., and Friedlingstein, P. (2009).
+\newblock Irreversible climate change due to carbon dioxide emissions.
+\newblock {\em Proceedings of the national academy of sciences},
+  106(6):1704--1709.
 
 \bibitem[Yang et~al., 2023]{yang2023evapotranspiration}
 Yang, Y., Roderick, M.~L., Guo, H., Miralles, D.~G., Zhang, L., Fatichi, S.,
