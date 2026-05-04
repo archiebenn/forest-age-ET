@@ -3,7 +3,6 @@
 
 \usepackage[left=2.7cm,right=2.7cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[utf8]{inputenc} 
-\usepackage{mathpazo} % Palatino font
 \usepackage{microtype}
 \usepackage[T1]{fontenc}
 \usepackage{fourier}
@@ -23,9 +22,15 @@
 \usepackage{titlesec}
 \usepackage{tikz}
 
+\usepackage{tocloft} %toc fonts
+\renewcommand{\cfttoctitlefont}{\hfil\Large\scshape}
+\renewcommand{\cftsecfont}{\scshape}
+%\renewcommand{\cftsubsecfont}{\scshape}
+%\renewcommand{\cftsubsubsecfont}{\itshape}
+
 \sectionfont{\centering \normalfont\scshape}
-\subsectionfont{\centering \normalfont \scshape}
-\subsubsectionfont{\normalfont\itshape\bfseries}
+\subsectionfont{\normalfont\centering \bfseries}
+\subsubsectionfont{\normalfont\itshape}
 
 \captionsetup{font={normal}, 
 	labelfont=bf} % sans serif figure and table captions
@@ -52,7 +57,7 @@
 \setcounter{secnumdepth}{0}
 \setcounter{tocdepth}{3}
 
-\linespread{1.1}
+\linespread{1.15}
 
 \begin{document}
 
@@ -70,23 +75,14 @@
 	
 	\centering % Centre everything on the page
 
-	
-	\textsc{\LARGE University of Bristol}\\[1.5cm] % Main heading such as the name of your university/college
-	\vspace{-3em}
-	\textsc{\Large MSc Bioinformatics}\\[0.5cm] % Major heading such as course name
-	\vspace{3em}
-
 	%\HRule\\[0.4cm]
 	
-	{\Large\bfseries Understanding the Effect of Forest Age on Machine Learning Evapotranspiration Generalisation}\\[0.4cm] % Title of your document
+	\includegraphics[scale=3]{../uni_logo.png}
+	\vspace{3em}
+	
+	{\Large \bfseries The Effect of Forest Age on Machine Learning Evapotranspiration Generalisation}\\[0.4cm] % Title of your document
 	
 	\vspace{2em}
-	\textsc{\Large Project Plan}\\[0.5cm] % Major heading such as course name
-	
-	
-	%\includegraphics[scale=3]{../uni_logo.png}
-	
-	\vspace{3em}
 	
 %	\HRule\\[1.5cm]
 	
@@ -112,9 +108,9 @@
 	
 \vspace{5em}
 \begin{abstract} 
-	{\noindent{\textsc{Abstract} (The abstract has a  maximum of 200 words})}
+	{\noindent{\textsc{Abstract} (200 words})}
 	\newline
-	%\lipsum[1-10][1-20]
+	\lipsum[1-10][1-20]
 
 \vspace{1em}
 \textit{\textbf{Key words:}} Machine Learning, FLUXNET, Evapotranspiration.\\
@@ -133,8 +129,8 @@ I declare that the work in this dissertation was carried out in accordance with 
 % LIT REVIEW
 %------------------------------------------------
 
-\section{Literature Review (3000 words)}
-\subsection{Introduction $\sim$800 Words}
+\section{Literature Review}
+\subsection{Introduction}
 \subsubsection{Evapotranspiration} 
 Terrestrial evapotranspiration (ET) is a key component of the global hydrological cycle describing the transition of water from liquid to gas at Earth's surface and further transfer to the atmosphere, and is a crucial component of the energy and water exchange between terrestrial ecosystems and the climate system. The term emphasises the combination of water vapourisation flux from (1) abiotic evaporation from soil and plant canopy surfaces, and (2) biotic transpiration through stomata to the atmosphere \citep{katul2012evapotranspiration}. ET can be generally described through:
 
@@ -143,22 +139,27 @@ ET = T + E_{Soil} + E_{Canopy}
 \label{eqn:et}
 \end{equation}
 
-\noindent where $T$ refers to transpiration through plant stomata, $E_{soil}$ to evaporation from the soil surface, and $E_{Canopy}$ to evaporation from plant canopies (via rainfall interception). The contribution of these variables to overall ET is not equal, with \cite{lian2018partitioning} estimating a global $T/ET$ ratio of 0.62$\pm$0.06, indicating plant transpiration as the leading component of ET worldwide. The partitioning of $ET$ into $E$ ($E_{soil} + E_{Canopy}$) and $T$ within ecosystems is associated with ``water use efficiency" and has use in irrigation management, where $T$ is linked with plant productivity, while $E$ does not directly contribute to production \citep{kool2014review}. This in turn likely explains the elevated $E/ET$ ratios in managed croplands compared to natural ecosystems \citep{yang2023evapotranspiration}. Accurate partitioning estimates are also important in aiding carbon cycle projections given the coupled effect of transpiration and land-atmosphere carbon dioxide exchanges through stomata.
+\noindent where $T$ refers to transpiration through plant stomata, $E_{soil}$ to evaporation from the soil surface, and $E_{Canopy}$ to evaporation from plant canopies (via rainfall interception) \citep{lawrence2007partitioning}. The contribution of these variables to overall ET is not equal, with \cite{lian2018partitioning} estimating a global $T/ET$ ratio of 0.62$\pm$0.06, indicating plant transpiration as the leading component of ET worldwide. The partitioning of $ET$ into $E$ ($E_{soil} + E_{Canopy}$) and $T$ within ecosystems is associated with ``water use efficiency" and has use in irrigation management, where $T$ is linked with plant productivity, while $E$ does not directly contribute to production \citep{kool2014review}. Accurate partitioning estimates are also important in aiding carbon cycle projections given the coupled effect of transpiration and land-atmosphere carbon dioxide exchanges through stomata.
 
-\subsubsection{The Complexities of Ageing}
-The magnitude of ET is governed by many environmental factors such as solar radiation, leaf area index (LAI), air temperature, vapour pressure deficit (VPD), soil moisture, and wind speed \citep{yang2023evapotranspiration}. Of these, \cite{lian2018partitioning} identified LAI as the primary driver of $T/ET$ spatial patterns, with \cite{kool2014review} suggesting that in systems with full canopy cover (and therefore high LAI) ET is often assumed to be ``similar enough to $T$ to permit correlation of ET with biomass". However, this assumption may break down in densely vegetated systems with multi-layer canopies such as forests, despite high LAI. In these systems, the 2-dimensional remote measure of LAI will not capture the vertical canopy complexity which drives rainfall interception and subsequent $E_{Canopy}$, implying that canopy cover indices may struggle to explain $T/ET$ ratios in more complex vertical environments. This is reflected by \cite{zhou2016partitioning} who report higher coefficients of determination between enhanced vegetation index (EVI) and $T/ET$ in corn and soybean sites (0.84 and 0.82) with simple canopies, compared to evergreen needle leaf forests (0.37), a result possibly due to increased $E_{Canopy}$ driving this ratio down. 
-\par \cite{oishi2020quantifying}, in a chronosequence study on broadleaf forests in the US, report that interception of incoming rainfall strongly increases with age from $\sim$2\% (12 year old stand) to 20\% (200 year old stand) despite only small differences in LAI, an effect in part due to branch architecture which varies with age. This study also reported that annual canopy transpiration ($T$) was over twice as high in the 35 year old stand compared to the 12 and 200 year old stands, with increasing canopy interception in the oldest stand largely offsetting the reduction in $T$ such that total ET remained similar between the two older stands, but much lower in the youngest stand (Fig.~\ref{fig:oishi}). Furthermore, the high LAI across all stand ages intercepted much of the incoming radiation before it reached the forest floor, revealing a relationship between LAI and $E_{Soil}$ but not necessarily $E_{Canopy}$ in these densely vegetated areas. This study demonstrates how age driven effects in canopy architecture introduce complexity and affect overall ET, as well as the relative contributions of $T$ and $E_{Canopy}$ which may vary significantly over time within stands. While vegetation indices such as LAI may capture ET dynamics in sparsely vegetated or simple landscapes, this relationship breaks down in ecosystems where age driven changes to ET and ET partitioning through variations in canopy structure introduce complexity that LAI cannot resolve. 
-\par Alongside canopy architecture, stomatal conductance ($g_s$) declines as trees grow taller due to gravitational reductions in leaf water potential and decreasing hydraulic conductance with increasing path length from soil to leaf \citep{ryan1997hydraulic}. For example, \cite{schafer2000effect} demonstrated that the mean stomatal conductance of tree crowns decreased by approximately 60\% over a 30m increase in tree height, and \cite{hubbard1999evidence} established a 44\% drop in hydraulic conductance in old trees compared to young trees in a mixed age stand. As $g_s$ directly influences $T$ \citep{monteith1965evaporation}, these age related changes introduce further complexity into ET dynamics and suggest that age could be a key driver of ET in forest ecosystems.
+\subsubsection{Forest Complexity}
+The magnitude of ET is governed by many environmental factors such as solar radiation, leaf area index (LAI), air temperature, vapour pressure deficit (VPD), soil moisture, and wind speed \citep{yang2023evapotranspiration}. Of these, \cite{lian2018partitioning} identified LAI as the primary driver of $T/ET$ spatial patterns, with \cite{kool2014review} suggesting that in systems with full canopy cover (and therefore high LAI) ET is often assumed to be ``similar enough to $T$ to permit correlation of ET with biomass". However, this assumption may break down in densely vegetated systems with multi-layer canopies such as forests, despite high LAI. In these systems, the 2-dimensional remote measure of LAI will not capture the vertical canopy complexity which drives rainfall interception and subsequent $E_{Canopy}$, implying that canopy cover indices may struggle to explain $T/ET$ ratios in more complex vertical environments.  This is reflected by \cite{zhou2016partitioning} who report higher coefficients of determination between enhanced vegetation index (EVI) and $T/ET$ in corn and soybean sites (0.84 and 0.82) with simple canopies, compared to evergreen needle leaf forests (0.37), a result possibly due to increased $E_{Canopy}$ driving this ratio down. \cite{hardiman2013maintaining} also demonstrate that while LAI may be stable in stands older than 50 years, canopy complexity continues to increase with age through $>$160 years of stand development and had a greater impact on annual net primary productivity (NPP) and overall resource use efficiency than LAI across all stands. Furthermore, LAI has shown to only explain around 20\% of mean annual $T/ET$  \citep{li2019simple}, suggesting simple vegetation indices which don't take into account 3-dimensional complexity may be insufficient for predicting $T/ET$ in structurally complex systems. 
+\par \cite{oishi2020quantifying}, in a chronosequence study on broadleaf forests in the US, report that interception of incoming rainfall strongly increases with age from $\sim$2\% (12 year old stand) to 20\% (200 year old stand) despite only small differences in LAI, an effect in part due to branch architecture which varies with age. This study also reported that annual canopy transpiration ($T$) was over twice as high in the 35 year old stand compared to the 12 and 200 year old stands, with increasing canopy interception in the oldest stand largely offsetting the reduction in $T$ such that total ET was similar between the two older stands, but remained lower in the youngest stand (Fig.~\ref{fig:oishi}). This demonstrates how age-driven effects in canopy architecture introduce complexity and can affect overall ET, as well as the relative contributions of $T$ and $E_{Canopy}$ which may vary significantly over time within stands. 
+\par Alongside canopy architecture, stomatal conductance ($g_s$) declines as trees grow taller due to gravitational reductions in leaf water potential and decreasing hydraulic conductance with increasing path length from soil to leaf \citep{ryan1997hydraulic}. For example, \cite{schafer2000effect} demonstrated that the mean stomatal conductance of tree crowns decreased by approximately 60\% over a 30m increase in tree height, and \cite{hubbard1999evidence} established a 44\% drop in hydraulic conductance in old trees compared to young trees in a mixed age stand. As $g_s$ directly influences $T$ \citep{monteith1965evaporation}, these age related changes introduce further complexity into ET dynamics and suggest that age could be a key source of variability in ET in forest ecosystems.
 
-\subsubsection{Climate Change and Forest Age}
-Forest age distributions are increasingly being affected by climate change-driven disturbances such as fire, drought, insects, and pathogens \citep{seidl2017forest}, with these expected to continue in the coming decades \citep{solomon2009irreversible}. 
+\subsubsection{Forest Age}
+Forest age distributions are increasingly being affected by climate change-driven disturbances - such as fire, drought, insect attack, and pathogens - which are expected to continue in the coming decades \citep{solomon2009irreversible, seidl2017forest}. Some of these disturbances are able to completely change forest demography by causing widespread mortality \citep{dale2001climate}, effectively resetting the age of the landscape. Land use changes also directly affect forest age distributions, for example the recovery of deforested areas in southern China following the implementation of forestation policies around the year 2000 has resulted in a complex pattern of forest age structure in recent years, and an increase in average tree cover from 21\% in 1987 to 38\% in 2016, leading to large areas now being dominated by young forests \citep{tong2020forest, leng2024forest}, with similar patterns of young forests due to recent disturbance found worldwide \citep{besnard2021mapping}.
+\par As forests are exhibiting greater age heterogeneity, and with climate change increasing the severity and frequency of potential forest disturbances worldwide, stand age may represent an increasingly important variable for ET estimation in forests, capturing structural complexity and linking this to ET beyond what simple vegetation indices such as LAI are capable of. Yet whether these age-driven changes in forests such as canopy complexity and alterations to $g_s$ are a large enough source of ET variability to affect the predictions made by current ET models which do not take age into account remains largely unexplored.
 
-The forest carbon balance in regions with newly disturbed and old-growth forests may not be realistically estimated without explicitly constraining data-driven statistical models with a disturbance history or forest demography. (Mapping global forest age from forest inventories, biomass and climate data)
 
-"Forest age distributions are highly dynamic, shaped by harvesting, fire, storm damage, and increasingly by climate change driven disturbance regimes \citep{someref}. As global forests trend towards greater age heterogeneity — with large areas of young regrowing forest alongside ageing secondary stands — the age-driven complexity in ET dynamics described above has growing implications for regional water and carbon cycle projections. Yet whether these differences are sufficient to limit the generalisation of data-driven ET models across age classes remains unexplored."
+
+%The forest carbon balance in regions with newly disturbed and old-growth forests may not be realistically estimated without explicitly constraining data-driven statistical models with a disturbance history or forest demography. (Mapping global forest age from forest inventories, biomass and climate data)
+
+%"Forest age distributions are highly dynamic, shaped by harvesting, fire, storm damage, and increasingly by climate change driven disturbance regimes \citep{someref}. As global forests trend towards greater age heterogeneity — with large areas of young regrowing forest alongside ageing secondary stands — the age-driven complexity in ET dynamics described above has growing implications for regional water and carbon cycle projections. Yet whether these differences are sufficient to limit the generalisation of data-driven ET models across age classes remains unexplored." 
+
+%[say why et prediction is important to water use/water cycles etc. to lead into next section]
  
  
-\subsection{Evapotranspiration Prediction $\sim$1400 Words\\ \textit{(What don't we know and what are the issues?)}}
+\subsection{Evapotranspiration Prediction $\sim$1400 Words}
 \subsubsection{Contemporary ET Prediction Methods}
 
 \subsubsection{FLUXNET}

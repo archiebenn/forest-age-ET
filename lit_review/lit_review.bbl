@@ -1,73 +1,123 @@
 \begin{thebibliography}{}
 
+\bibitem[Besnard et~al., 2021]{besnard2021mapping}
+Besnard, S., Koirala, S., Santoro, M., Weber, U., Nelson, J., G{\"u}tter, J.,
+  Herault, B., Kassi, J., N’Guessan, A., Neigh, C., et~al. (2021).
+\newblock Mapping global forest age from forest inventories, biomass and
+  climate data, earth syst. sci. data, 13, 4881--4896.
+
+\bibitem[Dale et~al., 2001]{dale2001climate}
+Dale, V.~H., Joyce, L.~A., McNulty, S., Neilson, R.~P., Ayres, M.~P.,
+  Flannigan, M.~D., Hanson, P.~J., Irland, L.~C., Lugo, A.~E., Peterson, C.~J.,
+  et~al. (2001).
+\newblock Climate change and forest disturbances: climate change can affect
+  forests by altering the frequency, intensity, duration, and timing of fire,
+  drought, introduced species, insect and pathogen outbreaks, hurricanes,
+  windstorms, ice storms, or landslides.
+\newblock {\em BioScience}, 51(9):723--734.
+
+\bibitem[Hardiman et~al., 2013]{hardiman2013maintaining}
+Hardiman, B.~S., Gough, C.~M., Halperin, A., Hofmeister, K.~L., Nave, L.~E.,
+  Bohrer, G., and Curtis, P.~S. (2013).
+\newblock {Maintaining high rates of carbon storage in old forests: A mechanism
+  linking canopy structure to forest function}.
+\newblock {\em Forest Ecology and Management}, 298:111--119.
+
 \bibitem[Hubbard et~al., 1999]{hubbard1999evidence}
 Hubbard, R.~M., Bond, B.~J., and Ryan, M.~G. (1999).
-\newblock Evidence that hydraulic conductance limits photosynthesis in old
-  pinus ponderosa trees.
+\newblock {Evidence that hydraulic conductance limits photosynthesis in old
+  Pinus ponderosa trees}.
 \newblock {\em Tree physiology}, 19(3):165--172.
 
 \bibitem[Katul et~al., 2012]{katul2012evapotranspiration}
 Katul, G.~G., Oren, R., Manzoni, S., Higgins, C., and Parlange, M.~B. (2012).
-\newblock Evapotranspiration: A process driving mass transport and energy
-  exchange in the soil-plant-atmosphere-climate system.
+\newblock {Evapotranspiration: A process driving mass transport and energy
+  exchange in the soil-plant-atmosphere-climate system}.
 \newblock {\em Reviews of Geophysics}, 50(3).
 
 \bibitem[Kool et~al., 2014]{kool2014review}
 Kool, D., Agam, N., Lazarovitch, N., Heitman, J., Sauer, T., and Ben-Gal, A.
   (2014).
-\newblock A review of approaches for evapotranspiration partitioning.
+\newblock {A review of approaches for evapotranspiration partitioning}.
 \newblock {\em Agricultural and forest meteorology}, 184:56--70.
+
+\bibitem[Lawrence et~al., 2007]{lawrence2007partitioning}
+Lawrence, D.~M., Thornton, P.~E., Oleson, K.~W., and Bonan, G.~B. (2007).
+\newblock The partitioning of evapotranspiration into transpiration, soil
+  evaporation, and canopy evaporation in a gcm: Impacts on land--atmosphere
+  interaction.
+\newblock {\em Journal of Hydrometeorology}, 8(4):862--880.
+
+\bibitem[Leng et~al., 2024]{leng2024forest}
+Leng, Y., Li, W., Ciais, P., Sun, M., Zhu, L., Yue, C., Chang, J., Yao, Y.,
+  Zhang, Y., Zhou, J., et~al. (2024).
+\newblock {Forest aging limits future carbon sink in China}.
+\newblock {\em One Earth}, 7(5):822--834.
+
+\bibitem[Li et~al., 2019]{li2019simple}
+Li, X., Gentine, P., Lin, C., Zhou, S., Sun, Z., Zheng, Y., Liu, J., and Zheng,
+  C. (2019).
+\newblock {A simple and objective method to partition evapotranspiration into
+  transpiration and evaporation at eddy-covariance sites}.
+\newblock {\em Agricultural and Forest Meteorology}, 265:171--182.
 
 \bibitem[Lian et~al., 2018]{lian2018partitioning}
 Lian, X., Piao, S., Huntingford, C., Li, Y., Zeng, Z., Wang, X., Ciais, P.,
   McVicar, T.~R., Peng, S., Ottl{\'e}, C., et~al. (2018).
-\newblock Partitioning global land evapotranspiration using cmip5 models
-  constrained by observations.
+\newblock {Partitioning global land evapotranspiration using CMIP5 models
+  constrained by observations}.
 \newblock {\em Nature Climate Change}, 8(7):640--646.
 
 \bibitem[Monteith, 1965]{monteith1965evaporation}
 Monteith, J.~L. (1965).
-\newblock Evaporation and environment.
+\newblock {Evaporation and environment}.
 
 \bibitem[Oishi et~al., 2020]{oishi2020quantifying}
 Oishi, A., Denham, S., Brantley, S., Novick, K., Bolstad, P., and Miniat, C.
   (2020).
-\newblock Quantifying the effects of stand age on components of forest
-  evapotranspiration.
+\newblock {Quantifying the effects of stand age on components of forest
+  evapotranspiration}.
 \newblock {\em Acta Horticulturae}, 1300:89--96.
 
 \bibitem[Ryan and Yoder, 1997]{ryan1997hydraulic}
 Ryan, M.~G. and Yoder, B.~J. (1997).
-\newblock Hydraulic limits to tree height and tree growth.
+\newblock {Hydraulic limits to tree height and tree growth}.
 \newblock {\em Bioscience}, 47(4):235--242.
 
 \bibitem[Sch{\"a}fer et~al., 2000]{schafer2000effect}
 Sch{\"a}fer, K., Oren, R., and Tenhunen, J. (2000).
-\newblock The effect of tree height on crown level stomatal conductance.
+\newblock {The effect of tree height on crown level stomatal conductance}.
 \newblock {\em Plant, Cell \& Environment}, 23(4):365--375.
 
 \bibitem[Seidl et~al., 2017]{seidl2017forest}
 Seidl, R., Thom, D., Kautz, M., Martin-Benito, D., Peltoniemi, M., Vacchiano,
   G., Wild, J., Ascoli, D., Petr, M., Honkaniemi, J., et~al. (2017).
-\newblock Forest disturbances under climate change.
+\newblock {Forest disturbances under climate change}.
 \newblock {\em Nature climate change}, 7(6):395--402.
 
 \bibitem[Solomon et~al., 2009]{solomon2009irreversible}
 Solomon, S., Plattner, G.-K., Knutti, R., and Friedlingstein, P. (2009).
-\newblock Irreversible climate change due to carbon dioxide emissions.
+\newblock {Irreversible climate change due to carbon dioxide emissions}.
 \newblock {\em Proceedings of the national academy of sciences},
   106(6):1704--1709.
+
+\bibitem[Tong et~al., 2020]{tong2020forest}
+Tong, X., Brandt, M., Yue, Y., Ciais, P., Rudbeck~Jepsen, M., Penuelas, J.,
+  Wigneron, J.-P., Xiao, X., Song, X.-P., Horion, S., et~al. (2020).
+\newblock {Forest management in southern China generates short term extensive
+  carbon sequestration}.
+\newblock {\em Nature communications}, 11(1):129.
 
 \bibitem[Yang et~al., 2023]{yang2023evapotranspiration}
 Yang, Y., Roderick, M.~L., Guo, H., Miralles, D.~G., Zhang, L., Fatichi, S.,
   Luo, X., Zhang, Y., McVicar, T.~R., Tu, Z., et~al. (2023).
-\newblock Evapotranspiration on a greening earth.
+\newblock {Evapotranspiration on a greening Earth}.
 \newblock {\em Nature Reviews Earth \& Environment}, 4(9):626--641.
 
 \bibitem[Zhou et~al., 2016]{zhou2016partitioning}
 Zhou, S., Yu, B., Zhang, Y., Huang, Y., and Wang, G. (2016).
-\newblock Partitioning evapotranspiration based on the concept of underlying
-  water use efficiency.
+\newblock {Partitioning evapotranspiration based on the concept of underlying
+  water use efficiency}.
 \newblock {\em Water Resources Research}, 52(2):1160--1175.
 
 \end{thebibliography}
