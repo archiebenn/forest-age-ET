@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  4 MAY 2026 17:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  6 MAY 2026 15:51
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -611,28 +611,239 @@ Class scrartcl Warning: Incompatible package `sectsty' loaded!
 (scrartcl)              messages and formatting issues after loading package
 (scrartcl)              `sectsty' on input line 19.
 
-(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
-Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip72
-\bibsep=\skip73
-LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count320
-) (/usr/share/texlive/texmf-dist/tex/latex/ragged2e/ragged2e.sty
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.sty
+Package: biblatex 2023/03/05 v3.19 programmable bibliographies (PK/MW)
+(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count320
+(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+)) (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
+)
+\c@tabx@nest=\count321
+\c@listtotal=\count322
+\c@listcount=\count323
+\c@liststart=\count324
+\c@liststop=\count325
+\c@citecount=\count326
+\c@citetotal=\count327
+\c@multicitecount=\count328
+\c@multicitetotal=\count329
+\c@instcount=\count330
+\c@maxnames=\count331
+\c@minnames=\count332
+\c@maxitems=\count333
+\c@minitems=\count334
+\c@citecounter=\count335
+\c@maxcitecounter=\count336
+\c@savedcitecounter=\count337
+\c@uniquelist=\count338
+\c@uniquename=\count339
+\c@refsection=\count340
+\c@refsegment=\count341
+\c@maxextratitle=\count342
+\c@maxextratitleyear=\count343
+\c@maxextraname=\count344
+\c@maxextradate=\count345
+\c@maxextraalpha=\count346
+\c@abbrvpenalty=\count347
+\c@highnamepenalty=\count348
+\c@lownamepenalty=\count349
+\c@maxparens=\count350
+\c@parenlevel=\count351
+\blx@tempcnta=\count352
+\blx@tempcntb=\count353
+\blx@tempcntc=\count354
+\c@blx@maxsection=\count355
+\blx@maxsegment@0=\count356
+\blx@notetype=\count357
+\blx@parenlevel@text=\count358
+\blx@parenlevel@foot=\count359
+\blx@sectionciteorder@0=\count360
+\blx@sectionciteorderinternal@0=\count361
+\blx@entrysetcounter=\count362
+\blx@biblioinstance=\count363
+\labelnumberwidth=\skip72
+\labelalphawidth=\skip73
+\biblabelsep=\skip74
+\bibitemsep=\skip75
+\bibnamesep=\skip76
+\bibinitsep=\skip77
+\bibparsep=\skip78
+\bibhang=\skip79
+\blx@bcfin=\read3
+\blx@bcfout=\write3
+\blx@langwohyphens=\language90
+\c@mincomprange=\count364
+\c@maxcomprange=\count365
+\c@mincompwidth=\count366
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-dm.def
+File: blx-dm.def 2023/03/05 v3.19 biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load biblatex style data model...
+Package biblatex Info: ... file 'authoryear.dbx' not found.
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count367
+\c@savedafterword=\count368
+\c@annotator=\count369
+\c@savedannotator=\count370
+\c@author=\count371
+\c@savedauthor=\count372
+\c@bookauthor=\count373
+\c@savedbookauthor=\count374
+\c@commentator=\count375
+\c@savedcommentator=\count376
+\c@editor=\count377
+\c@savededitor=\count378
+\c@editora=\count379
+\c@savededitora=\count380
+\c@editorb=\count381
+\c@savededitorb=\count382
+\c@editorc=\count383
+\c@savededitorc=\count384
+\c@foreword=\count385
+\c@savedforeword=\count386
+\c@holder=\count387
+\c@savedholder=\count388
+\c@introduction=\count389
+\c@savedintroduction=\count390
+\c@namea=\count391
+\c@savednamea=\count392
+\c@nameb=\count393
+\c@savednameb=\count394
+\c@namec=\count395
+\c@savednamec=\count396
+\c@translator=\count397
+\c@savedtranslator=\count398
+\c@shortauthor=\count399
+\c@savedshortauthor=\count400
+\c@shorteditor=\count401
+\c@savedshorteditor=\count402
+\c@labelname=\count403
+\c@savedlabelname=\count404
+\c@institution=\count405
+\c@savedinstitution=\count406
+\c@lista=\count407
+\c@savedlista=\count408
+\c@listb=\count409
+\c@savedlistb=\count410
+\c@listc=\count411
+\c@savedlistc=\count412
+\c@listd=\count413
+\c@savedlistd=\count414
+\c@liste=\count415
+\c@savedliste=\count416
+\c@listf=\count417
+\c@savedlistf=\count418
+\c@location=\count419
+\c@savedlocation=\count420
+\c@organization=\count421
+\c@savedorganization=\count422
+\c@origlocation=\count423
+\c@savedoriglocation=\count424
+\c@origpublisher=\count425
+\c@savedorigpublisher=\count426
+\c@publisher=\count427
+\c@savedpublisher=\count428
+\c@language=\count429
+\c@savedlanguage=\count430
+\c@origlanguage=\count431
+\c@savedoriglanguage=\count432
+\c@pageref=\count433
+\c@savedpageref=\count434
+\shorthandwidth=\skip80
+\shortjournalwidth=\skip81
+\shortserieswidth=\skip82
+\shorttitlewidth=\skip83
+\shortauthorwidth=\skip84
+\shorteditorwidth=\skip85
+\locallabelnumberwidth=\skip86
+\locallabelalphawidth=\skip87
+\localshorthandwidth=\skip88
+\localshortjournalwidth=\skip89
+\localshortserieswidth=\skip90
+\localshorttitlewidth=\skip91
+\localshortauthorwidth=\skip92
+\localshorteditorwidth=\skip93
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-compat.def
+File: blx-compat.def 2023/03/05 v3.19 biblatex compatibility (PK/MW)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.def
+File: biblatex.def 2023/03/05 v3.19 biblatex compatibility (PK/MW)
+\c@textcitecount=\count435
+\c@textcitetotal=\count436
+\c@textcitemaxnames=\count437
+\c@biburlbigbreakpenalty=\count438
+\c@biburlbreakpenalty=\count439
+\c@biburlnumpenalty=\count440
+\c@biburlucpenalty=\count441
+\c@biburllcpenalty=\count442
+\biburlbigskip=\muskip18
+\biburlnumskip=\muskip19
+\biburlucskip=\muskip20
+\biburllcskip=\muskip21
+\c@smartand=\count443
+)
+Package biblatex Info: Trying to load bibliography style 'authoryear'...
+Package biblatex Info: ... file 'authoryear.bbx' found.
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/authoryear.bbx
+File: authoryear.bbx 2023/03/05 v3.19 biblatex bibliography style (PK/MW)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
+File: standard.bbx 2023/03/05 v3.19 biblatex bibliography style (PK/MW)
+\c@bbx:relatedcount=\count444
+\c@bbx:relatedtotal=\count445
+))
+Package biblatex Info: Trying to load citation style 'authoryear'...
+Package biblatex Info: ... file 'authoryear.cbx' found.
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/cbx/authoryear.cbx
+File: authoryear.cbx 2023/03/05 v3.19 biblatex citation style (PK/MW)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.cfg
+File: biblatex.cfg 
+)
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Document encoding is UTF8 ....
+Package biblatex Info: ... and expl3
+(biblatex)             2024-01-22 L3 programming layer (loader) 
+(biblatex)             is new enough (at least 2020/04/06),
+(biblatex)             setting 'casechanger=expl3'.
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
+Package: blx-case-expl3 2023/03/05 v3.19 expl3 case changing code for biblatex
+)) (/usr/share/texlive/texmf-dist/tex/latex/ragged2e/ragged2e.sty
 Package: ragged2e 2023/06/22 v3.6 ragged2e Package
-\CenteringLeftskip=\skip74
-\RaggedLeftLeftskip=\skip75
-\RaggedRightLeftskip=\skip76
-\CenteringRightskip=\skip77
-\RaggedLeftRightskip=\skip78
-\RaggedRightRightskip=\skip79
-\CenteringParfillskip=\skip80
-\RaggedLeftParfillskip=\skip81
-\RaggedRightParfillskip=\skip82
-\JustifyingParfillskip=\skip83
-\CenteringParindent=\skip84
-\RaggedLeftParindent=\skip85
-\RaggedRightParindent=\skip86
-\JustifyingParindent=\skip87
+\CenteringLeftskip=\skip94
+\RaggedLeftLeftskip=\skip95
+\RaggedRightLeftskip=\skip96
+\CenteringRightskip=\skip97
+\RaggedLeftRightskip=\skip98
+\RaggedRightRightskip=\skip99
+\CenteringParfillskip=\skip100
+\RaggedLeftParfillskip=\skip101
+\RaggedRightParfillskip=\skip102
+\JustifyingParfillskip=\skip103
+\CenteringParindent=\skip104
+\RaggedLeftParindent=\skip105
+\RaggedRightParindent=\skip106
+\JustifyingParindent=\skip107
 )
 
 Class scrartcl Warning: Usage of package `titlesec' together
@@ -648,8 +859,8 @@ nesformat
 (/usr/share/texlive/texmf-dist/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2023/10/27 v2.16 Sectioning titles
 \ttl@box=\box59
-\beforetitleunit=\skip88
-\aftertitleunit=\skip89
+\beforetitleunit=\skip108
+\aftertitleunit=\skip109
 \ttl@plus=\dimen176
 \ttl@minus=\dimen177
 \ttl@toksa=\toks36
@@ -692,16 +903,16 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 \pgf@yc=\dimen190
 \pgf@xd=\dimen191
 \pgf@yd=\dimen192
-\w@pgf@writea=\write3
-\r@pgf@reada=\read3
-\c@pgf@counta=\count321
-\c@pgf@countb=\count322
-\c@pgf@countc=\count323
-\c@pgf@countd=\count324
+\w@pgf@writea=\write4
+\r@pgf@reada=\read4
+\c@pgf@counta=\count446
+\c@pgf@countb=\count447
+\c@pgf@countc=\count448
+\c@pgf@countd=\count449
 \t@pgf@toka=\toks41
 \t@pgf@tokb=\toks42
 \t@pgf@tokc=\toks43
-\pgf@sys@id@count=\count325
+\pgf@sys@id@count=\count450
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
@@ -716,8 +927,8 @@ File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.
 tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count326
-\pgfsyssoftpath@bigbuffer@items=\count327
+\pgfsyssoftpath@smallbuffer@items=\count451
+\pgfsyssoftpath@bigbuffer@items=\count452
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.
 tex
@@ -744,7 +955,7 @@ Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
 e/texlive/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/usr/share/tex
 live/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@dimen=\dimen193
-\pgfmath@count=\count328
+\pgfmath@count=\count453
 \pgfmath@box=\box61
 \pgfmath@toks=\toks44
 \pgfmath@stack@operand=\toks45
@@ -769,7 +980,7 @@ tex)
 thmetics.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathc
 alc.code.tex) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfloat.
 code.tex
-\c@pgfmathroundto@lastzeros=\count329
+\c@pgfmathroundto@lastzeros=\count454
 )) (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.te
 x
@@ -807,7 +1018,7 @@ File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfpic=\box62
 \pgf@hbox=\box63
 \pgf@layerbox@main=\box64
-\pgf@picture@serial@count=\count330
+\pgf@picture@serial@count=\count455
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.c
 ode.tex
@@ -840,8 +1051,8 @@ File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@max=\dimen273
-\pgf@sys@shading@range@num=\count331
-\pgf@shadingcount=\count332
+\pgf@sys@shading@range@num=\count456
+\pgf@shadingcount=\count457
 )
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
@@ -898,7 +1109,7 @@ Package: tikz 2023-01-15 v3.1.10 (3.1.10)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers
 .code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@plot@mark@count=\count333
+\pgf@plot@mark@count=\count458
 \pgfplotmarksize=\dimen278
 )
 \tikz@lastx=\dimen279
@@ -913,23 +1124,42 @@ File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \tikz@figbox@bg=\box68
 \tikz@tempbox=\box69
 \tikz@tempbox@bg=\box70
-\tikztreelevel=\count334
-\tikznumberofchildren=\count335
-\tikznumberofcurrentchild=\count336
-\tikz@fig@count=\count337
+\tikztreelevel=\count459
+\tikznumberofchildren=\count460
+\tikznumberofcurrentchild=\count461
+\tikz@fig@count=\count462
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfmatrixcurrentrow=\count338
-\pgfmatrixcurrentcolumn=\count339
-\pgf@matrix@numberofcolumns=\count340
+\pgfmatrixcurrentrow=\count463
+\pgfmatrixcurrentcolumn=\count464
+\pgf@matrix@numberofcolumns=\count465
 )
-\tikz@expandcount=\count341
+\tikz@expandcount=\count466
 
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)))
+))) (/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2023/07/08 v2.11c `tabularx' package (DPC)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen287
+\ar@mcellbox=\box71
+\extrarowheight=\dimen288
+\NC@list=\toks49
+\extratabsurround=\skip110
+\backup@length=\skip111
+\ar@cellbox=\box72
+)
+\TX@col@width=\dimen289
+\TX@old@table=\dimen290
+\TX@old@col=\dimen291
+\TX@target=\dimen292
+\TX@delta=\dimen293
+\TX@cols=\count467
+\TX@ftn=\toks50
+)
 
 Class scrartcl Warning: Usage of package `tocloft' together
 (scrartcl)              with a KOMA-Script class is not recommended.
@@ -954,39 +1184,39 @@ Class scrartcl Warning: Usage of package `tocloft' together
 (/usr/share/texlive/texmf-dist/tex/latex/tocloft/tocloft.sty
 Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
 Package tocloft Info: The document has section divisions on input line 51.
-\cftparskip=\skip90
-\cftbeforetoctitleskip=\skip91
-\cftaftertoctitleskip=\skip92
-\cftbeforepartskip=\skip93
-\cftpartnumwidth=\skip94
-\cftpartindent=\skip95
-\cftbeforesecskip=\skip96
-\cftsecindent=\skip97
-\cftsecnumwidth=\skip98
-\cftbeforesubsecskip=\skip99
-\cftsubsecindent=\skip100
-\cftsubsecnumwidth=\skip101
-\cftbeforesubsubsecskip=\skip102
-\cftsubsubsecindent=\skip103
-\cftsubsubsecnumwidth=\skip104
-\cftbeforeparaskip=\skip105
-\cftparaindent=\skip106
-\cftparanumwidth=\skip107
-\cftbeforesubparaskip=\skip108
-\cftsubparaindent=\skip109
-\cftsubparanumwidth=\skip110
-\cftbeforeloftitleskip=\skip111
-\cftafterloftitleskip=\skip112
-\cftbeforefigskip=\skip113
-\cftfigindent=\skip114
-\cftfignumwidth=\skip115
-\c@lofdepth=\count342
-\c@lotdepth=\count343
-\cftbeforelottitleskip=\skip116
-\cftafterlottitleskip=\skip117
-\cftbeforetabskip=\skip118
-\cfttabindent=\skip119
-\cfttabnumwidth=\skip120
+\cftparskip=\skip112
+\cftbeforetoctitleskip=\skip113
+\cftaftertoctitleskip=\skip114
+\cftbeforepartskip=\skip115
+\cftpartnumwidth=\skip116
+\cftpartindent=\skip117
+\cftbeforesecskip=\skip118
+\cftsecindent=\skip119
+\cftsecnumwidth=\skip120
+\cftbeforesubsecskip=\skip121
+\cftsubsecindent=\skip122
+\cftsubsecnumwidth=\skip123
+\cftbeforesubsubsecskip=\skip124
+\cftsubsubsecindent=\skip125
+\cftsubsubsecnumwidth=\skip126
+\cftbeforeparaskip=\skip127
+\cftparaindent=\skip128
+\cftparanumwidth=\skip129
+\cftbeforesubparaskip=\skip130
+\cftsubparaindent=\skip131
+\cftsubparanumwidth=\skip132
+\cftbeforeloftitleskip=\skip133
+\cftafterloftitleskip=\skip134
+\cftbeforefigskip=\skip135
+\cftfigindent=\skip136
+\cftfignumwidth=\skip137
+\c@lofdepth=\count468
+\c@lotdepth=\count469
+\cftbeforelottitleskip=\skip138
+\cftafterlottitleskip=\skip139
+\cftbeforetabskip=\skip140
+\cfttabindent=\skip141
+\cfttabnumwidth=\skip142
 )
 
 Class scrartcl Warning: Usage of package `fancyhdr' together
@@ -1000,71 +1230,78 @@ Class scrartcl Warning: Usage of package `fancyhdr' together
 (scrartcl)              `\addtokomafont' for the page style elements need
 (scrartcl)              explicite user intervention to work.
 (scrartcl)              Nevertheless, using requested
-(scrartcl)              package `fancyhdr' on input line 39.
+(scrartcl)              package `fancyhdr' on input line 44.
 
 (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
 
-\f@nch@headwidth=\skip121
-\f@nch@O@elh=\skip122
-\f@nch@O@erh=\skip123
-\f@nch@O@olh=\skip124
-\f@nch@O@orh=\skip125
-\f@nch@O@elf=\skip126
-\f@nch@O@erf=\skip127
-\f@nch@O@olf=\skip128
-\f@nch@O@orf=\skip129
-) (./lit_review.aux)
+\f@nch@headwidth=\skip143
+\f@nch@O@elh=\skip144
+\f@nch@O@erh=\skip145
+\f@nch@O@olh=\skip146
+\f@nch@O@orh=\skip147
+\f@nch@O@elf=\skip148
+\f@nch@O@erf=\skip149
+\f@nch@O@olf=\skip150
+\f@nch@O@orf=\skip151
+)
+
+Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
+(biblatex)                Loading 'csquotes' recommended.
+
+\@quotelevel=\count470
+\@quotereset=\count471
+(./lit_review.aux)
 \openout1 = `lit_review.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for FML/futm/m/it on input line 62.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for FML/futm/m/it on input line 67.
 LaTeX Font Info:    Trying to load font information for FML+futm on input line 
-62.
+67.
 (/usr/share/texlive/texmf-dist/tex/latex/fourier/fmlfutm.fd
 File: fmlfutm.fd 2004/10/30 Fontinst v1.926 font definitions for FML/futm.
 )
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for FMS/futm/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for FMS/futm/m/n on input line 67.
 LaTeX Font Info:    Trying to load font information for FMS+futm on input line 
-62.
+67.
 (/usr/share/texlive/texmf-dist/tex/latex/fourier/fmsfutm.fd
 File: fmsfutm.fd 2004/10/30 Fontinst v1.926 font definitions for FMS/futm.
 )
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for FMX/futm/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for FMX/futm/m/n on input line 67.
 LaTeX Font Info:    Trying to load font information for FMX+futm on input line 
-62.
+67.
 (/usr/share/texlive/texmf-dist/tex/latex/fourier/fmxfutm.fd
 File: fmxfutm.fd futm-extension
 )
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 62.
-LaTeX Font Info:    ... okay on input line 62.
-Package scrbase Info: activating english \abstractname on input line 62.
-Package scrbase Info: activating english \partname on input line 62.
-Package scrbase Info: activating english \figurename on input line 62.
-Package scrbase Info: activating english \tablename on input line 62.
-Package scrbase Info: activating english \contentsname on input line 62.
-Package scrbase Info: activating english \listfigurename on input line 62.
-Package scrbase Info: activating english \listtablename on input line 62.
-Package scrbase Info: activating english \refname on input line 62.
-Package scrbase Info: activating english \indexname on input line 62.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+Package scrbase Info: activating english \abstractname on input line 67.
+Package scrbase Info: activating english \partname on input line 67.
+Package scrbase Info: activating english \figurename on input line 67.
+Package scrbase Info: activating english \tablename on input line 67.
+Package scrbase Info: activating english \contentsname on input line 67.
+Package scrbase Info: activating english \listfigurename on input line 67.
+Package scrbase Info: activating english \listtablename on input line 67.
+Package scrbase Info: activating english \refname on input line 67.
+Package scrbase Info: activating english \indexname on input line 67.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1099,19 +1336,19 @@ Package scrbase Info: activating english \indexname on input line 62.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 62.
-Package microtype Info: Applying patch `item' on input line 62.
-Package microtype Info: Applying patch `toc' on input line 62.
-Package microtype Info: Applying patch `eqnum' on input line 62.
-Package microtype Info: Applying patch `footnote' on input line 62.
-Package microtype Info: Applying patch `verbatim' on input line 62.
+LaTeX Info: Redefining \microtypecontext on input line 67.
+Package microtype Info: Applying patch `item' on input line 67.
+Package microtype Info: Applying patch `toc' on input line 67.
+Package microtype Info: Applying patch `eqnum' on input line 67.
+Package microtype Info: Applying patch `footnote' on input line 67.
+Package microtype Info: Applying patch `verbatim' on input line 67.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 62.
+LaTeX Info: Redefining \showhyphens on input line 67.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1119,25 +1356,25 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `futs' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Redeclaring math accent \widehat on input line 62.
-LaTeX Font Info:    Redeclaring math accent \widetilde on input line 62.
+LaTeX Font Info:    Redeclaring math accent \widehat on input line 67.
+LaTeX Font Info:    Redeclaring math accent \widetilde on input line 67.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count344
-\scratchdimen=\dimen287
-\scratchbox=\box71
-\nofMPsegments=\count345
-\nofMParguments=\count346
-\everyMPshowfont=\toks49
-\MPscratchCnt=\count347
-\MPscratchDim=\dimen288
-\MPnumerator=\count348
-\makeMPintoPDFobject=\count349
-\everyMPtoPDFconversion=\toks50
+\scratchcounter=\count472
+\scratchdimen=\dimen294
+\scratchbox=\box73
+\nofMPsegments=\count473
+\nofMParguments=\count474
+\everyMPshowfont=\toks51
+\MPscratchCnt=\count475
+\MPscratchDim=\dimen295
+\MPnumerator=\count476
+\makeMPintoPDFobject=\count477
+\everyMPtoPDFconversion=\toks52
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -1146,10 +1383,10 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring ON on input line 62.
+Package hyperref Info: Link coloring ON on input line 67.
 (./lit_review.out) (./lit_review.out)
-\@outlinefile=\write4
-\openout4 = `lit_review.out'.
+\@outlinefile=\write5
+\openout5 = `lit_review.out'.
 
 Class scrartcl Info: loading recommended package `bookmark'.
 (scrartcl)           Using `bookmark' together with `hyperref' is recommended,
@@ -1158,45 +1395,60 @@ Class scrartcl Info: loading recommended package `bookmark'.
 (scrartcl)           `bookmarkpackage=false' before \begin{document} and
 (scrartcl)           you can avoid this message adding:
 (scrartcl)             \usepackage{bookmark}
-(scrartcl)           before \begin{document} on input line 62.
+(scrartcl)           before \begin{document} on input line 67.
 (/usr/share/texlive/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2023-12-10 v1.31 PDF bookmarks (HO)
 (/usr/share/texlive/texmf-dist/tex/latex/bookmark/bkm-pdftex.def
 File: bkm-pdftex.def 2023-12-10 v1.31 bookmark driver for pdfTeX and luaTeX (HO
 )
-\BKM@id=\count350
+\BKM@id=\count478
 ))
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2023/03/05 v3.19 biblatex localization (PK/MW)
+)
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout3 = `lit_review.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'lit_review.bbl' found.
+(./lit_review.bbl)
+Package biblatex Info: Reference section=0 on input line 67.
+Package biblatex Info: Reference segment=0 on input line 67.
 <../uni_logo.png, id=7, 59.2614pt x 17.12799pt>
 File: ../uni_logo.png Graphic file (type png)
 <use ../uni_logo.png>
-Package pdftex.def Info: ../uni_logo.png  used on input line 80.
+Package pdftex.def Info: ../uni_logo.png  used on input line 81.
 (pdftex.def)             Requested size: 177.78369pt x 51.38379pt.
 LaTeX Font Info:    Trying to load font information for FML+futmi on input line
- 99.
+ 100.
 (/usr/share/texlive/texmf-dist/tex/latex/fourier/fmlfutmi.fd
 File: fmlfutmi.fd 2004/10/30 Fontinst v1.926 font definitions for FML/futmi.
 )
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 11.03998pt on input line 99.
+(Font)              scaled to size 11.03998pt on input line 100.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 99.
+(Font)              scaled to size 8.27998pt on input line 100.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 6.43999pt on input line 99.
+(Font)              scaled to size 6.43999pt on input line 100.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 11.03998pt on input line 99.
+(Font)              scaled to size 11.03998pt on input line 100.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 99.
+(Font)              scaled to size 8.27998pt on input line 100.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 6.43999pt on input line 99.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 99.
-
+(Font)              scaled to size 6.43999pt on input line 100.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 100
+.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 99.
-
+LaTeX Font Info:    Trying to load font information for U+msb on input line 100
+.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
@@ -1206,7 +1458,7 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-di
 st/fonts/enc/dvips/base/8r.enc} <../uni_logo.png>]
 LaTeX Font Info:    Trying to load font information for T1+cmss on input line 1
-22.
+31.
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
@@ -1215,58 +1467,58 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--124
+Underfull \hbox (badness 10000) in paragraph at lines 132--133
 
  []
 
 [2] (./lit_review.toc)
-\tf@toc=\write5
-\openout5 = `lit_review.toc'.
+\tf@toc=\write6
+\openout6 = `lit_review.toc'.
 
 [3] [4] [5]
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 13.24796pt on input line 162.
+(Font)              scaled to size 13.24796pt on input line 164.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 9.19998pt on input line 162.
+(Font)              scaled to size 9.19998pt on input line 164.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 7.35999pt on input line 162.
+(Font)              scaled to size 7.35999pt on input line 164.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 13.24796pt on input line 162.
+(Font)              scaled to size 13.24796pt on input line 164.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 9.19998pt on input line 162.
+(Font)              scaled to size 9.19998pt on input line 164.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 7.35999pt on input line 162.
+(Font)              scaled to size 7.35999pt on input line 164.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 162.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 162.
+(hyperref)                removing `math shift' on input line 164.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 162.
+(hyperref)                removing `\sim' on input line 164.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 173.
+(hyperref)                removing `math shift' on input line 164.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 173.
+(hyperref)                removing `math shift' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 173.
+(hyperref)                removing `\sim' on input line 182.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 173.
+(hyperref)                removing `math shift' on input line 182.
 
-[6]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 182.
+
+[6] [7]
 LaTeX Font Info:    Trying to load font information for TS1+futs on input line 
-187.
+200.
 (/usr/share/texlive/texmf-dist/tex/latex/fourier/ts1futs.fd
 File: ts1futs.fd 2003/09/14 Fontinst v1.801 font definitions for TS1/futs.
 )
@@ -1274,55 +1526,173 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `futs' (encoding: TS1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-[7]
-<gantt/gantt1.png, id=140, 433.62pt x 289.08pt>
+[8]
+<gantt/gantt1.png, id=139, 433.62pt x 289.08pt>
 File: gantt/gantt1.png Graphic file (type png)
 <use gantt/gantt1.png>
-Package pdftex.def Info: gantt/gantt1.png  used on input line 218.
+Package pdftex.def Info: gantt/gantt1.png  used on input line 231.
 (pdftex.def)             Requested size: 443.86325pt x 295.92516pt.
-[8 <./gantt/gantt1.png>]
+[9 <./gantt/gantt1.png>]
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 15.89755pt on input line 232.
+(Font)              scaled to size 15.89755pt on input line 244.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 15.89755pt on input line 232.
+(Font)              scaled to size 15.89755pt on input line 244.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 232.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 232.
+(hyperref)                removing `math shift' on input line 244.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 232.
+(hyperref)                removing `\sim' on input line 244.
 
-(./lit_review.bbl [9]) [10] (./oishi_plot/oishi_et_plot.tex) [11] (./lit_review
-.aux)
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 244.
+
+
+Underfull \hbox (badness 1127) in paragraph at lines 257--257
+[]|\T1/futs/b/n/12 (+20) Likelihood and po-ten-tial
+ []
+
+[10] [11] [12] (./oishi_plot/oishi_et_plot.tex) [13]
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+[]|\T1/futs/m/n/12 (+20) Outperformed other
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) mod-els (ANN, cu-bist,
+ []
+
+
+Underfull \hbox (badness 3815) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) un-cer-tain-ties from three-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) com-plex non-lin-ear re-la-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) More spa-tiotem-po-ral
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) con-tin-u-ous land sur-face
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) vari-ables at fine res-o-lu-
+ []
+
+
+Underfull \hbox (badness 1831) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) tion should be added to
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) po-ten-tially en-hance pre-
+ []
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 291--291
+[]|\T1/futs/m/n/12 (+20) HS-LSTM cou-pled model
+ []
+
+
+Underfull \hbox (badness 2744) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) stan-dalone ML and clas-
+ []
+
+
+Underfull \hbox (badness 3039) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) si-cal $\FML/futmi/m/it/12 ET[]$ \T1/futs/m/n/12 (+20) mo
+d-els (RMSE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+
+ []
+
+
+Underfull \hbox (badness 1490) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) Can be used to es-ti-mate
+ []
+
+
+Underfull \hbox (badness 5274) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) per-a-ture fore-casts which
+ []
+
+
+Underfull \hbox (badness 8056) in paragraph at lines 291--291
+[]|\T1/futs/m/n/12 (+20) Slight un-der-es-ti-mates of
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+
+ []
+
+
+Underfull \hbox (badness 7451) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) Each sta-tion re-quired a
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) as-sess whether trans-fer
+ []
+
+
+Underfull \hbox (badness 2538) in paragraph at lines 291--291
+\T1/futs/m/n/12 (+20) learn-ing may be ap-plied
+ []
+
+[14] (./lit_review.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `lit_review.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+Package logreq Info: Writing requests to 'lit_review.run.xml'.
+\openout1 = `lit_review.run.xml'.
+
  ) 
 Here is how much of TeX's memory you used:
- 31009 strings out of 474222
- 584542 string characters out of 5748733
+ 38056 strings out of 474222
+ 729479 string characters out of 5748733
  1937975 words of memory out of 5000000
- 52315 multiletter control sequences out of 15000+600000
- 703079 words of font info for 375 fonts, out of 8000000 for 9000
+ 59298 multiletter control sequences out of 15000+600000
+ 699150 words of font info for 381 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,11n,107p,10905b,803s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 108i,11n,107p,10905b,1933s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/fourier/fourier-ms.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/adobe/utopia/putb8a.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/adobe/utopia/putbi8a.pfb></usr/share/texlive/texmf-d
 ist/fonts/type1/adobe/utopia/putr8a.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/adobe/utopia/putri8a.pfb>
-Output written on lit_review.pdf (11 pages, 239463 bytes).
+Output written on lit_review.pdf (14 pages, 248530 bytes).
 PDF statistics:
- 280 PDF objects out of 1000 (max. 8388607)
- 248 compressed objects within 3 object streams
- 35 named destinations out of 1000 (max. 500000)
- 114927 words of extra memory for PDF output out of 128383 (max. 10000000)
+ 310 PDF objects out of 1000 (max. 8388607)
+ 272 compressed objects within 3 object streams
+ 47 named destinations out of 1000 (max. 500000)
+ 108815 words of extra memory for PDF output out of 128383 (max. 10000000)
 

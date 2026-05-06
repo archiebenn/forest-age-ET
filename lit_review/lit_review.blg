@@ -1,48 +1,15 @@
-This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
-Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
-The top-level auxiliary file: lit_review.aux
-The style file: apalike.bst
-Database file #1: references.bib
-Warning--empty journal in monteith1965evaporation
-You've used 19 entries,
-            1935 wiz_defined-function locations,
-            603 strings with 8781 characters,
-and the built_in function-call counts, 10068 in all, are:
-= -- 918
-> -- 711
-< -- 2
-+ -- 264
-- -- 262
-* -- 1010
-:= -- 1816
-add.period$ -- 55
-call.type$ -- 19
-change.case$ -- 219
-chr.to.int$ -- 19
-cite$ -- 20
-duplicate$ -- 260
-empty$ -- 529
-format.name$ -- 283
-if$ -- 1848
-int.to.chr$ -- 1
-int.to.str$ -- 0
-missing$ -- 18
-newline$ -- 96
-num.names$ -- 57
-pop$ -- 184
-preamble$ -- 1
-purify$ -- 219
-quote$ -- 0
-skip$ -- 199
-stack$ -- 0
-substring$ -- 614
-swap$ -- 17
-text.length$ -- 0
-text.prefix$ -- 0
-top$ -- 0
-type$ -- 114
-warning$ -- 1
-while$ -- 69
-width$ -- 0
-write$ -- 243
-(There was 1 warning)
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'lit_review.blg'
+[47] biber:340> INFO - === Wed May  6, 2026, 15:51:45
+[57] Biber.pm:419> INFO - Reading 'lit_review.bcf'
+[105] Biber.pm:979> INFO - Found 27 citekeys in bib section 0
+[119] Biber.pm:4419> INFO - Processing section 0
+[129] Biber.pm:4610> INFO - Looking for bibtex file 'references.bib' for section 0
+[131] bibtex.pm:1713> INFO - LaTeX decoding ...
+[155] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[358] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[359] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[359] Biber.pm:4239> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[359] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[378] bbl.pm:660> INFO - Writing 'lit_review.bbl' with encoding 'UTF-8'
+[393] bbl.pm:763> INFO - Output to lit_review.bbl
