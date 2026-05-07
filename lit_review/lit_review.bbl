@@ -224,6 +224,80 @@
       \field{pages}{723\bibrangedash 734}
       \range{pages}{12}
     \endentry
+    \entry{derardja2024advancements}{article}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=9a49b96a85bf7f47a8218dfe71fdcfb1}{%
+           family={Derardja},
+           familyi={D\bibinitperiod},
+           given={Bilal},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2972c3ae486b1dee5f8ff6f1cb04f399}{%
+           family={Khadra},
+           familyi={K\bibinitperiod},
+           given={Roula},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=15ef58741475647cec5ac57ce040062f}{%
+           family={Abdelmoneim},
+           familyi={A\bibinitperiod},
+           given={Ahmed\bibnamedelimb Ali\bibnamedelima Ayoub},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3f868e120d00a2cae344007558dbe106}{%
+           family={El-Shirbeny},
+           familyi={E\bibinithyphendelim S\bibinitperiod},
+           given={Mohammed\bibnamedelima A},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b774c9ce0d177fc36555ba1819fca73f}{%
+           family={Valsamidis},
+           familyi={V\bibinitperiod},
+           given={Theophilos},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=66f524bfcb1be36e14455ee2411e597b}{%
+           family={De\bibnamedelima Pasquale},
+           familyi={D\bibinitperiod\bibinitdelim P\bibinitperiod},
+           given={Vito},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9a4aa198e4ef549daeb8e34fe17bca1e}{%
+           family={Deflorio},
+           familyi={D\bibinitperiod},
+           given={Anna\bibnamedelima Maria},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7cb49025817fd4721ae4a2b721906cef}{%
+           family={Volden},
+           familyi={V\bibinitperiod},
+           given={Espen},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {MDPI}%
+      }
+      \strng{namehash}{be53bcbd4f7dce34e34cd500130e92da}
+      \strng{fullhash}{a5dfa1dd02e3161ad2f5c4fc44d5c8d3}
+      \strng{bibnamehash}{be53bcbd4f7dce34e34cd500130e92da}
+      \strng{authorbibnamehash}{be53bcbd4f7dce34e34cd500130e92da}
+      \strng{authornamehash}{be53bcbd4f7dce34e34cd500130e92da}
+      \strng{authorfullhash}{a5dfa1dd02e3161ad2f5c4fc44d5c8d3}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Remote Sensing}
+      \field{number}{11}
+      \field{title}{Advancements in remote sensing for evapotranspiration estimation: a comprehensive review of temperature-based models}
+      \field{volume}{16}
+      \field{year}{2024}
+      \field{pages}{1927}
+      \range{pages}{1}
+    \endentry
     \entry{hardiman2013maintaining}{article}{}
       \name{author}{7}{}{%
         {{un=0,uniquepart=base,hash=d13a90e14f1691684b8f9b95bc2b613e}{%
@@ -329,6 +403,92 @@
       \field{year}{1985}
       \field{pages}{96\bibrangedash 99}
       \range{pages}{4}
+    \endentry
+    \entry{hassija2024interpreting}{article}{}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=10e5db2334dbca6bd5462fd2c81a369c}{%
+           family={Hassija},
+           familyi={H\bibinitperiod},
+           given={Vikas},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b739bdf70b8d0a68cb988c0f29cc3b7e}{%
+           family={Chamola},
+           familyi={C\bibinitperiod},
+           given={Vinay},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1d46f690a479bcd1776465e05839072b}{%
+           family={Mahapatra},
+           familyi={M\bibinitperiod},
+           given={Atmesh},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=26196991496e60056c4d7339a82002be}{%
+           family={Singal},
+           familyi={S\bibinitperiod},
+           given={Abhinandan},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ba612e7cb0fb2bab91843b2f2603d913}{%
+           family={Goel},
+           familyi={G\bibinitperiod},
+           given={Divyansh},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5888da6ce16ab5130e7e65b9bdb5bfa3}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Kaizhu},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6cc7ddbedb26967c83ca03a748e1172b}{%
+           family={Scardapane},
+           familyi={S\bibinitperiod},
+           given={Simone},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b1a62b918a7c6fd4a0f1338c81fadba7}{%
+           family={Spinelli},
+           familyi={S\bibinitperiod},
+           given={Indro},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ceb927bc3ee9f1b320a471e76d4eca42}{%
+           family={Mahmud},
+           familyi={M\bibinitperiod},
+           given={Mufti},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8ad3729a7efea6d2ab38e43640ab6f27}{%
+           family={Hussain},
+           familyi={H\bibinitperiod},
+           given={Amir},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{5c5a1006345ba8cf9b0d60075777fbd1}
+      \strng{fullhash}{02949df66e15c1faf93d368340ed21ce}
+      \strng{bibnamehash}{5c5a1006345ba8cf9b0d60075777fbd1}
+      \strng{authorbibnamehash}{5c5a1006345ba8cf9b0d60075777fbd1}
+      \strng{authornamehash}{5c5a1006345ba8cf9b0d60075777fbd1}
+      \strng{authorfullhash}{02949df66e15c1faf93d368340ed21ce}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Cognitive Computation}
+      \field{number}{1}
+      \field{title}{Interpreting black-box models: a review on explainable artificial intelligence}
+      \field{volume}{16}
+      \field{year}{2024}
+      \field{pages}{45\bibrangedash 74}
+      \range{pages}{30}
     \endentry
     \entry{hill2017case}{article}{}
       \name{author}{3}{}{%
@@ -1432,12 +1592,12 @@
     \endentry
     \entry{su2002surface}{article}{}
       \name{author}{1}{}{%
-        {{un=0,uniquepart=base,hash=c18b3cfd64beae891caf90ddfb106101}{%
+        {{un=1,uniquepart=given,hash=c18b3cfd64beae891caf90ddfb106101}{%
            family={Su},
            familyi={S\bibinitperiod},
            given={Zhongbo},
            giveni={Z\bibinitperiod},
-           givenun=0}}%
+           givenun=1}}%
       }
       \list{publisher}{1}{%
         {Copernicus Publications Göttingen, Germany}%
@@ -1682,14 +1842,52 @@
       \field{pages}{8674\bibrangedash 8690}
       \range{pages}{17}
     \endentry
+    \entry{xue2017significant}{article}{}
+      \name{author}{2}{}{%
+        {{un=1,uniquepart=given,hash=682d33935c5a2cd6d28bf0dbef1315e6}{%
+           family={Xue},
+           familyi={X\bibinitperiod},
+           given={Jinru},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=51a373887220da2864752730178b97d7}{%
+           family={Su},
+           familyi={S\bibinitperiod},
+           given={Baofeng},
+           giveni={B\bibinitperiod},
+           givenun=1}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{fdd41b599adc77de9390a638429ac86e}
+      \strng{fullhash}{fdd41b599adc77de9390a638429ac86e}
+      \strng{bibnamehash}{fdd41b599adc77de9390a638429ac86e}
+      \strng{authorbibnamehash}{fdd41b599adc77de9390a638429ac86e}
+      \strng{authornamehash}{fdd41b599adc77de9390a638429ac86e}
+      \strng{authorfullhash}{fdd41b599adc77de9390a638429ac86e}
+      \field{sortinit}{X}
+      \field{sortinithash}{1965c258adceecf23ce3d67b05113442}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of sensors}
+      \field{number}{1}
+      \field{title}{Significant remote sensing vegetation indices: A review of developments and applications}
+      \field{volume}{2017}
+      \field{year}{2017}
+      \field{pages}{1353691}
+      \range{pages}{1}
+    \endentry
     \entry{xue2025review}{article}{}
       \name{author}{5}{}{%
-        {{un=0,uniquepart=base,hash=7e089075ea0e2b70a7d87684f97b555d}{%
+        {{un=1,uniquepart=given,hash=7e089075ea0e2b70a7d87684f97b555d}{%
            family={Xue},
            familyi={X\bibinitperiod},
            given={Yayong},
            giveni={Y\bibinitperiod},
-           givenun=0}}%
+           givenun=1}}%
         {{un=0,uniquepart=base,hash=29d49a0d9d5d5660852b56071584c9b6}{%
            family={Zhang},
            familyi={Z\bibinitperiod},
@@ -1833,12 +2031,12 @@
            given={Diego\bibnamedelima G},
            giveni={D\bibinitperiod\bibinitdelim G\bibinitperiod},
            givenun=0}}%
-        {{un=1,uniquepart=given,hash=da9f7c9885c62f90094bae30cd44886c}{%
+        {{un=2,uniquepart=given,hash=da9f7c9885c62f90094bae30cd44886c}{%
            family={Zhang},
            familyi={Z\bibinitperiod},
            given={Lu},
            giveni={L\bibinitperiod},
-           givenun=1}}%
+           givenun=2}}%
         {{un=0,uniquepart=base,hash=d9c758fcf184c3065fd95f0bc15533a5}{%
            family={Fatichi},
            familyi={F\bibinitperiod},
@@ -1892,6 +2090,117 @@
       \field{year}{2023}
       \field{pages}{626\bibrangedash 641}
       \range{pages}{16}
+    \endentry
+    \entry{zhang2021global}{article}{}
+      \name{author}{4}{}{%
+        {{un=2,uniquepart=given,hash=ef7abdf37fae6344164a5d614c4c248d}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Lilin},
+           giveni={L\bibinitperiod},
+           givenun=2}}%
+        {{un=0,uniquepart=base,hash=ebb2a2d3a02682842116024f3f3bc99a}{%
+           family={Marshall},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7818c6df0bc45650686b92a02c36cfb3}{%
+           family={Nelson},
+           familyi={N\bibinitperiod},
+           given={Andy},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=15e582e0f17a84d28624ae8ddc394533}{%
+           family={Vrieling},
+           familyi={V\bibinitperiod},
+           given={Anton},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{f15e2069fe6b8302090b83d73f1389fd}
+      \strng{fullhash}{3c86ebd47e50af5b2cc41c38d4a31a82}
+      \strng{bibnamehash}{f15e2069fe6b8302090b83d73f1389fd}
+      \strng{authorbibnamehash}{f15e2069fe6b8302090b83d73f1389fd}
+      \strng{authornamehash}{f15e2069fe6b8302090b83d73f1389fd}
+      \strng{authorfullhash}{3c86ebd47e50af5b2cc41c38d4a31a82}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Agricultural and Forest Meteorology}
+      \field{title}{A global assessment of PT-JPL soil evaporation in agroecosystems with optical, thermal, and microwave satellite data}
+      \field{volume}{306}
+      \field{year}{2021}
+      \field{pages}{108455}
+      \range{pages}{1}
+    \endentry
+    \entry{zhao2013evapotranspiration}{article}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=83cc9fb15287283fbaee40f38b0926dc}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Lingling},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c0f8e04c956c8a9a626cf05658de6a84}{%
+           family={Xia},
+           familyi={X\bibinitperiod},
+           given={Jun},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dd0ee9a2cee9393d88e41f3f50c84b0d}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Chong-yu},
+           giveni={C\bibinithyphendelim y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=05086c43020eb4d8d763abc5ef08bfae}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Zhonggen},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e5878a014237da8bb5b17a50b2a4db9c}{%
+           family={Sobkowiak},
+           familyi={S\bibinitperiod},
+           given={Leszek},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9895adc96fc1e84c81a8c35f6d15ed06}{%
+           family={Long},
+           familyi={L\bibinitperiod},
+           given={Cangrui},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{312230060d6093933cca25dd4458c8ba}
+      \strng{fullhash}{4ccb17936a30485e45075a19af274001}
+      \strng{bibnamehash}{312230060d6093933cca25dd4458c8ba}
+      \strng{authorbibnamehash}{312230060d6093933cca25dd4458c8ba}
+      \strng{authornamehash}{312230060d6093933cca25dd4458c8ba}
+      \strng{authorfullhash}{4ccb17936a30485e45075a19af274001}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Geographical Sciences}
+      \field{number}{2}
+      \field{title}{Evapotranspiration estimation methods in hydrological models}
+      \field{volume}{23}
+      \field{year}{2013}
+      \field{pages}{359\bibrangedash 369}
+      \range{pages}{11}
     \endentry
     \entry{zhou2016partitioning}{article}{}
       \name{author}{5}{}{%

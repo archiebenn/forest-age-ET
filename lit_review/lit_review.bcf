@@ -2388,7 +2388,8 @@
     <bcf:citekey order="22" intorder="1">amani2023review</bcf:citekey>
     <bcf:citekey order="22" intorder="2">xue2025review</bcf:citekey>
     <bcf:citekey order="23" intorder="1">shi2024machine</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">liyew2025review</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">amani2023review</bcf:citekey>
+    <bcf:citekey order="24" intorder="2">liyew2025review</bcf:citekey>
     <bcf:citekey order="25" intorder="1">hill2017case</bcf:citekey>
     <bcf:citekey order="25" intorder="2">markwitz2019low</bcf:citekey>
     <bcf:citekey order="26" intorder="1">monteith1965evaporation</bcf:citekey>
@@ -2396,10 +2397,24 @@
     <bcf:citekey order="27" intorder="1">su2002surface</bcf:citekey>
     <bcf:citekey order="28" intorder="1">xu2018evaluating</bcf:citekey>
     <bcf:citekey order="29" intorder="1">pan2020evaluation</bcf:citekey>
-    <bcf:citekey order="30" intorder="1">oishi2020quantifying</bcf:citekey>
-    <bcf:citekey order="31" intorder="1">oishi2020quantifying</bcf:citekey>
-    <bcf:citekey order="36" intorder="1">xu2018evaluating</bcf:citekey>
-    <bcf:citekey order="37" intorder="1">yan2023deep</bcf:citekey>
+    <bcf:citekey order="30" intorder="1">xu2018evaluating</bcf:citekey>
+    <bcf:citekey order="31" intorder="1">derardja2024advancements</bcf:citekey>
+    <bcf:citekey order="32" intorder="1">zhao2013evapotranspiration</bcf:citekey>
+    <bcf:citekey order="33" intorder="1">amani2023review</bcf:citekey>
+    <bcf:citekey order="34" intorder="1">zhang2021global</bcf:citekey>
+    <bcf:citekey order="35" intorder="1">amani2023review</bcf:citekey>
+    <bcf:citekey order="36" intorder="1">xue2017significant</bcf:citekey>
+    <bcf:citekey order="37" intorder="1">pan2020evaluation</bcf:citekey>
+    <bcf:citekey order="37" intorder="2">yan2023deep</bcf:citekey>
+    <bcf:citekey order="38" intorder="1">xue2025review</bcf:citekey>
+    <bcf:citekey order="39" intorder="1">yan2023deep</bcf:citekey>
+    <bcf:citekey order="40" intorder="1">yan2023deep</bcf:citekey>
+    <bcf:citekey order="41" intorder="1">xu2018evaluating</bcf:citekey>
+    <bcf:citekey order="42" intorder="1">hassija2024interpreting</bcf:citekey>
+    <bcf:citekey order="43" intorder="1">oishi2020quantifying</bcf:citekey>
+    <bcf:citekey order="44" intorder="1">oishi2020quantifying</bcf:citekey>
+    <bcf:citekey order="49" intorder="1">xu2018evaluating</bcf:citekey>
+    <bcf:citekey order="50" intorder="1">yan2023deep</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">

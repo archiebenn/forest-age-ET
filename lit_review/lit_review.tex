@@ -5,7 +5,8 @@
 \usepackage[utf8]{inputenc} 
 \usepackage{microtype}
 \usepackage[T1]{fontenc}
-\usepackage{fourier} % serif font
+\usepackage{MinionPro} % op font
+\usepackage{MnSymbol}
 \usepackage{helvet} % sans serif font
 \usepackage{fancyhdr} % Custom headers and footers
 \usepackage[english]{babel}
@@ -27,14 +28,14 @@
 \usepackage[colorlinks=true,linkcolor=black, citecolor=blue]{hyperref}%
 
 
-\renewcommand{\cfttoctitlefont}{\hfil\Large\scshape}
+\renewcommand{\cfttoctitlefont}{\hfil\Large\scshape\lsstyle}
 \renewcommand{\cftsecfont}{\scshape}
 %\renewcommand{\cftsubsecfont}{\scshape}
 %\renewcommand{\cftsubsubsecfont}{\itshape}
 
-\sectionfont{\centering \normalfont\scshape}
-\subsectionfont{\normalfont \sffamily \bfseries}
-\subsubsectionfont{\normalfont\itshape \small \sffamily}
+\sectionfont{\centering \normalfont\scshape\lsstyle}
+\subsectionfont{\normalfont\sffamily\bfseries}
+\subsubsectionfont{\normalfont\sffamily}
 
 \addbibresource{references.bib}
 \setlength\bibitemsep{0.5\baselineskip} % spacing in reference list
@@ -63,7 +64,7 @@
 \setcounter{secnumdepth}{0}
 \setcounter{tocdepth}{3}
 
-\linespread{1.15}
+\linespread{1.2}
 
 \begin{document}
 
@@ -130,7 +131,7 @@ in Bioinformatics in the Faculty of Health and Life Sciences.
 
 \newpage
 \section*{Declaration}
-I declare that the work in this dissertation was carried out in accordance with the requirements of the University’s Regulations and Code of Practice for Taught Programmes and that it has not been submitted for any other academic award. Except where indicated by specific reference in the text, this work is my own work. Work done in collaboration with, or with the assistance of others, is indicated as such. I have identified all material in this dissertation which is not my own work through appropriate referencing and acknowledgement. Where I have quoted or otherwise incorporated material which is the work of others, I have included the source in the references. Any views expressed in the dissertation, other than referenced material, are those of the author. \newline \\\textbf{Archie \textsc{Benn}} \\\today
+I declare that the work in this dissertation was carried out in accordance with the requirements of the University’s Regulations and Code of Practice for Taught Programmes and that it has not been submitted for any other academic award. Except where indicated by specific reference in the text, this work is my own work. Work done in collaboration with, or with the assistance of others, is indicated as such. I have identified all material in this dissertation which is not my own work through appropriate referencing and acknowledgement. Where I have quoted or otherwise incorporated material which is the work of others, I have included the source in the references. Any views expressed in the dissertation, other than referenced material, are those of the author. \newline \\Archie \textsc{Benn} \\\today
 
 \newpage
 \tableofcontents
@@ -150,12 +151,14 @@ ET = T + E_{Soil} + E_{Canopy}
 \label{eqn:et}
 \end{equation}
 
-\noindent where $T$ refers to transpiration through plant stomata, $E_{soil}$ to evaporation from the soil surface, and $E_{Canopy}$ to evaporation from plant canopies (via rainfall interception) \parencite{lawrence2007partitioning}. The contribution of these variables to overall ET is not equal, with \textcite{lian2018partitioning} estimating a global $T/ET$ ratio of 0.62$\pm$0.06, indicating plant transpiration as the leading component of ET worldwide. The partitioning of $ET$ into $E$ ($E_{soil} + E_{Canopy}$) and $T$ within ecosystems is associated with ``water use efficiency" and has use in irrigation management, where $T$ is linked with plant productivity, while $E$ does not directly contribute to production \parencite{kool2014review}. Accurate partitioning estimates are also important in aiding carbon cycle projections given the coupled effect of transpiration and land-atmosphere carbon dioxide exchanges through stomata.
+\noindent where $T$ refers to transpiration through plant stomata, $E_{soil}$ to evaporation from the soil surface, and $E_{Canopy}$ to evaporation from plant canopies (via rainfall interception) \parencite{lawrence2007partitioning}. The contribution of these variables to overall ET is not equal, with \textcite{lian2018partitioning} estimating a global $T/ET$ ratio of 0.62$\pm$0.06, indicating plant transpiration asLikewise,  the leading component of ET worldwide. The partitioning of $ET$ into $E$ ($E_{soil} + E_{Canopy}$) and $T$ within ecosystems is associated with ``water use efficiency" and has use in irrigation management, where $T$ is linked with plant productivity, while $E$ does not directly contribute to production \parencite{kool2014review}. Accurate partitioning estimates are also important in aiding carbon cycle projections given the coupled effect of transpiration and land-atmosphere carbon dioxide exchanges through stomata.
 
 \subsubsection{Forest Complexity}
 The magnitude of ET is governed by many environmental factors such as solar radiation, leaf area index (LAI), air temperature, vapour pressure deficit (VPD), soil moisture, and wind speed \parencite{yang2023evapotranspiration}. Of these, \textcite{lian2018partitioning} identified LAI as the primary driver of $T/ET$ spatial patterns, with \textcite{kool2014review} suggesting that in systems with full canopy cover (and therefore high LAI) ET is often assumed to be ``similar enough to $T$ to permit correlation of ET with biomass". However, this assumption may break down in densely vegetated systems with multi-layer canopies such as forests, despite high LAI. In these systems, the 2-dimensional remote measure of LAI will not capture the vertical canopy complexity which drives rainfall interception and subsequent $E_{Canopy}$, implying that canopy cover indices may struggle to explain $T/ET$ ratios in more complex vertical environments.  This is reflected by \textcite{zhou2016partitioning} who report higher coefficients of determination between enhanced vegetation index (EVI) and $T/ET$ in corn and soybean sites (0.84 and 0.82) with simple canopies, compared to evergreen needle leaf forests (0.37), a result possibly due to increased $E_{Canopy}$ driving this ratio down. \textcite{hardiman2013maintaining} also demonstrate that while LAI may be stable in stands older than 50 years, canopy complexity continues to increase with age through $>$160 years of stand development and had a greater impact on annual net primary productivity (NPP) and overall resource use efficiency than LAI across all stands. Furthermore, LAI has shown to only explain around 20\% of mean annual $T/ET$  \parencite{li2019simple}, suggesting simple vegetation indices which don't take into account 3-dimensional complexity may be insufficient for predicting $T/ET$ in structurally complex systems. 
 \par \textcite{oishi2020quantifying}, in a chronosequence study on broadleaf forests in the US, report that interception of incoming rainfall strongly increases with age from $\sim$2\% (12 year old stand) to 20\% (200 year old stand) despite only small differences in LAI, an effect in part due to branch architecture which varies with age. This study also reported that annual canopy transpiration ($T$) was over twice as high in the 35 year old stand compared to the 12 and 200 year old stands, with increasing canopy interception in the oldest stand largely offsetting the reduction in $T$ such that total ET was similar between the two older stands, but remained lower in the youngest stand (Fig.~\ref{fig:oishi}). This demonstrates how age-driven effects in canopy architecture introduce complexity and can affect overall ET, as well as the relative contributions of $T$ and $E_{Canopy}$ which may vary significantly over time within stands. 
 \par Alongside canopy architecture, stomatal conductance ($g_s$) declines as trees grow taller due to gravitational reductions in leaf water potential and decreasing hydraulic conductance with increasing path length from soil to leaf \parencite{ryan1997hydraulic}. For example, \textcite{schafer2000effect} demonstrated that the mean stomatal conductance of tree crowns decreased by approximately 60\% over a 30m increase in tree height, and \textcite{hubbard1999evidence} established a 44\% drop in hydraulic conductance in old trees compared to young trees in a mixed age stand. As $g_s$ directly influences $T$ \parencite{monteith1965evaporation}, these age related changes introduce further complexity into ET dynamics and suggest that age could be a key source of variability in ET in forest ecosystems.
+
+%NDVI changes with vegetation moisture (Gonzalo-Martin et al., 2017) and is more sensitive during the initial period of plant growth. However, at the peak time of greenness, it is saturated and cannot accurately describe the plant’s growth status (Hao et al., 2022).
 
 \subsubsection{Forest Age}
 Forest age distributions are increasingly being affected by climate change-driven disturbances - such as fire, drought, insect attack, and pathogens - which are expected to continue in the coming decades \parencite{solomon2009irreversible, seidl2017forest}. Some of these disturbances are able to completely change forest demography by causing widespread mortality \parencite{dale2001climate}, effectively resetting the age of the forest landscape. Land use changes also directly affect forest age distributions, for example the recovery of deforested areas in southern China following the implementation of forestation policies around the year 2000 has resulted in a complex pattern of forest age structure in recent years, and an increase in average tree cover from 21\% in 1987 to 38\% in 2016, leading to large areas now being dominated by young forests \parencite{tong2020forest, leng2024forest}, with similar patterns of young forests due to recent disturbance found worldwide \parencite{besnard2021mapping}.
@@ -165,19 +168,23 @@ Forest age distributions are increasingly being affected by climate change-drive
 \subsection{Evapotranspiration Prediction $\sim$1400 Words}
 \subsubsection{Why predict ET?}
 Estimating ET accurately is important in understanding hydrological processes, management of irrigation systems for effective water use in agriculture, prediction and mitigation of droughts, determining the adaptive mechanisms of vegetation, and in assessing the overarching patterns of global climatic shifts \parencite{amani2023review, xue2025review}. These assessments can, in turn, steer regulations and policies in climate science and water resource management, representing a critical link between the quantification of terrestrial water fluxes and land systems governance \parencite{shi2024machine}.
-\par The direct measurement of ET uses lysimeters or eddy covariance (EC) methods, but these are costly to use and only measure at the plot scale, resulting in spatially constrained measurements and making them unsuitable for ET predictions at larger ecosystem scales \parencite{liyew2025review}. The uneven distribution and low sampling rate of EC data in ecoregions of Africa, Oceania (excluding Australia), and South America may be attributed to the costs associated with these methods, despite efforts to mitigate this \parencite{hill2017case, markwitz2019low}. As a result of these issues, various methods to estimate ET indirectly have been derived, including: (1) traditional physics-based models which rely on pre-defined equations such as the Penman-Monteith (PM) and Hargreaves-Samani (HS) equations \parencite{monteith1965evaporation, hargreaves1985reference}; (2) remote sensing methods, for example the SEBS model \parencite{su2002surface}; and more recently, (3) machine learning (ML) methods such as artificial neural networks and random forest models trained on historical data \parencite{xu2018evaluating}. The development of these methods has permitted global ET estimates to be produced \parencite{pan2020evaluation}, yet significant uncertainties remain, particularly in regions with sparse EC coverage and in complex or heterogeneous landscapes where the assumptions underlying these models may break down.
+\par The direct measurement of ET is the most accurate and uses lysimeters, eddy covariance (EC), or sap flow, but these are costly to use and only measure at the plot scale, resulting in spatially constrained measurements which makes them unsuitable for describing ET at larger ecosystem scales \parencite{amani2023review,liyew2025review}. The uneven distribution and low sampling rate of EC data in ecoregions of Africa, Oceania (excluding Australia), and South America may be attributed to the costs associated with these methods, despite efforts to mitigate this \parencite{hill2017case, markwitz2019low}. As a result of these issues, various methods to estimate ET indirectly in areas without the capacity for direct measurement have been derived, including: (1) traditional process-based models which rely on pre-defined equations such as the Penman-Monteith (PM) and Hargreaves-Samani (HS) equations \parencite{monteith1965evaporation, hargreaves1985reference}; (2) remote sensing (RS) - based models, for example the SEBS model \parencite{su2002surface}; and more recently, (3) machine learning (ML) methods such as artificial neural networks and random forest models trained on historical data \parencite{xu2018evaluating}. The development of these methods has permitted global ET estimates to be produced using more easily acquired variables such as air temperature and relative humidity \parencite{pan2020evaluation}, yet significant uncertainties remain, particularly in underrepresented regions and ecosystems with sparse EC coverage, as well as in complex or heterogeneous landscapes \parencite{xu2018evaluating}.
 
-\subsubsection{Contemporary ET Prediction Methods (in. +s and -s) and Feature Selection}
-The prediction of ET has 
+\subsubsection{Methods for ET Estimation (inc. +s and -s) and Feature Selection (is there a lack of forest age?)}
+There are many different methods for the estimation of ET as no single model performs reliably across all conditions and not all are similarly accurate or reliable for different regions \parencite{derardja2024advancements}. Thus the data requirement inputs can be significantly varied across models \parencite{zhao2013evapotranspiration}. Process-based models define the relationship between input variables and ET explicitly for estimations which are developed through hydrological theory, while ML approaches do not explicitly define relationships, instead relying on the underlying architecture of models to optimise against the provided training data  to derive the relationship between inputs and ET. RS data cannot provide direct estimations of ET, but instead estimate retrievable surface parameters associated with ET such as vegetation indices like LAI, surface temperatures, and soil moisture \parencite{amani2023review}. Thus RS-based models are typically formed from process-based and ML models integrated with RS data, rather than forming a distinct category. For example, \textcite{zhang2021global} demonstrated improved ET estimations in water-limited agroecosystems by using satellite retrievals as alternatives to the soil evaporation component of the process-based Priestley-Taylor Jet Propulsion Laboratory (PT-JPL) model.
+\par While process-based methods such as the PM equation are able to achieve high accuracy across climatic zones, they suffer from a requirement of comprehensive input meteorological data and their rigid structure limits adaptability, for example their calibration is typically time and space dependent which restricts generalisation \parencite{amani2023review}. The continuous and high spatial monitoring of variables affecting ET has been facilitated through advances in RS technology, yet RS methods are limited by low per pixel resolution (e.g 30m$^2$ for Landsat and 500m$^2$ for MODIS) and issues with temporal coverage due to cloud coverage and long revisitation times (16 days for Landsat) \parencite{xue2017significant}. 
+\par ML methods have been used extensively for ET estimation in recent years and have demonstrated high spatiotemporal prediction accuracy and capabilities with estimations capable of outperforming process-based and RS-based models \parencite{pan2020evaluation, yan2023deep}. They have also increased the precision of ET estimations in data rich regions which may be due to their ability to leverage both linear and non-linear relationships for mapping between input data and ET estimates \parencite{xue2025review}. In data limited contexts, coupled ML models which use process-based model outputs as engineered input features have shown improved performance compared to standalone process-based methods. For example, \textcite{yan2023deep} deployed a coupled model which incorporated the HS model output as an input feature for a long short-term memory neural network (LSTM), and demonstrated better performance compared to the standalone HS and ML methods in predicting daily potential ET (ET$_0$). LTSMs are a type of recurrent neural network (RNN), and RNNs more broadly are highly capable in extracting long term dependencies within time series data and handling various data sources, representing a potential method for broad application and precise estimations in ET \parencite{yan2023deep}. \textcite{xu2018evaluating} compared the predictive capabilities of five ML models against EC data, and found the Random Forest (RF) model to slightly outperform the others in uncertainty, although all models predicted EC to high accuracy. 
+\par ML methods, while promising, can struggle with extrapolation beyond training data and lack the interpretability of process-based models, often being termed `black boxes' due to their inherent complexity and lack of decision making explainability \parencite{hassija2024interpreting}.  [FINISH]
 
-
-\subsubsection{Machine Learning Models for ET Prediction}
 
 
 \subsection{Machine Learning and Applicability of Incorporating Age $\sim$800 Words\\ \textit{(What is the case for using ML and forest age here?)}}
+
+%\par One thing that is consistent across all models is the importance of selecting input data and feature selection 
+
 \subsubsection{Why use Machine Learning?}
 
-\subsubsection{Why Incorporate Age?}
+\subsubsection{Why Incorporate Age? + how on larger scale in future? - RS methods for tree demography?}
 
 \subsubsection{Effect on Generalisation}
 
