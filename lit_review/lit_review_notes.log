@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  7 MAY 2026 15:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  8 MAY 2026 12:31
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -897,8 +897,8 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-di
-st/fonts/enc/dvips/base/8r.enc}]
+{/home/ab/.texlive2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/share
+/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}]
 
 Class scrartcl Warning: Incompatible usage of \@ssect detected.
 (scrartcl)              You've used the KOMA-Script implementation of \@ssect

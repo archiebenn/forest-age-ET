@@ -1,0 +1,557 @@
+           The Effect of Forest Age on Machine Learning
+                Evapotranspiration Generalisation
+
+        Author                                                       Supervisor
+        Archie Benn                                 Professor Martin De Kauwe
+
+
+
+
+     Abstract (200 words)
+     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vestibulum
+     ut, placerat ac, adipiscing vitae, felis. Curabitur dictum gravida mauris. Nam arcu
+     libero, nonummy eget, consectetuer id, vulputate a, magna. Donec vehicula augue
+     eu neque. Pellentesque habitant morbi tristique senectus et netus et malesuada
+     fames ac turpis egestas. Mauris ut leo. Cras viverra metus rhoncus sem. Nulla et
+     lectus vestibulum urna fringilla ultrices. Phasellus eu tellus sit amet tortor gravida
+     placerat. Integer sapien est, iaculis in, pretium quis, viverra ac, nunc. Praesent eget
+     sem vel leo ultrices bibendum. Aenean faucibus. Morbi dolor nulla, malesuada eu,
+     pulvinar at, mollis ac, nulla. Curabitur auctor semper nulla. Donec varius orci eget
+     risus. Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam. Duis eget
+     orci sit amet orci dignissim rutrum. Nam dui ligula, fringilla a, euismod sodales,
+     sollicitudin vel, wisi. Morbi auctor lorem non justo.
+
+        Key words: Evapotranspiration, Forest Age, Machine Learning, FLUXNET.
+        Word count: 4000 (Literature Review: 3000; Project Plan: 1000)
+
+
+
+
+A dissertation submitted to the University of Bristol in accordance with the requirements of
+the degree of Master of Science by advanced study in Bioinformatics in the Faculty of Health
+                                     and Life Sciences.
+                                   D e c l a r at i on
+I declare that the work in this dissertation was carried out in accordance with the requirements
+of the University’s Regulations and Code of Practice for Taught Programmes and that it has not
+been submitted for any other academic award. Except where indicated by specific reference in
+the text, this work is my own work. Work done in collaboration with, or with the assistance of
+others, is indicated as such. I have identified all material in this dissertation which is not my
+own work through appropriate referencing and acknowledgement. Where I have quoted or
+otherwise incorporated material which is the work of others, I have included the source in the
+references. Any views expressed in the dissertation, other than referenced material, are those
+of the author.
+
+Archie Benn
+May 8, 2026
+
+
+
+
+                                               2
+                                           C on t e n ts
+Literature Review                                                                                        4
+   Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .      4
+         Evapotranspiration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .        4
+         Forest Complexity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       4
+         Forest Age . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .      5
+   Evapotranspiration Prediction ∼1400 Words . . . . . . . . . . . . . . . . . . . . . . . .             6
+         Why predict ET? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       6
+         Methods for ET Estimation (inc. +s and -s) . . . . . . . . . . . . . . . . . . . . .            7
+         Feature Selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       8
+   Machine Learning and Applicability of Incorporating Age ∼800 Words
+        (What is the case for using ML and forest age here?) . . . . . . . . . . . . . . . . .           8
+         Why use Machine Learning? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .           8
+         Why Incorporate Age? + how on larger scale in future? - RS methods for tree
+                 demography? . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .         8
+         Effect on Generalisation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .        8
+         Quick section closing off the review and what the project will aim to investigate               8
+
+Project Aims and Objectives (500 words)                                                                  9
+        Aims . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .     9
+
+Project Plan (500 words)                                                                                 10
+   Data Acquisition . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .      10
+   Site Selection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    10
+   Analysis . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    10
+         Feature Engineering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .       10
+         ML Model Setup and Training . . . . . . . . . . . . . . . . . . . . . . . . . . . . .           10
+         ML Model Evaluation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .         10
+         ML Model Predictions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .          10
+   Tools . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .   10
+   Interpretation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .    10
+
+Gantt Chart                                                                                              11
+
+Risk Register (∼ 250 words)                                                                              12
+
+References                                                                                               13
+
+Figures and Tables                                                                                       16
+
+
+
+
+                                                     3
+                             L i t e r at u re R ev i ew
+
+Introduction
+
+Evapotranspiration
+
+Terrestrial evapotranspiration (ET) is a key component of the global hydrological cycle de-
+scribing the transition of water from liquid to gas at Earth’s surface and further transfer to the
+atmosphere, and is a crucial component of the energy and water exchange between terrestrial
+ecosystems and the climate system. The term emphasises the combination of water vapouri-
+sation flux from (1) abiotic evaporation from soil and plant canopy surfaces, and (2) biotic
+transpiration through stomata to the atmosphere (Katul et al. 2012). Approximately 60% of
+precipitation on the land surface is returned to the atmosphere through ET (Oki and Kanae
+2006), and the associated latent heat flux, λET (where λ is the latent heat of vaporisation),
+accounts for 50% of the solar radiation absorbed by the land surface (Trenberth et al. 2009). ET
+can be generally described through:
+
+
+                                    ET = T + E Soil + ECanopy                                  (1)
+
+where T refers to transpiration through plant stomata, Esoil to evaporation from the soil surface,
+and ECanopy to evaporation from plant canopies (via rainfall interception) (Lawrence et al.
+2007). The contribution of these variables to overall ET is not equal, with Lian et al. (2018)
+estimating a global T/ET ratio of 0.62±0.06, indicating plant transpiration asLikewise, the
+leading component of ET worldwide. The partitioning of ET into E (Esoil + ECanopy ) and T
+within ecosystems is associated with “water use efficiency" and has use in irrigation management,
+where T is linked with plant productivity, while E does not directly contribute to production
+(Kool et al. 2014). Accurate partitioning estimates are also important in aiding carbon cycle
+projections given the coupled effect of transpiration and land-atmosphere carbon dioxide
+exchanges through stomata.
+
+Forest Complexity
+
+The magnitude of ET is governed by many environmental factors such as solar radiation, leaf
+area index (LAI), air temperature, vapour pressure deficit (VPD), soil moisture, and wind speed
+(Yang et al. 2023). Of these, Lian et al. (2018) identified LAI as the primary driver of T/ET
+spatial patterns, with Kool et al. (2014) suggesting that in systems with full canopy cover (and
+therefore high LAI) ET is often assumed to be “similar enough to T to permit correlation of
+ET with biomass". However, this assumption may break down in densely vegetated systems
+with multi-layer canopies such as forests, despite high LAI. In these systems, the 2-dimensional
+remote measure of LAI will not capture the vertical canopy complexity which drives rainfall
+interception and subsequent ECanopy , implying that canopy cover indices may struggle to
+explain T/ET ratios in more complex vertical environments. This is reflected by S. Zhou et al.
+
+
+
+                                                4
+(2016) who report higher coefficients of determination between enhanced vegetation index
+(EVI) and T/ET in corn and soybean sites (0.84 and 0.82) with simple canopies, compared to
+evergreen needle leaf forests (0.37), a result possibly due to increased ECanopy driving this ratio
+down. Hardiman et al. (2013) also demonstrate that while LAI may be stable in stands older
+than 50 years, canopy complexity continues to increase with age through >160 years of stand
+development and had a greater impact on annual net primary productivity (NPP) and overall
+resource use efficiency than LAI across all stands. Furthermore, LAI has shown to only explain
+around 20% of mean annual T/ET (X. Li et al. 2019), suggesting simple vegetation indices
+which don’t take into account 3-dimensional complexity may be insufficient for predicting
+T/ET in structurally complex systems.
+   Oishi et al. (2020), in a chronosequence study on broadleaf forests in the US, report that
+interception of incoming rainfall strongly increases with age from ∼2% (12 year old stand) to
+20% (200 year old stand) despite only small differences in LAI, an effect in part due to branch
+architecture which varies with age. This study also reported that annual canopy transpiration
+(T) was over twice as high in the 35 year old stand compared to the 12 and 200 year old stands,
+with increasing canopy interception in the oldest stand largely offsetting the reduction in T
+such that total ET was similar between the two older stands, but remained lower in the youngest
+stand (Fig. 1). This demonstrates how age-driven effects in canopy architecture introduce
+complexity and can affect overall ET, as well as the relative contributions of T and ECanopy
+which may vary significantly over time within stands.
+   Alongside canopy architecture, stomatal conductance (gs ) declines as trees grow taller due
+to gravitational reductions in leaf water potential and decreasing hydraulic conductance with
+increasing path length from soil to leaf (Ryan and Yoder 1997). For example, Schäfer et al. (2000)
+demonstrated that the mean stomatal conductance of tree crowns decreased by approximately
+60% over a 30m increase in tree height, and Hubbard et al. (1999) established a 44% drop in
+hydraulic conductance in old trees compared to young trees in a mixed age stand. As gs directly
+influences T (Monteith 1965), these age related changes introduce further complexity into ET
+dynamics and suggest that age could be a key source of variability in ET in forest ecosystems.
+
+Forest Age
+
+Forest age distributions are increasingly being affected by climate change-driven disturbances
+- such as fire, drought, insect attack, and pathogens - which are expected to continue in the
+coming decades (Solomon et al. 2009; Seidl et al. 2017). Some of these disturbances are able
+to completely change forest demography by causing widespread mortality (Dale et al. 2001),
+effectively resetting the age of the forest landscape. Land use changes also directly affect forest
+age distributions, for example the recovery of deforested areas in southern China following
+the implementation of forestation policies around the year 2000 has resulted in a complex
+pattern of forest age structure in recent years, and an increase in average tree cover from 21% in
+1987 to 38% in 2016, leading to large areas now being dominated by young forests (Tong et al.
+2020; Leng et al. 2024), with similar patterns of young forests due to recent disturbance found
+
+
+
+                                                5
+worldwide (Besnard et al. 2021).
+   As forests are exhibiting greater age heterogeneity, and with climate change increasing the
+severity and frequency of potential forest disturbances worldwide, stand age may represent
+an increasingly important variable for ET estimation in forests, capturing age specific effects,
+such as canopy complexity and alterations to gs , and linking these to ET beyond what simple
+vegetation indices such as LAI are capable of. Yet whether these age-driven changes in forests
+are a large enough source of ET variability to affect the predictions made by current ET models
+which do not take age into account remains largely unexplored.
+
+
+Evapotranspiration Prediction ∼1400 Words
+
+Why predict ET?
+
+Estimating ET accurately is important in understanding hydrological processes, management of
+irrigation systems for effective water use in agriculture, prediction and mitigation of droughts,
+determining the adaptive mechanisms of vegetation, and in assessing the overarching patterns
+of global climatic shifts (Amani and Shafizadeh-Moghadam 2023; Y. Xue et al. 2025). These
+assessments can, in turn, steer regulations and policies in climate science and water resource
+management, representing a critical link between the quantification of terrestrial water fluxes
+and land systems governance (Haiyang Shi et al. 2024).
+   The direct measurement of ET is the most accurate and uses lysimeters, eddy covariance (EC),
+or sap flow, but these are costly to use and only measure at the plot scale, resulting in spatially
+constrained measurements which makes them unsuitable for describing ET at larger ecosystem
+scales (Amani and Shafizadeh-Moghadam 2023; Liyew et al. 2025). The uneven distribution and
+low sampling rate of EC data in ecoregions of Africa, Oceania (excluding Australia), and South
+America may be attributed to the costs associated with these methods, despite efforts to mitigate
+this (Hill et al. 2017; Markwitz and Siebicke 2019). As a result of these issues, various methods to
+estimate ET indirectly in areas without the capacity for direct measurement have been derived,
+including: (1) traditional process-based models which rely on pre-defined equations such as the
+Penman-Monteith (PM) and Hargreaves-Samani (HS) equations (Monteith 1965; Hargreaves
+and Samani 1985); (2) remote sensing (RS) - based models, for example the SEBS model (Z. Su
+2002); and more recently, (3) machine learning (ML) methods such as artificial neural networks
+and random forest models trained on historical data (T. Xu et al. 2018). The development of
+these methods has permitted global ET estimates to be produced using more easily acquired
+variables such as air temperature and relative humidity (S. Pan et al. 2020), yet significant
+uncertainties remain, particularly in underrepresented regions and ecosystems with sparse EC
+coverage, as well as in complex or heterogeneous landscapes (T. Xu et al. 2018).
+
+
+
+
+                                                 6
+Methods for ET Estimation (inc. +s and -s)
+
+There are many different methods for the estimation of ET as no single model performs reliably
+across all conditions and not all are similarly accurate or reliable for different regions (Derardja
+et al. 2024). Thus the data requirement inputs can be significantly varied across models (Zhao et
+al. 2013). Process-based models define the relationship between input variables and ET explicitly
+for estimations which are developed through hydrological theory, while ML approaches do
+not explicitly define relationships, instead relying on the underlying architecture of models
+to optimise against the provided training data to derive the relationship between inputs and
+ET. RS data cannot provide direct estimations of ET, but instead estimate retrievable surface
+parameters associated with ET such as vegetation indices like LAI, surface temperatures, and
+soil moisture (Amani and Shafizadeh-Moghadam 2023). For example, Lilin Zhang et al. (2021)
+demonstrated improved ET estimations in water-limited agroecosystems by using satellite
+retrievals as alternatives to the soil evaporation component of the process-based Priestley-
+Taylor Jet Propulsion Laboratory (PT-JPL) model.
+   While process-based methods such as the PM equation are able to achieve high accuracy
+across climatic zones, they suffer from a requirement of comprehensive input meteorological
+data and their rigid structure limits adaptability, for example their calibration is typically time
+and space dependent which restricts generalisation (Amani and Shafizadeh-Moghadam 2023).
+The continuous and broad spatial monitoring of variables affecting ET has been facilitated
+through advances in RS technology, yet RS methods are limited by low per pixel resolution (e.g
+30m2 for Landsat and 500m2 for MODIS) which affects fine scale spatial prediction accuracy,
+alongside issues with temporal coverage from cloud interference and long revisitation times (16
+days for Landsat) (J. Xue and B. Su 2017).
+   ML methods have been used extensively for ET estimation in recent years and have demon-
+strated high spatiotemporal prediction accuracy and a capability to outperform process-based
+and RS-based models (S. Pan et al. 2020; Yan et al. 2023). Their increased precision of ET esti-
+mations in data rich regions may be due to their ability to leverage both linear and non-linear
+relationships for mapping between input data and ET estimates (Y. Xue et al. 2025). In data lim-
+ited contexts, coupled ML models which use process-based model outputs as engineered input
+features have shown improved performance compared to standalone methods. For example,
+Yan et al. (2023) deployed a HS-ML coupled model which incorporated the HS model output
+as an input feature for a long short-term memory neural network (LSTM), and demonstrated
+better performance compared to the standalone HS and ML methods in predicting daily poten-
+tial ET (ET0 ). LTSMs are a form of recurrent neural network (RNN) which uses deep learning
+(DL), and RNNs more broadly are highly capable in extracting long term dependencies within
+time series data and handling various data sources, representing a potential method for broad
+application and precise estimations in ET (Yan et al. 2023). More traditional ML approaches
+also show good ET predictive performance, with T. Xu et al. (2018) comparing the capabilities of
+five ML models against EC data, finding the Random Forest (RF) model to slightly outperform
+
+
+
+
+                                                 7
+the others in uncertainty, although all models predicted ET to high accuracy (R2 0.87 − 0.89)
+against the ground truth.
+   ML methods, while promising, can struggle with extrapolation beyond training data and
+lack the interpretability of process-based models, often being termed ‘black boxes’ due to their
+inherent complexity and lack of decision making explainability (Hassija et al. 2024).
+
+Feature Selection
+
+Machine Learning and Applicability of Incorporating Age ∼800
+Words
+(What is the case for using ML and forest age here?)
+
+Why use Machine Learning?
+
+Why Incorporate Age? + how on larger scale in future? - RS methods for tree
+demography?
+
+Effect on Generalisation
+
+Quick section closing off the review and what the project will aim to investigate
+
+
+
+
+                                               8
+       P roj e c t A i m s a n d O b j e c t i v e s ( 50 0 word s)
+
+Aims
+
+  • Overview of how this project will answer the question/area proposed at end of introduc-
+    tion.
+
+
+
+
+                                           9
+                  P roj e c t P l a n ( 50 0 word s)
+
+Data Acquisition
+
+Site Selection
+
+Analysis
+
+Feature Engineering
+
+ML Model Setup and Training
+
+ML Model Evaluation
+
+ML Model Predictions
+
+Tools
+
+Interpretation
+
+
+
+
+                                  10
+Ga n t t C ha rt
+
+
+
+
+       11
+                     R i sk R e g i st e r (∼ 2 50 word s)
+
+
+                                Table 1: Risk register
+Nature of the risk           Likelihood and potential    Mitigation strategy
+                             impact on the project
+ahhh                         oh                          lipsum
+yeh                          risk                        register
+
+
+
+
+                                         12
+                                     R e f e re n c e s
+Amani, Shima and Hossein Shafizadeh-Moghadam (2023). “A review of machine learning
+ models and influential factors for estimating evapotranspiration using remote sensing and
+ ground-based data”. In: Agricultural water management 284, p. 108324.
+
+Besnard, S et al. (2021). Mapping global forest age from forest inventories, biomass and climate
+  data, Earth Syst. Sci. Data, 13, 4881–4896.
+
+Dale, Virginia H et al. (2001). “Climate change and forest disturbances: climate change can affect
+  forests by altering the frequency, intensity, duration, and timing of fire, drought, introduced
+  species, insect and pathogen outbreaks, hurricanes, windstorms, ice storms, or landslides”.
+  In: BioScience 51.9, pp. 723–734.
+
+Derardja, Bilal et al. (2024). “Advancements in remote sensing for evapotranspiration estimation:
+  a comprehensive review of temperature-based models”. In: Remote Sensing 16.11, p. 1927.
+
+Hardiman, Brady S et al. (2013). “Maintaining high rates of carbon storage in old forests: A
+  mechanism linking canopy structure to forest function”. In: Forest Ecology and Management
+  298, pp. 111–119.
+
+Hargreaves, George H and Zohrab A Samani (1985). “Reference crop evapotranspiration from
+  temperature”. In: Applied engineering in agriculture 1.2, pp. 96–99.
+
+Hassija, Vikas et al. (2024). “Interpreting black-box models: a review on explainable artificial
+  intelligence”. In: Cognitive Computation 16.1, pp. 45–74.
+
+Hill, Timothy, Melanie Chocholek, and Robert Clement (2017). “The case for increasing the
+  statistical power of eddy covariance ecosystem studies: why, where and how?” In: Global
+  Change Biology 23.6, pp. 2154–2165.
+
+Hubbard, Robert M, Barbara J Bond, and Michael G Ryan (1999). “Evidence that hydraulic
+ conductance limits photosynthesis in old Pinus ponderosa trees”. In: Tree physiology 19.3,
+ pp. 165–172.
+
+Katul, Gabriel G et al. (2012). “Evapotranspiration: A process driving mass transport and energy
+  exchange in the soil-plant-atmosphere-climate system”. In: Reviews of Geophysics 50.3.
+
+Kool, Dilia et al. (2014). “A review of approaches for evapotranspiration partitioning”. In:
+  Agricultural and forest meteorology 184, pp. 56–70.
+
+Lawrence, David M et al. (2007). “The partitioning of evapotranspiration into transpiration, soil
+  evaporation, and canopy evaporation in a GCM: Impacts on land–atmosphere interaction”.
+  In: Journal of Hydrometeorology 8.4, pp. 862–880.
+
+Leng, Yi et al. (2024). “Forest aging limits future carbon sink in China”. In: One Earth 7.5,
+  pp. 822–834.
+
+
+
+                                               13
+Li, Xi et al. (2019). “A simple and objective method to partition evapotranspiration into tran-
+   spiration and evaporation at eddy-covariance sites”. In: Agricultural and Forest Meteorology
+   265, pp. 171–182.
+
+Lian, Xu et al. (2018). “Partitioning global land evapotranspiration using CMIP5 models con-
+  strained by observations”. In: Nature Climate Change 8.7, pp. 640–646.
+
+Liyew, Chalachew Muluken et al. (2025). “A review of feature selection methods for actual
+  evapotranspiration prediction”. In: Artificial Intelligence Review 58.10, p. 292.
+
+Markwitz, Christian and Lukas Siebicke (2019). “Low-cost eddy covariance: a case study of
+ evapotranspiration over agroforestry in Germany”. In: Atmospheric measurement techniques
+ 12.9, pp. 4677–4696.
+
+Monteith, John Lennox (1965). “Evaporation and environment”. In.
+
+Oishi, AC et al. (2020). “Quantifying the effects of stand age on components of forest evapo-
+  transpiration”. In: Acta Horticulturae 1300, pp. 89–96.
+
+Oki, Taikan and Shinjiro Kanae (2006). “Global hydrological cycles and world water resources”.
+  In: science 313.5790, pp. 1068–1072.
+
+Pan, Shufen et al. (2020). “Evaluation of global terrestrial evapotranspiration using state-of-
+  the-art approaches in remote sensing, machine learning and land surface modeling”. In:
+  Hydrology and earth system sciences 24.3, pp. 1485–1509.
+
+Ryan, Michael G and Barbara J Yoder (1997). “Hydraulic limits to tree height and tree growth”.
+  In: Bioscience 47.4, pp. 235–242.
+
+Schäfer, KVR, Ram Oren, and JD Tenhunen (2000). “The effect of tree height on crown level
+  stomatal conductance”. In: Plant, Cell & Environment 23.4, pp. 365–375.
+
+Seidl, Rupert et al. (2017). “Forest disturbances under climate change”. In: Nature climate change
+  7.6, pp. 395–402.
+
+Shi, Haiyang et al. (2024). “Machine learning-based investigation of forest evapotranspiration,
+  net ecosystem productivity, water use efficiency and their climate controls at meteorological
+  station level”. In: Journal of Hydrology 641, p. 131811.
+
+Solomon, Susan et al. (2009). “Irreversible climate change due to carbon dioxide emissions”.
+  In: Proceedings of the national academy of sciences 106.6, pp. 1704–1709.
+
+Su, Zhongbo (2002). “The Surface Energy Balance System (SEBS) for estimation of turbulent
+  heat fluxes”. In: Hydrology and earth system sciences 6.1, pp. 85–100.
+
+Tong, Xiaowei et al. (2020). “Forest management in southern China generates short term
+  extensive carbon sequestration”. In: Nature communications 11.1, p. 129.
+
+
+
+
+                                               14
+Trenberth, Kevin E, John T Fasullo, and Jeffrey Kiehl (2009). “Earth’s global energy budget”. In:
+  Bulletin of the american meteorological society 90.3, pp. 311–324.
+
+Xu, Tongren et al. (2018). “Evaluating different machine learning methods for upscaling evap-
+  otranspiration from flux towers to the regional scale”. In: Journal of Geophysical Research:
+  Atmospheres 123.16, pp. 8674–8690.
+
+Xue, Jinru and Baofeng Su (2017). “Significant remote sensing vegetation indices: A review of
+  developments and applications”. In: Journal of sensors 2017.1, p. 1353691.
+
+Xue, Yayong et al. (2025). “A review of evapotranspiration estimation models: advances and
+  future development”. In: Water Resources Management 39.8, pp. 3641–3657.
+
+Yan, Xiaohui et al. (2023). “Deep learning for daily potential evapotranspiration using a HS-
+  LSTM approach”. In: Atmospheric Research 292, p. 106856.
+
+Yang, Yuting et al. (2023). “Evapotranspiration on a greening Earth”. In: Nature Reviews Earth
+  & Environment 4.9, pp. 626–641.
+
+Zhang, Lilin et al. (2021). “A global assessment of PT-JPL soil evaporation in agroecosystems
+  with optical, thermal, and microwave satellite data”. In: Agricultural and Forest Meteorology
+  306, p. 108455.
+
+Zhao, Lingling et al. (2013). “Evapotranspiration estimation methods in hydrological models”.
+  In: Journal of Geographical Sciences 23.2, pp. 359–369.
+
+Zhou, Sha et al. (2016). “Partitioning evapotranspiration based on the concept of underlying
+  water use efficiency”. In: Water Resources Research 52.2, pp. 1160–1175.
+
+
+
+
+                                               15
+                                                         Fi g u re s a n d Ta b l e s
+
+
+                                        ET Component
+                                           Esub (∼ E Soil )
+                                           E c (∼ T)
+                                           E i (∼ ECanopy )
+Evapotranspiration (mm y −1 )
+
+
+
+
+                                400
+
+
+
+
+                                200
+
+
+
+
+                                   0
+                                                    12                         35                       200
+                                                                      Stand Age (years)
+
+                                Figure 1: Components of annual evapotranspiration by stand age, redrawn from Oishi
+                                          et al. (2020). Sub canopy evapotranspiration (Esub ), canopy transpiration
+                                          (E c ), and canopy interception (E i ) correspond approximately to E Soil , T,
+                                          and ECanopy in Equation 1, although Esub additionally captures under canopy
+                                          transpiration.
+
+
+
+
+                                                                          16
+          Table 2: Advantages and limitations of ML models in the literature.
+
+
+Method                      Incorporated Features           Limitations & Unresolved
+Random Forest (T. Xu et al. Outperformed other models       Model performs better over
+2018)                       (ANN, cubist, SVM, DBN)         areas of dense vegetation
+                            based on R 2 , MAPE, RMSE,      compared to barren land.
+                            and relative uncertainties
+                            from three-cornered hat.     More         spatiotemporal
+                                                         continuous land surface
+                             RF has an ability to handle variables at fine resolution
+                             complex nonlinear rela- should be added to poten-
+                             tionships between flux and tially enhance predictability.
+                             climate and environmental
+                             predictors.
+
+HS-LSTM coupled model        Shown to outperform the Slight underestimates of
+(Yan et al. 2023)            standalone ML and classical extreme ET0 values.
+                             ET0 models (RMSE reduced
+                             ∼20%).                      Each station required a
+                                                         differently-tuned model, so
+                             Can be used to estimate further studies are required
+                             future ET0 with only air to evaluate potential for a
+                             temperature forecasts which generally valid model and
+                             can be easily obtained.     assess whether transfer
+                                                         learning may be applied
+                                                         across different regions.
+
+
+
+
+                                          17
+
