@@ -1,15 +1,15 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'lit_review.blg'
-[80] biber:340> INFO - === Mon May 11, 2026, 22:38:56
-[94] Biber.pm:419> INFO - Reading 'lit_review.bcf'
-[154] Biber.pm:979> INFO - Found 46 citekeys in bib section 0
-[167] Biber.pm:4419> INFO - Processing section 0
-[177] Biber.pm:4610> INFO - Looking for bibtex file 'references.bib' for section 0
-[180] bibtex.pm:1713> INFO - LaTeX decoding ...
-[226] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[730] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[730] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[730] Biber.pm:4239> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
-[730] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
-[782] bbl.pm:660> INFO - Writing 'lit_review.bbl' with encoding 'UTF-8'
-[823] bbl.pm:763> INFO - Output to lit_review.bbl
+[82] biber:340> INFO - === Tue May 12, 2026, 11:57:19
+[95] Biber.pm:419> INFO - Reading 'lit_review.bcf'
+[154] Biber.pm:979> INFO - Found 45 citekeys in bib section 0
+[166] Biber.pm:4419> INFO - Processing section 0
+[175] Biber.pm:4610> INFO - Looking for bibtex file 'references.bib' for section 0
+[177] bibtex.pm:1713> INFO - LaTeX decoding ...
+[221] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[695] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[695] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[695] Biber.pm:4239> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[695] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[740] bbl.pm:660> INFO - Writing 'lit_review.bbl' with encoding 'UTF-8'
+[778] bbl.pm:763> INFO - Output to lit_review.bbl

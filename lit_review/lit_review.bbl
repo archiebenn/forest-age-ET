@@ -1215,53 +1215,6 @@
       \field{pages}{56\bibrangedash 70}
       \range{pages}{15}
     \endentry
-    \entry{lawrence2007partitioning}{article}{}
-      \name{author}{4}{}{%
-        {{un=0,uniquepart=base,hash=59096c65bbe4df44ef2aca6f4e1c1b7e}{%
-           family={Lawrence},
-           familyi={L\bibinitperiod},
-           given={David\bibnamedelima M},
-           giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=15c81b5a62d7d5b7adedcf56d6165a1d}{%
-           family={Thornton},
-           familyi={T\bibinitperiod},
-           given={Peter\bibnamedelima E},
-           giveni={P\bibinitperiod\bibinitdelim E\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=4aa06c58feac630ed2409fde079a0e07}{%
-           family={Oleson},
-           familyi={O\bibinitperiod},
-           given={Keith\bibnamedelima W},
-           giveni={K\bibinitperiod\bibinitdelim W\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=9c0d60a90c9c1f3173921b61b514516c}{%
-           family={Bonan},
-           familyi={B\bibinitperiod},
-           given={Gordon\bibnamedelima B},
-           giveni={G\bibinitperiod\bibinitdelim B\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{548b09dd2432ca06fe75137fadd70038}
-      \strng{fullhash}{2adb8620b5619a5fa7afdb9f51365ee3}
-      \strng{bibnamehash}{548b09dd2432ca06fe75137fadd70038}
-      \strng{authorbibnamehash}{548b09dd2432ca06fe75137fadd70038}
-      \strng{authornamehash}{548b09dd2432ca06fe75137fadd70038}
-      \strng{authorfullhash}{2adb8620b5619a5fa7afdb9f51365ee3}
-      \field{sortinit}{L}
-      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Journal of Hydrometeorology}
-      \field{number}{4}
-      \field{title}{{The partitioning of evapotranspiration into transpiration, soil evaporation, and canopy evaporation in a GCM: Impacts on land--atmosphere interaction}}
-      \field{volume}{8}
-      \field{year}{2007}
-      \field{pages}{862\bibrangedash 880}
-      \range{pages}{19}
-    \endentry
     \entry{leng2024forest}{article}{}
       \true{moreauthor}
       \true{morelabelname}

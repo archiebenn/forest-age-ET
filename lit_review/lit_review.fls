@@ -506,6 +506,7 @@ INPUT /home/ab/texmf/fonts/tfm/adobe/MinionPro/MinionPro-It-Base-ab.tfm
 INPUT /home/ab/texmf/fonts/tfm/adobe/MinionPro/MinionPro-It-Base-ad.tfm
 INPUT /home/ab/texmf/fonts/tfm/adobe/MinionPro/MinionPro-It-Base-ae.tfm
 INPUT /home/ab/texmf/fonts/enc/dvips/adobe/base-MinionPro-ae.enc
+INPUT /usr/share/texlive/texmf-dist/fonts/enc/dvips/mnsymbol/MnSymbolE.enc
 INPUT /usr/share/texlive/texmf-dist/fonts/enc/dvips/mnsymbol/MnSymbolC.enc
 INPUT /home/ab/texmf/fonts/vf/adobe/MinionPro/MinionPro-Mixed-oml.vf
 INPUT /home/ab/texmf/fonts/tfm/adobe/MinionPro/MinionPro-It-tosf-oml.tfm
@@ -521,7 +522,6 @@ INPUT /home/ab/texmf/fonts/tfm/adobe/MinionPro/MinionPro-It--lcdfj.tfm
 INPUT /home/ab/texmf/fonts/tfm/adobe/MinionPro/MinionPro-It-Base-ab.tfm
 INPUT /home/ab/texmf/fonts/tfm/adobe/MinionPro/MinionPro-It-Base-ad.tfm
 INPUT /home/ab/texmf/fonts/tfm/adobe/MinionPro/MinionPro-It-Base-ae.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/enc/dvips/mnsymbol/MnSymbolE.enc
 INPUT /home/ab/texmf/fonts/vf/adobe/MinionPro/MinionPro-Regular-osf-t1.vf
 INPUT /home/ab/texmf/fonts/tfm/adobe/MinionPro/MinionPro-Regular-Base-aa.tfm
 INPUT /home/ab/texmf/fonts/tfm/adobe/MinionPro/MinionPro-Regular-Base-ab.tfm
