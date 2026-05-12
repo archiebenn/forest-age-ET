@@ -1,17 +1,15 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'lit_review.blg'
-[81] biber:340> INFO - === Mon May 11, 2026, 19:17:50
+[80] biber:340> INFO - === Mon May 11, 2026, 22:38:56
 [94] Biber.pm:419> INFO - Reading 'lit_review.bcf'
-[153] Biber.pm:979> INFO - Found 47 citekeys in bib section 0
-[165] Biber.pm:4419> INFO - Processing section 0
+[154] Biber.pm:979> INFO - Found 46 citekeys in bib section 0
+[167] Biber.pm:4419> INFO - Processing section 0
 [177] Biber.pm:4610> INFO - Looking for bibtex file 'references.bib' for section 0
 [180] bibtex.pm:1713> INFO - LaTeX decoding ...
-[222] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[736] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[736] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[736] Biber.pm:4239> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
-[736] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
-[786] bbl.pm:660> INFO - Writing 'lit_review.bbl' with encoding 'UTF-8'
-[840] bbl.pm:763> INFO - Output to lit_review.bbl
-[840] Biber.pm:131> WARN - I didn't find a database entry for 'wang2022recent;X;X' (section 0)
-[840] Biber.pm:133> INFO - WARNINGS: 1
+[226] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[730] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[730] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[730] Biber.pm:4239> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[730] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[782] bbl.pm:660> INFO - Writing 'lit_review.bbl' with encoding 'UTF-8'
+[823] bbl.pm:763> INFO - Output to lit_review.bbl

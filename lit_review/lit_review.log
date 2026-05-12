@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  11 MAY 2026 19:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  11 MAY 2026 22:38
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1379,14 +1379,14 @@ Package scrbase Info: activating english \indexname on input line 72.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(82.51282pt, 432.4823pt, 82.51282pt)
+* h-part:(L,W,R)=(79.6678pt, 438.17233pt, 79.6678pt)
 * v-part:(T,H,B)=(71.13188pt, 702.78317pt, 71.13188pt)
 * \paperwidth=597.50793pt
 * \paperheight=845.04694pt
-* \textwidth=432.4823pt
+* \textwidth=438.17233pt
 * \textheight=702.78317pt
-* \oddsidemargin=10.24283pt
-* \evensidemargin=10.24283pt
+* \oddsidemargin=7.39781pt
+* \evensidemargin=7.39781pt
 * \topmargin=-41.0131pt
 * \headheight=10.0pt
 * \headsep=21.75pt
@@ -1462,15 +1462,7 @@ Package biblatex Info: Automatic encoding selection.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'lit_review.bbl' found.
-(./lit_review.bbl
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
-(biblatex)                wang2022recent;X;X
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-)
+(./lit_review.bbl)
 Package biblatex Info: Reference section=0 on input line 72.
 Package biblatex Info: Reference segment=0 on input line 72.
 Package hyperref Info: Link coloring ON on input line 72.
@@ -1599,72 +1591,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 137--138
 sr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/home/ab/texmf/fonts/e
 nc/dvips/adobe/base-MinionPro-ae.enc}{/usr/share/texlive/texmf-dist/fonts/enc/d
 vips/mnsymbol/MnSymbolC.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/mnsy
-mbol/MnSymbolE.enc}] [5] [6] [7]
-
-LaTeX Warning: Citation 'wang2022recent;X;X' on page 8 undefined on input line 
-184.
-
-Package microtype Info: Fixing zero \fontdimen 6 for font `OML/MinionPro-TOsF/m
-/it/14.4'
-(microtype)             (new value: 14.4pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `OML/MinionPro-TOsF/m
-/it/10'
-(microtype)             (new value: 10.0pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `OML/MinionPro-TOsF/m
-/it/7'
-(microtype)             (new value: 7.0pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `OMX/MnSymbolE/m/n/14
-.4'
-(microtype)             (new value: 14.4pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `OMX/MnSymbolE/m/n/10
-'
-(microtype)             (new value: 10.0pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `OMX/MnSymbolE/m/n/7'
-
-(microtype)             (new value: 7.0pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolA/m/n/14.4
-'
-(microtype)             (new value: 14.4pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolA/m/n/10'
-(microtype)             (new value: 10.0pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolA/m/n/7'
-(microtype)             (new value: 7.0pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolB/m/n/14.4
-'
-(microtype)             (new value: 14.4pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolB/m/n/10'
-(microtype)             (new value: 10.0pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolB/m/n/7'
-(microtype)             (new value: 7.0pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolC/m/n/14.4
-'
-(microtype)             (new value: 14.4pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolC/m/n/10'
-(microtype)             (new value: 10.0pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolC/m/n/7'
-(microtype)             (new value: 7.0pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolD/m/n/14.4
-'
-(microtype)             (new value: 14.4pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolD/m/n/10'
-(microtype)             (new value: 10.0pt) on input line 187.
-Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolD/m/n/7'
-(microtype)             (new value: 7.0pt) on input line 187.
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 187.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 187.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 187.
-
-[8] [9] [10] [11]
+mbol/MnSymbolE.enc}] [5] [6] [7] [8] [9] [10] [11]
 LaTeX Font Info:    Trying to load font information for TS1+MinionPro-OsF on in
-put line 221.
+put line 218.
 (/home/ab/texmf/tex/latex/MinionPro/TS1MinionPro-OsF.fd
 File: TS1MinionPro-OsF.fd 2005/01/23 v2.0 font definitions for TS1/MinionPro-Os
 F.
@@ -1676,48 +1605,62 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 [12] [13]
-<gantt/gantt1.png, id=259, 433.62pt x 289.08pt>
+<gantt/gantt1.png, id=262, 433.62pt x 289.08pt>
 File: gantt/gantt1.png Graphic file (type png)
 <use gantt/gantt1.png>
-Package pdftex.def Info: gantt/gantt1.png  used on input line 256.
-(pdftex.def)             Requested size: 432.4823pt x 288.33823pt.
+Package pdftex.def Info: gantt/gantt1.png  used on input line 253.
+(pdftex.def)             Requested size: 438.17233pt x 292.13168pt.
 [14 <./gantt/gantt1.png>]
 Package microtype Info: Fixing zero \fontdimen 6 for font `OML/MinionPro-TOsF/m
 /it/17.28'
-(microtype)             (new value: 17.28pt) on input line 269.
+(microtype)             (new value: 17.28pt) on input line 266.
+Package microtype Info: Fixing zero \fontdimen 6 for font `OML/MinionPro-TOsF/m
+/it/10'
+(microtype)             (new value: 10.0pt) on input line 266.
 Package microtype Info: Fixing zero \fontdimen 6 for font `OMX/MnSymbolE/m/n/17
 .28'
-(microtype)             (new value: 17.28pt) on input line 269.
+(microtype)             (new value: 17.28pt) on input line 266.
+Package microtype Info: Fixing zero \fontdimen 6 for font `OMX/MnSymbolE/m/n/10
+'
+(microtype)             (new value: 10.0pt) on input line 266.
 Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolA/m/n/17.2
 8'
-(microtype)             (new value: 17.28pt) on input line 269.
+(microtype)             (new value: 17.28pt) on input line 266.
+Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolA/m/n/10'
+(microtype)             (new value: 10.0pt) on input line 266.
 Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolB/m/n/17.2
 8'
-(microtype)             (new value: 17.28pt) on input line 269.
+(microtype)             (new value: 17.28pt) on input line 266.
+Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolB/m/n/10'
+(microtype)             (new value: 10.0pt) on input line 266.
 Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolC/m/n/17.2
 8'
-(microtype)             (new value: 17.28pt) on input line 269.
+(microtype)             (new value: 17.28pt) on input line 266.
+Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolC/m/n/10'
+(microtype)             (new value: 10.0pt) on input line 266.
 Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolD/m/n/17.2
 8'
-(microtype)             (new value: 17.28pt) on input line 269.
+(microtype)             (new value: 17.28pt) on input line 266.
+Package microtype Info: Fixing zero \fontdimen 6 for font `U/MnSymbolD/m/n/10'
+(microtype)             (new value: 10.0pt) on input line 266.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 269.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 269.
+(hyperref)                removing `math shift' on input line 266.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 269.
+(hyperref)                removing `\sim' on input line 266.
 
-[15] [16] [17] [18] [19] (./oishi_plot/oishi_et_plot.tex)
-Overfull \hbox (1.1377pt too wide) in paragraph at lines 176--295
- [][] 
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 266.
+
+
+Underfull \hbox (badness 2096) in paragraph at lines 279--279
+[]|\T1/MinionPro-OsF/b/n/12 (+20) Likelihood and po-ten-tial
  []
 
-[20]
+[15] [16] [17] [18] [19] (./oishi_plot/oishi_et_plot.tex) [20]
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: <default>
@@ -1751,77 +1694,77 @@ Overfull \hbox (1.1377pt too wide) in paragraph at lines 176--295
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-Underfull \hbox (badness 1270) in paragraph at lines 327--327
+Underfull \hbox (badness 1270) in paragraph at lines 324--324
 []|\T1/MinionPro-OsF/m/n/12 (+20) Random For-est, ANN,
  []
 
 
-Underfull \hbox (badness 2970) in paragraph at lines 327--327
+Underfull \hbox (badness 2970) in paragraph at lines 324--324
 \T1/MinionPro-OsF/m/n/12 (+20) land, ENF, BF, shrub-
  []
 
 
-Underfull \hbox (badness 4479) in paragraph at lines 327--327
+Underfull \hbox (badness 4479) in paragraph at lines 324--324
 \T1/MinionPro-OsF/m/n/12 (+20) land, wet-land, bar-ren
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--327
+Underfull \hbox (badness 10000) in paragraph at lines 324--324
 []|\T1/MinionPro-OsF/m/n/12 (+20) Daily ET$[]$ cal-cu-lated
  []
 
 
-Underfull \hbox (badness 7888) in paragraph at lines 327--327
+Underfull \hbox (badness 7888) in paragraph at lines 324--324
 \T1/MinionPro-OsF/m/n/12 (+20) from FAO-56 PM as
  []
 
 
-Underfull \hbox (badness 2837) in paragraph at lines 327--327
+Underfull \hbox (badness 2837) in paragraph at lines 324--324
 []|\T1/MinionPro-OsF/m/n/12 (+20) T$[]$ and T$[]$ (for
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--327
+Underfull \hbox (badness 10000) in paragraph at lines 324--324
 []|\T1/MinionPro-OsF/m/n/12 (+20) Not spec-i-fied: Semi-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--327
+Underfull \hbox (badness 10000) in paragraph at lines 324--324
 \T1/MinionPro-OsF/m/n/12 (+20) humid zone with
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--327
+Underfull \hbox (badness 10000) in paragraph at lines 324--324
 \T1/MinionPro-OsF/m/n/12 (+20) tem-per-ate con-ti-nen-tal
  []
 
 
-Underfull \hbox (badness 1043) in paragraph at lines 327--327
+Underfull \hbox (badness 1043) in paragraph at lines 324--324
 []|\T1/MinionPro-OsF/m/n/12 (+20) Daily ET from 17 flux
  []
 
 
-Underfull \hbox (badness 4391) in paragraph at lines 327--327
+Underfull \hbox (badness 4391) in paragraph at lines 324--324
 []|\T1/MinionPro-OsF/m/n/12 (+20) T$[]$, P, C$[]$, SW, VPD,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--327
+Underfull \hbox (badness 10000) in paragraph at lines 324--324
 []|\T1/MinionPro-OsF/m/n/12 (+20) Daily ET$[]$ cal-cu-lated
  []
 
 
-Underfull \hbox (badness 7888) in paragraph at lines 327--327
+Underfull \hbox (badness 7888) in paragraph at lines 324--324
 \T1/MinionPro-OsF/m/n/12 (+20) from FAO-56 PM as
  []
 
 
-Underfull \hbox (badness 1867) in paragraph at lines 327--327
+Underfull \hbox (badness 1867) in paragraph at lines 324--324
 \T1/MinionPro-OsF/m/n/12 (+20) in-clud-ing coastal, cen-
  []
 
 
-Underfull \hbox (badness 2134) in paragraph at lines 327--327
+Underfull \hbox (badness 2134) in paragraph at lines 324--324
 \T1/MinionPro-OsF/m/n/12 (+20) tral val-ley, and desert
  []
 
@@ -1844,11 +1787,11 @@ Package logreq Info: Writing requests to 'lit_review.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 42004 strings out of 474222
- 802089 string characters out of 5748733
+ 41953 strings out of 474222
+ 800984 string characters out of 5748733
  1948975 words of memory out of 5000000
- 63004 multiletter control sequences out of 15000+600000
- 1058717 words of font info for 516 fonts, out of 8000000 for 9000
+ 62968 multiletter control sequences out of 15000+600000
+ 1022934 words of font info for 491 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,12n,107p,10905b,1860s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </home/ab/texmf/fonts/type1/adobe/MinionPro/MinionPro-Bold.pfb></home/ab/texm
@@ -1857,10 +1800,10 @@ e/MinionPro/MinionPro-Regular.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/mnsymbol/MnSymbol12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
 mnsymbol/MnSymbol8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/
 uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on lit_review.pdf (21 pages, 418782 bytes).
+Output written on lit_review.pdf (21 pages, 416478 bytes).
 PDF statistics:
- 483 PDF objects out of 1000 (max. 8388607)
- 421 compressed objects within 5 object streams
+ 486 PDF objects out of 1000 (max. 8388607)
+ 424 compressed objects within 5 object streams
  103 named destinations out of 1000 (max. 500000)
- 126727 words of extra memory for PDF output out of 128383 (max. 10000000)
+ 124679 words of extra memory for PDF output out of 128383 (max. 10000000)
 

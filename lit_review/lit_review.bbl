@@ -1012,6 +1012,94 @@
       \field{pages}{165\bibrangedash 172}
       \range{pages}{8}
     \endentry
+    \entry{jung2010recent}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=00a3f1c57008eb4994c9da85847bb146}{%
+           family={Jung},
+           familyi={J\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=899b62bc85b262ae71ad2ad7071a968d}{%
+           family={Reichstein},
+           familyi={R\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6e67f77fe4702964e6cd500a96516c8a}{%
+           family={Ciais},
+           familyi={C\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f869e16515fbd69dfdcd3d6d851d527a}{%
+           family={Seneviratne},
+           familyi={S\bibinitperiod},
+           given={Sonia\bibnamedelima I},
+           giveni={S\bibinitperiod\bibinitdelim I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a813d656a29fe6879bd1cf108067d95f}{%
+           family={Sheffield},
+           familyi={S\bibinitperiod},
+           given={Justin},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=65b30cd779aef1fa737e632259d7bffe}{%
+           family={Goulden},
+           familyi={G\bibinitperiod},
+           given={Michael\bibnamedelima L},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e8253c0ae9155a62a59864e27a5defa8}{%
+           family={Bonan},
+           familyi={B\bibinitperiod},
+           given={Gordon},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4a2d23904be01436716069818d59f096}{%
+           family={Cescatti},
+           familyi={C\bibinitperiod},
+           given={Alessandro},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d459a1c8776063e9bc338996a4bb778b}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Jiquan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9145438faf2301efb75bcd64e3984f56}{%
+           family={De\bibnamedelima Jeu},
+           familyi={D\bibinitperiod\bibinitdelim J\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group UK London}%
+      }
+      \strng{namehash}{22d4ca5cc8cbe12e7d82e4def3a868c2}
+      \strng{fullhash}{fa7c658c5fe8a23799c40a7da4c0fbc1}
+      \strng{bibnamehash}{22d4ca5cc8cbe12e7d82e4def3a868c2}
+      \strng{authorbibnamehash}{22d4ca5cc8cbe12e7d82e4def3a868c2}
+      \strng{authornamehash}{22d4ca5cc8cbe12e7d82e4def3a868c2}
+      \strng{authorfullhash}{fa7c658c5fe8a23799c40a7da4c0fbc1}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{number}{7318}
+      \field{title}{Recent decline in the global land evapotranspiration trend due to limited moisture supply}
+      \field{volume}{467}
+      \field{year}{2010}
+      \field{pages}{951\bibrangedash 954}
+      \range{pages}{4}
+    \endentry
     \entry{katul2012evapotranspiration}{article}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=46231b0d49d16ab3310860bdc4b71285}{%
@@ -1261,79 +1349,6 @@
       \field{year}{2024}
       \field{pages}{822\bibrangedash 834}
       \range{pages}{13}
-    \endentry
-    \entry{li2019simple}{article}{}
-      \name{author}{8}{}{%
-        {{un=1,uniquepart=given,hash=1a1f520c1123587494e9d4c74ae07269}{%
-           family={Li},
-           familyi={L\bibinitperiod},
-           given={Xi},
-           giveni={X\bibinitperiod},
-           givenun=1}}%
-        {{un=0,uniquepart=base,hash=3cc60594c753555b2365cf0ed8a556d0}{%
-           family={Gentine},
-           familyi={G\bibinitperiod},
-           given={Pierre},
-           giveni={P\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=b07d131192cdc3f05fd5ed672682d29e}{%
-           family={Lin},
-           familyi={L\bibinitperiod},
-           given={Changjie},
-           giveni={C\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=2417520bb41cf83c9e7e428f203081d7}{%
-           family={Zhou},
-           familyi={Z\bibinitperiod},
-           given={Sha},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=e6ef537cba4f08b011e9deb0a4edbf89}{%
-           family={Sun},
-           familyi={S\bibinitperiod},
-           given={Zan},
-           giveni={Z\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=9e6af3ce4c5063ff98977528f367e685}{%
-           family={Zheng},
-           familyi={Z\bibinitperiod},
-           given={Yi},
-           giveni={Y\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=6ba98b57fe1f95279a7b276f87e11088}{%
-           family={Liu},
-           familyi={L\bibinitperiod},
-           given={Jie},
-           giveni={J\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=161b66f9932412dd19f4086c09082741}{%
-           family={Zheng},
-           familyi={Z\bibinitperiod},
-           given={Chunmiao},
-           giveni={C\bibinitperiod},
-           givenun=0}}%
-      }
-      \list{publisher}{1}{%
-        {Elsevier}%
-      }
-      \strng{namehash}{cbfa861d718ba1a6d3629c04079e26f9}
-      \strng{fullhash}{f50f5341f9b4e9cce01ee3f201b36410}
-      \strng{bibnamehash}{cbfa861d718ba1a6d3629c04079e26f9}
-      \strng{authorbibnamehash}{cbfa861d718ba1a6d3629c04079e26f9}
-      \strng{authornamehash}{cbfa861d718ba1a6d3629c04079e26f9}
-      \strng{authorfullhash}{f50f5341f9b4e9cce01ee3f201b36410}
-      \field{sortinit}{L}
-      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Agricultural and Forest Meteorology}
-      \field{title}{{A simple and objective method to partition evapotranspiration into transpiration and evaporation at eddy-covariance sites}}
-      \field{volume}{265}
-      \field{year}{2019}
-      \field{pages}{171\bibrangedash 182}
-      \range{pages}{12}
     \endentry
     \entry{lian2018partitioning}{article}{}
       \true{moreauthor}
@@ -2924,7 +2939,6 @@
       \range{pages}{11}
     \endentry
   \enddatalist
-  \missing{wang2022recent;X;X}
 \endrefsection
 \endinput
 
