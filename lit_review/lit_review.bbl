@@ -68,6 +68,55 @@
       \field{pages}{108779}
       \range{pages}{1}
     \endentry
+    \entry{altman2024global}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=0747b2230db058d9f7cb05f5f9511483}{%
+           family={Altman},
+           familyi={A\bibinitperiod},
+           given={Jan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=28203ae52584f82064356f717ed96b0d}{%
+           family={Fibich},
+           familyi={F\bibinitperiod},
+           given={Pavel},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9bce51795cb745b79d3f33f0f0951fcf}{%
+           family={Trotsiuk},
+           familyi={T\bibinitperiod},
+           given={Volodymyr},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=665083e390851d9a8b7dbe40637df57d}{%
+           family={Altmanova},
+           familyi={A\bibinitperiod},
+           given={Nela},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{e6a1edf76be5deaa6183807df34efa29}
+      \strng{fullhash}{a30a08f167197ce7af8861492933bc29}
+      \strng{bibnamehash}{e6a1edf76be5deaa6183807df34efa29}
+      \strng{authorbibnamehash}{e6a1edf76be5deaa6183807df34efa29}
+      \strng{authornamehash}{e6a1edf76be5deaa6183807df34efa29}
+      \strng{authorfullhash}{a30a08f167197ce7af8861492933bc29}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Science of the total environment}
+      \field{title}{Global pattern of forest disturbances and its shift under climate change}
+      \field{volume}{915}
+      \field{year}{2024}
+      \field{pages}{170117}
+      \range{pages}{1}
+    \endentry
     \entry{amani2023review}{article}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=03b582798001d956699ed3648d2f3a0c}{%
@@ -1558,62 +1607,6 @@
       \field{labeltitlesource}{title}
       \field{title}{{Evaporation and environment}}
       \field{year}{1965}
-    \endentry
-    \entry{murakami2000variation}{article}{}
-      \name{author}{5}{}{%
-        {{un=0,uniquepart=base,hash=eba5f6a19c6fd27db219d723ca9010ce}{%
-           family={Murakami},
-           familyi={M\bibinitperiod},
-           given={S},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=8363bae5b311cb40d2b4d538a00fbee0}{%
-           family={Tsuboyama},
-           familyi={T\bibinitperiod},
-           given={Y},
-           giveni={Y\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=f18679fb1dc7109db39fe1289544f1a4}{%
-           family={Shimizu},
-           familyi={S\bibinitperiod},
-           given={T},
-           giveni={T\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=9b7877cb0a838aadbda8e46a46125d72}{%
-           family={Fujieda},
-           familyi={F\bibinitperiod},
-           given={M},
-           giveni={M\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=bdd1c5df557f4daa0ba887814f56a638}{%
-           family={Noguchi},
-           familyi={N\bibinitperiod},
-           given={S},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-      }
-      \list{publisher}{1}{%
-        {Elsevier}%
-      }
-      \strng{namehash}{14c8826069cb32db3e82634d3c6d2e2b}
-      \strng{fullhash}{7952a7ce9ebc752b1f6210a61ee2de1a}
-      \strng{bibnamehash}{14c8826069cb32db3e82634d3c6d2e2b}
-      \strng{authorbibnamehash}{14c8826069cb32db3e82634d3c6d2e2b}
-      \strng{authornamehash}{14c8826069cb32db3e82634d3c6d2e2b}
-      \strng{authorfullhash}{7952a7ce9ebc752b1f6210a61ee2de1a}
-      \field{sortinit}{M}
-      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Journal of Hydrology}
-      \field{number}{1-4}
-      \field{title}{Variation of evapotranspiration with stand age and climate in a small Japanese forested catchment}
-      \field{volume}{227}
-      \field{year}{2000}
-      \field{pages}{114\bibrangedash 127}
-      \range{pages}{14}
     \endentry
     \entry{oishi2020quantifying}{article}{}
       \name{author}{6}{}{%
