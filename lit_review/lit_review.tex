@@ -1,5 +1,5 @@
 
-\documentclass[paper=a4, fontsize=12pt]{scrartcl} 
+\documentclass[paper=a4,fontsize=12pt]{scrartcl} 
 
 \usepackage[left=2.8cm,right=2.8cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[utf8]{inputenc} 
@@ -7,12 +7,15 @@
 \usepackage[T1]{fontenc}
 \usepackage{MinionPro} % op font
 \usepackage{MnSymbol}
-\usepackage{helvet} % sans serif font
+\usepackage{helvet} % sans
+%\renewcommand{\familydefault}{\sfdefault} % sans as default :(
+%\usepackage[italic]{mathastext}
 \usepackage{fancyhdr} % Custom headers and footers
 \usepackage[english]{babel}
 \usepackage{amsmath,amsfonts,amsthm}
 \usepackage{lipsum}
 \usepackage{caption}
+\usepackage{lineno,parskip} 
 \usepackage{subcaption}
 \usepackage{graphicx}
 \usepackage{float}
@@ -30,14 +33,14 @@
 \usepackage{pdflscape}
 
 
-\renewcommand{\cfttoctitlefont}{\hfil\Large\scshape\lsstyle}
+\renewcommand{\cfttoctitlefont}{\hfil\Large\scshape}%\lsstyle
 \renewcommand{\cftsecfont}{\scshape}
 %\renewcommand{\cftsubsecfont}{\scshape}
 %\renewcommand{\cftsubsubsecfont}{\itshape}
 
-\sectionfont{\centering \normalfont\scshape\lsstyle}
+\sectionfont{\centering \normalfont\scshape} %\lsstyle
 \subsectionfont{\normalfont\sffamily\bfseries}
-\subsubsectionfont{\normalfont\sffamily}
+\subsubsectionfont{\normalfont\sffamily}%\bfseries
 
 \titlespacing*{\subsection}{0pt}{*2}{*0.5}
 \titlespacing*{\subsubsection}{0pt}{*2}{*0.5}
@@ -76,7 +79,7 @@
 %----------------------------------------------------------------------------------------
 
 \begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
-	\vspace*{2em} % star for top of page
+	\vspace*{-2em} % star for top of page
 	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
 	
 	\centering % Centre everything on the page
@@ -88,7 +91,7 @@
 	
 	{\Large \bfseries The Effect of Forest Age on Machine Learning Evapotranspiration Generalisation}\\[0.4cm] % Title of your document
 	
-	\vspace{2em}
+	\vspace{1.5em}
 	
 %	\HRule\\[1.5cm]
 	
@@ -112,15 +115,15 @@
 		\end{flushright}
 	\end{minipage}
 	
-\vspace{5em}
+\vspace{3em}
 \begin{abstract} 
-	{\noindent{\textsc{Abstract} (200 words})}
+	{\noindent{\textsc{Abstract}}}
 	\newline
-	\lipsum[1-10][1-20]
+	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, 
 
 \vspace{1em}
 \textbf{Key words:} Evapotranspiration, Forest Age, Machine Learning, FLUXNET.\\
-\textbf{Word count:} 4000 (Literature Review: 3000; Project Aims \& Plan: 1000)
+\textbf{Word count:} 3991 (Literature Review: 2991; Project Aims \& Plan: 1000)
 \end{abstract}
 
 \vfill
@@ -145,20 +148,11 @@ I declare that the work in this dissertation was carried out in accordance with 
 %------------------------------------------------
 
 \section{Literature Review}
+\linenumbers
 \subsection{Introduction}
 \subsubsection{Evapotranspiration} 
 Terrestrial evapotranspiration (ET) is a key component of the global hydrological cycle describing the transition of water from liquid to gas at Earth's surface and further transfer to the atmosphere, representing a crucial element of the energy and water exchange between terrestrial ecosystems and the climate system. The term emphasises the combination of water vapourisation flux from (1) abiotic evaporation from soil and plant canopy surfaces, and (2) biotic transpiration through stomata to the atmosphere \parencite{katul2012evapotranspiration}. Approximately 60\% of precipitation on the land surface is returned to the atmosphere through ET \parencite{oki2006global}, and the associated latent heat flux, $\lambda$ET (where $\lambda$ is the latent heat of vaporisation), accounts for 50\% of the solar radiation absorbed by the land surface \parencite{trenberth2009earth}.
-
-%\begin{equation}
-%ET = T + E_{Soil} + E_{Canopy}
-%\label{eqn:et}
-%\end{equation}
-
-
-%\noindent where $T$ refers to transpiration through plant stomata, $E_{soil}$ to evaporation from the soil surface, and $E_{Canopy}$ to evaporation from plant canopies (via rainfall interception) \parencite{lawrence2007partitioning}.
-%The partitioning of $ET$ into $E$ ($E_{soil} + E_{Canopy}$) and $T$ within ecosystems is associated with water use efficiency (WUE) and has use in irrigation management, where $T$ is linked with plant productivity, while $E$ does not directly contribute to production \parencite{kool2014review}. Accurate partitioning estimates are also important in aiding carbon cycle projections given the coupled effect of transpiration and land-atmosphere carbon dioxide exchanges through stomata.
-
-The contribution of the variables which make up ET is not equal, with \textcite{lian2018partitioning} estimating a global $T/ET$ ratio of 0.62$\pm$0.06, indicating plant transpiration as the leading component of ET worldwide. The difference between precipitation and ET ($P - ET$) represents the source of available freshwater content which feeds rivers, lakes, and groundwater discharge \parencite{swenson2006estimating}. Given the importance of accounting for freshwater availability and the rigorous measurements of P already available, estimating ET becomes an important metric for predicting regional food supplies, energy generation, human and ecosystem health, social unrest, and in assessing the overarching patterns of global climatic shifts \parencite{rodell2018emerging,amani2023review, xue2025review}. In turn, these estimates can steer regulations and policies in climate science and water resource management, representing a critical link between the quantification of terrestrial water fluxes and land systems governance \parencite{shi2024machine}.
+\par The contribution of the variables which make up ET is not equal, with \textcite{lian2018partitioning} estimating a global $T/ET$ ratio of 0.62$\pm$0.06, indicating plant transpiration as the leading component of ET worldwide. The difference between precipitation and ET ($P - ET$) represents the source of available freshwater content which feeds rivers, lakes, and groundwater discharge \parencite{swenson2006estimating}. Given the importance of accounting for freshwater availability and the rigorous measurements of P already available, estimating ET becomes an important metric for predicting regional food supplies, energy generation, human and ecosystem health, social unrest, and in assessing the overarching patterns of global climatic shifts \parencite{rodell2018emerging,amani2023review, xue2025review}. In turn, these estimates can steer regulations and policies in climate science and water resource management, representing a critical link between the quantification of terrestrial water fluxes and land systems governance \parencite{shi2024machine}.
 
 
 % importance of this huge return of rainfall THROUGH plants in water cycles.
@@ -168,32 +162,33 @@ The contribution of the variables which make up ET is not equal, with \textcite{
 \subsubsection{Estimating Evapotranspiration}
 \par The direct measurement of ET is the most accurate and uses lysimeters, eddy covariance (EC), or sap flow, but these are costly to set up and only measure at the plot scale, resulting in spatially constrained measurements which makes them unsuitable for describing ET at regional scales and beyond \parencite{amani2023review,liyew2025review}. The uneven distribution and low sampling rate of EC data in ecoregions of Africa, Oceania (excluding Australia), and South America may be attributed to the costs associated with these methods, despite efforts to mitigate this \parencite{hill2017case, markwitz2019low}. As a result of these issues, methods to estimate ET indirectly in areas without the capacity for direct measurement have been derived, including: (1) traditional process-based models which rely on pre-defined equations such as the Penman-Monteith (PM) and Hargreaves-Samani (HS) equations \parencite{monteith1965evaporation, hargreaves1985reference}; and more recently (2) machine learning (ML) methods such as Artificial Neural Networks (ANN) and Random Forest (RF) models trained on historical data \parencite{xu2018evaluating}. Remote sensing (RS) - based models represent a distinct category as these are typically formed from process-based and ML models which integrate RS data, for example the SEBS model \parencite{su2002surface}. The development of these methods has permitted global ET estimates to be produced using more easily acquired and widely measured variables such as air temperature and relative humidity \parencite{pan2020evaluation}, yet significant uncertainties remain, particularly in underrepresented regions and ecosystems with sparse EC coverage, as well as in complex or heterogeneous landscapes \parencite{xu2018evaluating, amani2023review}.
 
-\subsubsection{Forest Complexity}
+\subsection{Forest Age and Evapotranspiration dynamics}
+\subsubsection{Canopies and Conductance in Ageing Forests}
 The magnitude of ET is governed by many environmental factors such as solar radiation, leaf area index (LAI), air temperature, vapour pressure deficit (VPD), soil moisture, and wind speed \parencite{yang2023evapotranspiration}. Of these, \textcite{lian2018partitioning} identified LAI as the primary driver of $T/ET$ spatial patterns, with \textcite{kool2014review} suggesting that in systems with full canopy cover ET is often assumed to be ``similar enough to $T$ to permit correlation of ET with biomass". However, this assumption may break down in densely vegetated systems with multi-layer canopies such as forests. In these systems, saturation issues with the remote measurement of LAI lead to issues in capturing the vertical canopy complexity in full, leading to a loss of information which drives rainfall interception and subsequent ET dynamics \parencite{wang2022combining}.
 \par \textcite{hardiman2013maintaining} demonstrate that while LAI may be stable in stands older than 50 years, canopy complexity continues to increase with age through $>$160 years of stand development and had a greater impact on annual net primary productivity (NPP) and overall resource use efficiency than LAI across all stands, suggesting vegetation indices may saturate before canopy complexity peaks in forests. \textcite{oishi2020quantifying}, in a chronosequence study on broadleaf forests in the US, report that interception of incoming rainfall strongly increases with age from $\sim$2\% (12 year old stand) to 20\% (200 year old stand) despite only small differences in LAI, an effect in part due to branch architecture which varies with age. This study also reported that annual canopy transpiration (T) was over twice as high in the 35 year old stand compared to the 12 and 200 year old stands, with increasing canopy interception (and subsequent evaporation) in the oldest stand largely offsetting the reduction in T such that total ET was similar between the two older stands, but remained lower in the youngest stand (\autoref{fig:oishi}). While LAI remains an important structural parameter for informing ET predictions and quantifying biological processes relating to vegetation dynamics, these findings together suggest that age-driven changes in canopy complexity and architecture introduce ET dynamics that may persist beyond the saturation point of RS vegetation indices.
 \par Alongside canopy architecture, stomatal conductance ($g_s$) declines as trees grow taller due to gravitational reductions in leaf water potential and decreasing hydraulic conductance with increasing path length from soil to leaf \parencite{ryan1997hydraulic}. For example, \textcite{schafer2000effect} demonstrated that the mean stomatal conductance of tree crowns decreased by approximately 60\% over a 30m increase in tree height, and \textcite{hubbard1999evidence} established a 44\% drop in hydraulic conductance in old trees compared to young trees in a mixed age stand. As $g_s$ directly influences T \parencite{monteith1965evaporation}, these age related changes introduce further complexity into ET dynamics and suggest that age could be a key source of ET variability across forest ecosystems.
 
 
-\subsubsection{Disturbances and Forest Age}
+\subsubsection{Disturbances and Climate Change}
 Forest age distributions are increasingly being affected by climate change-driven disturbances - such as fire, drought, pest attack, and pathogens - which are expected to continue in the coming decades \parencite{solomon2009irreversible, seidl2017forest, altman2024global}. Some of these disturbances are able to completely change forest demography by causing widespread mortality \parencite{dale2001climate}, effectively resetting the age of the forest landscape. Land use changes also directly affect forest age distributions, for example the recovery of deforested areas in southern China following the implementation of forestation policies has resulted in a complex pattern of forest age structure in recent years, increasing average tree cover from 21\% in 1987 to 38\% in 2016 and leading to large areas now being dominated by young forests \parencite{tong2020forest, leng2024forest}, with similar patterns of young forests due to recent disturbance found worldwide \parencite{besnard2021mapping}.
 \par As forests are exhibiting greater age heterogeneity, and with climate change increasing the severity and frequency of disturbances worldwide, forest age may represent an increasingly important variable for ET estimation, capturing age-specific effects such as canopy complexity and hydraulic conductance limitations which are underrepresented in current ET estimations. 
 
 % add stress? think of how stress and age/complexity is linked/could stressors affect forests of different ages and complexities differently?
 
 \subsection{Machine Learning and Integrating Forest Age}
-\subsubsection{ET Estimation Methods}
+\subsubsection{Evapotranspiration Estimation Methods}
 There are many different methods for the estimation of ET as no single model performs reliably across all conditions and regions \parencite{derardja2024advancements}, thus the data requirement can be significantly varied across models \parencite{zhao2013evapotranspiration}. Process-based models define the relationship between input variables and ET explicitly for estimations which are developed through hydrological theory, yet often suffer from a requirement of comprehensive meteorological data as input, and their rigid structure can limit adaptability and generalisation \parencite{amani2023review}. Meanwhile, ML approaches do not explicitly define relationships, instead relying on the underlying architecture of models to optimise against the provided training data  to derive the relationship between inputs and ET. 
 
 % pan et al has a good graph which could be used to demonstrate differences in ML vs process based methods and accuracy
 
-\par ML methods have been used extensively for ET estimation in recent years and have demonstrated high spatiotemporal prediction accuracy and a capacity to outperform process-based \parencite{pan2020evaluation, yan2023deep} [FIGURE?]. The increased precision of ML ET estimations in data rich regions may be due to their ability to leverage both linear and non-linear relationships for mapping between input data and ET estimates due to their inherent lack of prior assumptions between the two \parencite{besnard2018quantifying,xue2025review}. In data limited contexts, hybrid approaches combining ML and process-based models have shown improved performance over standalone methods, whether by using process-based outputs as ML input features or by using ML to estimate parameter values for process-based equations \parencite{liu2021assessment,yan2023deep}. Traditional (non deep learning) ML approaches, such as RF and Support Vector Machine (SVM), are commonly used and also show good ET predictive performance, with \textcite{xu2018evaluating} comparing the capabilities of five ML models against EC data as ground truth, finding the RF model to slightly outperform the others in uncertainty, with all models predicting ET to high accuracy ($R^2\:0.87-0.89$). Recurrent neural networks (RNNs) are a specialised form of ANN which are highly capable in extracting long term dependencies within time series data and handling noisy datasets, indicating strong potential for application using long-term EC datasets as training for ET estimations \parencite{yan2023deep}. 
+\par ML methods have been used extensively for ET estimation in recent years and have demonstrated high spatiotemporal prediction accuracy and a capacity to outperform process-based \parencite{pan2020evaluation, yan2023deep}. The increased precision of ML ET estimations in data rich regions may be due to their ability to leverage both linear and non-linear relationships for mapping between input data and ET estimates due to their inherent lack of prior assumptions between the two \parencite{besnard2018quantifying,xue2025review}. In data limited contexts, hybrid approaches combining ML and process-based models have shown improved performance over standalone methods, whether by using process-based outputs as ML input features or by using ML to estimate parameter values for process-based equations \parencite{liu2021assessment,yan2023deep}. Traditional (non deep learning) ML approaches, such as RF and Support Vector Machine (SVM), are commonly used and also show good ET predictive performance, with \textcite{xu2018evaluating} comparing the capabilities of five ML models against EC data as ground truth, finding the RF model to slightly outperform the others in uncertainty, with all models predicting ET to high accuracy ($R^2\:0.87-0.89$). Recurrent neural networks (RNNs) are a specialised form of ANN which are highly capable in extracting long term dependencies within time series data and handling noisy datasets, indicating strong potential for application using long-term EC datasets as training for ET estimations \parencite{yan2023deep}. 
 \par While the use of ML methods is promising in reducing uncertainties and improving ET estimation accuracy, they can struggle with extrapolation beyond training data and lack the interpretability of process-based models, often being termed `black boxes' due to their inherent complexity and lack of decision making explainability \parencite{hassija2024interpreting}. The quality of ML ET estimations is highly dependent on the provided training data, model hyperparameter tuning, and choice of predictors (feature selection) - all of which relies on user knowledge and pre-existing data for the specific ecosystem in question \parencite{amani2023review}. Therefore careful consideration must be taken during ML training and evaluation to form a relevant and accurate ET estimation model.
 
 \subsubsection{Feature Selection and FLUXNET}
 The selection of features in ML ET estimation models can vary from a minimal data input \parencite{ahmadi2024solaret} to a broad choice of variables from multiple sources \parencite{liu2021assessment}. \autoref{tab:ml_models} presents examples on the range of input features included in ML models used for ET predictions. The range of selected input features is often constrained by the availability of meteorological data in the target region, with \textcite{xu2018evaluating} demonstrating that successively adding more input variables increased ET prediction accuracy and reduced uncertainty in five different ML models, suggesting that the inclusion of additional relevant features, such as forest age, could improve model performance. However, the number of input variables used may be lower in attempts to form models which can be applied to data limited regions for greater generalisation power \parencite{ahmadi2024solaret}. In either case, access to standardised, high quality data is key in forming ML models for ET.
 \par An important and commonly used resource to form ML ET models is the FLUXNET \parencite{baldocchi2001fluxnet, pastorello2020fluxnet2015}, which is formed from data collected at flux towers worldwide and comprises gas and energy flux measurements within a variable footprint around the tower - including latent heat ($\lambda$ET) from which ET can be directly calculated, alongside meteorological and biological measurements at these sites. The standardisation and open access of FLUXNET data across sites enables confident comparisons and EC data access across multiple ecosystems, and yet despite the abundance of variables contained within the FLUXNET, forest-specific features such as stand age are rarely included at sites  \parencite{pastorello2020fluxnet2015}. Given the potential impact of forest age on ET described above and the widespread use of FLUXNET data in training ML ET models \parencite{jung2010recent,besnard2018quantifying,wang2022recent}, this omission represents a gap in the feature space available to these models which potentially limits their ability to generalise across forests of varying successional stages and structural complexities.
 
-\subsubsection{Machine Learning for Age-ET Relationships}
+\subsubsection{Machine Learning for Age-Evapotranspiration Relationships}
 The flexibility of ML models to capture both linear and nonlinear relationships between predictor and target variables has previously been used to include forest age data, with \textcite{besnard2018quantifying} using a RF model with and without forest age as a predictor variable for net ecosystem productivity (NEP) estimations, finding strong support for a nonlinear relationship between NEP and forest age which demonstrates both the strength of this ML method in detecting these relationships and a capacity for including forest age as an input feature. This adaptability of ML methods to detect underlying patterns within complex datasets provides an avenue for the age-driven effects of forest age on ET estimations using FLUXNET data to be further explored. 
 
 \subsubsection{Incorporating Forest Age} 
@@ -205,13 +200,13 @@ Vegetation age is not a standardised variable within the FLUXNET2015 dataset, wi
 % from zhao2019physics
 %In this study we developed a physics-constrained ML model for ET. The major strength of this method is that it can predict LE with similar skill as a pure ML model, yet the LE hybrid prediction can conserve the surface energy budget, respect the physics of evaporation (downgradient of vapor pressure), and better generalize during extremes, showing the potential of such method for global monitoring during droughts and heat waves. We further analyzed the most important variables controlling ET and found that vegetation height and SM were the most important control variables. This type of hybrid model can pave the way for new remote sensing products of ET using hybrid approaches to better detect extremes such as droughts and their impact on ecosystems
 
-\subsubsection{Model Generalisation}
+\subsubsection{Machine Learning Model Generalisation}
 % could give example here of how training on young vs old could affect predictions
 ET models can be calibrated or trained with local or regional data. However, local models may demonstrate strong predictive performance locally but weak performance at other locations, potentially rendering application outside of the training area unusable. Therefore, for ML models trained on specific flux tower data, it is important to assess the generalisation power against towers excluded from the training data. ML models trained with data from multiple towers or across a regional scale can be useful for predictions at data-limited sites within a particular region or ecosystem, and have demonstrated more stable performance across multiple sites, albeit with slightly lower accuracy in ecosystems well represented by locally-trained models \parencite{ferreira2021generalizability}.
 \par The limited and uneven spatial distribution of flux tower sites in the FLUXNET highlights the necessity for robust models which are able to extend ET estimations across a diverse range of landscapes and climatic conditions. Models with better generalisation capabilities should improve estimations for ET in regions with sparse EC - many of which are disproportionately affected by forest disturbances such as fire and pest outbreak from climate change \parencite{altman2024global,shi2024machine}. Given the potential impact of these ET estimations on land systems governance, understanding how the inclusion of new variables such as forest age affects model generalisation is crucial before these models can be confidently applied at broader scales.
 
 \subsection{Conclusion}
-These findings suggest that the age of a forest represents an underused but potentially important variable in ET estimation models, particularly in dense and closed-canopy systems. Age-driven processes such as canopy architecture, rainfall interception, and changes to hydraulic and stomatal conductance introduce complexity to ET dynamics which may not be fully captured by indices used in contemporary models. As forest age distributions become increasingly heterogeneous, the omission of forest age as an input variable for ET models may be limiting the capacity for these models to generalise across successional forest stages. 
+These findings suggest that the age of a forest represents an underused but potentially important variable in ET estimation models, particularly in complex closed-canopy systems. Age-driven processes such as canopy architecture, rainfall interception, and changes to hydraulic and stomatal conductance introduce complexity to ET dynamics which may not be fully captured by variables used in current models. As forest age distributions become increasingly heterogeneous, the omission of forest age as an input variable for ET models may be limiting their capacity to generalise across successional forest stages. 
 \par This project will attempt to quantify the effects of including forest age as a predictor on the generalisation of ET models trained on FLUXNET forest sites, using ML models for their ability to capture both linear and nonlinear effects across large datasets. Crucially, improved predictions are only meaningful when grounded in the biophysical processes underpinning ET and used to improve our understanding of how these may shift under increasing disturbances such as climate change. Without this context, model prediction accuracy is constrained to a technical metric with limited ecological relevance.
 
 
@@ -221,12 +216,11 @@ These findings suggest that the age of a forest represents an underused but pote
 
 
 \newpage
-\section{Project Aims and Objectives (500 words)}
+\nolinenumbers
+\section{Project Aims and Objectives}
 \subsubsection{Aims}
-\begin{itemize}
-	\item Overview of how this project will answer the question/area proposed at end of introduction.
-\end{itemize}
-
+The overall aim of this project is to investigate the effects of including forest age as a variable in ET ML models and quantify any effects on the generalisation ability across forests of different ages. To achieve this, ML models to estimate ET will be formed using FLUXNET data with different combinations of inputs for training. 
+\par First, models will be built which are trained on forests of a certain age, and estimates of ET will be tested against a similar forest (situated in close proximity and containing the same species of tree) of a different age. Evaluating the accuracy of a model trained on one age and tested on another will initially aim to determine how the models generalise across forests of different successional stages.
 
 \newpage
 \section{Project Plan (500 words)}
@@ -301,7 +295,7 @@ These findings suggest that the age of a forest represents an underused but pote
 	\centering
 	\input{oishi_plot/oishi_et_plot.tex}
 	\captionsetup{justification=justified, width=0.9\linewidth}
-	\caption{Components of annual evapotranspiration by stand age, adapted from \textcite{oishi2020quantifying}. Sub canopy evapotranspiration ($E_{sub}$), canopy transpiration ($E_c$), and canopy interception ($E_i$) correspond approximately to $E_{Soil}$, $T$, and $E_{Canopy}$ in \autoref{eqn:et}, with $E_{sub}$ additionally capturing under canopy transpiration.}
+	\caption{Components of annual evapotranspiration by stand age, adapted from \textcite{oishi2020quantifying}. Sub canopy evapotranspiration ($E_{sub}$), canopy transpiration ($E_c$), and canopy interception ($E_i$) correspond approximately to soil evaporation ($E_{Soil}$), transpiration (T), and canopy evaporation ($E_{Canopy}$), with $E_{sub}$ additionally capturing under canopy transpiration.}
 	\label{fig:oishi}
 \end{figure}
 
