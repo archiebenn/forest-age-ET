@@ -24,9 +24,10 @@ p <- ggplot(data, aes(x = stand_age, y = value, fill = component)) +
     y = "Evapotranspiration (mm $y^{-1}$)",
     fill = "ET Component"
   ) +
+  ylim(0, 600) +    # force y axis scale
   theme_classic() +
   theme(
-    legend.position = c(0.15, 0.85),
+    legend.position = c(0.2, 0.85),
     legend.background = element_rect(fill = "white", colour = "black", linewidth = 0.4),
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 10),
@@ -37,7 +38,7 @@ p <- ggplot(data, aes(x = stand_age, y = value, fill = component)) +
     axis.title.x = element_text(margin = margin(t = 10)),
     axis.title.y = element_text(margin = margin(r = 10))
   )
-
+p
 tikz("oishi_et_plot.tex", width = 6, height = 4)
 print(p)
 dev.off()

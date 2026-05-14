@@ -1,15 +1,15 @@
 
-\documentclass[paper=a4,fontsize=12pt]{scrartcl} 
+\documentclass[paper=a4,fontsize=11pt]{scrartcl} 
 
 \usepackage[left=2.8cm,right=2.8cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[utf8]{inputenc} 
 \usepackage{microtype}
 \usepackage[T1]{fontenc}
-\usepackage{MinionPro} % op font
-\usepackage{MnSymbol}
-\usepackage{helvet} % sans
-%\renewcommand{\familydefault}{\sfdefault} % sans as default :(
-%\usepackage[italic]{mathastext}
+%\usepackage{MinionPro} % op font
+%\usepackage{MnSymbol}
+\usepackage{tgheros} % sans
+\renewcommand{\familydefault}{\sfdefault} % sans as default :(
+\usepackage[italic]{mathastext}
 \usepackage{fancyhdr} % Custom headers and footers
 \usepackage[english]{babel}
 \usepackage{amsmath,amsfonts,amsthm}
@@ -33,14 +33,15 @@
 \usepackage{pdflscape}
 
 
+
 \renewcommand{\cfttoctitlefont}{\hfil\Large\scshape}%\lsstyle
 \renewcommand{\cftsecfont}{\scshape}
 %\renewcommand{\cftsubsecfont}{\scshape}
 %\renewcommand{\cftsubsubsecfont}{\itshape}
 
 \sectionfont{\centering \normalfont\scshape} %\lsstyle
-\subsectionfont{\normalfont\sffamily\bfseries}
-\subsubsectionfont{\normalfont\sffamily}%\bfseries
+\subsectionfont{\large\sffamily\bfseries}
+\subsubsectionfont{\normalfont\sffamily\itshape}
 
 \titlespacing*{\subsection}{0pt}{*2}{*0.5}
 \titlespacing*{\subsubsection}{0pt}{*2}{*0.5}
@@ -72,6 +73,19 @@
 
 \linespread{1.2}
 
+% italicised 'et al.' from stackexchange:
+\renewbibmacro*{name:andothers}{% Based on name:andothers from biblatex.def
+	\ifboolexpr{
+		test {\ifnumequal{\value{listcount}}{\value{liststop}}}
+		and
+		test \ifmorenames
+	}
+	{\ifnumgreater{\value{liststop}}{1}
+		{\finalandcomma}
+		{}%
+		\andothersdelim\bibstring[\emph]{andothers}}
+	{}}
+
 \begin{document}
 
 %----------------------------------------------------------------------------------------
@@ -79,14 +93,14 @@
 %----------------------------------------------------------------------------------------
 
 \begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
-	\vspace*{-2em} % star for top of page
+	\vspace*{-0em} % star for top of page
 	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
 	
 	\centering % Centre everything on the page
 
 	%\HRule\\[0.4cm]
 	
-	\includegraphics[scale=3]{../uni_logo.png}
+	\includegraphics[scale=3.5]{../uni_logo.png}
 	\vspace{3em}
 	
 	{\Large \bfseries The Effect of Forest Age on Machine Learning Evapotranspiration Generalisation}\\[0.4cm] % Title of your document
@@ -123,7 +137,7 @@
 
 \vspace{1em}
 \textbf{Key words:} Evapotranspiration, Forest Age, Machine Learning, FLUXNET.\\
-\textbf{Word count:} 3991 (Literature Review: 2991; Project Aims \& Plan: 1000)
+\textbf{Word count:} 3980 (Literature Review: 2980; Project Aims \& Plan: 1000)
 \end{abstract}
 
 \vfill
@@ -216,11 +230,47 @@ These findings suggest that the age of a forest represents an underused but pote
 
 
 \newpage
-\nolinenumbers
 \section{Project Aims and Objectives}
-\subsubsection{Aims}
-The overall aim of this project is to investigate the effects of including forest age as a variable in ET ML models and quantify any effects on the generalisation ability across forests of different ages. To achieve this, ML models to estimate ET will be formed using FLUXNET data with different combinations of inputs for training. 
-\par First, models will be built which are trained on forests of a certain age, and estimates of ET will be tested against a similar forest (situated in close proximity and containing the same species of tree) of a different age. Evaluating the accuracy of a model trained on one age and tested on another will initially aim to determine how the models generalise across forests of different successional stages.
+The overall aims of this project are to investigate the effects of including forest age as a variable in ET ML models and quantify any effects on the generalisation capability of these models across forests of different ages. To achieve this, ML models to estimate ET will be formed using FLUXNET data with different combinations of training and required input variables. After initial data acquisition, the project can be broadly split into four parts:
+
+\subsubsection*{Part 1}
+Identify forest FLUXNET sites which contain measurements of suitable variables and are able to have forest age determined, or have already had forest ages quantified. Furthermore, source LAI measurements using flux tower site coordinates. This is crucial as only these sites will be available for training and testing models with forest age and LAI included.
+
+\subsubsection*{Part 2}
+Using available FLUXNET data and forest age estimates, appropriate ML architectures will be selected for use with forest age data based on predictive performance against ground truths before the main comparisons. This will help determine which ML methods are suitable for use with forest age data to form accurate predictions to be taken forward.
+
+% will taking ones forward which are only trained forest age data cause bias when comparing vs. non forest age models later (specific method like RF)?
+
+\subsubsection*{Part 3}
+Models will be trained on forests of a certain age and tested against ground truths of a similar forest which is a significantly different age (ideally situated in the same region and containing the same species of trees). Evaluating the accuracy of a model trained on one age and tested on another will aim to quantify the effect forest age has on ET predictions across successional stages, and will inform the design and interpretation of part 4.
+
+
+\subsubsection*{Part 4}
+A four model comparison will be carried out to identify the individual and combined effects of forest age and LAI on ET accuracy. The four models, $M_1$, $M_2$, $M_3$, and $M_4$, will be designed using identical hyperparameter setups, architectures, and trained on the same sites, differing only in their training and input features as follows:
+
+\nolinenumbers
+\vspace{-1em}
+\begin{equation}
+	ET_t = M_1\left(X_t\right)
+	\label{eq:og}
+\end{equation}
+\begin{equation}
+	ET_t = M_2\left(X_t, Age_{\textit{forest}}\right)
+	\label{eq:mine2}
+\end{equation}
+\begin{equation}
+	ET_t = M_3\left(X_t, LAI_t\right)
+	\label{eq:mine}
+\end{equation}
+\begin{equation}
+	ET_t = M_4\left(X_t, Age_{\textit{forest}}, LAI_t\right)
+	\label{eq:mine3}
+\end{equation}
+\linenumbers
+
+
+where $ET_t$ is the estimated ET over period $t$ (for example, hourly or daily) and $X_t$ represents the required set of input features over period $t$ which all models will use for estimations. LAI is included here as a structural covariate to test if forest age improves predictive performance beyond LAI for ET ML models. All models will then predict ET against identical held out sites with comparisons of accuracy used to isolate any contributions of forest age and LAI to ET estimations across forests of different successional ages.
+\par The main objective is to determine if forest age is a variable which should be controlled for or included within future ML ET models. The results from this project should help guide future researchers in this area to improve the generalisation capabilities of future ML ET models across forest ecosystems.
 
 \newpage
 \section{Project Plan (500 words)}
@@ -248,6 +298,8 @@ The overall aim of this project is to investigate the effects of including fores
 
 \subsection{Interpretation}
 
+\nolinenumbers
+
 \newpage 
 \section{Gantt Chart}
 
@@ -256,9 +308,6 @@ The overall aim of this project is to investigate the effects of including fores
 	\includegraphics[width=\textwidth]{gantt/gantt1.png}
 	\captionsetup{justification=Centering, labelformat=empty}
 \end{figure}
-
-
-
 
 
 %------------------------------------------------
@@ -291,6 +340,7 @@ The overall aim of this project is to investigate the effects of including fores
 
 \newpage
 \section{Figures and Tables}
+\vspace{5em}
 \begin{figure}[H]
 	\centering
 	\input{oishi_plot/oishi_et_plot.tex}
@@ -300,12 +350,11 @@ The overall aim of this project is to investigate the effects of including fores
 \end{figure}
 
 
-
 \newpage
 \newgeometry{left=1.5cm, right=1.5cm}
 	\begin{table}[H]
 		\centering
-		\caption{Feature selection of ML-based models in the literature}
+		\caption{Feature selection of ML-based ET models in the literature}
 		\label{tab:ml_models}
 		\begin{tabularx}{\linewidth}{X | X | X | X} 
 			\hline \hline
@@ -313,16 +362,20 @@ The overall aim of this project is to investigate the effects of including fores
 			
 			Random Forest, ANN, cubist, SVM, DBN \newline \parencite{xu2018evaluating}. & Daily ET from 36 EC flux tower sites. & R$_s$, LAI, RH, T$_a$ (daily averages). \newline P (cumulative prior 30 days).  & Mixed: grassland, cropland, ENF, BF, shrubland, wetland, barren land (Heihe River Basin, NW China).\\
 			
+			
 			\hline
+			
+			
+			XGboost, ANN \newline \parencite{liu2021assessment}. & Daily ET from 17 flux tower sites. & T$_a$, P, C$_a$, SW, VPD, NDVI (daily averages). \newline EVI, NIRv, SWIR (time between measurements not defined). & Cropland only. \\
+			
+			
+			\hline 
 
 			
 			HS-LSTM \newline \parencite{yan2023deep}. & Daily ET$_0$ calculated from FAO-56 PM as ground truth. & T$_{a,max}$ and T$_{a,min}$ (for ET$_0$ from HS which is used as LTSM model input. & Not specified: Semi-humid zone with temperate continental climate (Songliao Basin, NE China).\\
 			
 			\hline
 			
-			XGboost, ANN \newline \parencite{liu2021assessment}. & Daily ET from 17 flux tower sites. & T$_a$, P, C$_a$, SW, VPD, NDVI (daily averages). \newline EVI, NIRv, SWIR (time between measurements not defined). & Cropland only. \\
-			
-			\hline 
 			
 			CatBoost \newline \parencite{ahmadi2024solaret} & Daily ET$_0$ calculated from FAO-56 PM as ground truth. & R$_s$ (hourly) & Mixed: 17 climatic zones including coastal, central valley, and desert (California, USA). \\
 			
