@@ -31,7 +31,7 @@
 \usepackage[colorlinks=true,linkcolor=black, citecolor=blue]{hyperref}
 \usepackage{subcaption}
 \usepackage{pdflscape}
-
+\usepackage{cleveref}
 
 
 \renewcommand{\cfttoctitlefont}{\hfil\Large\scshape}%\lsstyle
@@ -269,14 +269,18 @@ A four model comparison will be carried out to identify the individual and combi
 \linenumbers
 
 
-where $ET_t$ is the estimated ET over period $t$ (for example, hourly or daily) and $X_t$ represents the required set of input features over period $t$ which all models will use for estimations. LAI is included here as a structural covariate to test if forest age improves predictive performance beyond LAI for ET ML models. All models will then predict ET against identical held out sites with comparisons of accuracy used to isolate any contributions of forest age and LAI to ET estimations across forests of different successional ages.
-\par The main objective is to determine if forest age is a variable which should be controlled for or included within future ML ET models. The results from this project should help guide future researchers in this area to improve the generalisation capabilities of future ML ET models across forest ecosystems.
+where $ET_t$ is the estimated ET over period $t$ (for example, hourly or daily) and $X_t$ represents the required set of input features over $t$ which all models will use for estimations. LAI is included here as a covariate to test if forest age improves predictive performance beyond LAI for ET ML models. All models will then predict ET against identical held out sites with comparisons of accuracy used to isolate any contributions of forest age and LAI to ET estimations across forests of different successional ages.
+\par The main objective is to determine if forest age is a variable which should be controlled for or included within future ML ET models. The results from this project could help guide researchers in this area to improve the generalisation capabilities of future ML ET models across forest ecosystems.
 
 \newpage
-\section{Project Plan (500 words)}
+\section{Project Plan}
 \subsection{Data Acquisition}
+FLUXNET2015 data will initially be downloaded for the age-quantified sites included in the supplementary materials for \textcite{besnard2018quantifying}, as this paper will act as the primary age source for the project. These FLUXNET data sites along with the supplementary materials will contain the variables contained within $X_t$ and $Age_{\textit{forest}}$ in \crefrange{eq:og}{eq:mine3}. LAI data will be extracted from Terra MODIS instrument data \parencite{myneni2015mcd15a3h} using the coordinates of the flux tower sites contained within the FLUXNET data.
 
 \subsection{Site Selection}
+For this project, only forest sites will be considered, and so the data will be filtered to only contain these ecosystems (any forest type). 
+
+Certain sites implicitly mention age through burn year in FLUXNET metadata, but these will require further verification to quantify their age before being included in this project, for example finding publications on burn dates, as in \textcite{besnard2018quantifying}.
 % The Canadian burn chronosequence sites (CA-NS1 through CA-NS7, CA-SF1 through CA-SF3) implicitly encode stand age through their burn year, and the Turkey Point plantation sites (CA-TP1 through CA-TP4, planted 1939–2002) similarly allow age to be reconstructed — both of these are in the dataset.
 
 
@@ -302,6 +306,7 @@ where $ET_t$ is the estimated ET over period $t$ (for example, hourly or daily) 
 
 \newpage 
 \section{Gantt Chart}
+A Gantt chart depicting the expected timeline of key project aspects.
 
 \begin{figure}[H]
 	\centering

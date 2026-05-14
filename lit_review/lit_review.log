@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  14 MAY 2026 18:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  14 MAY 2026 22:49
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1249,7 +1249,21 @@ F (HO)
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
-))
+)) (/usr/share/texlive/texmf-dist/tex/latex/cleveref/cleveref.sty
+Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
+Package cleveref Info: `hyperref' support loaded on input line 2370.
+LaTeX Info: Redefining \cref on input line 2370.
+LaTeX Info: Redefining \Cref on input line 2370.
+LaTeX Info: Redefining \crefrange on input line 2370.
+LaTeX Info: Redefining \Crefrange on input line 2370.
+LaTeX Info: Redefining \cpageref on input line 2370.
+LaTeX Info: Redefining \Cpageref on input line 2370.
+LaTeX Info: Redefining \cpagerefrange on input line 2370.
+LaTeX Info: Redefining \Cpagerefrange on input line 2370.
+LaTeX Info: Redefining \labelcref on input line 2370.
+LaTeX Info: Redefining \labelcpageref on input line 2370.
+Package cleveref Info: `amsthm' support loaded on input line 3026.
+)
 
 Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 (biblatex)                Loading 'csquotes' recommended.
@@ -1452,10 +1466,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 154--155
 \openout6 = `lit_review.toc'.
 
 [3] [4] [5] [6] [7] [8] [9] [10] [11] [12]
-<gantt/gantt1.png, id=248, 433.62pt x 289.08pt>
+<gantt/gantt1.png, id=254, 433.62pt x 289.08pt>
 File: gantt/gantt1.png Graphic file (type png)
 <use gantt/gantt1.png>
-Package pdftex.def Info: gantt/gantt1.png  used on input line 308.
+Package pdftex.def Info: gantt/gantt1.png  used on input line 313.
 (pdftex.def)             Requested size: 438.17233pt x 292.13168pt.
 [13 <./gantt/gantt1.png>]
 *geometry* verbose mode - [ newgeometry ] result:
@@ -1492,21 +1506,21 @@ Package pdftex.def Info: gantt/gantt1.png  used on input line 308.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 319.
+(hyperref)                removing `math shift' on input line 324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 319.
+(hyperref)                removing `\sim' on input line 324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 319.
+(hyperref)                removing `math shift' on input line 324.
 
 [14
 
 ] [15
 
-] [16] [17] (./oishi_plot/oishi_et_plot.tex) [18]
+] [16] [17] [18] (./oishi_plot/oishi_et_plot.tex) [19]
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: <default>
@@ -1540,66 +1554,66 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-Underfull \hbox (badness 1331) in paragraph at lines 383--383
+Underfull \hbox (badness 1331) in paragraph at lines 388--388
 []|\T1/qhv/m/n/10.95 (+20) Random For-est, ANN,
  []
 
 
-Underfull \hbox (badness 1478) in paragraph at lines 383--383
+Underfull \hbox (badness 1478) in paragraph at lines 388--388
 \T1/qhv/m/n/10.95 (+20) land, ENF, BF, shrub-
  []
 
 
-Underfull \hbox (badness 3049) in paragraph at lines 383--383
+Underfull \hbox (badness 3049) in paragraph at lines 388--388
 \T1/qhv/m/n/10.95 (+20) land, wet-land, bar-ren
  []
 
 
-Underfull \hbox (badness 1708) in paragraph at lines 383--383
+Underfull \hbox (badness 1708) in paragraph at lines 388--388
 []|\T1/qhv/m/n/10.95 (+20) T$[]$, P, C$[]$, SW, VPD,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 383--383
+Underfull \hbox (badness 10000) in paragraph at lines 388--388
 []|\T1/qhv/m/n/10.95 (+20) Daily ET$[]$ cal-cu-lated
  []
 
 
-Underfull \hbox (badness 5939) in paragraph at lines 383--383
+Underfull \hbox (badness 5939) in paragraph at lines 388--388
 \T1/qhv/m/n/10.95 (+20) from FAO-56 PM as
  []
 
 
-Underfull \hbox (badness 5008) in paragraph at lines 383--383
+Underfull \hbox (badness 5008) in paragraph at lines 388--388
 []|\T1/qhv/m/n/10.95 (+20) Not spec-i-fied: Semi-
  []
 
 
-Underfull \hbox (badness 1728) in paragraph at lines 383--383
+Underfull \hbox (badness 1728) in paragraph at lines 388--388
 \T1/qhv/m/n/10.95 (+20) humid zone with tem-
  []
 
 
-Underfull \hbox (badness 5741) in paragraph at lines 383--383
+Underfull \hbox (badness 5741) in paragraph at lines 388--388
 \T1/qhv/m/n/10.95 (+20) per-ate con-ti-nen-tal cli-
  []
 
 
-Underfull \hbox (badness 2012) in paragraph at lines 383--383
+Underfull \hbox (badness 2012) in paragraph at lines 388--388
 \T1/qhv/m/n/10.95 (+20) mate (Songliao Basin,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 383--383
+Underfull \hbox (badness 10000) in paragraph at lines 388--388
 []|\T1/qhv/m/n/10.95 (+20) Daily ET$[]$ cal-cu-lated
  []
 
 
-Underfull \hbox (badness 5939) in paragraph at lines 383--383
+Underfull \hbox (badness 5939) in paragraph at lines 388--388
 \T1/qhv/m/n/10.95 (+20) from FAO-56 PM as
  []
 
-[19
+[20
 
 ]
 
@@ -1618,21 +1632,21 @@ Package logreq Info: Writing requests to 'lit_review.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38778 strings out of 474222
- 744274 string characters out of 5748733
+ 40406 strings out of 474222
+ 782353 string characters out of 5748733
  1943975 words of memory out of 5000000
- 60164 multiletter control sequences out of 15000+600000
- 637447 words of font info for 197 fonts, out of 8000000 for 9000
+ 61783 multiletter control sequences out of 15000+600000
+ 637579 words of font info for 198 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,13n,107p,10905b,2144s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/shar
 e/texmf/fonts/type1/public/tex-gyre/qhvb.pfb></usr/share/texmf/fonts/type1/publ
 ic/tex-gyre/qhvr.pfb></usr/share/texmf/fonts/type1/public/tex-gyre/qhvri.pfb>
-Output written on lit_review.pdf (19 pages, 286180 bytes).
+Output written on lit_review.pdf (20 pages, 289000 bytes).
 PDF statistics:
- 435 PDF objects out of 1000 (max. 8388607)
- 387 compressed objects within 4 object streams
- 103 named destinations out of 1000 (max. 500000)
+ 445 PDF objects out of 1000 (max. 8388607)
+ 396 compressed objects within 4 object streams
+ 105 named destinations out of 1000 (max. 500000)
  51455 words of extra memory for PDF output out of 51595 (max. 10000000)
 

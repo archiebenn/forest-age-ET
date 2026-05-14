@@ -1608,6 +1608,42 @@
       \field{title}{{Evaporation and environment}}
       \field{year}{1965}
     \endentry
+    \entry{myneni2015mcd15a3h}{misc}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=85fe491d275ea260300ce9fe18c2ff68}{%
+           family={Myneni},
+           familyi={M\bibinitperiod},
+           given={R},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bc9002f8a61fd5e85d8054f3b32dd373}{%
+           family={Knyazikhin},
+           familyi={K\bibinitperiod},
+           given={Y},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8f7f68e9a8dd12dcd846aa7313060dbe}{%
+           family={Park},
+           familyi={P\bibinitperiod},
+           given={T},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{c89f8c781e20778903a00c0d6f7bb9b0}
+      \strng{fullhash}{2ee6c92aa7a8e8b8586eea39b10da99d}
+      \strng{bibnamehash}{2ee6c92aa7a8e8b8586eea39b10da99d}
+      \strng{authorbibnamehash}{2ee6c92aa7a8e8b8586eea39b10da99d}
+      \strng{authornamehash}{c89f8c781e20778903a00c0d6f7bb9b0}
+      \strng{authorfullhash}{2ee6c92aa7a8e8b8586eea39b10da99d}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{MCD15A3H MODIS/Terra+ Aqua Leaf Area Index/FPAR 4-day L4 Global 500m SIN Grid V006, NASA EOSDIS Land Processes DAAC [data set]}
+      \field{year}{2015}
+    \endentry
     \entry{oishi2020quantifying}{article}{}
       \name{author}{6}{}{%
         {{un=0,uniquepart=base,hash=a42f4fa5341dee08055bfb509c46840c}{%
