@@ -1,21 +1,20 @@
 
-\documentclass[paper=a4,fontsize=11pt]{scrartcl} 
+\documentclass[paper=a4,fontsize=12pt]{scrartcl} 
 
 \usepackage[left=2.8cm,right=2.8cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[utf8]{inputenc} 
 \usepackage{microtype}
 \usepackage[T1]{fontenc}
-%\usepackage{MinionPro} % op font
-%\usepackage{MnSymbol}
+\usepackage{MinionPro} % op font
+\usepackage{MnSymbol}
 \usepackage{tgheros} % sans
-\renewcommand{\familydefault}{\sfdefault} % sans as default :(
+%\renewcommand{\familydefault}{\sfdefault} % sans as default :(
 \usepackage[italic]{mathastext}
 \usepackage{fancyhdr} % Custom headers and footers
 \usepackage[english]{babel}
 \usepackage{amsmath,amsfonts,amsthm}
 \usepackage{lipsum}
 \usepackage{caption}
-\usepackage{lineno,parskip} 
 \usepackage{subcaption}
 \usepackage{graphicx}
 \usepackage{float}
@@ -34,14 +33,14 @@
 \usepackage{cleveref}
 
 
-\renewcommand{\cfttoctitlefont}{\hfil\Large\scshape}%\lsstyle
+\renewcommand{\cfttoctitlefont}{\hfil\Large\scshape\lsstyle}%\lsstyle
 \renewcommand{\cftsecfont}{\scshape}
 %\renewcommand{\cftsubsecfont}{\scshape}
 %\renewcommand{\cftsubsubsecfont}{\itshape}
 
-\sectionfont{\centering \normalfont\scshape} %\lsstyle
-\subsectionfont{\large\sffamily\bfseries}
-\subsubsectionfont{\normalfont\sffamily\itshape}
+\sectionfont{\centering \normalfont\scshape\lsstyle} %\lsstyle
+\subsectionfont{\large\normalfont\sffamily}
+\subsubsectionfont{\normalfont\sffamily}
 
 \titlespacing*{\subsection}{0pt}{*2}{*0.5}
 \titlespacing*{\subsubsection}{0pt}{*2}{*0.5}
@@ -117,7 +116,7 @@
 		\begin{flushleft}
 			\large
 			\textit{Author}\\
-			Student number: 1935263 % Your name
+			Archie \textsc{Benn} % Your name
 		\end{flushleft}
 	\end{minipage}
 	~
@@ -151,7 +150,7 @@ in Bioinformatics in the Faculty of Health and Life Sciences.
 
 \newpage
 \section*{Declaration}
-I declare that the work in this dissertation was carried out in accordance with the requirements of the University’s Regulations and Code of Practice for Taught Programmes and that it has not been submitted for any other academic award. Except where indicated by specific reference in the text, this work is my own work. Work done in collaboration with, or with the assistance of others, is indicated as such. I have identified all material in this dissertation which is not my own work through appropriate referencing and acknowledgement. Where I have quoted or otherwise incorporated material which is the work of others, I have included the source in the references. Any views expressed in the dissertation, other than referenced material, are those of the author. \newline \\Student number: 1935263 \\\today
+I declare that the work in this dissertation was carried out in accordance with the requirements of the University’s Regulations and Code of Practice for Taught Programmes and that it has not been submitted for any other academic award. Except where indicated by specific reference in the text, this work is my own work. Work done in collaboration with, or with the assistance of others, is indicated as such. I have identified all material in this dissertation which is not my own work through appropriate referencing and acknowledgement. Where I have quoted or otherwise incorporated material which is the work of others, I have included the source in the references. Any views expressed in the dissertation, other than referenced material, are those of the author. \newline \\Archie \textsc{Benn} \\\today
 
 \newpage
 \tableofcontents
@@ -162,7 +161,6 @@ I declare that the work in this dissertation was carried out in accordance with 
 %------------------------------------------------
 
 \section{Literature Review}
-\linenumbers
 \subsection{Introduction}
 \subsubsection{Evapotranspiration} 
 Terrestrial evapotranspiration (ET) is a key component of the global hydrological cycle describing the transition of water from liquid to gas at Earth's surface and further transfer to the atmosphere, representing a crucial element of the energy and water exchange between terrestrial ecosystems and the climate system. The term emphasises the combination of water vapourisation flux from (1) abiotic evaporation from soil and plant canopy surfaces, and (2) biotic transpiration through stomata to the atmosphere \parencite{katul2012evapotranspiration}. Approximately 60\% of precipitation on the land surface is returned to the atmosphere through ET \parencite{oki2006global}, and the associated latent heat flux, $\lambda$ET (where $\lambda$ is the latent heat of vaporisation), accounts for 50\% of the solar radiation absorbed by the land surface \parencite{trenberth2009earth}.
@@ -246,25 +244,23 @@ Models will be trained on forests of a certain age and tested against ground tru
 \subsubsection*{Part 4}
 A four model comparison will be carried out to identify the individual and combined effects of forest age and LAI on ET accuracy. The four models, $M_1$, $M_2$, $M_3$, and $M_4$,  will be developed per architecture using identical tuning procedures, and trained on the same sites, differing only in their exact hyperparameter values and training features:
 
-\nolinenumbers
 \vspace{-1em}
 \begin{equation}
 	ET_t = M_1\left(X_t\right)
 	\label{eq:og}
 \end{equation}
 \begin{equation}
-	ET_t = M_2\left(X_t, Age_{\textit{forest}}\right)
+	ET_t = M_2(X_t, Age_{\textit{forest}})
 	\label{eq:mine2}
 \end{equation}
 \begin{equation}
-	ET_t = M_3\left(X_t, LAI_t\right)
+	ET_t = M_3(X_t, LAI_t)
 	\label{eq:mine}
 \end{equation}
 \begin{equation}
-	ET_t = M_4\left(X_t, Age_{\textit{forest}}, LAI_t\right)
+	ET_t = M_4(X_t, Age_{\textit{forest}}, LAI_t)
 	\label{eq:mine3}
 \end{equation}
-\linenumbers
 
 
 where $ET_t$ is the estimated ET over period $t$ (for example, hourly or daily) and $X_t$ represents the required set of input features over $t$ which all models will use for estimations. LAI is included here as a covariate to test if forest age improves predictive performance beyond LAI for ET ML models. All models will then predict ET against identical held out sites with comparisons of accuracy used to isolate any contributions of forest age and LAI to ET estimations across forests of different successional ages.
@@ -295,7 +291,6 @@ This project is expected to be carried out using a mixture of R and Python tools
 \section{Gantt Chart}
 The following Gantt chart depicts an expected timeline of key events over the full duration of this project:
 
-\nolinenumbers
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{gantt/gantt1.png}
