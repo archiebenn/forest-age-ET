@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  14 MAY 2026 22:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.18)  15 MAY 2026 12:53
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1424,9 +1424,6 @@ File: ../uni_logo.png Graphic file (type png)
 <use ../uni_logo.png>
 Package pdftex.def Info: ../uni_logo.png  used on input line 103.
 (pdftex.def)             Requested size: 207.4143pt x 59.94775pt.
-Package microtype Info: Character `029' is missing
-(microtype)             in font `T1/qhv/m/sc/12'.
-(microtype)             Ignoring protrusion settings for this character.
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
@@ -1445,6 +1442,9 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
+Package microtype Info: Character `029' is missing
+(microtype)             in font `T1/qhv/m/sc/12'.
+(microtype)             Ignoring protrusion settings for this character.
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/qhv/m/sc/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1466,12 +1466,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 154--155
 \openout6 = `lit_review.toc'.
 
 [3] [4] [5] [6] [7] [8] [9] [10] [11] [12]
-<gantt/gantt1.png, id=254, 433.62pt x 289.08pt>
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 2
+92.
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+[13{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
+<gantt/gantt1.png, id=268, 433.62pt x 289.08pt>
 File: gantt/gantt1.png Graphic file (type png)
 <use gantt/gantt1.png>
-Package pdftex.def Info: gantt/gantt1.png  used on input line 313.
+Package pdftex.def Info: gantt/gantt1.png  used on input line 301.
 (pdftex.def)             Requested size: 438.17233pt x 292.13168pt.
-[13 <./gantt/gantt1.png>]
+[14 <./gantt/gantt1.png>]
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: <default>
@@ -1506,21 +1516,36 @@ Package pdftex.def Info: gantt/gantt1.png  used on input line 313.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 324.
+(hyperref)                removing `math shift' on input line 313.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 324.
+(hyperref)                removing `\sim' on input line 313.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 324.
+(hyperref)                removing `math shift' on input line 313.
 
-[14
 
-] [15
+Underfull \hbox (badness 1248) in paragraph at lines 332--332
+[]|\T1/qhv/m/n/10.95 (+20) Insufficient age ranges across
+ []
 
-] [16] [17] [18] (./oishi_plot/oishi_et_plot.tex) [19]
+
+Underfull \hbox (badness 1867) in paragraph at lines 332--332
+[]|\T1/qhv/m/n/10.95 (+20) Ensure data is cor-rectly en-gi-
+ []
+
+
+Underfull \hbox (badness 6380) in paragraph at lines 332--332
+[]|\T1/qhv/m/n/10.95 (+20) Utilise Uni-ver-sity high per-for-
+ []
+
+[15
+
+] [16
+
+] [17] [18] [19] (./oishi_plot/oishi_et_plot.tex) [20]
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: <default>
@@ -1554,66 +1579,66 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-Underfull \hbox (badness 1331) in paragraph at lines 388--388
+Underfull \hbox (badness 1331) in paragraph at lines 383--383
 []|\T1/qhv/m/n/10.95 (+20) Random For-est, ANN,
  []
 
 
-Underfull \hbox (badness 1478) in paragraph at lines 388--388
+Underfull \hbox (badness 1478) in paragraph at lines 383--383
 \T1/qhv/m/n/10.95 (+20) land, ENF, BF, shrub-
  []
 
 
-Underfull \hbox (badness 3049) in paragraph at lines 388--388
+Underfull \hbox (badness 3049) in paragraph at lines 383--383
 \T1/qhv/m/n/10.95 (+20) land, wet-land, bar-ren
  []
 
 
-Underfull \hbox (badness 1708) in paragraph at lines 388--388
+Underfull \hbox (badness 1708) in paragraph at lines 383--383
 []|\T1/qhv/m/n/10.95 (+20) T$[]$, P, C$[]$, SW, VPD,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 388--388
+Underfull \hbox (badness 10000) in paragraph at lines 383--383
 []|\T1/qhv/m/n/10.95 (+20) Daily ET$[]$ cal-cu-lated
  []
 
 
-Underfull \hbox (badness 5939) in paragraph at lines 388--388
+Underfull \hbox (badness 5939) in paragraph at lines 383--383
 \T1/qhv/m/n/10.95 (+20) from FAO-56 PM as
  []
 
 
-Underfull \hbox (badness 5008) in paragraph at lines 388--388
+Underfull \hbox (badness 5008) in paragraph at lines 383--383
 []|\T1/qhv/m/n/10.95 (+20) Not spec-i-fied: Semi-
  []
 
 
-Underfull \hbox (badness 1728) in paragraph at lines 388--388
+Underfull \hbox (badness 1728) in paragraph at lines 383--383
 \T1/qhv/m/n/10.95 (+20) humid zone with tem-
  []
 
 
-Underfull \hbox (badness 5741) in paragraph at lines 388--388
+Underfull \hbox (badness 5741) in paragraph at lines 383--383
 \T1/qhv/m/n/10.95 (+20) per-ate con-ti-nen-tal cli-
  []
 
 
-Underfull \hbox (badness 2012) in paragraph at lines 388--388
+Underfull \hbox (badness 2012) in paragraph at lines 383--383
 \T1/qhv/m/n/10.95 (+20) mate (Songliao Basin,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 388--388
+Underfull \hbox (badness 10000) in paragraph at lines 383--383
 []|\T1/qhv/m/n/10.95 (+20) Daily ET$[]$ cal-cu-lated
  []
 
 
-Underfull \hbox (badness 5939) in paragraph at lines 388--388
+Underfull \hbox (badness 5939) in paragraph at lines 383--383
 \T1/qhv/m/n/10.95 (+20) from FAO-56 PM as
  []
 
-[20
+[21
 
 ]
 
@@ -1632,21 +1657,22 @@ Package logreq Info: Writing requests to 'lit_review.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 40406 strings out of 474222
- 782353 string characters out of 5748733
+ 40471 strings out of 474222
+ 784183 string characters out of 5748733
  1943975 words of memory out of 5000000
- 61783 multiletter control sequences out of 15000+600000
- 637579 words of font info for 198 fonts, out of 8000000 for 9000
+ 61829 multiletter control sequences out of 15000+600000
+ 638521 words of font info for 204 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,13n,107p,10905b,2144s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/shar
 e/texmf/fonts/type1/public/tex-gyre/qhvb.pfb></usr/share/texmf/fonts/type1/publ
-ic/tex-gyre/qhvr.pfb></usr/share/texmf/fonts/type1/public/tex-gyre/qhvri.pfb>
-Output written on lit_review.pdf (20 pages, 289000 bytes).
+ic/tex-gyre/qhvr.pfb></usr/share/texmf/fonts/type1/public/tex-gyre/qhvri.pfb></
+usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on lit_review.pdf (21 pages, 326805 bytes).
 PDF statistics:
- 445 PDF objects out of 1000 (max. 8388607)
- 396 compressed objects within 4 object streams
- 105 named destinations out of 1000 (max. 500000)
- 51455 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 460 PDF objects out of 1000 (max. 8388607)
+ 407 compressed objects within 5 object streams
+ 109 named destinations out of 1000 (max. 500000)
+ 51951 words of extra memory for PDF output out of 61914 (max. 10000000)
 

@@ -18,6 +18,6 @@ show(p)
 ggsave("gantt1.png", plot = p, width = 6, height = 4, dpi = 300)
 
 # save as tikz for latex
-tikz("gantt.tex", width = 6, height = 4)
-show(p)
-dev.off()
+#tikz("gantt.tex", width = 6, height = 4)
+#show(p)
+#dev.off()
