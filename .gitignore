@@ -1,3 +1,35 @@
+# folders
 papers/*
-.Rproj.user
 lit_review/HANDED_IN
+notes/
+
+# latex
+*.aux
+*.bbl
+*.bbl-SAVE-ERROR
+*.bcf
+*.bcf-SAVE-ERROR
+*.blg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.out.ps
+*.run.xml
+*.synctex.gz
+*.toc
+
+# R
+*.Rproj
+.Rproj.user
+
+# python
+env/
+
+# fluxnet
+*.log
+fluxnet/fluxnet-shuttle-run.log
+
+# large datasets
+*.csv
