@@ -1,18 +1,25 @@
 # Makefile for MSc Diss
 # usage: make [target]
-# targets: all, rf, xgboost, lstm
 # author:  Archie Benn sj19031@bristol.ac.uk
 
-all: rf xgboost lstm rnn
+.PHONY: sites lai fluxnet engineer
 
-rf:
-	python src/python/train.py --model rf
+sites: ## data prep  part 1 - load site names + filters from besnard
+	Rscript src/R/sites.R
 
-xgboost:
-	python src/python/train.py --model xgboost
+lai: sites ## data prep part 2 - fetch MODIS LAI by site coordinates
+	Rscript src/R/lai.R
 
-lstm:
-	python src/python/train.py --model lstm
+fluxnet: lai  ## data prep part 3 - take suitable sites and get full fluxnet data
+	Rscript src/R/fluxnet.R
 
-rnn:
-	python  src/python/train.py --model rnn
+engineer: fluxnet ## data prep part 4 - select + engineer variables for ML
+	Rscript src/R/engineer.R
+
+small_tests: engineer
+
+
+age_test: engineer
+
+
+model_comparison: engineer
