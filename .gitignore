@@ -35,4 +35,3 @@ env/
 fluxnet/fluxnet-shuttle-run.log
 
 # large datasets
-*.csv
