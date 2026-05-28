@@ -1,9 +1,9 @@
 # Makefile for MSc Diss
 # usage: make [target]
 # targets: all, rf, xgboost, lstm
-# author:  Archie Benn sj19031@ristol.ac.uk
+# author:  Archie Benn sj19031@bristol.ac.uk
 
-all: rf xgboost lstm
+all: rf xgboost lstm rnn
 
 rf:
 	python src/python/train.py --model rf
