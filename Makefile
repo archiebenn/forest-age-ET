@@ -14,22 +14,22 @@ help:
 sites: ## data prep  part 1 - load site names + filters from besnard
 	Rscript src/R/sites.R
 
-lai: sites ## data prep part 2 - fetch MODIS LAI by site coordinates
+lai: ## data prep part 2 - fetch MODIS LAI by site coordinates
 	Rscript src/R/lai.R
 
-fluxnet: lai  ## data prep part 3 - take suitable sites and get full fluxnet data
+fluxnet: ## data prep part 3 - take suitable sites and get full fluxnet data
 	Rscript src/R/fluxnet.R
 
-engineer: fluxnet ## data prep part 4 - select + engineer variables for ML
+engineer: ## data prep part 4 - select + engineer variables for ML
 	Rscript src/R/engineer.R
 
-small_scale: engineer ## analysis 1 - small scale testing
+small_scale: ## analysis 1 - small scale testing
 	python src/python/small_scale.py --arch $(ARCHITECTURE)
 
-generalisation: engineer ## analysis 2 - generalisation 
+generalisation: ## analysis 2 - generalisation
 	python src/python/generalisation.py --arch $(ARCHITECTURE)
 
-model_comparison: engineer ## analysis 3 - 4 way model accuracy comparison
+model_comparison: ## analysis 3 - 4 way model accuracy comparison
 	python src/python/model_comparison.py --arch $(ARCHITECTURE)
 
 
