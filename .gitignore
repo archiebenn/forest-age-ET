@@ -26,6 +26,9 @@ presentation/
 # R
 *.Rproj
 .Rproj.user
+.Rhistory
+.RData
+
 
 # python
 env/
