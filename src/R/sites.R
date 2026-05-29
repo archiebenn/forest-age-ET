@@ -65,7 +65,7 @@ forest_IGBP <- c(
 )
 
 # ages defined in supplementary materials for these forest sites
-site_age <- c(300, 198, 83, 32,
+SITE_AGE <- c(300, 198, 83, 32,
                             78, 94,
                             300, 2,
                             78, 161, 154, 73, 39, 23,14,6,
@@ -91,13 +91,25 @@ site_age <- c(300, 198, 83, 32,
                             300, 93, 90, 96,
                             88)
 
+# site locations
+lat <- df %>%
+    filter(VARIABLE == "LOCATION_LAT", SITE_ID %in% besnard_sites) %>%
+    select(SITE_ID, LATITUDE = DATAVALUE)
+
+long <- df %>%
+    filter(VARIABLE == "LOCATION_LONG", SITE_ID %in% besnard_sites) %>%
+    select(SITE_ID, LONGITUDE = DATAVALUE)
+
+merged <- merge(igbp, lat, by="SITE_ID")
+merged <- merge(merged, long, by="SITE_ID")
+
 # final sites
-final_sites <- igbp %>% 
+final_sites <- merged %>% 
     filter(IGBP %in% forest_IGBP,
            SITE_ID %in% besnard_sites) %>%
-    add_column(site_age)
-    
+    add_column(SITE_AGE) 
 
+write_csv(final_sites, "data/fluxnet/site_selection/site_ages.csv")
 
 
 
