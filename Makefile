@@ -12,7 +12,7 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
 sites: ## data prep  part 1 - load site names + filters from besnard
-	Rscript src/R/sites.R
+	Rscript src/R/sites.R && Rscript src/R/all_site_map.R
 
 lai: ## data prep part 2 - fetch MODIS LAI by site coordinates
 	Rscript src/R/lai.R

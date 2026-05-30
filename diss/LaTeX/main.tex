@@ -1,0 +1,169 @@
+
+\documentclass[paper=a4,fontsize=12pt]{scrartcl} 
+
+\usepackage[left=2.8cm,right=2.8cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[utf8]{inputenc} 
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage{MinionPro} % op font
+\usepackage{MnSymbol}
+\usepackage{tgheros} % sans
+%\renewcommand{\familydefault}{\sfdefault} % sans as default :(
+\usepackage[italic]{mathastext}
+\usepackage{fancyhdr} % Custom headers and footers
+\usepackage[english]{babel}
+\usepackage{amsmath,amsfonts,amsthm}
+\usepackage{lipsum}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{sectsty}
+\usepackage[style=authoryear, backend=biber, maxcitenames=2]{biblatex}
+\usepackage{caption} 
+\usepackage{ragged2e}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{tocloft} %toc fonts
+\usepackage[colorlinks=true,linkcolor=black, citecolor=blue]{hyperref}
+\usepackage{subcaption}
+\usepackage{pdflscape}
+\usepackage{cleveref}
+
+
+\renewcommand{\cfttoctitlefont}{\hfil\Large\scshape\lsstyle}%\lsstyle
+\renewcommand{\cftsecfont}{\scshape}
+%\renewcommand{\cftsubsecfont}{\scshape}
+%\renewcommand{\cftsubsubsecfont}{\itshape}
+
+\sectionfont{\centering \normalfont\scshape\lsstyle} %\lsstyle
+\subsectionfont{\large\normalfont\sffamily}
+\subsubsectionfont{\normalfont\sffamily}
+
+\titlespacing*{\subsection}{0pt}{*2}{*0.5}
+\titlespacing*{\subsubsection}{0pt}{*2}{*0.5}
+
+\addbibresource{references.bib}
+\setlength\bibitemsep{0.5\baselineskip} % spacing in reference list
+
+\captionsetup{font={normal}, 
+	labelfont=bf} % sans serif figure and table captions
+
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead[L]{} % No page header - if you want one, create it in the same way as the footers below
+\fancyhead[R]{}
+\fancyhead[C]{}
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{\thepage} % Empty center footer
+\fancyfoot[R]{} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{10pt} % Customize the height of the header
+
+
+%\numberwithin{equation}{section}
+%\numberwithin{figure}{section} 
+%\numberwithin{table}{section} 
+\setlength\parskip{4pt}
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{3}
+
+\linespread{1.2}
+
+% italicised 'et al.' from stackexchange:
+\renewbibmacro*{name:andothers}{% Based on name:andothers from biblatex.def
+	\ifboolexpr{
+		test {\ifnumequal{\value{listcount}}{\value{liststop}}}
+		and
+		test \ifmorenames
+	}
+	{\ifnumgreater{\value{liststop}}{1}
+		{\finalandcomma}
+		{}%
+		\andothersdelim\bibstring[\emph]{andothers}}
+	{}}
+
+\begin{document}
+	
+	%----------------------------------------------------------------------------------------
+	%	TITLE PAGE
+	%----------------------------------------------------------------------------------------
+	
+	\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+		\vspace*{-0em} % star for top of page
+		\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+		
+		\centering % Centre everything on the page
+		
+		%\HRule\\[0.4cm]
+		
+		%\includegraphics[scale=3.5]{uni_logo.png}
+		\vspace{3em}
+		
+		{\Large \bfseries The Effect of Forest Age on Machine Learning Evapotranspiration Generalisation}\\[0.4cm] % Title of your document
+		
+		\vspace{1.5em}
+		
+		%	\HRule\\[1.5cm]
+		
+		%------------------------------------------------
+		%	Author(s)
+		%------------------------------------------------
+		
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushleft}
+				\large
+				\textit{Author}\\
+				Archie \textsc{Benn} % Your name
+			\end{flushleft}
+		\end{minipage}
+		~
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushright}
+				\large
+				\textit{Supervisor}\\
+				Professor Martin \textsc{De Kauwe} % Supervisor's name
+			\end{flushright}
+		\end{minipage}
+		
+		\vspace{3em}
+		\begin{abstract} 
+			{\noindent{\textsc{Abstract}}}
+			\newline
+			Evapotranspiration (ET), the transition of water from liquid to gas at the Earth's surface, is a globally important process involved in hydrological and energy cycles with direct influence on freshwater availability worldwide. Eddy covariance (EC) methods can be used to directly measure ET but are costly and unsuitable for use at large scales, resulting in the development of methods to predict ET indirectly, including process-based and machine learning (ML) methods. ML methods rely heavily on training data selection, with current models typically using remotely sensed measurements and standardised FLUXNET data for training, but rarely include forest age due to its absence in FLUXNET reporting. Natural disturbances due to land use and climate change are increasing forest age heterogeneity worldwide, and given the changes with age to canopy complexity and hydraulic conductance in trees - both of which impact ET dynamics - incorporating forest age as a variable in ET models could alter performance beyond what current vegetation indices capture due to saturation issues. This review synthesises present understanding of these methods and dynamics to evaluate the potential of including forest age as a predictor variable in ML ET models, and the subsequent implications on generalisation capabilities across successional forest stages.
+			
+			\vspace{1em}
+			\textbf{Key words:} Evapotranspiration, Forest Age, Machine Learning, FLUXNET.\\
+			\textbf{Word count:} 4148 (Literature Review: 2990; Project Details: 1158)
+		\end{abstract}
+		
+		\vfill
+		
+		A dissertation submitted to the University of Bristol in accordance with
+		the requirements of the degree of Master of Science by advanced study
+		in Bioinformatics in the Faculty of Health and Life Sciences.
+		
+		\vspace{2em}
+	\end{titlepage}
+	
+	\newpage
+	\section*{Declaration}
+	I declare that the work in this dissertation was carried out in accordance with the requirements of the University’s Regulations and Code of Practice for Taught Programmes and that it has not been submitted for any other academic award. Except where indicated by specific reference in the text, this work is my own work. Work done in collaboration with, or with the assistance of others, is indicated as such. I have identified all material in this dissertation which is not my own work through appropriate referencing and acknowledgement. Where I have quoted or otherwise incorporated material which is the work of others, I have included the source in the references. Any views expressed in the dissertation, other than referenced material, are those of the author. \newline \\Archie \textsc{Benn} 
+	%\\\today
+	
+	\newpage
+	\tableofcontents
+	\newpage
+	
+	%------------------------------------------------
+	% LIT REVIEW
+	%------------------------------------------------
+	
+	\section{Literature Review}
+
+\input{../figures/world_sites.tex}
+	
+	
+\end{document}

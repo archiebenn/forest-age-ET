@@ -6,6 +6,7 @@ library(sf)
 library(rnaturalearth)
 library(countrycode)
 library(ggrepel)
+library(tikzDevice)
 
 # sites
 sites = read_csv("data/fluxnet/site_selection/site_ages.csv")
@@ -19,6 +20,8 @@ sites_coords_robin <- sites %>%
     st_transform(crs = "+proj=robin")
 
 # plot
+tikz("diss/figures/world_sites.tex", width = 6, height = 4)
+
 world %>%
     st_transform(crs = "+proj=robin") %>%
     ggplot() +
@@ -27,4 +30,6 @@ world %>%
     scale_colour_gradient(low = "lightgreen", high = "darkgreen", name = "Stand age (years)") +
     theme_light()
    
-    
+dev.off()
+
+print("Done")
