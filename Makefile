@@ -16,18 +16,18 @@ help:
 all: sites lai fluxnet engineer small_scale generalisation model_comparison diss ## run full pipeline
 
 sites: ## data prep  part 1 - filter sites, make csv, create world map
-	Rscript src/R/sites.R
-	Rscript src/R/site_maps.R
+	Rscript src/R/01_sites.R
+	Rscript src/R/02_site_maps.R
 	sed -i 's/{world_sites_ras/{..\/figures\/world_sites_ras/g' diss/figures/world_sites.tex
 
-lai: ## data prep part 2 - fetch MODIS LAI by site coordinates
-	Rscript src/R/lai.R
+fluxnet: ## data prep part 2 - take suitable sites and get full fluxnet data
+	Rscript src/R/03_fluxnet.R
 
-fluxnet: ## data prep part 3 - take suitable sites and get full fluxnet data
-	Rscript src/R/fluxnet.R
+lai: ## data prep part 3 - fetch MODIS LAI by site coordinates
+	Rscript src/R/04_lai.R
 
 engineer: ## data prep part 4 - select + engineer variables for ML
-	Rscript src/R/engineer.R
+	Rscript src/R/05_engineer.R
 
 small_scale: ## analysis 1 - small scale testing
 	python src/python/small_scale.py --arch $(ARCHITECTURE)
