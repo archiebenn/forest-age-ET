@@ -1,8 +1,9 @@
 # folders
 papers/*
 lit_review/HANDED_IN
-notes/
+notes/*
 !notes/diary/
+!notes/diary/*
 lit_review/lit_review_notes.*
 lit_review/photos/
 presentation/
