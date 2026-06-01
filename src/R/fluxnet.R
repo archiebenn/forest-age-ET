@@ -4,7 +4,7 @@
 library(tidyverse)
 library(stringr)
 
-DD_dir <- "data/fluxnet/full_sites_DD"
+DD_dir <- "data/fluxnet/2_full_sites_DD"
 
 # list full set of DD FLUXNET csv files
 file_names_DD <- list.files(DD_dir, full.names = T)
@@ -39,17 +39,18 @@ fluxnet_selected <- file_names_DD %>%
 
 
 # read in sites from sites.R
-sites_metadata = read_csv("data/fluxnet/site_selection/site_ages.csv")
+sites_metadata = read_csv("data/fluxnet/1_site_selection/site_ages.csv")
 
 # attach the two data frames based on site name to form final dataset (non-scaled/filtered) for engineer.R
 df_fluxnet_ages <- fluxnet_selected %>%
     left_join(sites_metadata, by="SITE_ID",
               relationship = "many-to-one")
 
+# save out as a .csv
+write_csv(df_fluxnet_ages, "data/fluxnet/3_full_unscaled/full_unscaled.csv")
 
 
-
-
+print("fluxnet.R complete")
 
 
 

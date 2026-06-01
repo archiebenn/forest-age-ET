@@ -111,6 +111,6 @@ final_sites <- merged %>%
 
 write_csv(final_sites, "data/fluxnet/1_site_selection/site_ages.csv")
 
-
+print("sites.R complete")
 
 

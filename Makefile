@@ -17,7 +17,7 @@ all: sites lai fluxnet engineer small_scale generalisation model_comparison diss
 
 sites: ## data prep  part 1 - filter sites, make csv, create world map
 	Rscript src/R/sites.R
-	Rscript src/R/all_site_map.R
+	Rscript src/R/site_maps.R
 	sed -i 's/{world_sites_ras/{..\/figures\/world_sites_ras/g' diss/figures/world_sites.tex
 
 lai: ## data prep part 2 - fetch MODIS LAI by site coordinates
