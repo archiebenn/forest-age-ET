@@ -4,12 +4,16 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 
 
-.PHONY: help sites lai fluxnet engineer small_scale generalisation model_comparison diss
+.PHONY: help sites lai fluxnet engineer small_scale generalisation model_comparison diss all
 
 .DEFAULT_GOAL := help
 
+ARCHITECTURE ?= rf
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
+
+all: sites lai fluxnet engineer small_scale generalisation model_comparison diss ## run full pipeline
 
 sites: ## data prep  part 1 - filter sites, make csv, create world map
 	Rscript src/R/sites.R
