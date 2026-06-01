@@ -20,7 +20,7 @@ sites_coords_robin <- sites %>%
     st_transform(crs = "+proj=robin")
 
 # plot
-tikz("diss/figures/world_sites.tex", width = 6, height = 5)
+tikz("diss/figures/world_sites.tex", width = 6, height = 2.75, standAlone = F)
 
 world %>%
     st_transform(crs = "+proj=robin") %>%

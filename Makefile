@@ -4,15 +4,17 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 
 
-.PHONY: help sites lai fluxnet engineer small_scale generalisation model_comparison
+.PHONY: help sites lai fluxnet engineer small_scale generalisation model_comparison diss
 
 .DEFAULT_GOAL := help
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-sites: ## data prep  part 1 - load site names + filters from besnard
-	Rscript src/R/sites.R && Rscript src/R/all_site_map.R
+sites: ## data prep  part 1 - filter sites, make csv, create world map
+	Rscript src/R/sites.R
+	Rscript src/R/all_site_map.R
+	sed -i 's/{world_sites_ras/{..\/figures\/world_sites_ras/g' diss/figures/world_sites.tex
 
 lai: ## data prep part 2 - fetch MODIS LAI by site coordinates
 	Rscript src/R/lai.R
@@ -32,4 +34,5 @@ generalisation: ## analysis 2 - generalisation
 model_comparison: ## analysis 3 - 4 way model accuracy comparison
 	python src/python/model_comparison.py --arch $(ARCHITECTURE)
 
-
+diss: ## compile diss PDF with LaTeX
+	cd diss/LaTeX && latexmk -pdf main.tex

@@ -101,10 +101,14 @@
 		
 		%\HRule\\[0.4cm]
 		
-		%\includegraphics[scale=3.5]{uni_logo.png}
+		\includegraphics[scale=3.5]{uni_logo.png}
 		\vspace{3em}
 		
+		\rule[0.5ex]{\linewidth}{2pt}\vspace*{-\baselineskip}\vspace*{3.2pt}
+		\rule[0.5ex]{\linewidth}{1pt}\\[\baselineskip]
 		{\Large \bfseries The Effect of Forest Age on Machine Learning Evapotranspiration Generalisation}\\[0.4cm] % Title of your document
+		\rule[0.5ex]{\linewidth}{1pt}\vspace*{-\baselineskip}\vspace{3.2pt}
+		\rule[0.5ex]{\linewidth}{2pt}\\
 		
 		\vspace{1.5em}
 		
@@ -134,11 +138,10 @@
 		\begin{abstract} 
 			{\noindent{\textsc{Abstract}}}
 			\newline
-			Evapotranspiration (ET), the transition of water from liquid to gas at the Earth's surface, is a globally important process involved in hydrological and energy cycles with direct influence on freshwater availability worldwide. Eddy covariance (EC) methods can be used to directly measure ET but are costly and unsuitable for use at large scales, resulting in the development of methods to predict ET indirectly, including process-based and machine learning (ML) methods. ML methods rely heavily on training data selection, with current models typically using remotely sensed measurements and standardised FLUXNET data for training, but rarely include forest age due to its absence in FLUXNET reporting. Natural disturbances due to land use and climate change are increasing forest age heterogeneity worldwide, and given the changes with age to canopy complexity and hydraulic conductance in trees - both of which impact ET dynamics - incorporating forest age as a variable in ET models could alter performance beyond what current vegetation indices capture due to saturation issues. This review synthesises present understanding of these methods and dynamics to evaluate the potential of including forest age as a predictor variable in ML ET models, and the subsequent implications on generalisation capabilities across successional forest stages.
 			
 			\vspace{1em}
-			\textbf{Key words:} Evapotranspiration, Forest Age, Machine Learning, FLUXNET.\\
-			\textbf{Word count:} 4148 (Literature Review: 2990; Project Details: 1158)
+			\textbf{Key words:} \\
+			\textbf{Word count:} 
 		\end{abstract}
 		
 		\vfill
@@ -165,9 +168,9 @@
 	
 	\section{Dissertation}
 
-\begin{figure}
-\input{../figures/world_sites.tex}
-\captionsetup{\centering}
+\begin{figure}[H]
+\fbox{\input{../figures/world_sites.tex}}
+\captionsetup{justification=centering}
 \caption{Global Map of FLUXNET sites used}
 \end{figure}
 	
