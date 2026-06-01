@@ -4,7 +4,7 @@
 library(tidyverse)
 
 # metadata on FLUXNET2015 sites
-df <- read_csv("data/fluxnet/site_selection/daily_metadata.csv")
+df <- read_csv("data/fluxnet/1_site_selection/daily_metadata.csv")
 
 # sites with ages in Besnard 2018
 besnard_sites <- c(
@@ -109,7 +109,7 @@ final_sites <- merged %>%
            SITE_ID %in% besnard_sites) %>%
     add_column(SITE_AGE) 
 
-write_csv(final_sites, "data/fluxnet/site_selection/site_ages.csv")
+write_csv(final_sites, "data/fluxnet/1_site_selection/site_ages.csv")
 
 
 
