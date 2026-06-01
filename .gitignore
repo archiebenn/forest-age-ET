@@ -40,5 +40,5 @@ env/
 fluxnet/fluxnet-shuttle-run.log
 
 # large datasets
-data/fluxnet/site_selection/daily_metadata.csv
+*.csv
 *.zip
