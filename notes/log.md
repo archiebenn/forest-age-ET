@@ -1,4 +1,6 @@
-# April MSc project notes
+# MSc Project notes
+
+# April
 ## 29-5-26  
 - created Makefile structure  
 - started Rproj  
