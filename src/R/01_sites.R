@@ -1,5 +1,6 @@
 # sites.R - for initial site selection using Besnard 2018 paper on forest age
 # Author: Archie Benn
+# Date: 29-05-2026
 
 library(tidyverse)
 

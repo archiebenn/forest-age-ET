@@ -1,5 +1,6 @@
 # fluxnet.R - sorting FLUXNET full DD (daily) datasets before feature engineering
 # Author: Archie Benn
+# Date: 01-06-2026
 
 library(tidyverse)
 library(stringr)
@@ -34,7 +35,7 @@ fluxnet_selected <- file_names_DD %>%
     map(\(x) read_csv(x, 
                       col_select = all_of(vars_keep),
                       na = "-9999") %>%                                                   # apply col select and remove N/A values for each file name in list
-            mutate(SITE_ID = str_extract(basename(x), "FLX_([^_]+)", group = 1))) %>%   # save the site name from standard FLUXNET naming of data
+            mutate(SITE_ID = str_extract(basename(x), "FLX_([^_]+)", group = 1))) %>%     # save the site name from standard FLUXNET naming of data
     list_rbind()
 
 
@@ -44,11 +45,28 @@ sites_metadata = read_csv("data/fluxnet/01_site_selection/site_ages.csv")
 # attach the two data frames based on site name to form final dataset (non-scaled/filtered) for engineer.R
 df_fluxnet_ages <- fluxnet_selected %>%
     left_join(sites_metadata, by="SITE_ID",
-              relationship = "many-to-one")
+              relationship = "many-to-one") %>%
+    rename(
+        LE = LE_F_MDS,
+        LE_QC = LE_F_MDS_QC,
+        SW_rad = SW_IN_F,
+        SW_rad_QC = SW_IN_F_QC,
+        Tair = TA_F,
+        Tair_QC = TA_F_QC,
+        Wspeed = WS_F,
+        Wspeed_QC = WS_F_QC,
+        VPD = VPD_F,
+        VPD_QC = VPD_F_QC,
+        P = P_F,
+        P_QC = P_F_QC,
+        Pa = PA_F,
+        Pa_QC = PA_F_QC,
+        Cover_type = IGBP
+    ) %>%
+    mutate(TIMESTAMP = as.Date(as.character(TIMESTAMP), format = '%Y%m%d'))
 
 # save out as a .csv
 write_csv(df_fluxnet_ages, "data/fluxnet/03_full_unscaled/full_unscaled.csv")
-
 
 print("fluxnet.R complete")
 

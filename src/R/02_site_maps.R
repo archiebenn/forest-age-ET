@@ -1,5 +1,6 @@
 # site_maps.R - display flux tower sites on map
 # Author: Archie Benn
+# Date: 30-05-2026
 
 library(tidyverse)
 library(sf)
