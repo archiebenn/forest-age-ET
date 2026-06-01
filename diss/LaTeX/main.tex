@@ -29,8 +29,10 @@
 \usepackage{tocloft} %toc fonts
 \usepackage[colorlinks=true,linkcolor=black, citecolor=blue]{hyperref}
 \usepackage{subcaption}
-\usepackage{pdflscape}
 \usepackage{cleveref}
+
+% set where figures are
+\graphicspath{{../figures/}}
 
 
 \renewcommand{\cfttoctitlefont}{\hfil\Large\scshape\lsstyle}%\lsstyle
@@ -161,9 +163,13 @@
 	% LIT REVIEW
 	%------------------------------------------------
 	
-	\section{Literature Review}
+	\section{Dissertation}
 
+\begin{figure}
 \input{../figures/world_sites.tex}
+\captionsetup{\centering}
+\caption{Global Map of FLUXNET sites used}
+\end{figure}
 	
 	
 \end{document}
