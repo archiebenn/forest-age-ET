@@ -39,6 +39,7 @@ env/
 *.log
 fluxnet/fluxnet-shuttle-run.log
 
-# large datasets
+# large files
 *.csv
 *.zip
+*.html
