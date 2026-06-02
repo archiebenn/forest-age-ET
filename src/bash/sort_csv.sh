@@ -1,7 +1,8 @@
 #!/bin/bash
+# sort_csv.sh - after downloading all fullsets of FLUXNET2015 data into ~/Downloads, run this to extract the daily csvs based off the side id text list
+# only run with make sort from project root
 
-# move to project root
-cd ../../../
+set -euo pipefail
 
 mkdir -p data/zipped
 mkdir -p data/unzipped
@@ -12,14 +13,11 @@ mkdir -p data/fluxnet/02_full_sites_DD
 cd data/zipped
 cp ~/Downloads/*.zip ./
 
-# unzip files and store
+# unzip only the daily (DD) files and store
 cd ../unzipped
 for f in ../zipped/*.zip; do
-    unzip -o "$f" -d ./
+	unzip -j "$f" "*FULLSET_DD*.csv" -d ../all_DD
 done
-
-# extract only daily data
-find . -type f -name "*FULLSET_DD*.csv" -exec cp {} ../all_DD \;
 
 # read site list generated in sites.R and extract only the data from this list ie. only selected sites
 while read site; do
@@ -28,3 +26,7 @@ done < ../fluxnet/01_site_selection/site_list.txt
 
 
 # delete other folders
+cd ../
+rm -rf all_DD
+rm -rf zipped
+rm -rf unzipped

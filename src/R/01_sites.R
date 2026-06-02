@@ -111,8 +111,10 @@ final_sites <- merged %>%
            SITE_ID %in% besnard_sites) %>%
     add_column(SITE_AGE) 
 
-site_id <- final_sites$SIT
+site_ids <- final_sites$SITE_ID
 
+# write out
+writeLines(site_ids, "data/fluxnet/01_site_selection/site_list.txt")
 write_csv(final_sites, "data/fluxnet/01_site_selection/site_ages.csv")
 
 print("sites.R complete")
