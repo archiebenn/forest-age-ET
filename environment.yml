@@ -159,6 +159,7 @@ dependencies:
   - r-classint=0.4_11=r45heaba542_1
   - r-cli=3.6.6=r45h3697838_0
   - r-clipr=0.8.1=r45hc72bb7e_0
+  - r-codetools=0.2_20=r45hc72bb7e_2
   - r-colorspace=2.1_2=r45h54b55ab_0
   - r-conflicted=1.2.0=r45h785f33e_3
   - r-countrycode=1.8.0=r45hc72bb7e_0
@@ -181,10 +182,13 @@ dependencies:
   - r-fontawesome=0.5.3=r45hc72bb7e_1
   - r-forcats=1.0.1=r45hc72bb7e_0
   - r-fs=2.1.0=r45h3697838_0
+  - r-furrr=0.4.0=r45hc72bb7e_0
+  - r-future=1.70.0=r45hc72bb7e_0
   - r-gargle=1.6.1=r45h785f33e_0
   - r-generics=0.1.4=r45hc72bb7e_1
   - r-ggplot2=4.0.3=r45h785f33e_0
   - r-ggrepel=0.9.8=r45h3697838_0
+  - r-globals=0.19.1=r45hc72bb7e_0
   - r-glue=1.8.1=r45h54b55ab_0
   - r-googledrive=2.1.2=r45hc72bb7e_1
   - r-googlesheets4=1.1.2=r45h785f33e_1
@@ -203,6 +207,7 @@ dependencies:
   - r-labeling=0.4.3=r45hc72bb7e_2
   - r-lattice=0.22_9=r45h54b55ab_0
   - r-lifecycle=1.0.5=r45hc72bb7e_0
+  - r-listenv=0.10.1=r45hc72bb7e_0
   - r-lubridate=1.9.5=r45h54b55ab_0
   - r-magrittr=2.0.5=r45h54b55ab_0
   - r-mass=7.3_65=r45h54b55ab_0
@@ -211,12 +216,14 @@ dependencies:
   - r-modelr=0.1.11=r45hc72bb7e_3
   - r-munsell=0.5.1=r45hc72bb7e_2
   - r-openssl=2.4.1=r45h68c19f5_0
+  - r-parallelly=1.47.0=r45h54b55ab_0
   - r-pillar=1.11.1=r45hc72bb7e_0
   - r-pkgconfig=2.0.3=r45hc72bb7e_5
   - r-png=0.1_9=r45haf2892b_0
   - r-prettyunits=1.2.0=r45hc72bb7e_2
   - r-processx=3.9.0=r45h54b55ab_0
   - r-progress=1.2.3=r45hc72bb7e_2
+  - r-progressr=0.19.0=r45hc72bb7e_0
   - r-proxy=0.4_29=r45h54b55ab_0
   - r-ps=1.9.3=r45h54b55ab_0
   - r-purrr=1.2.2=r45h54b55ab_0
