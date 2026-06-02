@@ -3,6 +3,7 @@
 # Date: 02-06-2026
 # MODISTools: Koen Hufkens. (2023). bluegreen-labs/MODISTools: MODISTools v1.1.5. Zenodo. https://doi.org/10.5281/zenodo.7551164
 
+rm(list = ls())
 if (!require(MODISTools)) install.packages("MODISTools")
 library(MODISTools)
 library(tidyverse)
@@ -21,10 +22,10 @@ get_LAI <- function(site_id, latitude, longitude, start_date, end_date){
     site_lai <- mt_subset(product = "MCD15A3H",
               lat = latitude,
               lon = longitude,
-              band = c("Lai_500m", "FparLai_QC", "FparExtra_QC", "LaiStdDev_500m"),
+              band = c("Lai_500m", "FparLai_QC", "FparExtra_QC", "LaiStdDev_500m"),  # retrieve these bands (for QC etc.)
               start = start_date,
               end = end_date,
-              km_lr = 0,                                                                 # 0,0 = 1 pixel. 1,1 = 9 pixels
+              km_lr = 0,                                                             # 0,0 = 1 pixel. 1,1 = 9 pixels
               km_ab = 0,
               site_name = site_id,
               internal = TRUE,
@@ -58,16 +59,23 @@ lai_results <- lai_setup_df %>%
     ) 
 
 
-# un nest the LAI data per site into one big df
-all_lai <- lai_results %>%
+# form full LAI df (un nest and into wide format)
+lai_full <- lai_results %>%
     select(SITE_ID, LAI) %>%
-    tidyr::unnest(LAI) %>%           # un nest
+    tidyr::unnest(LAI) %>%                              # un nest to single df
     select(SITE_ID, calendar_date, band, value) %>%
-    tidyr::pivot_wider(              # wide instead of long format
-        id_cols = c(SITE_ID, calendar_date),
+    tidyr::pivot_wider(                                 # wide instead of long format
+        id_cols = c(SITE_ID, calendar_date),            # these form a unique row in the output (site and date)
         names_from = band,
         values_from = value
-    )
+    ) %>% 
+    mutate(calendar_date = as.Date(calendar_date))      # back to Date class for merging with main df
+
+
+# write out for filtering.R
+write_csv(lai_full, "data/fluxnet/04_lai_full_unscaled/lai_full_unscaled.csv")
+
+print("lai.R complete")
 
 
 

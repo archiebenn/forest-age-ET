@@ -276,6 +276,7 @@ dependencies:
   - r-xfun=0.57=r45h3697838_0
   - r-xml2=1.5.2=r45he78afff_0
   - r-yaml=2.3.12=r45h54b55ab_0
+  - r-zoo=1.8_15=r45h54b55ab_0
   - readline=8.3=h853b02a_0
   - scikit-learn=1.8.0=np2py313h16d504d_1
   - scipy=1.17.1=py313h4b8bb8b_1

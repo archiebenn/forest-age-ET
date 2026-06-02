@@ -4,7 +4,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 
 
-.PHONY: help sites lai fluxnet engineer small_scale generalisation model_comparison diss
+.PHONY: help sites fluxnet lai filter engineer small_scale generalisation model_comparison diss
 
 .DEFAULT_GOAL := help
 
@@ -24,8 +24,11 @@ fluxnet: ## data prep part 2 - take suitable sites and get full fluxnet data
 lai: ## data prep part 3 - fetch MODIS LAI by site coordinates
 	Rscript src/R/04_lai.R
 
-engineer: ## data prep part 4 - select + engineer variables for ML
-	Rscript src/R/05_engineer.R
+filter: ## data prep part 4 - filter LAI and fluxnet based on quality metrics
+	Rscript src/R/05_filtering.R
+
+engineer: ## data prep part 5 - select + engineer variables for ML
+	Rscript src/R/06_engineer.R
 
 small_scale: ## analysis 1 - small scale testing
 	python src/python/small_scale.py --arch $(ARCHITECTURE)

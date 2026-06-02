@@ -2,6 +2,7 @@
 # Author: Archie Benn
 # Date: 29-05-2026
 
+rm(list = ls())
 library(tidyverse)
 
 # metadata on FLUXNET2015 sites
