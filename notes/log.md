@@ -39,4 +39,7 @@
 - basically if bit 0 = 0, it's good quality. if bit 0 = 1, poor. so used a `bitwAnd()` function to determine this based on the column values  
 - then set any poor quality LAI values to NA  
 - then used `zoo::na.approx(Lai_500m, na.rm = F))` to linearly interpolate between the NA values for LAI (as only measured every 4 days and also from setting poor quality ones to NA before.  
-- this may be justified as LAI is a slow changing variable, so interpolating between the values, while not ideal, is possibly representative of true LAI
+- this may be justified as LAI is a slow changing variable, so interpolating between the values, while not ideal, is possibly representative of true LAI  
+- filtered the LAI products for QC bit 0 = 0, and the fluxnet data for QC <= 1  
+- created `sort_csv.sh` which takes the fullset data of FLUXNET2015 (all sites) in zips and extracts only the DD csvs for the rest of the scripts  
+- used make sort and make fluxnet on the full dataset (~279k row csv) with ages attached   
