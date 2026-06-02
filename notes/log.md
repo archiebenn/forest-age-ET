@@ -32,58 +32,11 @@
       "resolution_meters": 500
     }, ```
 - found the above product from MODIS for LAI  
-- ``` {
-  "bands": [
-    {
-      "band": "FparExtra_QC", 
-      "description": "Extra detail Quality for LAI and FPAR", 
-      "units": "class-flag", 
-      "valid_range": "0 to 254", 
-      "fill_value": "255"
-    }, 
-    {
-      "band": "FparLai_QC", 
-      "description": "Quality for LAI and FPAR", 
-      "units": "class-flag", 
-      "valid_range": "0 to 254", 
-      "fill_value": "255"
-    }, 
-    {
-      "band": "FparStdDev_500m", 
-      "description": "Standard deviation of FPAR", 
-      "units": "percent", 
-      "valid_range": "0 to 100", 
-      "fill_value": "255", 
-      "scale_factor": "0.01", 
-      "add_offset": "0"
-    }, 
-    {
-      "band": "Fpar_500m", 
-      "description": "Fraction of photosynthetically active radiation", 
-      "units": "percent", 
-      "valid_range": "0 to 100", 
-      "fill_value": "255", 
-      "scale_factor": "0.01", 
-      "add_offset": "0"
-    }, 
-    {
-      "band": "LaiStdDev_500m", 
-      "description": "Standard deviation for LAI", 
-      "units": "m^2/m^2", 
-      "valid_range": "0 to 100", 
-      "fill_value": "255", 
-      "scale_factor": "0.1", 
-      "add_offset": "0"
-    }, 
-    {
-      "band": "Lai_500m", 
-      "description": "Leaf area index", 
-      "units": "m^2/m^2", 
-      "valid_range": "0 to 100", 
-      "fill_value": "255", 
-      "scale_factor": "0.1", 
-      "add_offset": "0"
-    }
-  ]
-}```
-- and all that info too   
+- and all the QC bands too  
+- wrote a function/script which uses the fluxnet site info and downloads the MODIS products to a large df  
+- then started `filtering.R`  
+- this starts by filtering LAI based on the `FparLai_QC` column which is a bit encoded quality metric for LAI values  
+- basically if bit 0 = 0, it's good quality. if bit 0 = 1, poor. so used a `bitwAnd()` function to determine this based on the column values  
+- then set any poor quality LAI values to NA  
+- then used `zoo::na.approx(Lai_500m, na.rm = F))` to linearly interpolate between the NA values for LAI (as only measured every 4 days and also from setting poor quality ones to NA before.  
+- this may be justified as LAI is a slow changing variable, so interpolating between the values, while not ideal, is possibly representative of true LAI

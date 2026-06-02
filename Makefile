@@ -18,6 +18,9 @@ sites: ## data prep  part 1 - filter sites, make csv, create world map
 	Rscript src/R/02_site_maps.R
 	sed -i 's/{world_sites_ras/{..\/figures\/world_sites_ras/g' diss/figures/world_sites.tex
 
+sort_csv: ## bash script to take daily csv files from full FLUXNET zip based on site id 
+	chmod +x src/bash/sort_csv.sh && ./src/bash/sort_csv.sh
+
 fluxnet: ## data prep part 2 - take suitable sites and get full fluxnet data
 	Rscript src/R/03_fluxnet.R
 
@@ -40,4 +43,4 @@ model_comparison: ## analysis 3 - 4 way model accuracy comparison
 	python src/python/model_comparison.py --arch $(ARCHITECTURE)
 
 diss: ## compile diss PDF with LaTeX
-	cd diss/LaTeX && latexmk -pdf main.tex
+	cd diss/LaTeX && latexmk -pdf main.tex && xdg-open main.pdf

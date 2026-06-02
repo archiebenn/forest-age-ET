@@ -33,7 +33,7 @@ lai_filtered <- lai_full %>%
 
 # now these NA values are filled, linear interpolation will be used to gap fill the LAI (slow changing variable)
 # attach LAI to full/main fluxnet data frame by site and date
-full_data <- df %>%
+full_lai_data <- df %>%
     left_join(lai_filtered, by = c("SITE_ID", "TIMESTAMP" = "calendar_date")) %>%
     group_by(SITE_ID) %>%
     arrange(TIMESTAMP, .by_group = TRUE) %>%                                       # before interpolating to ensure right order
@@ -42,9 +42,68 @@ full_data <- df %>%
     filter(!is.na(Lai_500m))                                                       # removes rows before LAI measurements began
 
 
+# write out csv
+write_csv(full_data, "data/fluxnet/05_filtering/full_lai_filtered.csv")
 
 
+# 2. filtering/checking for FLUXNET gap filled
+# _QC columns = 0 means measured, while = 1 is good gap filled, and 2-3 is poor quality
 
+# check distributions with a summary()
+flux_QC <- full_data %>%
+    group_by(SITE_ID) %>%
+    summarise(
+        # total
+        n_measurements = n(),
+        
+        # LE
+        LE_best = sum(LE_QC == 0),
+        LE_good = sum((LE_QC > 0) & (LE_QC <= 1)),
+        LE_poor = sum(LE_QC > 1),
+        
+        # SW radiation
+        SW_rad_best = sum(SW_rad_QC == 0),
+        SW_rad_good = sum((SW_rad_QC > 0) & (SW_rad_QC <= 1)),
+        SW_rad_poor = sum(SW_rad_QC > 1),
+        
+        # Air temp.
+        Tair_best = sum(Tair_QC == 0),
+        Tair_good = sum((Tair_QC > 0) & (Tair_QC <= 1)),
+        Tair_poor = sum(Tair_QC > 1),
+        
+        # Wind speed
+        Wspeed_best = sum(Wspeed_QC == 0),
+        Wspeed_good = sum((Wspeed_QC > 0) & (Wspeed_QC <= 1)),
+        Wspeed_poor = sum(Wspeed_QC > 1),
+        
+        # VPD
+        VPD_best = sum(VPD_QC == 0),
+        VPD_good = sum((VPD_QC > 0) & (VPD_QC <= 1)),
+        VPD_poor = sum(VPD_QC > 1),
+        
+        # Precip
+        P_best = sum(P_QC == 0),
+        P_good = sum((P_QC > 0) & (P_QC <= 1)),
+        P_poor = sum(P_QC > 1),
+        
+        # Pressure
+        Pa_best = sum(Pa_QC == 0),
+        Pa_good = sum((Pa_QC > 0) & (Pa_QC <= 1)),
+        Pa_poor = sum(Pa_QC > 1)
+    )
+
+# save qualities
+write_csv(flux_QC, "data/fluxnet/05_filtering/flux_QC.csv")
+
+# will filter out any qc scores > 1 and then save as the full dataset
+cols_filter <- c("LE_QC", "SW_rad_QC", "Tair_QC", "Wspeed_QC", "VPD_QC", "P_QC", "Pa_QC")
+
+# checks against all columns in row simultaneously and drops full row if any QC > 1 ie. poor gap filling
+full_filtered_data <- full_data %>%
+    filter(if_all(all_of(cols_filter), \(x) x <= 1))
+
+
+    
 
 
 

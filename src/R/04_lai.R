@@ -49,6 +49,7 @@ lai_setup_df <- df %>%
     )
 
 
+# warning: will be SLOW
 # use future_pmap() to apply get_LAI() across each row with multiple cores used
 lai_results <- lai_setup_df %>%
     mutate(
