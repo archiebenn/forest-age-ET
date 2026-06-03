@@ -1,5 +1,5 @@
 ---
-title: "Fluxnet Data Exploration"
+title: "Data Exploration"
 author: "Archie Benn"
 date: "`r Sys.Date()`"
 output: html_document
@@ -8,7 +8,6 @@ output: html_document
 rm(list = ls())
 
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "/home/ab/Dropbox/university/github/bbinf_project")
 
 library(tidyverse)
 library(sf)
@@ -16,6 +15,8 @@ library(rnaturalearth)
 library(countrycode)
 library(ggrepel)
 library(tikzDevice)
+library(here)
+library(skimr)
 ```
 
 ## Data Import
@@ -24,15 +25,14 @@ library(tikzDevice)
 - Not scaled yet (will happen in `06_engineer.R`, just before ML training etc. begins)
 
 ```{r}
-df <- read_csv("data/fluxnet/05_filtering/full_filtered.csv")
+df <- read_csv(here("data/fluxnet/05_filtering/full_filtered.csv"))
+
+# quick look at structure
+skim(df)
 ```
 
-## Including Plots
+- No missing data 
 
-You can also embed plots, for example:
+```{r}
 
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

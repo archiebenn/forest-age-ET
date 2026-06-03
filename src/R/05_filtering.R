@@ -22,6 +22,7 @@ print(lai_full %>%
                     n_good_quality = sum(bitwAnd(FparLai_QC, 1L) == 0)))     # number of good quality measurements at sites
 
 
+# this will replace any poor quality LAI measurements with N/A based off the QC
 lai_filtered <- lai_full %>%
     mutate(
         Lai_500m = ifelse(bitwAnd(FparLai_QC, 1L) == 0,         # "if FparLai_QC bit 0 =..."
@@ -94,9 +95,26 @@ write_csv(flux_QC, "data/fluxnet/05_filtering/flux_QC.csv")
 # will filter out any qc scores > 1 and then save as the full dataset
 cols_filter <- c("LE_QC", "SW_rad_QC", "Tair_QC", "Wspeed_QC", "VPD_QC", "P_QC", "Pa_QC")
 
-# checks against all columns in row simultaneously and drops full row if any QC > 1 ie. poor gap filling
+
+# set up final/full dataset
 full_filtered_data <- full_data %>%
-    filter(if_all(all_of(cols_filter), \(x) x <= 1))
+    filter(if_all(all_of(cols_filter), \(x) x <= 1)) %>%       # checks against all columns in row simultaneously and drops full row if any QC > 1 ie. poor gap filling
+    select(-all_of(cols_filter)) %>%                           # and drop QC cols after filtering
+    rename(                                                    # renaming for consistency
+        Site_age = SITE_AGE,
+        Latitude = LATITUDE,
+        Longitude = LONGITUDE,
+        Date = TIMESTAMP,
+        Site_ID = SITE_ID) %>%                                  
+    relocate(Site_ID,                                          # rearranging columns
+             Date, 
+             Latitude, 
+             Longitude, 
+             Cover_type, 
+             Site_age,
+             LE, 
+             Lai_500m,
+             )
 
 # save out
 write_csv(full_filtered_data, "data/fluxnet/05_filtering/full_filtered.csv")
