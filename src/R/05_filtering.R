@@ -33,17 +33,13 @@ lai_filtered <- lai_full %>%
 
 # now these NA values are filled, linear interpolation will be used to gap fill the LAI (slow changing variable)
 # attach LAI to full/main fluxnet data frame by site and date
-full_lai_data <- df %>%
+full_data <- df %>%
     left_join(lai_filtered, by = c("SITE_ID", "TIMESTAMP" = "calendar_date")) %>%
     group_by(SITE_ID) %>%
     arrange(TIMESTAMP, .by_group = TRUE) %>%                                       # before interpolating to ensure right order
     mutate(Lai_500m = zoo::na.approx(Lai_500m, na.rm = F)) %>%                     # approximate LAI values interpolated between misssing values
     ungroup() %>%
     filter(!is.na(Lai_500m))                                                       # removes rows before LAI measurements began
-
-
-# write out csv
-write_csv(full_data, "data/fluxnet/05_filtering/full_lai_filtered.csv")
 
 
 # 2. filtering/checking for FLUXNET gap filled
@@ -102,6 +98,8 @@ cols_filter <- c("LE_QC", "SW_rad_QC", "Tair_QC", "Wspeed_QC", "VPD_QC", "P_QC",
 full_filtered_data <- full_data %>%
     filter(if_all(all_of(cols_filter), \(x) x <= 1))
 
+# save out
+write_csv(full_filtered_data, "data/fluxnet/05_filtering/full_filtered.csv")
 
     
 
