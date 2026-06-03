@@ -4,9 +4,12 @@ author: "Archie Benn"
 date: "`r Sys.Date()`"
 output: html_document
 ---
-
 ```{r setup, include=FALSE}
+rm(list = ls())
+
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "/home/ab/Dropbox/university/github/bbinf_project")
+
 library(tidyverse)
 library(sf)
 library(rnaturalearth)
@@ -16,9 +19,12 @@ library(tikzDevice)
 ```
 
 ## Data Import
+- Full data set from the end of `05_filtering.R`  
+- This contains all 73 sites from FLUXNET2015 with ages from besnard2018 and LAI from MODIS attached  
+- Not scaled yet (will happen in `06_engineer.R`, just before ML training etc. begins)
 
 ```{r}
-
+df <- read_csv("data/fluxnet/05_filtering/full_filtered.csv")
 ```
 
 ## Including Plots
