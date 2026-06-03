@@ -25,18 +25,18 @@ dir.create(cached_dir, recursive = TRUE, showWarnings = FALSE)
 # function to retrieve LAI data per site and return df for site
 get_LAI <- function(site_id, latitude, longitude, start_date, end_date){
     
+    # re-define within function env
+    cached_dir <- "data/fluxnet/04_lai/cached_sites"
+    
     # define file csv (in cached dir) for this site
     site_csv <- file.path(cached_dir, paste0(site_id, ".csv"))
     
-    # check if this site csv already exists in cached dir and return if so before continuing
+    # check if site csv already exists in cached dir and return before continuing
     if (file.exists(site_csv)){
-        message("Skipping ", site_id, " (in cached dir already)")
         return(read_csv(site_csv, show_col_types = FALSE))
     }
     
-    # not present in cached dir:
-    message("Downloading, ", site_id)
-    
+    # if not present in cached dir:
     site_lai <- mt_subset(product = "MCD15A3H",
               lat = latitude,
               lon = longitude,
@@ -83,17 +83,21 @@ future_pmap(
 lai_full <- list.files(cached_dir, pattern = "*.csv", full.names = T) %>%
     map(read_csv) %>%                                                       # read the csvs in
     bind_rows() %>%                                                         # bind all csvs to single df
-    select(SITE_ID, calendar_date, band, value) %>% 
+    select(site, calendar_date, band, value) %>% 
+    rename(SITE_ID = site) %>%
     tidyr::pivot_wider(                                                     # wide instead of long format
         id_cols = c(SITE_ID, calendar_date),                                # these form a unique row in the output (site and date)
         names_from = band,
         values_from = value
     ) %>% 
-    mutate(calendar_date = as.Date(calendar_date))                          # back to Date class for merging with main df
-
+    mutate(
+        calendar_date = as.Date(calendar_date),                             # back to Date class for merging with main df
+        Lai_500m = Lai_500m * 0.1                                           # scale factor for LAI band from MODIS (see https://lpdaac.usgs.gov/documents/926/MOD15_User_Guide_V61.pdf)
+    )
+    
 
 # write out for filtering.R
-write_csv(lai_full, "data/fluxnet/04_lai/lai_full_unscaled.csv")
+write_csv(lai_full, "data/fluxnet/04_lai/lai_all.csv")
 
 print("lai.R complete")
 
