@@ -43,3 +43,7 @@
 - filtered the LAI products for QC bit 0 = 0, and the fluxnet data for QC <= 1  
 - created `sort_csv.sh` which takes the fullset data of FLUXNET2015 (all sites) in zips and extracts only the DD csvs for the rest of the scripts  
 - used make sort and make fluxnet on the full dataset (~279k row csv) with ages attached   
+
+## 3-6-26
+- adapted `lai.R` to allow re-runs to not have to download each site again if the site csv exists  
+- doing first run on all 73 sites to get LAI  

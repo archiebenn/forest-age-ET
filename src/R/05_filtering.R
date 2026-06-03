@@ -9,7 +9,7 @@ library(zoo)
 
 # import full (unscaled) data and LAI data
 df <- read_csv("data/fluxnet/03_full_unscaled/full_unscaled.csv")
-lai_full <- read_csv("data/fluxnet/04_lai_full_unscaled/lai_full_unscaled.csv")
+lai_full <- read_csv("data/fluxnet/04_lai/lai_full_unscaled.csv")
 
 # 1. filter LAI quality first:
 # FparLai_QC is a bit-encoded quality metric, see (https://www.earthdata.nasa.gov/s3fs-public/2025-04/MOD15_User_Guide_V5.pdf?VersionId=eBlss9mLOaTk4czZcz4ZEwioQ4AwJqj3)

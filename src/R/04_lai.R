@@ -16,25 +16,46 @@ library(furrr)
 # use multi-core (n-1 cores) for download below
 plan(multisession, workers = parallel::detectCores() - 1)
 
+# main download = 73 sites. want to make sure if re-running it doesn't try to download again if they exist/saves if crashes mid-download
+# make cached directory
+cached_dir <- "data/fluxnet/04_lai/cached_sites"
+dir.create(cached_dir, recursive = TRUE, showWarnings = FALSE)
+
 
 # function to retrieve LAI data per site and return df for site
 get_LAI <- function(site_id, latitude, longitude, start_date, end_date){
+    
+    # define file csv (in cached dir) for this site
+    site_csv <- file.path(cached_dir, paste0(site_id, ".csv"))
+    
+    # check if this site csv already exists in cached dir and return if so before continuing
+    if (file.exists(site_csv)){
+        message("Skipping ", site_id, " (in cached dir already)")
+        return(read_csv(site_csv, show_col_types = FALSE))
+    }
+    
+    # not present in cached dir:
+    message("Downloading, ", site_id)
+    
     site_lai <- mt_subset(product = "MCD15A3H",
               lat = latitude,
               lon = longitude,
-              band = c("Lai_500m", "FparLai_QC", "FparExtra_QC", "LaiStdDev_500m"),  # retrieve these bands (for QC etc.)
+              band = c("Lai_500m", "FparLai_QC"),  # retrieve these bands (for QC etc.)
               start = start_date,
               end = end_date,
-              km_lr = 0,                                                             # 0,0 = 1 pixel. 1,1 = 9 pixels
+              km_lr = 0,                           # 0,0 = 1 pixel. 1,1 = 9 pixels
               km_ab = 0,
               site_name = site_id,
               internal = TRUE,
               progress = TRUE)
+    
+    # write site csv to cached dir immediately after downloading and return
+    write_csv(site_lai, site_csv)
     return(site_lai)
 }
 
 
-# import full (unscaled) data
+# import full (unscaled) fluxnet data
 df <- read_csv("data/fluxnet/03_full_unscaled/full_unscaled.csv")
 
 
@@ -49,32 +70,30 @@ lai_setup_df <- df %>%
     )
 
 
-# warning: will be SLOW
-# use future_pmap() to apply get_LAI() across each row with multiple cores used
-lai_results <- lai_setup_df %>%
-    mutate(
-        LAI = future_pmap(
-            list(SITE_ID, LATITUDE, LONGITUDE, START_DATE, END_DATE),
-            get_LAI
-        )
-    ) 
+# warning: will be SLOW 
+# use future_pmap() to apply get_LAI() across each row in lai_setup_df with multiple cores used
+future_pmap(
+    list(lai_setup_df$SITE_ID, lai_setup_df$LATITUDE, lai_setup_df$LONGITUDE,
+         lai_setup_df$START_DATE, lai_setup_df$END_DATE),                          # pass these args
+    get_LAI
+)
 
 
-# form full LAI df (un nest and into wide format)
-lai_full <- lai_results %>%
-    select(SITE_ID, LAI) %>%
-    tidyr::unnest(LAI) %>%                              # un nest to single df
-    select(SITE_ID, calendar_date, band, value) %>%
-    tidyr::pivot_wider(                                 # wide instead of long format
-        id_cols = c(SITE_ID, calendar_date),            # these form a unique row in the output (site and date)
+# form full LAI df from the individual cached site csvs (and un nest and into wide format)
+lai_full <- list.files(cached_dir, pattern = "*.csv", full.names = T) %>%
+    map(read_csv) %>%                                                       # read the csvs in
+    bind_rows() %>%                                                         # bind all csvs to single df
+    select(SITE_ID, calendar_date, band, value) %>% 
+    tidyr::pivot_wider(                                                     # wide instead of long format
+        id_cols = c(SITE_ID, calendar_date),                                # these form a unique row in the output (site and date)
         names_from = band,
         values_from = value
     ) %>% 
-    mutate(calendar_date = as.Date(calendar_date))      # back to Date class for merging with main df
+    mutate(calendar_date = as.Date(calendar_date))                          # back to Date class for merging with main df
 
 
 # write out for filtering.R
-write_csv(lai_full, "data/fluxnet/04_lai_full_unscaled/lai_full_unscaled.csv")
+write_csv(lai_full, "data/fluxnet/04_lai/lai_full_unscaled.csv")
 
 print("lai.R complete")
 
