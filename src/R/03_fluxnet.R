@@ -16,6 +16,8 @@ file_names_DD <- list.files(DD_dir, full.names = T)
 vars_keep <- c("TIMESTAMP",            # date 
                "LE_F_MDS",             # latent heat (W m-2)
                "LE_F_MDS_QC",          # latent heat quality
+               "NETRAD",               # Net radiation (W m-2)
+               "NETRAD_QC",            # Net radiation quality
                "SW_IN_F",              # Short-wave radiation, incoming (W m-2)
                "SW_IN_F_QC",           # Short-wave radiation, incoming quality
                "TA_F",                 # daily mean temp (deg C)

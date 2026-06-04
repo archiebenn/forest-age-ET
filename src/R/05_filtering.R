@@ -58,6 +58,11 @@ flux_QC <- full_data %>%
         LE_good = sum((LE_QC > 0) & (LE_QC <= 1)),
         LE_poor = sum(LE_QC > 1),
         
+        # Net Rad. - only column to also have N/A values
+        Rn_best = sum(Rn_QC == 0, na.rm = TRUE),
+        Rn_good = sum((Rn_QC > 0) & (Rn_QC <= 1), na.rm = TRUE),
+        Rn_poor = sum(Rn_QC > 1, na.rm = TRUE),
+        
         # SW radiation
         SW_rad_best = sum(SW_rad_QC == 0),
         SW_rad_good = sum((SW_rad_QC > 0) & (SW_rad_QC <= 1)),
@@ -92,12 +97,12 @@ flux_QC <- full_data %>%
 # save qualities
 write_csv(flux_QC, "data/fluxnet/05_filtering/flux_QC.csv")
 
-# will filter out any qc scores > 1 and then save as the full dataset
+# will filter out any qc scores > 1 and then save as the full dataset - leave out Rn_QC as it has NA values which messes up next steps
 cols_filter <- c("LE_QC", "SW_rad_QC", "Tair_QC", "Wspeed_QC", "VPD_QC", "P_QC", "Pa_QC")
 
 
 # set up final/full dataset
-full_filtered_data <- full_data %>%
+filtered_data <- full_data %>%
     filter(if_all(all_of(cols_filter), \(x) x <= 1)) %>%       # checks against all columns in row simultaneously and drops full row if any QC > 1 ie. poor gap filling
     select(-all_of(cols_filter)) %>%                           # and drop QC cols after filtering
     rename(                                                    # renaming for consistency
@@ -116,10 +121,23 @@ full_filtered_data <- full_data %>%
              Lai_500m,
              )
 
-# save out
-write_csv(full_filtered_data, "data/fluxnet/05_filtering/full_filtered.csv")
+# df without Rn - MAIN dataset going forward
+filtered_no_Rn <- filtered_data %>%
+    select(-Rn, -Rn_QC)                  # drop all Rn cols
 
+
+# df with Rn - might use if i have time later on but missing lots of dates 
+filtered_Rn <- filtered_data %>%
+    filter(!is.na(Rn), Rn_QC <= 1) %>%
+    select(-Rn_QC)                       # now can drop Rn_QC after filtering
     
+    
+# save out both
+write_csv(filtered_no_Rn, "data/fluxnet/05_filtering/filtered_main.csv")
+write_csv(filtered_Rn, "data/fluxnet/05_filtering/filtered_Rn.csv")
+
+
+print("filtering.R complete")
 
 
 

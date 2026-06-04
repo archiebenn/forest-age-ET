@@ -25,14 +25,21 @@ library(skimr)
 - Not scaled yet (will happen in `06_engineer.R`, just before ML training etc. begins)
 
 ```{r}
-df <- read_csv(here("data/fluxnet/05_filtering/full_filtered.csv"))
+df_main <- read_csv(here("data/fluxnet/05_filtering/filtered_main.csv"))
+df_Rn <- read_csv(here("data/fluxnet/05_filtering/filtered_Rn.csv"))
 
-# quick look at structure
-skim(df)
+# quick look at structures
+skim(df_main)
 ```
 
-- No missing data 
+- No missing data in main dataset
 
 ```{r}
-
+skim(df_Rn)
 ```
+
+- Also no missing data in Rn dataset
+
+
+
+

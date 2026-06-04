@@ -47,3 +47,11 @@
 ## 3-6-26
 - adapted `lai.R` to allow re-runs to not have to download each site again if the site csv exists  
 - doing first run on all 73 sites to get LAI  
+- `filtering.R` essentially now means all data should be good quality and trustworthy  
+
+## 4-6-26
+- realised I had missed out NETRAD on `fluxnet.R`  
+- spoke to martin as if I include it I drop lots of dates, but NETRAD is a key driver in ET models  
+- decided to create 2 datasets - one without (full, continuous dataset), and one with Rn, but will essentially ignore the Rn one unless I have time later on  
+
+ 
