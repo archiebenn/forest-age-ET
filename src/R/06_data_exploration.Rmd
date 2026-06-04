@@ -52,7 +52,7 @@ p
 - Will repeat for every site using a function applied to the list of site names and assess the plots afterwards  
 
 ```{r}
-get_ET_sites <- function(site, data){
+get_ET_sites <- function(site, data, path_to_dir){
     
     # plot ET vs time per site
     p <- data %>%
@@ -60,7 +60,7 @@ get_ET_sites <- function(site, data){
         ggplot(aes(x = Date, y = ET)) +
         geom_line(colour = "seagreen")
     
-    png(here("data/fluxnet/06_exploration/sites_ET_time/", paste0(site, ".png")), width = 8, height = 4, units = "in", res = 300)
+    png(here(path_to_dir, paste0(site, ".png")), width = 8, height = 4, units = "in", res = 300)
     print(p)
     dev.off()
 }
@@ -69,11 +69,11 @@ get_ET_sites <- function(site, data){
 site_list <- read_lines(here("data/fluxnet/01_site_selection/site_list.txt"))
 
 # apply function to each site                         
-walk(site_list, \(site) get_ET_sites(site, df))
+walk(site_list, \(site) get_ET_sites(site, df, "data/fluxnet/06_exploration/06.1_sites_ET_time/"))
 ```
 
 
-### Adjustingthe plots
+### Adjusting the plots
 - Viewed the plots and found a few more instances of issues of ET over the date ranges at some sites  
 - When comparing with LE the pattern is the same, so while ET is dependent on LE and Tair it appears to be that LE is th e issue  
 - These date ranges will be removed based on clear issues within plots (see above example for AU-Cum ET)  
@@ -115,7 +115,17 @@ US-WCr: remove September 2006 - January 2011
 ZM-Mon: remove October 2007 and after June 2009
 ```
 
+- these will be adjusted in `07_filtering2.R` and re-imported here:
 
+
+```{r}
+# post running 07_filtering2.R
+df_adjusted <- read_csv(here("data/fluxnet/07_filtering2/adjusted_dates_data.csv"))
+
+# re-run and save pngs to separate folder
+walk(site_list, \(site) get_ET_sites(site, df, "data/fluxnet/06_exploration/06.2_sites_ET_time_adjusted/"))
+
+```
 
 
 
