@@ -154,7 +154,10 @@ df_filtered2 <- df %>%
     # ZM-Mon: remove October 2007 and after June 2009
     filter(!(Site_ID == "ZM-Mon" & Date < as.Date("2007-10-01"))) %>%
     filter(!(Site_ID == "ZM-Mon" & Date > as.Date("2009-06-30")))
-        
+
+
+# save out
+write_csv(df_filtered2, "data/fluxnet/07_filtering2/adjusted_dates_data.csv")
     
     
     

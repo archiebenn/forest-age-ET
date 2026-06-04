@@ -123,7 +123,7 @@ ZM-Mon: remove October 2007 and after June 2009
 df_adjusted <- read_csv(here("data/fluxnet/07_filtering2/adjusted_dates_data.csv"))
 
 # re-run and save pngs to separate folder
-walk(site_list, \(site) get_ET_sites(site, df, "data/fluxnet/06_exploration/06.2_sites_ET_time_adjusted/"))
+walk(site_list, \(site) get_ET_sites(site, df_adjusted, "data/fluxnet/06_exploration/06.2_sites_ET_time_adjusted/"))
 
 ```
 
