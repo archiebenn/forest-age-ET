@@ -36,7 +36,7 @@ vars_keep <- c("TIMESTAMP",            # date
 # also attach site name to link to other .csv with ages later
 fluxnet_selected <- file_names_DD %>%                                                             
     map(\(x) read_csv(x, 
-                      col_select = all_of(vars_keep),
+                      col_select = any_of(vars_keep),
                       na = "-9999") %>%                                                   # apply col select and remove N/A values for each file name in list
             mutate(SITE_ID = str_extract(basename(x), "FLX_([^_]+)", group = 1))) %>%     # save the site name from standard FLUXNET naming of data
     list_rbind()
@@ -52,6 +52,8 @@ df_fluxnet_ages <- fluxnet_selected %>%
     rename(
         LE = LE_F_MDS,
         LE_QC = LE_F_MDS_QC,
+        Rn = NETRAD,
+        Rn_QC = NETRAD_QC,
         SW_rad = SW_IN_F,
         SW_rad_QC = SW_IN_F_QC,
         Tair = TA_F,

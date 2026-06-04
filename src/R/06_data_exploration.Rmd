@@ -14,7 +14,6 @@ library(sf)
 library(rnaturalearth)
 library(countrycode)
 library(ggrepel)
-library(tikzDevice)
 library(here)
 library(skimr)
 ```
@@ -25,20 +24,119 @@ library(skimr)
 - Not scaled yet (will happen in `06_engineer.R`, just before ML training etc. begins)
 
 ```{r}
-df_main <- read_csv(here("data/fluxnet/05_filtering/filtered_main.csv"))
-df_Rn <- read_csv(here("data/fluxnet/05_filtering/filtered_Rn.csv"))
+df <- read_csv(here("data/fluxnet/05_filtering/filtered_main.csv"))
 
 # quick look at structures
-skim(df_main)
+skim(df)
 ```
 
 - No missing data in main dataset
 
+## 1. ET against time per site
+- will assess ET over time at each site
+
 ```{r}
-skim(df_Rn)
+p <- df %>%
+    filter(Site_ID == "US-UMd") %>%
+    ggplot(aes(x = Date, y = ET)) +
+    scale_x_date(date_breaks = "1 month", date_labels = "%b %Y") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    ylab("ET (mm/day)") +
+    geom_line(colour = "seagreen") 
+    
+
+p
 ```
 
-- Also no missing data in Rn dataset
+- Can see a potential issue with using the values in the first 3/4 of 2012 at this site  
+- Will repeat for every site using a function applied to the list of site names and assess the plots afterwards  
+
+```{r}
+get_ET_sites <- function(site, data){
+    
+    # plot ET vs time per site
+    p <- data %>%
+        filter(Site_ID == site) %>%
+        ggplot(aes(x = Date, y = ET)) +
+        geom_line(colour = "seagreen")
+    
+    png(here("data/fluxnet/06_exploration/sites_ET_time/", paste0(site, ".png")), width = 8, height = 4, units = "in", res = 300)
+    print(p)
+    dev.off()
+}
+
+# read site list
+site_list <- read_lines(here("data/fluxnet/01_site_selection/site_list.txt"))
+
+# apply function to each site                         
+walk(site_list, \(site) get_ET_sites(site, df))
+```
+
+
+### Adjustingthe plots
+- Viewed the plots and found a few more instances of issues of ET over the date ranges at some sites  
+- When comparing with LE the pattern is the same, so while ET is dependent on LE and Tair it appears to be that LE is th e issue  
+- These date ranges will be removed based on clear issues within plots (see above example for AU-Cum ET)  
+
+```
+AU-Cum: remove before November 2012 
+BE-Bra: remove before January 2005 (snip)
+BR-Sa1: remove 2006-2009
+BR-Sa3: remove after 2004
+CA-Gro: remove before 2004 and after 2014
+CA-NS1: remove after September 2005
+CA-NS2: remove November 2004 - May 2005 and after September 2005
+CA-NS3: remove after September 2005
+CA-NS5: remove after September 2005
+CA-NS6: remove after September 2005
+CA-NS7: remove after September 2005
+CA-Qfo: remove before July 2003
+CH-Dav: remove 2005-2006
+CH-Lae: remove before July 2004
+DE-Hai: remove after 2010
+DE-Lnf: remove 2007-2010
+IT-Col: remove before 2007
+IT-Cpz: remove after 2009
+IT-La2: REMOVE SITE
+IT-Ren: remove before 2005
+IT-Ro1: REMOVE SITE (check as error somewhere)
+IT-Ro2: remove 2009-2010
+PA-SPn: remove before March 2007 and after July 2009
+US-Blo: remove after October 2007
+US-GBT: remove after 2005
+US-GLE: remove before 2005
+US-Ha1: remove July 2009 - January 2011
+US-Me3: remove after September 2009
+US-Me6: remove before March 2010
+US-Prr: remove before 2011
+US:Syv: remove June 2007 - June 2012
+US-UMd: remove before July 2007
+US-WCr: remove September 2006 - January 2011
+ZM-Mon: remove October 2007 and after June 2009
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

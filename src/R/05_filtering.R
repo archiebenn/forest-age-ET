@@ -1,8 +1,10 @@
 # filtering.R - script for filtering LAI and fluxnet data using QC metrics
 # Author: Archie Benn
-# Date: 02-06-2026
+# Date: 03-06-2026
 
 rm(list = ls())
+if (!require(bigleaf)) install.packages("bigleaf")
+library(bigleaf)
 library(tidyverse)
 library(zoo)
 
@@ -10,6 +12,7 @@ library(zoo)
 # import full (unscaled) data and LAI data
 df <- read_csv("data/fluxnet/03_full_unscaled/full_unscaled.csv")
 lai_full <- read_csv("data/fluxnet/04_lai/lai_all.csv")
+
 
 # 1. filter LAI quality first:
 # FparLai_QC is a bit-encoded quality metric, see (https://www.earthdata.nasa.gov/s3fs-public/2025-04/MOD15_User_Guide_V5.pdf?VersionId=eBlss9mLOaTk4czZcz4ZEwioQ4AwJqj3)
@@ -105,6 +108,7 @@ cols_filter <- c("LE_QC", "SW_rad_QC", "Tair_QC", "Wspeed_QC", "VPD_QC", "P_QC",
 filtered_data <- full_data %>%
     filter(if_all(all_of(cols_filter), \(x) x <= 1)) %>%       # checks against all columns in row simultaneously and drops full row if any QC > 1 ie. poor gap filling
     select(-all_of(cols_filter)) %>%                           # and drop QC cols after filtering
+    mutate(ET = (LE.to.ET(LE, Tair)) * 86400) %>%              # add ET column (kg m-2 s-1 units in function so need to multiply by sec/day to get mm/day) - from bigleaf (https://search.r-project.org/CRAN/refmans/bigleaf/html/LE.to.ET.html)
     rename(                                                    # renaming for consistency
         Site_age = SITE_AGE,
         Latitude = LATITUDE,
@@ -117,6 +121,7 @@ filtered_data <- full_data %>%
              Longitude, 
              Cover_type, 
              Site_age,
+             ET,
              LE, 
              Lai_500m,
              )
