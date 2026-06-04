@@ -43,5 +43,5 @@ fluxnet/fluxnet-shuttle-run.log
 *.csv
 *.zip
 *.html
-*.png
-*.jpeg
+data/*.png
+data/*.jpeg
