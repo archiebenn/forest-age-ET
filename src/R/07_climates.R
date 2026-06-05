@@ -1,5 +1,4 @@
-# cleaning.R - script for adding site climate zones
-# also adds koeppen climate zones 
+# cleaning.R - script for adding koeppen site climate zones
 # Author: Archie Benn
 # Date: 04-06-2026
 
@@ -7,7 +6,6 @@ rm(list = ls())
 
 if (!require(kgc)) install.packages("kgc")
 library(tidyverse)
-
 
 # read in data
 df_07 <- read_csv("data/main/06_ET_plots/adjusted_dates_data.csv")
@@ -31,12 +29,12 @@ koeppen_lookup <- c(
     Dsa = "Continental", Dsb = "Continental", Dsc = "Continental", Dsd = "Continental",
     Dwa = "Continental", Dwb = "Continental", Dwc = "Continental", Dwd = "Continental",
     
-    # polar - constanty cold temps
+    # polar - constant cold temps
     ET = "Polar", EF = "Polar"
 )
 
 
-# df for determining Koeggen climate zones based off coordinates of sites
+# df for determining Koeggen climate zones based off coordinates of sites using kgc library
 site_climates <- df_07 %>%
     distinct(Site_ID, Longitude, Latitude) %>%
     mutate(
@@ -44,34 +42,31 @@ site_climates <- df_07 %>%
         rndCoord.lat = RoundCoordinates(Latitude, latlong = "lat"),
         Climate_zone = LookupCZ(data.frame(Site = Site_ID, Longitude, Latitude, rndCoord.lon, rndCoord.lat))
     ) %>%
-    # simplify with lookup vector
+    # simplify using lookup vector
     mutate(Climate_zone = koeppen_lookup[Climate_zone])   
 
 
 # recombining 
 df_climates <- df_07 %>%
-    left_join(select(site_climates, Site_ID, Climate_zone), by = "Site_ID")
+    left_join(select(site_climates, Site_ID, Climate_zone), by = "Site_ID") %>%
+    relocate(Site_ID,                                          # rearranging columns
+             Date, 
+             Latitude, 
+             Longitude, 
+             Cover_type, 
+             Climate_zone,
+             Site_age,
+             ET,
+             LE, 
+             Lai_500m,
+    )
+
+# write out
+write_csv(df_climates, "data/main/07_climates/climates_data.csv")
+
 
 
   
-# 3. make a yearyl average dataframe 
-df_years <- df_cleaned %>%
-    group_by(Site_ID, year(Date)) %>%
-    summarise(Site_ID = first(Site_ID),
-              Latitude = first(Latitude),
-              Longitude = first(Longitude),
-              Cover_type = first(Cover_type),
-              Climate_zone = first(Climate_zone),
-              Site_age = first(Site_age),
-              ET_year = sum(ET), 
-              Lai_mean = mean(Lai_500m),
-              SW_rad_mean = mean(SW_rad),
-              Tair_mean = mean(Tair),
-              Wspeed_mean = mean(Wspeed),
-              VPD_mean = mean(VPD),
-              P_year = sum(P),
-              Pa_mean = mean(Pa))
-    
     
     
     

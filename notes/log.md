@@ -53,5 +53,20 @@
 - realised I had missed out NETRAD on `fluxnet.R`  
 - spoke to martin as if I include it I drop lots of dates, but NETRAD is a key driver in ET models  
 - decided to create 2 datasets - one without (full, continuous dataset), and one with Rn, but will essentially ignore the Rn one unless I have time later on  
+- did ET vs time plots and cut out date ranges where ET is not well measured  
 
- 
+## 5-6-26
+- re-orered a lot of scripts today  
+- e.g took out a lot of pre-processing that was happening in the `data_exploration.Rmd` file and added scripts before this to alow clean import of data into exploration  
+- added Koeppen climate zones to the site data  
+
+
+
+
+
+
+
+
+
+
+

@@ -24,10 +24,12 @@ library(gridExtra)
 - Not scaled yet (will happen in engineering script just before ML training etc. begins)
 
 ```{r}
-df_06 <- read_csv(here("data/main/05_filtering/filtered_main.csv"))
+df_05 <- read_csv(here("data/main/05_filtering/filtered_main.csv"))
+df_06 <- read_csv(here("data/main/06_ET_plots/adjusted_dates_data.csv"))
+df_07 <- read_csv(here("data/main/07_climates/climates_data.csv"))
 
 # quick look at structures
-skim(df_06)
+skim(df_07)
 ```
 
 - No missing data in main dataset
@@ -50,27 +52,6 @@ p
 
 - Can see a potential issue with using the values in the first 3/4 of 2012 at this site  
 - Will repeat for every site using a function applied to the list of site names and assess the plots afterwards  
-
-```{r}
-get_ET_sites <- function(site, data, path_to_dir){
-    
-    # plot ET vs time per site
-    p <- data %>%
-        filter(Site_ID == site) %>%
-        ggplot(aes(x = Date, y = ET)) +
-        geom_line(colour = "seagreen")
-    
-    png(here(path_to_dir, paste0(site, ".png")), width = 8, height = 4, units = "in", res = 300)
-    print(p)
-    dev.off()
-}
-
-# retrieve updated site IDs after some filtering
-site_ids <- unique(df_06$Site_ID)
-
-# apply function to each site                         
-walk(site_ids, \(site) get_ET_sites(site, df, "data/fluxnet/06_exploration/06.1_sites_ET_time/"))
-```
 
 
 - After checking these plots individually I am happy with the coverage of ET across the sites now  
@@ -104,54 +85,10 @@ grid.arrange(p, p_adjust, ncol=2)
 ## 2. Yearly ET
 - To view ET across site ages cleanly the yearly ET total will be calculated 
 
-```{r}
-# set up yearly df
-df_years <- df_06_adjusted %>%
-    group_by(Site_ID, year(Date)) %>%
-    summarise(Site_ID = first(Site_ID),
-              Latitude = first(Latitude),
-              Longitude = first(Longitude),
-              Cover_type = first(Cover_type),
-              Site_age = first(Site_age),
-              ET_year = sum(ET), 
-              Lai_mean = mean(Lai_500m),
-              SW_rad_mean = mean(SW_rad),
-              Tair_mean = mean(Tair),
-              Wspeed_mean = mean(Wspeed),
-              VPD_mean = mean(VPD),
-              P_year = sum(P),
-              Pa_mean = mean(Pa))
-              
-
-    
-p_test <- df_years%>%
-    ggplot(aes(x = Site_age, y = ET_year)) +
-    theme_minimal() +
-    ylab("ET (mm/year)") +
-    xlab("Site Age (years)") +
-    ggtitle("Yearly ET against forest age at all sites") +
-    geom_point() 
-
-p_test
-
-```
-
-
-
-
 
 
 ## 3. Site data
 - Look at the spread of climate sites and zones across the data
-
-### Koeggen biomes
-
-```{r}
-
-
-
-
-```
 
 
 
