@@ -36,29 +36,10 @@ skim(df_07)
 
 ## 1. Daily ET against time per site
 - ET over time at each site will be checked for any anomalies and to see general trends
+- Example of how adjusting the date ranges helped with ET measurements:
 
 ```{r}
-p <- df_06 %>%
-    filter(Site_ID == "AU-Cum") %>%
-    ggplot(aes(x = Date, y = ET)) +
-    scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-    ylab("ET (mm/day)") +
-    ggtitle("Daily ET over time at AU-Cum") +
-    geom_line(colour = "seagreen") 
-    
-p
-```
-
-- Can see a potential issue with using the values in the first 3/4 of 2012 at this site  
-- Will repeat for every site using a function applied to the list of site names and assess the plots afterwards  
-
-
-- After checking these plots individually I am happy with the coverage of ET across the sites now  
-- For example, to compare one site before/after adjusting date ranges:
-
-```{r}
-p <- df_06 %>%
+p <- df_05 %>%
     filter(Site_ID == "PA-SPn") %>%
     ggplot(aes(x = Date, y = ET)) +
     scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
@@ -67,7 +48,7 @@ p <- df_06 %>%
     ggtitle("Daily ET over original time at PA-SPn") +
     geom_line(colour = "seagreen") 
 
-p_adjust <- df_06_adjusted %>%
+p_adjust <- df_06 %>%
     filter(Site_ID == "PA-SPn") %>%
     ggplot(aes(x = Date, y = ET)) +
     scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
