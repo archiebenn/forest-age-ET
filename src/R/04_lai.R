@@ -55,11 +55,11 @@ get_LAI <- function(site_id, latitude, longitude, start_date, end_date){
 
 
 # import full (unscaled) fluxnet data
-df <- read_csv("data/main/03_full_unscaled/full_unscaled.csv")
+df_04 <- read_csv("data/main/03_full_unscaled/full_unscaled.csv")
 
 
 # sort full data into sites and dates for LAI acquisition loop 
-lai_setup_df <- df %>%
+lai_setup_df <- df_04 %>%
     group_by(SITE_ID) %>%
     summarise(
         LATITUDE = first(LATITUDE),

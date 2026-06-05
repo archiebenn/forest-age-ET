@@ -23,10 +23,10 @@ library(gridExtra)
 - Not scaled yet (will happen in `06_engineer.R`, just before ML training etc. begins)
 
 ```{r}
-df <- read_csv(here("data/main/05_filtering/filtered_main.csv"))
+df_06 <- read_csv(here("data/main/05_filtering/filtered_main.csv"))
 
 # quick look at structures
-skim(df)
+skim(df_06)
 ```
 
 - No missing data in main dataset
@@ -35,7 +35,7 @@ skim(df)
 - ET over time at each site will be checked for any anomalies and to see general trends
 
 ```{r}
-p <- df %>%
+p <- df_06 %>%
     filter(Site_ID == "AU-Cum") %>%
     ggplot(aes(x = Date, y = ET)) +
     scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
@@ -65,7 +65,7 @@ get_ET_sites <- function(site, data, path_to_dir){
 }
 
 # retrieve updated site IDs after some filtering
-site_ids <- unique(df$Site_ID)
+site_ids <- unique(df_06$Site_ID)
 
 # apply function to each site                         
 # walk(site_ids, \(site) get_ET_sites(site, df, "data/fluxnet/06_exploration/06.1_sites_ET_time/"))
@@ -119,10 +119,10 @@ ZM-Mon: remove October 2007 and after June 2009
 
 ```{r}
 # post running 07_filtering2.R
-df_adjusted <- read_csv(here("data/main/07_cleaning/adjusted_dates_data.csv"))
+df_06_adjusted <- read_csv(here("data/main/07_cleaning/adjusted_dates_data.csv"))
 
 # retrieve updated site IDs after some filtering
-site_ids <- unique(df_adjusted$Site_ID)
+site_ids <- unique(df_06_adjusted$Site_ID)
 
 # re-run and save pngs to separate folder
 # walk(site_ids, \(site) get_ET_sites(site, df_adjusted, "data/fluxnet/06_exploration/06.2_sites_ET_time_adjusted/"))
@@ -133,7 +133,7 @@ site_ids <- unique(df_adjusted$Site_ID)
 - For example, to compare one site before/after adjusting date ranges:
 
 ```{r}
-p <- df %>%
+p <- df_06 %>%
     filter(Site_ID == "PA-SPn") %>%
     ggplot(aes(x = Date, y = ET)) +
     scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
@@ -142,7 +142,7 @@ p <- df %>%
     ggtitle("Daily ET over original time at PA-SPn") +
     geom_line(colour = "seagreen") 
 
-p_adjust <- df_adjusted %>%
+p_adjust <- df_06_adjusted %>%
     filter(Site_ID == "PA-SPn") %>%
     ggplot(aes(x = Date, y = ET)) +
     scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
@@ -158,7 +158,13 @@ grid.arrange(p, p_adjust, ncol=2)
 
 
 ## 2. Yearly ET
-To view ET across site ages cleanly the yearly ET total will be calculated 
+- To view ET across site ages cleanly the yearly ET total will be calculated 
+
+```{r}
+
+
+
+```
 
 
 

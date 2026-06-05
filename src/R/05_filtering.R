@@ -9,7 +9,7 @@ library(zoo)
 
 
 # import full (unscaled) data and LAI data
-df <- read_csv("data/main/03_full_unscaled/full_unscaled.csv")
+df_05 <- read_csv("data/main/03_full_unscaled/full_unscaled.csv")
 lai_full <- read_csv("data/main/04_lai/lai_all.csv")
 
 
@@ -36,7 +36,7 @@ lai_filtered <- lai_full %>%
 
 # now these NA values are filled, linear interpolation will be used to gap fill the LAI (slow changing variable)
 # attach LAI to full/main fluxnet data frame by site and date
-full_data <- df %>%
+full_data <- df_05 %>%
     left_join(lai_filtered, by = c("SITE_ID", "TIMESTAMP" = "calendar_date")) %>%
     group_by(SITE_ID) %>%
     arrange(TIMESTAMP, .by_group = TRUE) %>%                                       # before interpolating to ensure right order

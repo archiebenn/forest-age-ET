@@ -2,10 +2,11 @@
 # Author: Archie Benn
 # Date: 29-05-2026
 
+rm(list = ls())
 library(tidyverse)
 
 # metadata on FLUXNET2015 sites
-df <- read_csv("data/main/01_site_selection/daily_metadata.csv")
+df_01 <- read_csv("data/main/01_site_selection/daily_metadata.csv")
 
 # sites with ages in Besnard 2018
 besnard_sites <- c(
@@ -51,7 +52,7 @@ besnard_sites <- c(
 )
 
 # get IGBP of each site 
-igbp <- df %>%
+igbp <- df_01 %>%
     filter(VARIABLE == "IGBP") %>%
     select(SITE_ID, IGBP = DATAVALUE)
 
@@ -93,12 +94,12 @@ SITE_AGE <- c(300, 198, 83, 32,
                             88)
 
 # site locations
-lat <- df %>%
+lat <- df_01 %>%
     filter(VARIABLE == "LOCATION_LAT", SITE_ID %in% besnard_sites) %>%
     select(SITE_ID, LATITUDE = DATAVALUE)
 
-long <- df %>%
-    filter(VARIABLE == "LOCATION_LONG", SITE_ID %in% besnard_sites) %>%
+long <- df_01 %>%
+    filter(VARIABLE == "LOCATION_LONG", SITE_ID %in% besnard_sites) %>%  # only keep sites present in besnard2018
     select(SITE_ID, LONGITUDE = DATAVALUE)
 
 merged <- merge(igbp, lat, by="SITE_ID")
