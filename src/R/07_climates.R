@@ -1,4 +1,4 @@
-# cleaning.R - script for cleaning data based on findings from data exploration 
+# cleaning.R - script for adding site climate zones
 # also adds koeppen climate zones 
 # Author: Archie Benn
 # Date: 04-06-2026
@@ -9,15 +9,12 @@ if (!require(kgc)) install.packages("kgc")
 library(tidyverse)
 
 
-# read in 
+# read in data
 df_07 <- read_csv("data/main/06_ET_plots/adjusted_dates_data.csv")
 
-   
-
-
-# attach koeppen climate zones
 # look up vector to simplify zones a sites
 koeppen_lookup <- c(
+    
     # tropical - constant warm temps
     Af = "Tropical", Am = "Tropical", Aw = "Tropical", As = "Tropical",
     
@@ -40,7 +37,7 @@ koeppen_lookup <- c(
 
 
 # df for determining Koeggen climate zones based off coordinates of sites
-site_climates <- df_cleaned %>%
+site_climates <- df_07 %>%
     distinct(Site_ID, Longitude, Latitude) %>%
     mutate(
         rndCoord.lon = RoundCoordinates(Longitude, latlong = "lon"),
@@ -50,8 +47,9 @@ site_climates <- df_cleaned %>%
     # simplify with lookup vector
     mutate(Climate_zone = koeppen_lookup[Climate_zone])   
 
+
 # recombining 
-df_cleaned <- df_cleaned %>%
+df_climates <- df_07 %>%
     left_join(select(site_climates, Site_ID, Climate_zone), by = "Site_ID")
 
 
