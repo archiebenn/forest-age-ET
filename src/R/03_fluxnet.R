@@ -2,6 +2,7 @@
 # Author: Archie Benn
 # Date: 01-06-2026
 
+rm(list = ls())
 library(tidyverse)
 library(stringr)
 

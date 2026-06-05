@@ -3,6 +3,8 @@
 # Date: 02-06-2026
 # MODISTools: Koen Hufkens. (2023). bluegreen-labs/MODISTools: MODISTools v1.1.5. Zenodo. https://doi.org/10.5281/zenodo.7551164
 
+rm(list = ls())
+
 if (!require(MODISTools)) install.packages("MODISTools")
 library(MODISTools)
 library(tidyverse)

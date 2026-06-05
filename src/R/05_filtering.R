@@ -2,7 +2,10 @@
 # Author: Archie Benn
 # Date: 03-06-2026
 
+rm(list = ls())
+
 if (!require(bigleaf)) install.packages("bigleaf")
+library(plyr)
 library(bigleaf)
 library(tidyverse)
 library(zoo)
@@ -125,6 +128,7 @@ filtered_data <- full_data %>%
              Lai_500m,
              )
 
+
 # df without Rn - MAIN dataset going forward
 filtered_no_Rn <- filtered_data %>%
     select(-Rn, -Rn_QC)                  # drop all Rn cols
@@ -142,12 +146,6 @@ write_csv(filtered_Rn, "data/main/05_filtering/filtered_Rn.csv")
 
 
 print("filtering.R complete")
-
-
-
-
-
-
 
 
 

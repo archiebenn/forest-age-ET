@@ -2,6 +2,8 @@
 # Author: Archie Benn
 # Date: 30-05-2026
 
+rm(list = ls())
+
 library(tidyverse)
 library(sf)
 library(rnaturalearth)

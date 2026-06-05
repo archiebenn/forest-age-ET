@@ -7,6 +7,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+rm(list = ls())
+                     
 library(tidyverse)
 library(sf)
 library(rnaturalearth)
@@ -68,7 +70,7 @@ get_ET_sites <- function(site, data, path_to_dir){
 site_ids <- unique(df_06$Site_ID)
 
 # apply function to each site                         
-# walk(site_ids, \(site) get_ET_sites(site, df, "data/fluxnet/06_exploration/06.1_sites_ET_time/"))
+walk(site_ids, \(site) get_ET_sites(site, df, "data/fluxnet/06_exploration/06.1_sites_ET_time/"))
 ```
 
 
@@ -125,7 +127,7 @@ df_06_adjusted <- read_csv(here("data/main/07_cleaning/adjusted_dates_data.csv")
 site_ids <- unique(df_06_adjusted$Site_ID)
 
 # re-run and save pngs to separate folder
-# walk(site_ids, \(site) get_ET_sites(site, df_adjusted, "data/fluxnet/06_exploration/06.2_sites_ET_time_adjusted/"))
+walk(site_ids, \(site) get_ET_sites(site, df_06_adjusted, "data/main/06_exploration/06.2_sites_ET_time_adjusted/"))
 
 ```
 
@@ -148,7 +150,7 @@ p_adjust <- df_06_adjusted %>%
     scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
     ylab("ET (mm/day)") +
-    ggtitle("Daily ET over adjusted time at PA-SPn") +
+    ggtitle("Adjusted daily ET over time at PA-SPn") +
     geom_line(colour = "seagreen") 
 
 grid.arrange(p, p_adjust, ncol=2)
@@ -161,8 +163,34 @@ grid.arrange(p, p_adjust, ncol=2)
 - To view ET across site ages cleanly the yearly ET total will be calculated 
 
 ```{r}
+# set up yearly df
+df_years <- df_06_adjusted %>%
+    group_by(Site_ID, year(Date)) %>%
+    summarise(Site_ID = first(Site_ID),
+              Latitude = first(Latitude),
+              Longitude = first(Longitude),
+              Cover_type = first(Cover_type),
+              Site_age = first(Site_age),
+              ET_year = sum(ET), 
+              Lai_mean = mean(Lai_500m),
+              SW_rad_mean = mean(SW_rad),
+              Tair_mean = mean(Tair),
+              Wspeed_mean = mean(Wspeed),
+              VPD_mean = mean(VPD),
+              P_year = sum(P),
+              Pa_mean = mean(Pa))
+              
 
+    
+p_test <- df_years%>%
+    ggplot(aes(x = Site_age, y = ET_year)) +
+    theme_minimal() +
+    ylab("ET (mm/year)") +
+    xlab("Site Age (years)") +
+    ggtitle("Yearly ET against forest age at all sites") +
+    geom_point() 
 
+p_test
 
 ```
 
@@ -171,7 +199,17 @@ grid.arrange(p, p_adjust, ncol=2)
 
 
 
+## 3. Site data
+- Look at the spread of climate sites and zones across the data
 
+### Koeggen biomes
+
+```{r}
+
+
+
+
+```
 
 
 
