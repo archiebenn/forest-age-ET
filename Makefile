@@ -13,15 +13,12 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: sites sort fluxnet lai filter clean 
+all: sites fluxnet lai filter clean 
 
 sites: ## data prep  part 1 - filter sites, make csv, create world map
 	Rscript src/R/01_sites.R
 	Rscript src/R/02_site_maps.R
 	sed -i 's/{world_sites_ras/{..\/figures\/world_sites_ras/g' diss/figures/world_sites.tex
-
-sort: ## bash script to take daily csv files from full FLUXNET zip based on site id 
-	chmod +x src/bash/sort_csv.sh && ./src/bash/sort_csv.sh
 
 fluxnet: ## data prep part 2 - take suitable sites and get full fluxnet data
 	Rscript src/R/03_fluxnet.R

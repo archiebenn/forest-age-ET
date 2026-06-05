@@ -157,7 +157,8 @@ df_filtered2 <- df %>%
 # save out
 write_csv(df_filtered2, "data/main/07_cleaning/adjusted_dates_data.csv")
     
-    
+print("cleaning.R complete")
+
     
     
     
