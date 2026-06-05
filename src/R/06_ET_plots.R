@@ -123,3 +123,4 @@ site_ids <- unique(df_cleaned$Site_ID)
 # happy with those new plots and time ranges, so save out
 write_csv(df_cleaned, "data/main/06_ET_plots/adjusted_dates_data.csv")
 
+print("ET_plots.R complete")
