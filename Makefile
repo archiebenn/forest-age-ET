@@ -4,7 +4,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 
 
-.PHONY: help all sites fluxnet lai filter engineer small_scale generalisation model_comparison diss
+.PHONY: help all sites fluxnet lai filter clean  engineer small_scale generalisation model_comparison diss
 
 .DEFAULT_GOAL := help
 
@@ -13,7 +13,7 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: sites sort fluxnet lai filter
+all: sites sort fluxnet lai filter clean 
 
 sites: ## data prep  part 1 - filter sites, make csv, create world map
 	Rscript src/R/01_sites.R
@@ -29,8 +29,11 @@ fluxnet: ## data prep part 2 - take suitable sites and get full fluxnet data
 lai: ## data prep part 3 - fetch MODIS LAI by site coordinates
 	Rscript src/R/04_lai.R
 
-filter: ## data prep part 4 - filter LAI and fluxnet based on quality metrics
+filter: ## data prep part 4 - filter LAI and fluxnet based on quality metric
 	Rscript src/R/05_filtering.R
+
+clean: ## data prep part 5 - cleaning data based on data exploration finding
+	Rscript src/R/07_cleaning.R
 
 engineer: ## data prep part 5 - select + engineer variables for ML
 	Rscript src/R/07_engineer.R

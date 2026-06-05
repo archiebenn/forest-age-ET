@@ -5,8 +5,6 @@ date: "`r Sys.Date()`"
 output: html_document
 ---
 ```{r setup, include=FALSE}
-rm(list = ls())
-
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
@@ -16,6 +14,7 @@ library(countrycode)
 library(ggrepel)
 library(here)
 library(skimr)
+library(gridExtra)
 ```
 
 ## Data Import
@@ -24,7 +23,7 @@ library(skimr)
 - Not scaled yet (will happen in `06_engineer.R`, just before ML training etc. begins)
 
 ```{r}
-df <- read_csv(here("data/fluxnet/05_filtering/filtered_main.csv"))
+df <- read_csv(here("data/main/05_filtering/filtered_main.csv"))
 
 # quick look at structures
 skim(df)
@@ -32,19 +31,19 @@ skim(df)
 
 - No missing data in main dataset
 
-## 1. ET against time per site
-- will assess ET over time at each site
+## 1. Daily ET against time per site
+- ET over time at each site will be checked for any anomalies and to see general trends
 
 ```{r}
 p <- df %>%
-    filter(Site_ID == "US-UMd") %>%
+    filter(Site_ID == "AU-Cum") %>%
     ggplot(aes(x = Date, y = ET)) +
-    scale_x_date(date_breaks = "1 month", date_labels = "%b %Y") +
+    scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
     ylab("ET (mm/day)") +
+    ggtitle("Daily ET over time at AU-Cum") +
     geom_line(colour = "seagreen") 
     
-
 p
 ```
 
@@ -65,11 +64,11 @@ get_ET_sites <- function(site, data, path_to_dir){
     dev.off()
 }
 
-# read site list
-site_list <- read_lines(here("data/fluxnet/01_site_selection/site_list.txt"))
+# retrieve updated site IDs after some filtering
+site_ids <- unique(df$Site_ID)
 
 # apply function to each site                         
-walk(site_list, \(site) get_ET_sites(site, df, "data/fluxnet/06_exploration/06.1_sites_ET_time/"))
+# walk(site_ids, \(site) get_ET_sites(site, df, "data/fluxnet/06_exploration/06.1_sites_ET_time/"))
 ```
 
 
@@ -120,20 +119,46 @@ ZM-Mon: remove October 2007 and after June 2009
 
 ```{r}
 # post running 07_filtering2.R
-df_adjusted <- read_csv(here("data/fluxnet/07_filtering2/adjusted_dates_data.csv"))
+df_adjusted <- read_csv(here("data/main/07_cleaning/adjusted_dates_data.csv"))
+
+# retrieve updated site IDs after some filtering
+site_ids <- unique(df_adjusted$Site_ID)
 
 # re-run and save pngs to separate folder
-walk(site_list, \(site) get_ET_sites(site, df_adjusted, "data/fluxnet/06_exploration/06.2_sites_ET_time_adjusted/"))
+# walk(site_ids, \(site) get_ET_sites(site, df_adjusted, "data/fluxnet/06_exploration/06.2_sites_ET_time_adjusted/"))
+
+```
+
+- After checking these plots individually I am happy with the coverage of ET across the sites now  
+- For example, to compare one site before/after adjusting date ranges:
+
+```{r}
+p <- df %>%
+    filter(Site_ID == "PA-SPn") %>%
+    ggplot(aes(x = Date, y = ET)) +
+    scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    ylab("ET (mm/day)") +
+    ggtitle("Daily ET over original time at PA-SPn") +
+    geom_line(colour = "seagreen") 
+
+p_adjust <- df_adjusted %>%
+    filter(Site_ID == "PA-SPn") %>%
+    ggplot(aes(x = Date, y = ET)) +
+    scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    ylab("ET (mm/day)") +
+    ggtitle("Daily ET over adjusted time at PA-SPn") +
+    geom_line(colour = "seagreen") 
+
+grid.arrange(p, p_adjust, ncol=2)
 
 ```
 
 
 
-
-
-
-
-
+## 2. Yearly ET
+To view ET across site ages cleanly the yearly ET total will be calculated 
 
 
 

@@ -1,8 +1,7 @@
-# filtering2.R - script for filtering based on findings from data exploration in 06_data_exploration.Rmd
+# cleaning.R - script for cleaning data based on findings from data exploration in 06_data_exploration.Rmd
 # Author: Archie Benn
 # Date: 04-06-2026
 
-rm(list = ls())
 library(tidyverse)
 
 
@@ -28,7 +27,6 @@ library(tidyverse)
 # IT-Cpz: remove after 2009
 # IT-La2: REMOVE SITE
 # IT-Ren: remove before 2005
-# IT-Ro1: REMOVE SITE (check as error somewhere)
 # IT-Ro2: remove 2009-2010
 # PA-SPn: remove before March 2007 and after July 2009
 # US-Blo: remove after October 2007
@@ -43,7 +41,7 @@ library(tidyverse)
 # US-WCr: remove September 2006 - January 2011
 # ZM-Mon: remove October 2007 and after June 2009
 
-df <- read_csv("data/fluxnet/05_filtering/filtered_main.csv")
+df <- read_csv("data/main/05_filtering/filtered_main.csv")
 
 
 # remove time periods
@@ -119,7 +117,7 @@ df_filtered2 <- df %>%
     
     # PA-SPn: remove before March 2007 and after July 2009
     filter(!(Site_ID == "PA-SPn" & Date < as.Date("2007-03-01"))) %>%
-    filter(!(Site_ID == "PA-SPn" & Date > as.Date("2009-07-31"))) %>%
+    filter(!(Site_ID == "PA-SPn" & Date >= as.Date("2009-07-01"))) %>%
         
     # US-Blo: remove after October 2007
     filter(!(Site_ID == "US-Blo" & Date >= as.Date("2007-10-01"))) %>%
@@ -157,7 +155,7 @@ df_filtered2 <- df %>%
 
 
 # save out
-write_csv(df_filtered2, "data/fluxnet/07_filtering2/adjusted_dates_data.csv")
+write_csv(df_filtered2, "data/main/07_cleaning/adjusted_dates_data.csv")
     
     
     

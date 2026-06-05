@@ -3,7 +3,6 @@
 # Date: 02-06-2026
 # MODISTools: Koen Hufkens. (2023). bluegreen-labs/MODISTools: MODISTools v1.1.5. Zenodo. https://doi.org/10.5281/zenodo.7551164
 
-rm(list = ls())
 if (!require(MODISTools)) install.packages("MODISTools")
 library(MODISTools)
 library(tidyverse)
@@ -18,7 +17,7 @@ plan(multisession, workers = parallel::detectCores() - 1)
 
 # main download = 73 sites. want to make sure if re-running it doesn't try to download again if they exist/saves if crashes mid-download
 # make cached directory
-cached_dir <- "data/fluxnet/04_lai/cached_sites"
+cached_dir <- "data/main/04_lai/cached_sites"
 dir.create(cached_dir, recursive = TRUE, showWarnings = FALSE)
 
 
@@ -26,7 +25,7 @@ dir.create(cached_dir, recursive = TRUE, showWarnings = FALSE)
 get_LAI <- function(site_id, latitude, longitude, start_date, end_date){
     
     # re-define within function env
-    cached_dir <- "data/fluxnet/04_lai/cached_sites"
+    cached_dir <- "data/main/04_lai/cached_sites"
     
     # define file csv (in cached dir) for this site
     site_csv <- file.path(cached_dir, paste0(site_id, ".csv"))
@@ -56,7 +55,7 @@ get_LAI <- function(site_id, latitude, longitude, start_date, end_date){
 
 
 # import full (unscaled) fluxnet data
-df <- read_csv("data/fluxnet/03_full_unscaled/full_unscaled.csv")
+df <- read_csv("data/main/03_full_unscaled/full_unscaled.csv")
 
 
 # sort full data into sites and dates for LAI acquisition loop 
@@ -97,7 +96,7 @@ lai_full <- list.files(cached_dir, pattern = "*.csv", full.names = T) %>%
     
 
 # write out for filtering.R
-write_csv(lai_full, "data/fluxnet/04_lai/lai_all.csv")
+write_csv(lai_full, "data/main/04_lai/lai_all.csv")
 
 print("lai.R complete")
 

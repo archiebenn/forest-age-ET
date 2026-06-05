@@ -2,7 +2,6 @@
 # Author: Archie Benn
 # Date: 03-06-2026
 
-rm(list = ls())
 if (!require(bigleaf)) install.packages("bigleaf")
 library(bigleaf)
 library(tidyverse)
@@ -10,8 +9,8 @@ library(zoo)
 
 
 # import full (unscaled) data and LAI data
-df <- read_csv("data/fluxnet/03_full_unscaled/full_unscaled.csv")
-lai_full <- read_csv("data/fluxnet/04_lai/lai_all.csv")
+df <- read_csv("data/main/03_full_unscaled/full_unscaled.csv")
+lai_full <- read_csv("data/main/04_lai/lai_all.csv")
 
 
 # 1. filter LAI quality first:
@@ -98,7 +97,7 @@ flux_QC <- full_data %>%
     )
 
 # save qualities
-write_csv(flux_QC, "data/fluxnet/05_filtering/flux_QC.csv")
+write_csv(flux_QC, "data/main/05_filtering/flux_QC.csv")
 
 # will filter out any qc scores > 1 and then save as the full dataset - leave out Rn_QC as it has NA values which messes up next steps
 cols_filter <- c("LE_QC", "SW_rad_QC", "Tair_QC", "Wspeed_QC", "VPD_QC", "P_QC", "Pa_QC")
@@ -138,8 +137,8 @@ filtered_Rn <- filtered_data %>%
     
     
 # save out both
-write_csv(filtered_no_Rn, "data/fluxnet/05_filtering/filtered_main.csv")
-write_csv(filtered_Rn, "data/fluxnet/05_filtering/filtered_Rn.csv")
+write_csv(filtered_no_Rn, "data/main/05_filtering/filtered_main.csv")
+write_csv(filtered_Rn, "data/main/05_filtering/filtered_Rn.csv")
 
 
 print("filtering.R complete")

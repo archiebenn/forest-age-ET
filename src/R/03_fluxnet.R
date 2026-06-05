@@ -2,17 +2,16 @@
 # Author: Archie Benn
 # Date: 01-06-2026
 
-rm(list = ls())
 library(tidyverse)
 library(stringr)
 
-DD_dir <- "data/fluxnet/02_full_sites_DD"
+DD_dir <- "data/main/02_full_sites_DD"
 
 # list full set of DD FLUXNET csv files
 file_names_DD <- list.files(DD_dir, full.names = T)
 
-# variables to keep for models (from https://fluxnet.org/data/aboutdata/data-variables/)
-# F = gap-Filled
+# daily variables to keep for models (from https://fluxnet.org/data/aboutdata/data-variables/)
+# F = gap-Filled (with attached QC metric for this gap filling)
 vars_keep <- c("TIMESTAMP",            # date 
                "LE_F_MDS",             # latent heat (W m-2)
                "LE_F_MDS_QC",          # latent heat quality
@@ -43,7 +42,7 @@ fluxnet_selected <- file_names_DD %>%
 
 
 # read in sites from sites.R
-sites_metadata = read_csv("data/fluxnet/01_site_selection/site_ages.csv")
+sites_metadata = read_csv("data/main/01_site_selection/site_ages.csv")
 
 # attach the two data frames based on site name to form final dataset (non-scaled/filtered) for engineer.R
 df_fluxnet_ages <- fluxnet_selected %>%
@@ -71,7 +70,7 @@ df_fluxnet_ages <- fluxnet_selected %>%
     mutate(TIMESTAMP = as.Date(as.character(TIMESTAMP), format = '%Y%m%d'))
 
 # save out as a .csv
-write_csv(df_fluxnet_ages, "data/fluxnet/03_full_unscaled/full_unscaled.csv")
+write_csv(df_fluxnet_ages, "data/main/03_full_unscaled/full_unscaled.csv")
 
 print("fluxnet.R complete")
 

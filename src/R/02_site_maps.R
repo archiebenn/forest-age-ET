@@ -2,7 +2,6 @@
 # Author: Archie Benn
 # Date: 30-05-2026
 
-rm(list = ls())
 library(tidyverse)
 library(sf)
 library(rnaturalearth)
@@ -11,7 +10,7 @@ library(ggrepel)
 library(tikzDevice)
 
 # sites
-sites = read_csv("data/fluxnet/01_site_selection/site_ages.csv")
+sites = read_csv("data/main/01_site_selection/site_ages.csv")
 
 # get world data
 world <- ne_countries(returnclass = "sf")

@@ -2,11 +2,10 @@
 # Author: Archie Benn
 # Date: 29-05-2026
 
-rm(list = ls())
 library(tidyverse)
 
 # metadata on FLUXNET2015 sites
-df <- read_csv("data/fluxnet/01_site_selection/daily_metadata.csv")
+df <- read_csv("data/main/01_site_selection/daily_metadata.csv")
 
 # sites with ages in Besnard 2018
 besnard_sites <- c(
@@ -114,8 +113,8 @@ final_sites <- merged %>%
 site_ids <- final_sites$SITE_ID
 
 # write out
-writeLines(site_ids, "data/fluxnet/01_site_selection/site_list.txt")
-write_csv(final_sites, "data/fluxnet/01_site_selection/site_ages.csv")
+writeLines(site_ids, "data/main/01_site_selection/original_site_list.txt")
+write_csv(final_sites, "data/main/01_site_selection/site_ages.csv")
 
 print("sites.R complete")
 
