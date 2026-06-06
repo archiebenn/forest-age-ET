@@ -17,26 +17,77 @@ library(ggrepel)
 library(here)
 library(skimr)
 library(gridExtra)
+library(tikzDevice)
 ```
 
 ## Data Import
-- This contains all 71 sites from FLUXNET2015 with ages from besnard2018, LAI from MODIS attached, and climate/forest types attached.
+- This contains all 71 sites from FLUXNET2015 with ages from besnard2018, LAI from MODIS attached, and climate/forest types attached.  
+- Also datasets on yearly averages/sums and per site data
 - Not scaled yet (will happen in engineering script just before ML training etc. begins)
 
-```{r}
+```{r, include=FALSE}
 df_05 <- read_csv(here("data/main/05_filtering/filtered_main.csv"))
 df_06 <- read_csv(here("data/main/06_ET_plots/adjusted_dates_data.csv"))
 df_07 <- read_csv(here("data/main/07_climates/climates_data.csv"))
+df_yearly <- read_csv(here("data/main/08_sorting/yearly.csv"))
+df_sites <- read_csv(here("data/main/08_sorting/sites.csv"))
+```
 
+```{r}
 # quick look at structures
 skim(df_07)
+
+# and a look at yearly
+skim(df_yearly)
+
+# and sites
+skim(df_sites)
+
 ```
 
 - No missing data in main dataset
 
-## 1. Daily ET against time per site
+
+## 1. Site data
+- Look at the spread of climate sites and zones across the data
+
+```{r}
+p_climates <- df_sites %>%
+    ggplot() +
+    aes() +
+    xlab("Forest Age at Site (years)") +
+    ylab("Number of Sites") +
+    geom_histogram(aes(x = Site_age, fill = Climate_zone))
+
+p_climates
+
+
+```
+
+
+
+## 2. Daily data
+### 2.1 Daily ET against time per site
 - ET over time at each site will be checked for any anomalies and to see general trends
-- Example of how adjusting the date ranges helped with ET measurements:
+- Example of ET at one site over full date range:
+
+```{r}
+p_DE_Hai <- df_06 %>%
+    filter(Site_ID == "DE-Hai") %>%
+    ggplot(aes(x = Date, y = ET)) +
+    theme_bw() +
+    scale_x_date(date_breaks = "1 year", date_labels = "%b %Y") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    ylab("ET (mm/day)") +
+    ggtitle("Adjusted daily ET over time at PA-SPn") +
+    geom_line(colour = "seagreen")
+
+p_DE_Hai
+
+```
+
+
+- Example of how adjusting the date ranges in `06_ET_plots.R` helped with ET measurements:
 
 ```{r}
 p <- df_05 %>%
@@ -63,13 +114,11 @@ grid.arrange(p, p_adjust, ncol=2)
 
 
 
-## 2. Yearly ET
-- To view ET across site ages cleanly the yearly ET total will be calculated 
+## 3. Yearly data
+- To view ET across site ages cleanly the yearly df will be used  
 
 
 
-## 3. Site data
-- Look at the spread of climate sites and zones across the data
 
 
 

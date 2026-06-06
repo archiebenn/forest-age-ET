@@ -1,4 +1,4 @@
-# filtering.R - script for filtering LAI and fluxnet data using QC metrics
+# filtering.R - script for filtering LAI and fluxnet data using QC metrics and back-propagating ages
 # Author: Archie Benn
 # Date: 03-06-2026
 
@@ -102,12 +102,22 @@ flux_QC <- full_data %>%
 # save qualities
 write_csv(flux_QC, "data/main/05_filtering/flux_QC.csv")
 
+
+#3. Now I have the age ranges for the fluxnet data I can back-propagate the ages of the sites so they aren't static
+# essentially, besnard2018 ages sites regardless of ranges, so FLUXNET data range does not change the site age
+# e.g a '2 year old' site with a range from 2004-2010 is still seen as 2 in 2010, when it should be 8 (disturbance year = start - besnard age)
+# so will attempt to re-age the sites based on fluxnet yearly data. note this is an estimate and does introduce uncertainties
+full_data_aged <- full_data %>%
+    group_by(SITE_ID) %>%                                                 # group by site to get min year per site
+    mutate(SITE_AGE = SITE_AGE + year(TIMESTAMP) - min(year(TIMESTAMP)))  # offset the age by the difference between observation date and start of observation date
+
+
 # will filter out any qc scores > 1 and then save as the full dataset - leave out Rn_QC as it has NA values which messes up next steps
 cols_filter <- c("LE_QC", "SW_rad_QC", "Tair_QC", "Wspeed_QC", "VPD_QC", "P_QC", "Pa_QC")
 
 
 # set up final/full dataset
-filtered_data <- full_data %>%
+filtered_data <- full_data_aged %>%
     filter(if_all(all_of(cols_filter), \(x) x <= 1)) %>%       # checks against all columns in row simultaneously and drops full row if any QC > 1 ie. poor gap filling
     select(-all_of(cols_filter)) %>%                           # and drop QC cols after filtering
     mutate(ET = (LE.to.ET(LE, Tair)) * 86400) %>%              # add ET column (kg m-2 s-1 units in function so need to multiply by sec/day to get mm/day) - from bigleaf (https://search.r-project.org/CRAN/refmans/bigleaf/html/LE.to.ET.html)

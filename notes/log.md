@@ -61,7 +61,11 @@
 - added Koeppen climate zones to the site data  
 
 
-
+## 6-6-26
+- sorted main data for yearly data and per-site data  
+- worked out that Besnard aged sites based on their date at the start of FLUXNET recordings (cross-checked references and dates within the publications to these ages)  
+- then added to `05_filtering.R` to adapt the ages of the sites based on their measurement year, such that every extra year adds a year to the age of the site  
+- this should be better than static ages, especially for young sites where ET may change significantly year to year and should help ML models learn better  
 
 
 

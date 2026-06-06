@@ -51,6 +51,15 @@ besnard_sites <- c(
     "ZM-Mon"
 )
 
+# keep only disturbance 1 data (complete stand replacement events only)
+non_dist1_sites <- c("DE-Lkb",
+                     "IT-Ro1",
+                     "IT-Ro2",
+                     "JP-Tef",
+                     "US-SO2",
+                     "US-SO3",
+                     "ZM-Mon")
+
 # get IGBP of each site 
 igbp <- df_01 %>%
     filter(VARIABLE == "IGBP") %>%
@@ -68,30 +77,30 @@ forest_IGBP <- c(
 
 # ages defined in supplementary materials for these forest sites
 SITE_AGE <- c(300, 198, 83, 32,
-                            78, 94,
-                            300, 2,
-                            78, 161, 154, 73, 39, 23,14,6,
-                            80, 112, 102,
-                            9, 37, 70, 98,
-                            222, 184,
-                            300, 96, 19,
-                            31,
-                            254, 2, 117, 76, 118,
-                            85,
-                            46, 83,
-                            161, 34, 64,
-                            300,
-                            180, 63, 56, 89, 13, 188,
-                            10, 19, 64, 54,
-                            106,
-                            106,
-                            7,
-                            236,
-                            13, 176, 184, 96,
-                            94, 20, 24, 22,
-                            95, 110, 50, 150, 98,
-                            300, 93, 90, 96,
-                            88)
+              78, 94,
+              300, 2,
+              78, 161, 154, 73, 39, 23,14,6,
+              80, 112, 102,
+              9, 37, 70, 98,
+              222, 184,
+              300, 96, 19,
+              31,
+              254, 2, 117, 76, 118,
+              85,
+              46, 83,
+              161, 34, 64,
+              300,
+              180, 63, 56, 89, 13, 188,
+              10, 19, 64, 54,
+              106,
+              106,
+              7,
+              236,
+              13, 176, 184, 96,
+              94, 20, 24, 22,
+              95, 110, 50, 150, 98,
+              300, 93, 90, 96,
+              88)
 
 # site locations
 lat <- df_01 %>%
@@ -105,17 +114,18 @@ long <- df_01 %>%
 merged <- merge(igbp, lat, by="SITE_ID")
 merged <- merge(merged, long, by="SITE_ID")
 
-# final sites
-final_sites <- merged %>% 
+# sites
+sites <- merged %>% 
     filter(IGBP %in% forest_IGBP,
-           SITE_ID %in% besnard_sites) %>%
-    add_column(SITE_AGE) 
+           SITE_ID %in% besnard_sites) %>%         
+    add_column(SITE_AGE) %>%
+    filter(! SITE_ID %in% non_dist1_sites)      # keep only disturbance 1 sites
 
-site_ids <- final_sites$SITE_ID
+site_ids <- sites$SITE_ID
 
 # write out
 writeLines(site_ids, "data/main/01_site_selection/original_site_list.txt")
-write_csv(final_sites, "data/main/01_site_selection/site_ages.csv")
+write_csv(sites, "data/main/01_site_selection/site_ages.csv")
 
 print("sites.R complete")
 

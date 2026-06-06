@@ -28,7 +28,6 @@ CN-Din
 CN-Qia
 CZ-BK1
 DE-Hai
-DE-Lkb
 DE-Lnf
 DE-Obe
 DE-Tha
@@ -45,8 +44,6 @@ IT-Cpz
 IT-La2
 IT-PT1
 IT-Ren
-IT-Ro1
-IT-Ro2
 IT-SR2
 IT-SRo
 MY-PSO
@@ -70,4 +67,3 @@ US-Syv
 US-UMB
 US-UMd
 US-WCr
-ZM-Mon
