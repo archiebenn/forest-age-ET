@@ -66,7 +66,8 @@
 - worked out that Besnard aged sites based on their date at the start of FLUXNET recordings (cross-checked references and dates within the publications to these ages)  
 - then added to `05_filtering.R` to adapt the ages of the sites based on their measurement year, such that every extra year adds a year to the age of the site  
 - this should be better than static ages, especially for young sites where ET may change significantly year to year and should help ML models learn better  
-
+- however, this is quite uncertain. some of the sites follow this pattern and the literature disturbance dates (ie. age = fluxnet start - disturbance year), but some are off by a few years... what is more important though is that it is true that each consecutive year does +1 to the site age, just the original ages may be off/uncertain.  
+- speak to martin about this and see what he says  
 
 
 
