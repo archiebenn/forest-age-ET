@@ -17,6 +17,7 @@ library(ggrepel)
 library(here)
 library(skimr)
 library(gridExtra)
+library(wesanderson)
 library(tikzDevice)
 ```
 
@@ -51,19 +52,92 @@ skim(df_sites)
 ## 1. Site data
 - Look at the spread of climate sites and zones across the data
 
+# 1.1 Climate zones and site ages
 ```{r}
-p_climates <- df_sites %>%
-    ggplot() +
-    aes() +
-    xlab("Forest Age at Site (years)") +
-    ylab("Number of Sites") +
-    geom_histogram(aes(x = Site_age, fill = Climate_zone))
+p_climates_ages <- df_sites %>%
+  
+  ggplot(mapping = aes(x = Climate_zone, y = Site_age)) +
+  
+  # violin plot 
+  geom_violin(aes(fill = Climate_zone)) + 
+  
+  # hide redundant legend
+  guides(fill = "none") +
+  
+  # add boxplot 
+  geom_boxplot(width = 0.1, col = "black")+
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("Darjeeling2")) +
+  ggtitle("Represented Site Ages Across Climate Zones") +
+  theme_minimal() +
+  ylab("Site Age (Years)") + 
+  xlab("Climate Zone") 
 
-p_climates
+p_climates_ages  
 
+#tikz(here("diss/figures/p_climates.tex"), width = 5, height = 4, standAlone = F)
+#print(p_climates)
+#dev.off()
 
 ```
 
+
+# 1.2 Forest cover types and site ages
+
+```{r}
+p_cover <- df_sites %>%
+  
+  ggplot(mapping = aes(x = Site_age)) +
+    
+  theme_bw() +
+  
+  # violin plot 
+  geom_histogram(aes(fill = Cover_type)) + 
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("Darjeeling2"),
+  labels = c(
+    "DBF" = "Deciduous Broadleaf",
+    "EBF" = "Evergreen Broadleaf",
+    "ENF" = "Evergreen Needleleaf",
+    "MF"  = "Mixed Forest",
+    "OSH" = "Open Shrublands")) +
+    labs(fill = "Cover Type") +
+    ggtitle("Forest cover types across site ages") +
+    ylab("Count") + 
+    xlab("Site Age (years)") 
+
+p_cover 
+
+```
+
+# 1.3 Climatic types and ET
+
+```{r}
+p_climates_ET <- df_sites %>%
+  
+  ggplot(mapping = aes(x = Climate_zone, y = ET_mean)) +
+  
+  # violin plot 
+  geom_violin(aes(fill = Climate_zone)) + 
+  
+  # hide redundant legend
+  guides(fill = "none") +
+  
+  # add boxplot 
+  geom_boxplot(width = 0.1, col = "black")+
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("IsleofDogs1")) +
+  ggtitle("Mean ET Across Climate Zones") +
+  theme_minimal() +
+  ylab("Mean Daily ET at Site (mm/day)") + 
+  xlab("Climate Zone") 
+
+p_climates_ET  
+
+```
 
 
 ## 2. Daily data
@@ -73,13 +147,17 @@ p_climates
 
 ```{r}
 p_DE_Hai <- df_06 %>%
+    
     filter(Site_ID == "DE-Hai") %>%
+    
     ggplot(aes(x = Date, y = ET)) +
+    
+    # aesthetics
     theme_bw() +
     scale_x_date(date_breaks = "1 year", date_labels = "%b %Y") +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
     ylab("ET (mm/day)") +
-    ggtitle("Adjusted daily ET over time at PA-SPn") +
+    ggtitle("Adjusted daily ET over time at DE_Hai") +
     geom_line(colour = "seagreen")
 
 p_DE_Hai
@@ -91,17 +169,28 @@ p_DE_Hai
 
 ```{r}
 p <- df_05 %>%
+    
     filter(Site_ID == "PA-SPn") %>%
+    
     ggplot(aes(x = Date, y = ET)) +
+    
+    # aesthetics
+    theme_bw() +
     scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
     ylab("ET (mm/day)") +
     ggtitle("Daily ET over original time at PA-SPn") +
     geom_line(colour = "seagreen") 
 
-p_adjust <- df_06 %>%
+
+
+p_adjust <- df_07 %>%
     filter(Site_ID == "PA-SPn") %>%
+    
     ggplot(aes(x = Date, y = ET)) +
+    
+    # aesthetics 
+    theme_bw() +
     scale_x_date(date_breaks = "3 month", date_labels = "%b %Y") +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
     ylab("ET (mm/day)") +
@@ -114,11 +203,40 @@ grid.arrange(p, p_adjust, ncol=2)
 
 
 
+
 ## 3. Yearly data
 - To view ET across site ages cleanly the yearly df will be used  
 
 
+```{r}
+# ET vs age
+p_ET_age <- df_sites %>%
+    
+    ggplot(aes(x = Site_age, y = ET_mean)) +
+    
+    # aesthetics
+    theme_bw() +
+    ylab("Mean ET (mm/day)") +
+    xlab("Forest Site Age (years)") +
+    ggtitle("Daily ET against Forest Age") +
+    geom_point(colour = wes_palette("IsleofDogs1")[1]) 
 
+
+# ET vs LAI
+p_ET_LAI <- df_yearly %>%
+    
+    ggplot(aes(x = Lai_mean, y = ET_year)) +
+    
+    # aesthetics 
+    theme_bw() +
+    ylab("ET (mm/year)") +
+    xlab("LAI (m2/m2)") +
+    ggtitle("Yearly ET against LAI") +
+    geom_point(colour = wes_palette("Darjeeling2")[2]) 
+
+grid.arrange(p_ET_age, p_ET_LAI, ncol=2)
+
+```
 
 
 

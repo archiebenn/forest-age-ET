@@ -75,6 +75,7 @@ forest_IGBP <- c(
     "OSH"
 )
 
+
 # ages defined in supplementary materials for these forest sites
 SITE_AGE <- c(300, 198, 83, 32,
               78, 94,
@@ -119,7 +120,7 @@ sites <- merged %>%
     filter(IGBP %in% forest_IGBP,
            SITE_ID %in% besnard_sites) %>%         
     add_column(SITE_AGE) %>%
-    filter(! SITE_ID %in% non_dist1_sites)      # keep only disturbance 1 sites
+    filter(! SITE_ID %in% non_dist1_sites)     # keep only disturbance 1 sites
 
 site_ids <- sites$SITE_ID
 
