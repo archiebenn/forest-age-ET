@@ -29,14 +29,14 @@ library(tikzDevice)
 ```{r, include=FALSE}
 df_05 <- read_csv(here("data/main/05_filtering/filtered_main.csv"))
 df_06 <- read_csv(here("data/main/06_ET_plots/adjusted_dates_data.csv"))
-df_07 <- read_csv(here("data/main/07_climates/climates_data.csv"))
+df_08 <- read_csv(here("data/main/08_sorting/df_main.csv"))
 df_yearly <- read_csv(here("data/main/08_sorting/yearly.csv"))
 df_sites <- read_csv(here("data/main/08_sorting/sites.csv"))
 ```
 
 ```{r}
 # quick look at structures
-skim(df_07)
+skim(df_08)
 
 # and a look at yearly
 skim(df_yearly)
@@ -93,7 +93,7 @@ p_cover <- df_sites %>%
   theme_bw() +
   
   # violin plot 
-  geom_histogram(aes(fill = Cover_type)) + 
+  geom_histogram(aes(fill = Cover_type), binwidth = 25) + 
     
   # aesthetics
   scale_fill_manual(values = wes_palette("Darjeeling2"),
@@ -139,9 +139,59 @@ p_climates_ET
 
 ```
 
+# 1.3 Cover types and ET
+```{r}
+p_cover_ET <- df_sites %>%
+  
+  ggplot(mapping = aes(x = Cover_type, y = ET_mean)) +
+  
+  # violin plot 
+  geom_violin(aes(fill = Cover_type)) + 
+  
+  # hide redundant legend
+  guides(fill = "none") +
+  
+  # add boxplot 
+  geom_boxplot(width = 0.05, col = "black")+
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("IsleofDogs1")) +
+  ggtitle("Mean ET Across Cover Types") +
+  theme_minimal() +
+  ylab("Mean Daily ET at Site (mm/day)") + 
+  xlab("Cover Type") 
+
+p_cover_ET  
+
+```
 
 ## 2. Daily data
-### 2.1 Daily ET against time per site
+### 2.1 Spread of ET across full dataset
+- Just to get an idea of all values wihtin the full dataset currently
+
+```{r}
+# full spread histgram
+p_ET_spread <- df_08 %>%
+
+    ggplot(aes(x = ET)) +
+    geom_histogram(fill = wes_palette("Darjeeling1")[2], colour = "black", binwidth = 0.5) +
+    
+    theme_minimal() +
+    xlab("ET (mm/day)") 
+
+
+# facet plot by age range
+p_ET_spread_facet <- p_ET_spread +
+    
+    # use mutate from plot above to facet by specified age ranges
+    facet_grid(~factor(Age_range, levels = c("0-10", "11-20", "21-50", "51-100", "101-150", "151-320"))) 
+
+grid.arrange(p_ET_spread, p_ET_spread_facet,
+             top = "Spread of ET values in full dataset and within forest age ranges")
+```
+
+
+### 2.2 Daily ET against time per site
 - ET over time at each site will be checked for any anomalies and to see general trends
 - Example of ET at one site over full date range:
 
@@ -184,7 +234,7 @@ p <- df_05 %>%
 
 
 
-p_adjust <- df_07 %>%
+p_adjust <- df_08 %>%
     filter(Site_ID == "PA-SPn") %>%
     
     ggplot(aes(x = Date, y = ET)) +
@@ -201,40 +251,189 @@ grid.arrange(p, p_adjust, ncol=2)
 
 ```
 
+### 2.3 ET against individual variables at DE-Hai
+#### ET across Air temperatures
 
+```{r}
+p_DE_Hai_Tair <- df_06 %>%
+    
+    filter(Site_ID == "DE-Hai") %>%
+    
+    ggplot(aes(x = Tair, y = ET)) +
+    
+    # aesthetics
+    theme_bw() +
+    ylab("ET (mm/day)") +
+    xlab("Average Daily Temperature (deg C)") +
+    ggtitle("Daily ET against air temperature at DE_Hai") +
+    geom_point(colour = wes_palette("Cavalcanti1")[4]) 
 
+p_D_Hai_Tair_facet <- p_DE_Hai_Tair +
+    facet_grid(~year(Date)) +
+    ggtitle("Daily ET against air temperature at DE_Hai by year")
+
+grid.arrange(p_DE_Hai_Tair, p_D_Hai_Tair_facet)
+
+```
+
+#### ET across LAI 
+```{r}
+p_DE_Hai_LAI <- df_06 %>%
+    
+    filter(Site_ID == "DE-Hai") %>%
+    
+    ggplot(aes(x = Lai_500m, y = ET)) +
+    
+    # aesthetics
+    theme_bw() +
+    ylab("ET (mm/day)") +
+    xlab("LAI (m2/m2)") +
+    ggtitle("Daily ET against LAI at DE-Hai") +
+    geom_point(colour = wes_palette("Darjeeling1")[2])
+
+p_D_Hai_LAI_facet <- p_DE_Hai_LAI +
+    facet_grid(~year(Date)) +
+    ggtitle("Daily ET against LAI at DE_Hai by year")
+
+grid.arrange(p_DE_Hai_LAI, p_D_Hai_LAI_facet)
+```
+
+#### ET across Short Wave radiation
+```{r}
+p_DE_Hai_SWrad <- df_06 %>%
+    
+    filter(Site_ID == "DE-Hai") %>%
+    
+    ggplot(aes(x = SW_rad, y = ET)) +
+    
+    # aesthetics
+    theme_bw() +
+    ylab("ET (mm/day)") +
+    xlab("SW radiation (W m-2)") +
+    ggtitle("Daily ET against SW radiation at DE-Hai") +
+    geom_point(colour = wes_palette("Chevalier1")[2])
+
+p_D_Hai_SWrad_facet <- p_DE_Hai_SWrad +
+    facet_grid(~year(Date)) +
+    ggtitle("Daily ET against SW radiation at DE_Hai by year") +
+    theme(axis.text.x = element_text(angle = 45, vjust = 0, hjust=0)) 
+
+grid.arrange(p_DE_Hai_SWrad, p_D_Hai_SWrad_facet)
+```
+
+Strong linear relationship with SW radiation and ET at this site.
 
 ## 3. Yearly data
 - To view ET across site ages cleanly the yearly df will be used  
 
-
+### 3.1 ET vs continuous age
 ```{r}
 # ET vs age
-p_ET_age <- df_sites %>%
+p_ET_age <- df_yearly %>%
     
-    ggplot(aes(x = Site_age, y = ET_mean)) +
+    ggplot(aes(x = Site_age, y = ET_year)) +
+    
+    geom_point(colour = wes_palette("Cavalcanti1")[4]) +
+
     
     # aesthetics
     theme_bw() +
-    ylab("Mean ET (mm/day)") +
+    ylab("ET (mm/year)") +
     xlab("Forest Site Age (years)") +
-    ggtitle("Daily ET against Forest Age") +
-    geom_point(colour = wes_palette("IsleofDogs1")[1]) 
+    ggtitle("Yearly ET against Forest Age") +
+    facet_grid(~Climate_zone)
+
+p_ET_age
+
+```
+
+### 3.2 ET against age ranges within climates
+```{r}
+p_ET_age_ranges <- df_yearly %>%
+    
+    mutate(Age_range = factor(Age_range,
+            levels = c("0-10", "11-20", "21-50", "51-100", "101-150", "151-320"))) %>%
+    
+    ggplot(aes(x = Age_range, y = ET_year)) +
+    
+    geom_violin(aes(fill = Age_range), levels = c("0-10", "11-20", "21-50", "51-100", "101-150", "151-320")) +
+    
+    # red dashed line at mean ET
+    #geom_hline(yintercept = mean(df_yearly$ET_year), linetype = "dashed", col = "red") +
+    
+    # add boxplot 
+    geom_boxplot(width = 0.1, col = "black")+
+    
+    # hide redundant legend
+    guides(fill = "none") +
+    
+    # aesthetics
+    scale_fill_manual(values = c(wes_palette("AsteroidCity1"), wes_palette("Cavalcanti1")[4])) +
+    theme_bw() +
+    xlab("Forest Age (years)") +
+    ylab("ET (mm/year)")
+
+p_ET_age_ranges
+```
+### 3.3 ET, annual precip, and average temperature
+```{r}
+p_ET_P_T <- df_yearly %>%
+    ggplot(aes(x = P_year, y = ET_year, colour = Tair_mean)) +
+    geom_point() +
+    
+    # aesthetics
+    theme_bw() +
+    ylab("Total ET (mm/year)") +
+    xlab("Total Precipitation (mm/year)") +
+    ggtitle("Annual ET against Annual Precipitation") +
+    scale_color_gradient(low = "blue", high = "red") +
+    labs(colour = "Mean air\nTemperature (deg C)")
+
+p_ET_P_T
+    
+
+```
 
 
-# ET vs LAI
+### 3.4 ET vs LAI and Air Temperature
+```{r}
 p_ET_LAI <- df_yearly %>%
     
-    ggplot(aes(x = Lai_mean, y = ET_year)) +
+    ggplot(aes(x = Lai_mean, y = ET_year, colour = Climate_zone)) +
+    geom_point() +
     
     # aesthetics 
     theme_bw() +
+    
+    # legend aesthetics
+    theme(legend.position = c(0.225, 0.875),
+        legend.background = element_rect(fill = "white", color = "black"),
+        legend.key.height = unit(3, 'mm')) +
+    
     ylab("ET (mm/year)") +
-    xlab("LAI (m2/m2)") +
-    ggtitle("Yearly ET against LAI") +
-    geom_point(colour = wes_palette("Darjeeling2")[2]) 
+    xlab("Mean LAI (m2/m2)") +
+    ggtitle("Yearly ET against mean LAI") 
 
-grid.arrange(p_ET_age, p_ET_LAI, ncol=2)
+
+# ET vs Tair
+p_ET_Tair <- df_yearly %>%
+    
+    ggplot(aes(x = Tair_mean, y = ET_year, colour = Climate_zone)) +
+    geom_point() +
+    
+    # aesthetics 
+    theme_bw() +
+    
+    # legend aesthetics
+    theme(legend.position = c(0.225, 0.875),
+        legend.background = element_rect(fill = "white", color = "black"),
+        legend.key.height = unit(3, 'mm')) +
+    
+    ylab("ET (mm/year)") +
+    xlab("Average Air Temperature (deg C)") +
+    ggtitle("Yearly ET against yearly LAI")
+
+grid.arrange(p_ET_LAI, p_ET_Tair, ncol=2)
 
 ```
 
