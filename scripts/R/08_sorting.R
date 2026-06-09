@@ -9,33 +9,7 @@ library(tidyverse)
 df_08_climate <- read_csv("data/main/07_climates/climates_data.csv")
 
 
-# function to get sum of precipitation for last 14 day
-get_14D_P <- function(df, date){
-    
-    # go back 2 weeks
-    back_date = date - 14
-    P_14D = 0
-    
-    # while back date is 14, 13, 12...1 days ago
-    while (back_date <= date){
-        
-        # get P for that date
-        P_day <- df %>%
-            filter(Date == back_date) %>%
-            # pull to select the double, not tibble (not select)
-            pull(P)                          
-        
-        # add to '14D' sum in loop
-        P_14D <- P_14D + P_day
-        back_date <- back_date + 1
-    }
-        
-    # return out sum for last 14 days
-    return (P_14D)
-}
-
-
-# adding some extra columns
+# 1. adding some extra columns to main df
 df_08_extra <- df_08_climate %>%
     
     # allocate sites into age ranges
@@ -45,7 +19,11 @@ df_08_extra <- df_08_climate %>%
     
     # sum of precipitation over previous 14 days
     group_by(Site_ID) %>%
-    mutate(P_sum_14D = get_14D_P(., Date)) %>%
+    # calculate last 14D sum of precip using the difference of the current cumsum of P and a 14 days lagged cumsum of P
+    mutate(P_sum_14D = cumsum(P) - lag(cumsum(P), 14, default = 0))
+
+    # NEED TO FIRGURE OUT DROPPING FIRST 14 DAYS OF EACH SITE (as P_sum_14D won't be true)
+
     ungroup() %>%
         
     # rearrange
@@ -68,7 +46,7 @@ write_csv(df_08_extra, "data/main/08_sorting/df_main.csv")
 
 
 
-# yearly average dataframe 
+# 2. yearly average dataframe 
 df_yearly <- df_08_extra %>%
     group_by(Site_ID, year(Date)) %>%
     summarise(Site_ID = first(Site_ID),
@@ -97,7 +75,7 @@ df_yearly <- df_08_extra %>%
 write_csv(df_yearly, "data/main/08_sorting/yearly.csv")
 
 
-# site data
+# 3. site dataframe
 df_sites <- df_08_extra %>%
     group_by(Site_ID) %>%
     summarise(Site_ID = first(Site_ID),

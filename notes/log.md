@@ -69,7 +69,10 @@
 - however, this is quite uncertain. some of the sites follow this pattern and the literature disturbance dates (ie. age = fluxnet start - disturbance year), but some are off by a few years... what is more important though is that it is true that each consecutive year does +1 to the site age, just the original ages may be off/uncertain.  
 - speak to martin about this and see what he says  
 
-
+## 9-6-26
+- A lot more data exploration in the .Rmd  
+- tried (and kind of failed) to make a function which summed last 14D of precipitation per row  
+- ended up using cumsum(P) which is much better  
 
 
 

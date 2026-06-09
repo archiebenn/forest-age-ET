@@ -378,13 +378,13 @@ p_ET_age_ranges
 ### 3.3 ET, annual precip, and average temperature
 ```{r}
 p_ET_P_T <- df_yearly %>%
-    ggplot(aes(x = P_year, y = ET_year, colour = Tair_mean)) +
+    ggplot(aes(x = log(P_year), y = ET_year, colour = Tair_mean)) +
     geom_point() +
     
     # aesthetics
     theme_bw() +
     ylab("Total ET (mm/year)") +
-    xlab("Total Precipitation (mm/year)") +
+    xlab("log(Total Precipitation (mm/year))") +
     ggtitle("Annual ET against Annual Precipitation") +
     scale_color_gradient(low = "blue", high = "red") +
     labs(colour = "Mean air\nTemperature (deg C)")
