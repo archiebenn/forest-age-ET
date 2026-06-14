@@ -72,7 +72,7 @@
 ## 9-6-26
 - A lot more data exploration in the .Rmd  
 - tried (and kind of failed) to make a function which summed last 14D of precipitation per row  
-- ended up using cumsum(P) which is much better  
+- ended up using cumsum(P) which is much bette r   
 
 
 
