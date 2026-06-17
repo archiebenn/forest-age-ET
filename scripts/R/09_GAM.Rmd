@@ -1,0 +1,63 @@
+---
+title: "GAM"
+author: "Archie Benn"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(caret)
+library(zoo)
+library(mgcv)
+library(here)
+
+df_08 <- read_csv(here("data/main/08_sorting/df_main.csv"))
+
+# subset at one site for testing GAMs
+# highest P/Tair average
+df_GF_Guy <- df_08 %>%
+    filter(Site_ID == "GF-Guy")
+
+# lowest P/Tair average
+df_CA_NS3 <- df_08 %>%
+    filter(Site_ID == "CA-NS3")
+
+
+```
+
+# Fitting GAMs
+## GAM background
+- In essence, a GAM is a GLM composed of a sum of smooth functions rather than a sum of linear contributions  
+- GAMs use smooth functions of feature variables such that nonlinear relationships can be accounted for per feature  
+- GLM: $g(\mu) = g(E(y)) = b_0 + b1⋅x_1 + b_2⋅x_2 + \epsilon$  
+- GAM: $g(\mu) = g(E(y)) = b_0 + f(x_1) + f(x_2)...+ f(x_n) + \epsilon$ 
+- where $\epsilon$ is the error
+
+## Feature encoding
+```
+# space for encoding non-numeric data
+```
+
+## Testing GAM approach with a single feature
+Trying out ET vs Air Temperature at DE-Hai
+
+```{r}
+# this is essentially an ordinary linear regression model, not really a GAM 
+# to use smoothing power of GAM would do ET ~ s(Tair) - will do later
+
+# highest P/Tair site
+mod1_lm <- gam(ET ~ Tair, data = df_GF_Guy)
+summary(mod1_lm)
+```
+
+(Air temp is highly significant to ET at this site with R2 at ~0.32)
+
+
+
+
+
+
+

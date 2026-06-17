@@ -19,6 +19,7 @@ library(skimr)
 library(gridExtra)
 library(wesanderson)
 library(tikzDevice)
+library(ggrepel)
 ```
 
 ## Data Import
@@ -52,7 +53,7 @@ skim(df_sites)
 ## 1. Site data
 - Look at the spread of climate sites and zones across the data
 
-# 1.1 Climate zones and site ages
+### 1.1 Climate zones and site ages
 ```{r}
 p_climates_ages <- df_sites %>%
   
@@ -83,7 +84,7 @@ p_climates_ages
 ```
 
 
-# 1.2 Forest cover types and site ages
+### 1.2 Forest cover types and site ages
 
 ```{r}
 p_cover <- df_sites %>%
@@ -112,7 +113,7 @@ p_cover
 
 ```
 
-# 1.3 Climatic types and ET
+### 1.3 Climatic types and ET
 
 ```{r}
 p_climates_ET <- df_sites %>%
@@ -139,7 +140,29 @@ p_climates_ET
 
 ```
 
-# 1.3 Cover types and ET
+### 1.4 Moisture/Temperature at sites (energy or water limited?)
+
+```{r}
+p_moisture_index <- df_sites %>%
+    
+    ggplot(aes(x = log(P_mean), y = Tair_mean, colour = ET_mean)) +
+    geom_point() +
+    
+    # aesthetics
+    theme_bw() +
+    ylab("Mean Daily Air Temperature (deg C)") +
+    xlab("ln(Mean Daily Precipitation (mm))") +
+    ggtitle("Daily Air Tempearature vs. Daily Precipitation at sites") +
+    scale_color_gradient(low = "grey", high = "blue") +
+    labs(colour = "Mean Daily ET at site") +
+    geom_text_repel(aes(label = Site_ID))      # see site names for reference
+  
+ p_moisture_index
+
+```
+
+
+### 1.5 Cover types and ET
 ```{r}
 p_cover_ET <- df_sites %>%
   
@@ -165,9 +188,30 @@ p_cover_ET
 
 ```
 
+### LAI vs ET at sites
+
+```{r}
+p_ET_LAI <- df_sites %>%
+    
+    ggplot(aes(x = log(Lai_mean), y = ET_mean, colour = Site_age)) +
+    geom_point() +
+    
+    # aesthetics
+    theme_bw() +
+    ylab("Mean Daily ET (mm)") +
+    xlab("ln(Mean LAI (m2/m2))") +
+    ggtitle("Mean ET vs LAI at sites") +
+    scale_color_gradient(low = "grey", high = "seagreen") +
+    labs(colour = "Site Age (years)") +
+    geom_text_repel(aes(label = Site_ID))      # see site names for reference
+  
+ p_ET_LAI
+```
+
+
 ## 2. Daily data
 ### 2.1 Spread of ET across full dataset
-- Just to get an idea of all values wihtin the full dataset currently
+- Just to get an idea of all values within the full dataset currently
 
 ```{r}
 # full spread histgram
@@ -208,7 +252,7 @@ p_DE_Hai <- df_06 %>%
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
     ylab("ET (mm/day)") +
     ggtitle("Adjusted daily ET over time at DE_Hai") +
-    geom_line(colour = "seagreen")
+    geom_line(colour = "cyan4")
 
 p_DE_Hai
 
@@ -230,7 +274,7 @@ p <- df_05 %>%
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
     ylab("ET (mm/day)") +
     ggtitle("Daily ET over original time at PA-SPn") +
-    geom_line(colour = "seagreen") 
+    geom_line(colour = "cyan4") 
 
 
 
@@ -245,19 +289,39 @@ p_adjust <- df_08 %>%
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
     ylab("ET (mm/day)") +
     ggtitle("Adjusted daily ET over time at PA-SPn") +
-    geom_line(colour = "seagreen") 
+    geom_line(colour = "cyan4") 
 
 grid.arrange(p, p_adjust, ncol=2)
 
 ```
 
-### 2.3 ET against individual variables at DE-Hai
+### 2.3 Daily LAI over time at DE-Hai
+```{r}
+p_DE_Hai <- df_06 %>%
+    
+    filter(Site_ID == "DE-Hai") %>%
+    
+    ggplot(aes(x = Date, y = Lai_500m)) +
+    
+    # aesthetics
+    theme_bw() +
+    scale_x_date(date_breaks = "1 year", date_labels = "%b %Y") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    ylab("LAI (m2/m2)") +
+    ggtitle("LAI over time at DE_Hai") +
+    geom_line(colour = "seagreen")
+
+p_DE_Hai
+
+```
+
+### 2.4 ET against individual variables at DE-Hai
 #### ET across Air temperatures
 
 ```{r}
 p_DE_Hai_Tair <- df_06 %>%
     
-    filter(Site_ID == "DE-Hai") %>%
+    filter(Site_ID == "GF-Guy") %>%
     
     ggplot(aes(x = Tair, y = ET)) +
     
@@ -323,6 +387,43 @@ grid.arrange(p_DE_Hai_SWrad, p_D_Hai_SWrad_facet)
 
 Strong linear relationship with SW radiation and ET at this site.
 
+#### ET across cumulative last 14 days of precipitation at DE-Lai vs AU-Cum
+```{r}
+p_DE_Hai_P <- df_08 %>%
+    
+    filter(Site_ID == "AU-Cum") %>%
+    
+    ggplot(aes(x = P, y = ET)) +
+    
+    # aesthetics
+    theme_bw() +
+    ylab("ET (mm/day)") +
+    xlab("P (mm)") +
+    scale_x_log10() +
+    ggtitle("Daily ET against daily P at AU-Cum") +
+    geom_point(colour = wes_palette("Darjeeling1")[2])
+
+
+p_DE_Hai_14D_P <- df_08 %>%
+    
+    filter(Site_ID == "AU-Cum") %>%
+    
+    ggplot(aes(x = P_sum_14D, y = ET)) +
+    
+    # aesthetics
+    theme_bw() +
+    ylab("ET (mm/day)") +
+    xlab("14D cumulative P (mm)") + 
+    scale_x_log10() +
+    ggtitle("Daily ET against 14D cumulative P at AU-Cum") +
+    geom_point(colour = wes_palette("Darjeeling1")[2])
+
+
+
+grid.arrange(p_DE_Hai_P, p_DE_Hai_14D_P)
+```
+
+
 ## 3. Yearly data
 - To view ET across site ages cleanly the yearly df will be used  
 
@@ -375,6 +476,36 @@ p_ET_age_ranges <- df_yearly %>%
 
 p_ET_age_ranges
 ```
+
+```{r}
+p_ET_age_ranges2 <- df_yearly %>%
+    
+    mutate(Age_range = factor(Age_range,
+            levels = c("0-10", "11-20", "21-50", "51-100", "101-150", "151-320"))) %>%
+    
+    ggplot(aes(x = Age_range, y = ET_year)) +
+    
+    geom_violin(aes(fill = Age_range), levels = c("0-10", "11-20", "21-50", "51-100", "101-150", "151-320")) +
+    
+    # red dashed line at mean ET
+    #geom_hline(yintercept = mean(df_yearly$ET_year), linetype = "dashed", col = "red") +
+    
+    # add boxplot 
+    geom_boxplot(width = 0.1, col = "black")+
+    
+    # hide redundant legend
+    guides(fill = "none") +
+    
+    # aesthetics
+    theme_bw() +
+    scale_fill_manual(values = c(wes_palette("AsteroidCity1"), wes_palette("Cavalcanti1")[4])) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5,)) +
+    xlab("Forest Age (years)") +
+    ylab("ET (mm/year)") +
+    facet_grid(~Climate_zone)
+
+p_ET_age_ranges2
+```
 ### 3.3 ET, annual precip, and average temperature
 ```{r}
 p_ET_P_T <- df_yearly %>%
@@ -384,14 +515,12 @@ p_ET_P_T <- df_yearly %>%
     # aesthetics
     theme_bw() +
     ylab("Total ET (mm/year)") +
-    xlab("log(Total Precipitation (mm/year))") +
+    xlab("ln(Total Precipitation (mm/year))") +
     ggtitle("Annual ET against Annual Precipitation") +
     scale_color_gradient(low = "blue", high = "red") +
-    labs(colour = "Mean air\nTemperature (deg C)")
+    labs(colour = "Mean annual air\nTemperature (deg C)")
 
 p_ET_P_T
-    
-
 ```
 
 
@@ -436,9 +565,6 @@ p_ET_Tair <- df_yearly %>%
 grid.arrange(p_ET_LAI, p_ET_Tair, ncol=2)
 
 ```
-
-
-
 
 
 
