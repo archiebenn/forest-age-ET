@@ -45,15 +45,21 @@ df_CA_NS3 <- df_08 %>%
 Trying out ET vs Air Temperature at DE-Hai
 
 ```{r}
-# this is essentially an ordinary linear regression model, not really a GAM 
+# this is essentially an ordinary linear regression model, not really a GAM (or seen as a special case)
 # to use smoothing power of GAM would do ET ~ s(Tair) - will do later
 
 # highest P/Tair site
-mod1_lm <- gam(ET ~ Tair, data = df_GF_Guy)
+mod1_lm <- gam(ET ~ Lai_500m, data = df_GF_Guy)
 summary(mod1_lm)
 ```
 
 (Air temp is highly significant to ET at this site with R2 at ~0.32)
+
+
+
+
+
+
 
 
 

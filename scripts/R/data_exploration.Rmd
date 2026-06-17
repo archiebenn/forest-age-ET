@@ -240,7 +240,7 @@ grid.arrange(p_ET_spread, p_ET_spread_facet,
 - Example of ET at one site over full date range:
 
 ```{r}
-p_DE_Hai <- df_06 %>%
+p_DE_Hai <- df_08 %>%
     
     filter(Site_ID == "DE-Hai") %>%
     
@@ -295,7 +295,29 @@ grid.arrange(p, p_adjust, ncol=2)
 
 ```
 
-### 2.3 Daily LAI over time at DE-Hai
+### 2.3 Cycical graph of ET over time at DE-Hai
+
+```{r}
+p_DE_Hai_cyclical <- df_08 %>%
+    
+    filter(Site_ID == "DE-Hai") %>%
+    
+    ggplot(aes(x = yday(Date), y = ET)) +
+    
+    # aesthetics
+    theme_bw() +
+    scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    xlab("Date in year") +
+    ylab("ET (mm/day)") +
+    ggtitle("Cyclical ET over time at DE_Hai") +
+    geom_line(aes(colour = factor(year(Date))))
+
+p_DE_Hai_cyclical
+```
+
+
+### 2.4 Daily LAI over time at DE-Hai
 ```{r}
 p_DE_Hai <- df_06 %>%
     
@@ -315,11 +337,11 @@ p_DE_Hai
 
 ```
 
-### 2.4 ET against individual variables at DE-Hai
+### 2.5 ET against individual variables at DE-Hai
 #### ET across Air temperatures
 
 ```{r}
-p_DE_Hai_Tair <- df_06 %>%
+p_DE_Hai_Tair <- df_08 %>%
     
     filter(Site_ID == "GF-Guy") %>%
     
@@ -342,7 +364,7 @@ grid.arrange(p_DE_Hai_Tair, p_D_Hai_Tair_facet)
 
 #### ET across LAI 
 ```{r}
-p_DE_Hai_LAI <- df_06 %>%
+p_DE_Hai_LAI <- df_08 %>%
     
     filter(Site_ID == "DE-Hai") %>%
     

@@ -1,6 +1,6 @@
 # MSc Project notes
 
-# April
+# May
 ## 29-5-26  
 - created Makefile structure  
 - started Rproj  
@@ -74,7 +74,14 @@
 - tried (and kind of failed) to make a function which summed last 14D of precipitation per row  
 - ended up using cumsum(P) which is much bette r   
 
+## 16-6-26
+- started GAM.Rmd  
+- learning about GAM/smooth function stuff 
 
-
-
-
+## 17-6-26
+- More work on data exploration Rmd
+- removed first 14 days at each site after calculating cumulative 14D precip (this value is incorrect/inaccurate for first 14 days)  
+- removed non-complete site years when forming df_sites as realised I was calculating sum(P) and sum(ET) on all years inc. non-complete ones which is wrong  
+- looked into values for moisture indices/aridity indices but not exact with PET/ET etc. - just did P/Tair  
+- plotted P against Tair means for sites to try and gauge energy vs water limited sites  
+- started more GAM.Rmd but i want to make sure data exploration stuff is complete before I begin this so will work on that more
