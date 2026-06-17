@@ -38,7 +38,7 @@ df_CA_NS3 <- df_08 %>%
 
 ## Feature encoding
 ```
-# space for encoding non-numeric data
+# space for encoding non-numeric data if needed
 ```
 
 ## Testing GAM approach with a single feature

@@ -4,7 +4,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 
 
-.PHONY: help all sites fluxnet lai filter ET_plots climates sorting engineer small_scale generalisation model_comparison diss
+.PHONY: help all sites map fluxnet lai filter ET_plots climates sorting engineer small_scale generalisation model_comparison diss
 
 .DEFAULT_GOAL := help
 
@@ -13,10 +13,12 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: sites fluxnet lai filter ET_plots climates sorting
+all: sites map fluxnet lai filter ET_plots climates sorting
 
 sites: ## data prep  part 1 - filter sites, make csv, create world map
 	Rscript scripts/R/01_sites.R
+
+map: ## make a world map (will need to change order such that this runs later)
 	Rscript scripts/R/02_site_maps.R
 	sed -i 's/{world_sites_ras/{..\/figures\/world_sites_ras/g' diss/figures/world_sites.tex
 

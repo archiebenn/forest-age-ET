@@ -119,5 +119,5 @@ df_sites <- df_08_extra %>%
 # write out site df
 write_csv(df_sites, "data/main/08_sorting/sites.csv")
 
-
+print("sorting.R complete")
 
