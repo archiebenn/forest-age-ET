@@ -20,6 +20,7 @@ library(gridExtra)
 library(wesanderson)
 library(tikzDevice)
 library(ggrepel)
+library(ggcorrplot)
 ```
 
 ## Data Import
@@ -343,7 +344,7 @@ p_DE_Hai
 ```{r}
 p_DE_Hai_Tair <- df_08 %>%
     
-    filter(Site_ID == "GF-Guy") %>%
+    filter(Site_ID == "DE-Hai") %>%
     
     ggplot(aes(x = Tair, y = ET)) +
     
@@ -563,7 +564,7 @@ p_ET_LAI <- df_yearly %>%
     
     ylab("ET (mm/year)") +
     xlab("Mean LAI (m2/m2)") +
-    ggtitle("Yearly ET against mean LAI") 
+    ggtitle("Yearly ET vs. mean LAI") 
 
 
 # ET vs Tair
@@ -582,15 +583,65 @@ p_ET_Tair <- df_yearly %>%
     
     ylab("ET (mm/year)") +
     xlab("Average Air Temperature (deg C)") +
-    ggtitle("Yearly ET against yearly LAI")
+    ggtitle("Yearly ET vs. average yearly Tair")
 
 grid.arrange(p_ET_LAI, p_ET_Tair, ncol=2)
 
 ```
 
 
+## 4. Correlation plot with ggcorrplot
+### 4.1 corr plot all sites
+
+```{r}
+corr_df <- df_08 %>%
+    select(Site_age, ET, Lai_500m, P_sum_14D, SW_rad, Tair, Wspeed, VPD, P, Pa)
+
+# cor() uses pearson's correlation coefficient as default
+corr_mat <- cor(corr_df)
+
+# p values for correlations 
+p.mat <- cor_pmat(corr_df)
+
+# make correlation matrix plot and include significant correlations (Xs mean non-significant)
+ggcorrplot(corr_mat, p.mat = p.mat, type = "lower") +
+    ggtitle("Correlation Plot (full dataset)")
+```
 
 
+### 4.2 corr plot at single sites
+#### GF-Guy
 
+```{r}
+corr_df <- df_08 %>%
+    filter(Site_ID == "GF-Guy") %>%
+    
+    select(Site_age, ET, Lai_500m, P_sum_14D, SW_rad, Tair, Wspeed, VPD, P, Pa)
 
+corr_mat <- cor(corr_df)
 
+# p values for correlations
+p.mat <- cor_pmat(corr_df)
+
+# make correlation matrix plot and include significant correlations (Xs mean non-significant)
+ggcorrplot(corr_mat, p.mat = p.mat, type = "lower") +
+    ggtitle("Correlation Plot at GF-Guy")
+```
+
+#### CA-NS3
+
+```{r}
+corr_df <- df_08 %>%
+    filter(Site_ID == "CA-NS3") %>%
+    
+    select(Site_age, ET, Lai_500m, P_sum_14D, SW_rad, Tair, Wspeed, VPD, P, Pa)
+
+corr_mat <- cor(corr_df)
+
+# p values for correlations
+p.mat <- cor_pmat(corr_df)
+
+# make correlation matrix plot and include significant correlations (Xs mean non-significant)
+ggcorrplot(corr_mat, p.mat = p.mat, type = "lower") +
+    ggtitle("Correlation Plot at CA-NS3")
+```
