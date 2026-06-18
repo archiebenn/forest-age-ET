@@ -8,14 +8,20 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+rm(list = ls())
+
 library(tidyverse)
 library(caret)
 library(zoo)
 library(mgcv)
 library(here)
+library(wesanderson)
+library(ggeffects)
 
 df_08 <- read_csv(here("data/main/08_sorting/df_main.csv"))
+```
 
+```{r}
 # subset at one site for testing GAMs
 # highest P/Tair average
 df_GF_Guy <- df_08 %>%
@@ -25,6 +31,8 @@ df_GF_Guy <- df_08 %>%
 df_CA_NS3 <- df_08 %>%
     filter(Site_ID == "CA-NS3")
 
+# set site ID as a factor
+df_08$Site_ID <- as.factor(df_08$Site_ID)
 
 ```
 
@@ -41,29 +49,104 @@ df_CA_NS3 <- df_08 %>%
 # space for encoding non-numeric data if needed
 ```
 
-## Testing GAM approach with a single feature
-Trying out ET vs Air Temperature at DE-Hai
+## 'GAM' approach with a single feature (linear approach)
+Trying out ET vs Air Temperature at all sites
 
 ```{r}
 # this is essentially an ordinary linear regression model, not really a GAM (or seen as a special case)
 # to use smoothing power of GAM would do ET ~ s(Tair) - will do later
 
 # highest P/Tair site
-mod1_lm <- gam(ET ~ Lai_500m, data = df_GF_Guy)
+mod1_lm <- gam(ET ~ Tair, data = df_08)
 summary(mod1_lm)
 ```
 
-(Air temp is highly significant to ET at this site with R2 at ~0.32)
+(Air temp is highly significant to ET at this site with R2 at ~0.45)
+
+
+## GAM (nonlinear approach)
+- basis functions represent the polynomial degree contained within each knot (knots as reference points) in the GAM   
+- e.g for a cubic basis each knot will be represented by a cubic polynomial function 
+- f(x) is then the weighted sums of these basis functions at the knots 
+- the knots are pieced together by constraining the knot polynomials at each end so they match up at 1) value, 2) 1st derivative and 3) 2nd derivative, so they're linked smoothly 
+- changing the nature of the basis allows great control over the $f(x)/g(\mu)$
+
+### Independence and random effects note
+- ~ 186k observations at 68 sites means that these observations are not truly independent 
+- more like 68 independent clusters rather than 186k independent points  
+- so will need to add site as a random effect to account for this
+- could also do climate zone/cover type as random effects but these are also contained within site_ID as each site has only one of these, so can probably leave as just site_ID as an re
+
+```{r}
+# cr = cubic regression
+
+# k = 10 (default) -> edf = 8.996 (near max), R2 = 0.522
+mod1_gam_k10 <- gam(ET ~ s(Tair, bs = "cr" , k =10) + s(Site_ID, bs = "re"), data = df_08)
+
+# k = 20 -> edf = 18.94 (near max still), R2 = 0.526
+mod1_gam_k20 <- gam(ET ~ s(Tair, bs = "cr", k =20) + s(Site_ID, bs = "re"), data = df_08)
+
+# k = 40 (default) -> edf = 36.96, R2 = 0.527
+mod1_gam_k40 <- gam(ET ~ s(Tair, bs = "cr", k =40) + s(Site_ID, bs = "re"), data = df_08)
+
+summary(mod1_lm)
+summary(mod1_gam_k20)
+gam.check(mod1_gam_k20)
+BIC(mod1_lm, mod1_gam_k10, mod1_gam_k20, mod1_gam_k40)
+anova(mod1_lm, mod1_gam_k10, mod1_gam_k20, mod1_gam_k40, test = "Chisq")
+```
+
+- GAM fits better here (more deviance explained vs. linear model (64.4% vs 44.7%))
+- `edf` for s(Tair) is 8.9 at 10 knots with R2 at 0.522, so tried k = 20 and k = 40 but this barely shifted R2 and adds complexity
+
+## plotting ET Tair GAM 
+```{r}
+# make new df and add predictions from each model along range of air temps in main df and 200 temps
+ET_Tair_preds <- data.frame(Tair = seq(min(df_08$Tair), max(df_08$Tair), length.out = 200))
+# placeholder as needs site_ID column
+ET_Tair_preds$Site_ID <- df_08$Site_ID[1]
+ET_Tair_preds$lm <- predict(mod1_lm, newdata = ET_Tair_preds)
+ET_Tair_preds$GAM_k10 <- predict(mod1_gam_k10, newdata = ET_Tair_preds)
+ET_Tair_preds$GAM_k20 <- predict(mod1_gam_k20, newdata = ET_Tair_preds)
+
+pred_long <- ET_Tair_preds %>% pivot_longer(-c(Tair, Site_ID), names_to = "model", values_to = "fit")
+
+ggplot(df_08, aes(x = Tair, y = ET)) +
+    geom_point(alpha = 0.01) +
+    geom_line(data = pred_long, aes(x = Tair, y = fit, colour = model)) +
+    
+    theme_minimal() +
+    xlab("Air Temperature (deg C)") +
+    ylab("ET (mm/day")
+```
 
 
 
 
 
 
+# Trying out an 'all feature and all site' GAM for ET
+```{r}
+# cr = cubic regression
 
+# k = 10 (default) -> edf = 8.996 (near max), R2 = 0.522
+ET_gam <- gam(ET ~ 
+                        s(Site_ID, bs = "re") +               # site as random effect
+                        s(Site_age, bs = "cr", k = 20) +
+                        s(Lai_500m, bs = "cr", k = 20) +
+                        s(P_sum_14D, bs = "cr", k = 20) +
+                        s(SW_rad, bs = "cr", k = 20) +
+                        s(Tair, bs = "cr", k = 20) +     
+                        s(Wspeed, bs = "cr", k = 20) +
+                        s(VPD, bs = "cr", k = 20) +
+                        s(Pa, bs = "cr", k = 20)              # leaving out precip as cumulative precip is used
+                        , data = df_08) 
 
+summary(ET_gam)
+concurvity(ET_gam, full=TRUE)
+```
 
-
+## Plotting main GAM
 
 
 

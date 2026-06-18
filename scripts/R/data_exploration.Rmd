@@ -353,7 +353,7 @@ p_DE_Hai_Tair <- df_08 %>%
     ylab("ET (mm/day)") +
     xlab("Average Daily Temperature (deg C)") +
     ggtitle("Daily ET against air temperature at DE_Hai") +
-    geom_point(colour = wes_palette("Cavalcanti1")[4]) 
+    geom_point(colour = wes_palette("Cavalcanti1")[4], alpha = 0.25) 
 
 p_D_Hai_Tair_facet <- p_DE_Hai_Tair +
     facet_grid(~year(Date)) +
@@ -376,7 +376,7 @@ p_DE_Hai_LAI <- df_08 %>%
     ylab("ET (mm/day)") +
     xlab("LAI (m2/m2)") +
     ggtitle("Daily ET against LAI at DE-Hai") +
-    geom_point(colour = wes_palette("Darjeeling1")[2])
+    geom_point(colour = wes_palette("Darjeeling1")[2], alpha = 0.25)
 
 p_D_Hai_LAI_facet <- p_DE_Hai_LAI +
     facet_grid(~year(Date)) +
@@ -398,7 +398,7 @@ p_DE_Hai_SWrad <- df_06 %>%
     ylab("ET (mm/day)") +
     xlab("SW radiation (W m-2)") +
     ggtitle("Daily ET against SW radiation at DE-Hai") +
-    geom_point(colour = wes_palette("Chevalier1")[2])
+    geom_point(colour = wes_palette("Chevalier1")[2], alpha = 0.25)
 
 p_D_Hai_SWrad_facet <- p_DE_Hai_SWrad +
     facet_grid(~year(Date)) +
@@ -424,7 +424,7 @@ p_DE_Hai_P <- df_08 %>%
     xlab("P (mm)") +
     scale_x_log10() +
     ggtitle("Daily ET against daily P at AU-Cum") +
-    geom_point(colour = wes_palette("Darjeeling1")[2])
+    geom_point(colour = wes_palette("Darjeeling1")[2], alpha = 0.25)
 
 
 p_DE_Hai_14D_P <- df_08 %>%
@@ -439,7 +439,7 @@ p_DE_Hai_14D_P <- df_08 %>%
     xlab("14D cumulative P (mm)") + 
     scale_x_log10() +
     ggtitle("Daily ET against 14D cumulative P at AU-Cum") +
-    geom_point(colour = wes_palette("Darjeeling1")[2])
+    geom_point(colour = wes_palette("Darjeeling1")[2], alpha = 0.25)
 
 
 
@@ -457,7 +457,7 @@ p_ET_age <- df_yearly %>%
     
     ggplot(aes(x = Site_age, y = ET_year)) +
     
-    geom_point(colour = wes_palette("Cavalcanti1")[4]) +
+    geom_point(colour = wes_palette("Cavalcanti1")[4], alpha = 0.5) +
 
     
     # aesthetics
@@ -533,7 +533,7 @@ p_ET_age_ranges2
 ```{r}
 p_ET_P_T <- df_yearly %>%
     ggplot(aes(x = log(P_year), y = ET_year, colour = Tair_mean)) +
-    geom_point() +
+    geom_point(alpha = 0.5) +
     
     # aesthetics
     theme_bw() +
@@ -552,7 +552,7 @@ p_ET_P_T
 p_ET_LAI <- df_yearly %>%
     
     ggplot(aes(x = Lai_mean, y = ET_year, colour = Climate_zone)) +
-    geom_point() +
+    geom_point(alpha = 0.5) +
     
     # aesthetics 
     theme_bw() +
@@ -571,7 +571,7 @@ p_ET_LAI <- df_yearly %>%
 p_ET_Tair <- df_yearly %>%
     
     ggplot(aes(x = Tair_mean, y = ET_year, colour = Climate_zone)) +
-    geom_point() +
+    geom_point(alpha = 0.5) +
     
     # aesthetics 
     theme_bw() +
