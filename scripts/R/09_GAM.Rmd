@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 rm(list = ls())
 
+library(mgcViz)
 library(tidyverse)
 library(caret)
 library(zoo)
@@ -17,6 +18,8 @@ library(mgcv)
 library(here)
 library(wesanderson)
 library(ggeffects)
+
+set.seed(42)
 
 df_08 <- read_csv(here("data/main/08_sorting/df_main.csv"))
 ```
@@ -43,6 +46,8 @@ df_08$Site_ID <- as.factor(df_08$Site_ID)
 - GLM: $g(\mu) = g(E(y)) = b_0 + b1⋅x_1 + b_2⋅x_2 + \epsilon$  
 - GAM: $g(\mu) = g(E(y)) = b_0 + f(x_1) + f(x_2)...+ f(x_n) + \epsilon$ 
 - where $\epsilon$ is the error
+
+- From website: Generalized additive models (GAMs) are very helpful when analyzing complicated data that displays non-linear patterns, such as time series, and spatial data, or when the connections between predictors and the response variable are difficult to describe by straightforward linear functions.
 
 ## Feature encoding
 ```
@@ -124,12 +129,11 @@ ggplot(df_08, aes(x = Tair, y = ET)) +
 
 
 
-
-# Trying out an 'all feature and all site' GAM for ET
+# Fitting GAMs
 ```{r}
 # cr = cubic regression
 
-# k = 10 (default) -> edf = 8.996 (near max), R2 = 0.522
+# 1. ALL DATA MODEL, gaussian link
 ET_gam <- gam(ET ~ 
                         s(Site_ID, bs = "re") +               # site as random effect
                         s(Site_age, bs = "cr", k = 20) +
@@ -140,13 +144,40 @@ ET_gam <- gam(ET ~
                         s(Wspeed, bs = "cr", k = 20) +
                         s(VPD, bs = "cr", k = 20) +
                         s(Pa, bs = "cr", k = 20)              # leaving out precip as cumulative precip is used
-                        , data = df_08) 
+                        , data = df_08)
 
-summary(ET_gam)
-concurvity(ET_gam, full=TRUE)
+# 2. NO AGE MODEL, gauss link
+ET_gam_nage <- update(ET_gam, . ~ . -s(Site_age, bs = "cr", k = 20))
 ```
+## comparing models
+```{r}
+anova(ET_gam, ET_gam_nage, test = "Chisq")
+```
+GAM with age removed is significantly worse as a model on these data
 
 ## Plotting main GAM
+Using `mgcViz` package for visualising GAMs
 
+```{r}
+gv_ET_gam <- getViz(ET_gam)  # mgcViz function
+gv_ET_gam_nage <- getViz(ET_gam_nage)
 
+check.gamViz(gv_ET_gam)    # equivalent to gam.check(ET_gam)
+```
+- some 
 
+### Plots
+- Each of these plots represents the predictor's contribution to the response (ET)  
+- So the effective contribution at each x axis is represented in the y per plot with everything else fixed  
+
+```{r}
+gam_p1 <- plot(gv_ET_gam, allTerms = T) +
+    l_fitLine(linetype = 1, colour = "red3")  +
+    l_ciLine(linetype = 4, colour = "blue4") +
+    l_ciBar() +
+    l_rug() +
+    l_points(size = 2, alpha = 0.5) + 
+    theme_classic()
+
+print(gam_p1, pages = 1)
+```

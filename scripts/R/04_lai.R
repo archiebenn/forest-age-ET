@@ -44,7 +44,7 @@ get_LAI <- function(site_id, latitude, longitude, start_date, end_date){
               band = c("Lai_500m", "FparLai_QC"),  # retrieve these bands (for QC etc.)
               start = start_date,
               end = end_date,
-              km_lr = 0,                           # 0,0 = 1 pixel. 1,1 = 9 pixels
+              km_lr = 0,                           # 0,0 = 1 pixel. 1,1 = 9 pixels - MARTIN SAID PROBABLY DO 1,1
               km_ab = 0,
               site_name = site_id,
               internal = TRUE,
