@@ -22,39 +22,35 @@ library(ggeffects)
 set.seed(42)
 
 df_08 <- read_csv(here("data/main/08_sorting/df_main.csv"))
-```
-
-```{r}
-# subset at one site for testing GAMs
-# highest P/Tair average
-df_GF_Guy <- df_08 %>%
-    filter(Site_ID == "GF-Guy")
-
-# lowest P/Tair average
-df_CA_NS3 <- df_08 %>%
-    filter(Site_ID == "CA-NS3")
 
 # set site ID as a factor
 df_08$Site_ID <- as.factor(df_08$Site_ID)
-
 ```
 
+
+
 # Fitting GAMs
-## GAM background
+## 1. GAM background
 - In essence, a GAM is a GLM composed of a sum of smooth functions rather than a sum of linear contributions  
 - GAMs use smooth functions of feature variables such that nonlinear relationships can be accounted for per feature  
 - GLM: $g(\mu) = g(E(y)) = b_0 + b1⋅x_1 + b_2⋅x_2 + \epsilon$  
 - GAM: $g(\mu) = g(E(y)) = b_0 + f(x_1) + f(x_2)...+ f(x_n) + \epsilon$ 
 - where $\epsilon$ is the error
 
+- basis functions represent the polynomial degree contained within each knot (knots as reference points) in the GAM   
+- e.g for a cubic basis each knot will be represented by a cubic polynomial function 
+- f(x) is then the weighted sums of these basis functions at the knots 
+- the knots are pieced together by constraining the knot polynomials at each end so they match up at 1) value, 2) 1st derivative and 3) 2nd derivative, so they're linked smoothly 
+- changing the nature of the basis allows great control over the $f(x)/g(\mu)$
+
 - From website: Generalized additive models (GAMs) are very helpful when analyzing complicated data that displays non-linear patterns, such as time series, and spatial data, or when the connections between predictors and the response variable are difficult to describe by straightforward linear functions.
 
-## Feature encoding
+###  Feature encoding
 ```
 # space for encoding non-numeric data if needed
 ```
 
-## 'GAM' approach with a single feature (linear approach)
+## 2. 'GAM' approach with a single feature (linear approach)
 Trying out ET vs Air Temperature at all sites
 
 ```{r}
@@ -67,14 +63,6 @@ summary(mod1_lm)
 ```
 
 (Air temp is highly significant to ET at this site with R2 at ~0.45)
-
-
-## GAM (nonlinear approach)
-- basis functions represent the polynomial degree contained within each knot (knots as reference points) in the GAM   
-- e.g for a cubic basis each knot will be represented by a cubic polynomial function 
-- f(x) is then the weighted sums of these basis functions at the knots 
-- the knots are pieced together by constraining the knot polynomials at each end so they match up at 1) value, 2) 1st derivative and 3) 2nd derivative, so they're linked smoothly 
-- changing the nature of the basis allows great control over the $f(x)/g(\mu)$
 
 ### Independence and random effects note
 - ~ 186k observations at 68 sites means that these observations are not truly independent 
@@ -104,10 +92,11 @@ anova(mod1_lm, mod1_gam_k10, mod1_gam_k20, mod1_gam_k40, test = "Chisq")
 - GAM fits better here (more deviance explained vs. linear model (64.4% vs 44.7%))
 - `edf` for s(Tair) is 8.9 at 10 knots with R2 at 0.522, so tried k = 20 and k = 40 but this barely shifted R2 and adds complexity
 
-## plotting ET Tair GAM 
+### plotting ET Tair GAM 
 ```{r}
 # make new df and add predictions from each model along range of air temps in main df and 200 temps
 ET_Tair_preds <- data.frame(Tair = seq(min(df_08$Tair), max(df_08$Tair), length.out = 200))
+
 # placeholder as needs site_ID column
 ET_Tair_preds$Site_ID <- df_08$Site_ID[1]
 ET_Tair_preds$lm <- predict(mod1_lm, newdata = ET_Tair_preds)
@@ -129,7 +118,7 @@ ggplot(df_08, aes(x = Tair, y = ET)) +
 
 
 
-# Fitting GAMs
+## 3. GAM for all predictors (and all except age)
 ```{r}
 # cr = cubic regression
 
@@ -149,13 +138,25 @@ ET_gam <- gam(ET ~
 # 2. NO AGE MODEL, gauss link
 ET_gam_nage <- update(ET_gam, . ~ . -s(Site_age, bs = "cr", k = 20))
 ```
-## comparing models
+
+### model summaries
+
+```{r}
+summary(ET_gam)
+```
+
+```{r}
+summary(ET_gam_nage)
+```
+
+### comparing models with/without age included as a predictor
+
 ```{r}
 anova(ET_gam, ET_gam_nage, test = "Chisq")
 ```
-GAM with age removed is significantly worse as a model on these data
+- GAM with age removed appears to be significantly worse at explaining these data as a model
 
-## Plotting main GAM
+### Visualising main GAM
 Using `mgcViz` package for visualising GAMs
 
 ```{r}
@@ -166,7 +167,7 @@ check.gamViz(gv_ET_gam)    # equivalent to gam.check(ET_gam)
 ```
 - some 
 
-### Plots
+### Plotting GAM per predictor
 - Each of these plots represents the predictor's contribution to the response (ET)  
 - So the effective contribution at each x axis is represented in the y per plot with everything else fixed  
 
@@ -176,8 +177,145 @@ gam_p1 <- plot(gv_ET_gam, allTerms = T) +
     l_ciLine(linetype = 4, colour = "blue4") +
     l_ciBar() +
     l_rug() +
-    l_points(size = 2, alpha = 0.5) + 
+    #l_points(size = 2, alpha = 0.5) + 
     theme_classic()
 
 print(gam_p1, pages = 1)
 ```
+
+### Concurvity issues
+- Concurvity = GAM equivalent of co-linearity  
+- ie. one predictor can be approximated as a function of one or more others, so the model can't decide/determine which one explains the outcome prediction  
+- in terms of model predictions it doesn't care about this, but for interpretation of each smooth predictor this is where concurvity can cause issues - essentially you can't individual predictors which have hig concurvity  
+- with mgcv::concurvity() 0 = no issue, while 1 = total lack of identificability  
+- worst/observed/estimates looks at different scenarios: worst = fairly pessimistic etc.  
+
+```{r}
+concurvity(ET_gam)
+```
+
+- so can see that site_ID, site_age, and Pa are all scoring very close to 1, so there are concurvity issues with these predictors  
+- Pa and site_age vary coniderably across sites, but within each site are fairly constant, so the model is linking these three highly and essentially all three encode "which site is this observation from?"  
+
+
+### fitting single smooth function for ET against site age
+- attempting something like besnard(2018), where f(age) was formed and then this f(age) was incorporated as a feature of the downstream ML model (not exact age itself)  
+- this could help with concurvity as the this disentangles the site_id <-> site_age concurvity issue, if it can be validated first to show it works
+- will try an ET - site_age GAM as a smooth function, then for every site age the effective contribution value from this can be used in the model later instead of forest age directly  
+
+
+```{r}
+# k = 10 (default) -> edf = 8.996 (near max), R2 = 0.522
+mod2_gam_k20 <- gam(ET ~ s(Site_age, bs = "cr" , k = 20) + s(Site_ID, bs = "re"), data = df_08)
+
+summary(mod2_gam_k20)
+#gam.check(mod2_gam_k20)
+
+```
+
+```{r}
+# make new df and add predictions from each model along range of ages in main df
+ET_age_preds <- data.frame(Site_age = seq(min(df_08$Site_age), max(df_08$Site_age), length.out = 300))
+
+# placeholder as needs site_ID column
+ET_age_preds$Site_ID <- df_08$Site_ID[1]
+ET_age_preds$ET_pred <- predict(mod2_gam_k20, 
+                                newdata = ET_age_preds,
+                                
+                                # ignore the site ID as this is set as a placeholder
+                                exclude = "s(Site_ID)")
+
+ggplot(df_08, aes(x = Site_age, y = ET)) +
+    geom_point(alpha = 0.01) +
+    geom_line(data = ET_age_preds, aes(x = Site_age, y = ET_pred), colour = "seagreen") +
+    
+    theme_minimal() +
+    xlab("Site Age (years)") +
+    ylab("ET (mm/day)")
+```
+
+- idea here is to then test this model on held out single sites. if good, can use this gam in place of the actual age
+
+## 4. Back to non-age GAM model
+- will focus on the GAM ot including age for now and can come back to figuring out concurvity issues with site age etc. later
+
+```{r}
+# nage GAm with conversion to mgcv object earlier
+gv_ET_gam_nage <- getViz(ET_gam_nage)
+
+check.gamViz(gv_ET_gam_nage)    # equivalent to gam.check(ET_gam)
+```
+
+
+```{r}
+gam_p2 <- plot(gv_ET_gam_nage, allTerms = T) +
+    l_fitLine(linetype = 1, colour = "red3")  +
+    l_ciLine(linetype = 4, colour = "blue4") +
+    l_ciBar() +
+    l_rug() +
+    #l_points(size = 2, alpha = 0.5) + 
+    theme_classic()
+
+print(gam_p2, pages = 1)
+```
+
+
+### checking concurvity of this no-age model
+```{r}
+concurvity(ET_gam_nage)
+```
+
+- so in this one it is Pa and this is likely acting as a proxy for site_ID within the model  
+- will attempt to drop it and shcek the models after  
+
+### GAM/BAM without pressure
+- dropping pressure to assess how this changes predictions as it is high concurvity  
+
+```{r}
+ET_gam_nage_pa <- update(ET_gam_nage, . ~ . -s(Pa, bs = "cr", k = 20))
+summary(ET_gam_nage_pa)
+```
+
+### comparing with anova
+```{r}
+anova(ET_gam, ET_gam_nage, ET_gam_nage_pa, test = "Chisq")
+
+```
+
+### checking concurvity
+```{r}
+concurvity(ET_gam_nage_pa)
+```
+
+- this looks much better than the other tw models from dropping site age and pressure  
+- ie. slightly worse absolute predictive performance, but better explainability per predictor/smooth term
+
+
+```{r}
+# making BAM - might be much faster for doing held out sites later
+ET_bam_nage_pa <- bam(ET ~ 
+                        s(Site_ID, bs = "re") +               # site as random effect
+                        s(Lai_500m, bs = "cr", k = 20) +
+                        s(P_sum_14D, bs = "cr", k = 20) +
+                        s(SW_rad, bs = "cr", k = 20) +
+                        s(Tair, bs = "cr", k = 20) +     
+                        s(Wspeed, bs = "cr", k = 20) +
+                        s(VPD, bs = "cr", k = 20)
+                        , data = df_08)
+
+summary(ET_bam_nage_pa)
+```
+
+### testing GAM vs. BAM models
+```{r}
+anova(ET_bam_nage_pa, ET_gam_nage_pa, test = "Chisq")
+```
+
+
+- now I have an idea of what models I can take forward and which predictors may be causing issues in terms of ecplainability of predictors  
+- will create next `.Rmd` in which I will test r^2 and rmse of these models using held out sites and try to assess if there are similarities in poorly predicted sites etc.
+
+
+
+
+
