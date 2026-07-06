@@ -85,3 +85,9 @@
 - looked into values for moisture indices/aridity indices but not exact with PET/ET etc. - just did P/Tair  
 - plotted P against Tair means for sites to try and gauge energy vs water limited sites  
 - started more GAM.Rmd but i want to make sure data exploration stuff is complete before I begin this so will work on that more
+
+## 6-7-26  
+- last few days have been doing a lot of GAM things  
+- like making 5 types of models and doing hold out on single site testing for r2 and rmse  
+- looked into concurvity issues with Pa, site age, and site_ID, and making models with combinations of these included  
+- and want to look into trying to get some sort of relationship between ET-age explicitly mapped, rather than relying just on exact age data in models, like besnard f(age)
