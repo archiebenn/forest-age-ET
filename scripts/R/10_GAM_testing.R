@@ -1,12 +1,6 @@
----
-title: "GAM_tests"
-author: "Archie Benn"
-date: "`r Sys.Date()`"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# GAM_testing.R - forms 68 x 4 models using bam() to evaluate per site RMSE and R^2 across different predictor combinations
+# 5 models split: full predictors age k20, full predictors age k5, without age, without Pa, and without age or Pa
+# removing these was determined on concurvity values in 09_GAM.Rmd 
 
 rm(list = ls())
 
@@ -15,25 +9,21 @@ library(tidyverse)
 library(caret)
 library(zoo)
 library(mgcv)
-library(here)
 library(wesanderson)
 library(ggeffects)
 
 set.seed(42)
 
-df_08 <- read_csv(here("data/main/08_sorting/df_main.csv"))
+df_08 <- read_csv("data/main/08_sorting/df_main.csv")
 
 # set site ID as a factor
 df_08$Site_ID <- as.factor(df_08$Site_ID)
-```
 
+# Evaluating 3 GAMs (bams)
+# to evaluate each model (determined in last script) held out site testing will be carried out  
+# will hold out a site one-by-one and predict all rows' ET at that site, then repeat for other sites  
+# using bam() as it's faster and will be forming 68 different sites x 5 types of models = 340 models
 
-# Evaluating GAMs 
-- to evaluate each model (determined in last script) held out testing will be carried out  
-- will hold out a site one-by-one and predict all rows' ET at that site, then repeat for other sites  
-- using bam() as it's faster and will be forming 68 different models  
-
-```{r, warning = FALSE}
 # set site list to loop over for held out site testing
 sites <- c(unique(df_08$Site_ID))
 
@@ -49,7 +39,7 @@ for (i in sites){
     test <- df_08 %>%
         filter(Site_ID == i)
     
-    # use training data to form bams for 3 instances: with age + Pa, without age, and without age or Pa
+    # use training data to form bams for 5 instances: full predictors age k20, full predictors age k5, without age, without Pa, and without age or Pa
     bam_full <- bam(ET ~ 
                         s(Site_ID, bs = "re") +               # site as random effect
                         s(Site_age, bs = "cr", k = 20) +
@@ -60,17 +50,20 @@ for (i in sites){
                         s(Wspeed, bs = "cr", k = 20) +
                         s(VPD, bs = "cr", k = 20) +
                         s(Pa, bs = "cr", k = 20)    
-                        
-                        # form only from training sites
-                        , data = train)
-        
+                    
+                    # form only from training sites
+                    , data = train)
+    
     bam_nage <- update(bam_full, . ~ . -s(Site_age, bs = "cr", k = 20))
-        
+    bam_full_k5 <- update(bam_nage, . ~ . +s(Site_age, bs = "cr", k = 5))
+    bam_pa <- update(bam_full, . ~ . -s(Pa, bs = "cr", k = 20))
     bam_nage_pa <- update(bam_nage, . ~ . -s(Pa, bs = "cr", k = 20))
     
     models <- list(
-        full = bam_full,
+        full_k20 = bam_full,
+        full_k5 = bam_full_k5,
         no_age = bam_nage,
+        no_pa = bam_pa,
         no_age_no_pa = bam_nage_pa
     )
     
@@ -82,33 +75,25 @@ for (i in sites){
         fitted <- predict(models[[model]], 
                           newdata = test,
                           exclude = "s(Site_ID)")
-    
+        
         # add to growing list
         results_list[[paste(i, "_", model)]] <- data.frame(
-        
-        bam_model = model,
-        site = i,
-        
-        # rmse and r^2 per site by comparison to observed ET (test$ET)
-        rmse = sqrt(mean((test$ET - fitted)^2)),
-        r2   = cor(test$ET, fitted)^2)
+            
+            bam_model = model,
+            site = i,
+            
+            # rmse and r^2 per site by comparison to observed ET (test$ET)
+            rmse = sqrt(mean((test$ET - fitted)^2)),
+            r2   = cor(test$ET, fitted)^2)
     }
     print(paste("completed ", i))
 }
 
-```
 
-- and save...
-
-```{r}
 # then convert results list to a df and save as a .csv
 validations_df <- do.call(rbind, results_list)
 
 # write out
-write_csv(validations_df, here(here("data/main/10_GAM_testing/results.csv")))
+write_csv(validations_df, "data/main/10_GAM_testing/results.csv")
 
-```
-
-
-- from this, r^2 ranged wildly (0.02 - 0.88), and rmse too (0.37 - 2.50), indicating that the predictions are highly site dependant  
-- in the next `.Rmd` file I will explore these results per site to see if there are any site-specific correlations across these high and low values
+print("GAM_testing.R complete")

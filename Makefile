@@ -4,7 +4,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 
 
-.PHONY: help all sites map fluxnet lai filter ET_plots climates sorting engineer small_scale generalisation model_comparison diss
+.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting gams engineer small_scale generalisation model_comparison diss
 
 .DEFAULT_GOAL := help
 
@@ -13,7 +13,10 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: sites map fluxnet lai filter ET_plots climates sorting
+all: setup sites map fluxnet lai filter ET_plots climates sorting gams
+
+setup: ## setup the folder structure for data to be read into/out of
+	./scripts/bash/setup.sh
 
 sites: ## data prep  part 1 - filter sites, make csv, create world map
 	Rscript scripts/R/01_sites.R
@@ -39,6 +42,9 @@ climates: ## data prep part 6 - adds koeppen climate zone data to each site
 
 sorting: ## data prep part 7 - sorts full dataset into main, by-year, and by-site DFs (and adds some columns)
 	Rscript scripts/R/08_sorting.R
+
+gams: ## Forms 68 x 3 GAMs (bams) to assess R^2 and RMSE per site for all predictions
+	Rscript scripts/R/10_GAM_testing.R
 
 engineer: ## data prep part 7 - select + engineer variables for ML
 	Rscript scripts/R/07_engineer.R

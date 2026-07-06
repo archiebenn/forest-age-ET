@@ -1,0 +1,105 @@
+---
+title: "GAMs exploration"
+author: "Archie Benn"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+rm(list = ls())
+
+library(tidyverse)
+library(here)
+library(wesanderson)
+library(gridExtra)
+
+```
+
+# GAM results exploration
+- Previous script `10_GAM_testing.R` formed 272 models and calculated predictions per site for each of the 4 models formed  
+- Calculated RMSE and R^2 per site so will explore these and see if there is relatedness between strong vs. poor performing sites across these models  
+
+```{r}
+df_10 <- read.csv(here("data/main/10_GAM_testing/results.csv"))
+```
+
+## R2 spread
+
+```{r}
+# full spread histgram
+p1_r2 <- df_10 %>%
+  
+  ggplot(mapping = aes(x = bam_model, y = r2)) +
+  
+  # violin plot 
+  geom_violin(aes(fill = bam_model)) + 
+  
+  # hide redundant legend
+  guides(fill = "none") +
+  
+  # add boxplot 
+  geom_boxplot(width = 0.1, col = "black")+
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("Moonrise3")) +
+  ggtitle("R^2 for all sites across each GAM model") +
+  theme_minimal() +
+  ylab("R^2") + 
+  xlab("Model") +
+  scale_x_discrete(limits = c("full_k20", "full_k5", "no_pa", "no_age", "no_age_no_pa"))
+
+p1_r2
+
+```
+
+- $R^2$ is very consistent across all of these models
+
+## RMSE spread
+
+```{r}
+# full spread histgram
+p1_rmse <- df_10 %>%
+  
+  ggplot(mapping = aes(x = bam_model, y = rmse)) +
+  
+  # violin plot 
+  geom_violin(aes(fill = bam_model)) + 
+  
+  # hide redundant legend
+  guides(fill = "none") +
+  
+  # add boxplot 
+  geom_boxplot(width = 0.1, col = "black")+
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("Moonrise3")) +
+  ggtitle("RMSE for all sites across each GAM model") +
+  theme_minimal() +
+  ylab("RMSE") + 
+  xlab("Model") +
+  scale_x_discrete(limits = c("full_k20", "full_k5", "no_pa", "no_age", "no_age_no_pa"))
+
+p1_rmse
+```
+
+- but RMSE is not, and appears to be reduced whenevrr age is not included, so absolute predictions are apparently worse when site age is included despite the relative shape of observed vs. fitted from $R^2$ staying constant  
+- could link back to the concurvity issues with site age and site ID: the fitted smooth for site age is introducing noise/prediction instability and cannot be fitted well, even when Pa is left out  
+- so the site-level 'constant' of site_ID (random effect), Pa, and site age are confounding, so the contribution/smooth function of site age is poorly formed at model inference  
+
+
+### notes: try to find an existing ET-age relationship
+- look into literature for an existing ET-age relationship as besnard did with NEP and age (f(age) predictor)  
+- from this, can fit this to my data and treat it as a compact 'age effect' predictor in future GAMs  
+- simplifies the model and would help with concurvity issues  
+- can be taken forward to be used in ML models too  
+- could also try to fit a smooth for site age separately and reduce the knots to simplify it  
+
+
+
+
+
+
+
+

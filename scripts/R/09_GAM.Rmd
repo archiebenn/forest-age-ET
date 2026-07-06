@@ -165,7 +165,16 @@ gv_ET_gam_nage <- getViz(ET_gam_nage)
 
 check.gamViz(gv_ET_gam)    # equivalent to gam.check(ET_gam)
 ```
-- some 
+
+- some issues with tails on the qq plot so will attempt afamily swap
+
+```{r}
+# 3. Tweedie family link to try and correct some of the checm.gam() plots
+log_ET_sqrt <- update(ET_gam, (ET)^(1/2) ~ .)
+
+gv_log_ET_sqrt <- getViz(log_ET_sqrt)
+check.gamViz(gv_log_ET_sqrt)
+``` 
 
 ### Plotting GAM per predictor
 - Each of these plots represents the predictor's contribution to the response (ET)  
