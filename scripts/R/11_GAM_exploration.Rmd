@@ -22,6 +22,7 @@ library(gridExtra)
 - Calculated RMSE and R^2 per site so will explore these and see if there is relatedness between strong vs. poor performing sites across these models  
 
 ```{r}
+df_08 <- df_08 <- read_csv(here("data/main/08_sorting/df_main.csv"))
 df_10 <- read.csv(here("data/main/10_GAM_testing/results.csv"))
 ```
 
@@ -43,12 +44,12 @@ p1_r2 <- df_10 %>%
   geom_boxplot(width = 0.1, col = "black")+
     
   # aesthetics
-  scale_fill_manual(values = wes_palette("Moonrise3")) +
+  scale_fill_manual(values = wes_palette("AsteroidCity2")) +
   ggtitle("R^2 for all sites across each GAM model") +
   theme_minimal() +
   ylab("R^2") + 
   xlab("Model") +
-  scale_x_discrete(limits = c("full_k20", "full_k5", "no_pa", "no_age", "no_age_no_pa"))
+  scale_x_discrete(limits = c("all", "no_lai", "no_age", "no_age_no_lai"))
 
 p1_r2
 
@@ -74,19 +75,85 @@ p1_rmse <- df_10 %>%
   geom_boxplot(width = 0.1, col = "black")+
     
   # aesthetics
-  scale_fill_manual(values = wes_palette("Moonrise3")) +
+  scale_fill_manual(values = wes_palette("AsteroidCity2")) +
   ggtitle("RMSE for all sites across each GAM model") +
   theme_minimal() +
   ylab("RMSE") + 
   xlab("Model") +
-  scale_x_discrete(limits = c("full_k20", "full_k5", "no_pa", "no_age", "no_age_no_pa"))
+  scale_x_discrete(limits = c("all", "no_lai", "no_age", "no_age_no_lai"))
 
 p1_rmse
 ```
 
-- but RMSE is not, and appears to be reduced whenevrr age is not included, so absolute predictions are apparently worse when site age is included despite the relative shape of observed vs. fitted from $R^2$ staying constant  
-- could link back to the concurvity issues with site age and site ID: the fitted smooth for site age is introducing noise/prediction instability and cannot be fitted well, even when Pa is left out  
-- so the site-level 'constant' of site_ID (random effect), Pa, and site age are confounding, so the contribution/smooth function of site age is poorly formed at model inference  
+- but RMSE is not, and appears to be reduced whenever age is not included, so absolute predictions are apparently worse when site age is included despite the relative shape of observed vs. fitted from $R^2$ staying constant  
+- could link back to the concurvity issues with site age and site ID: the fitted smooth for site age is introducing noise/prediction instability and cannot be fitted well 
+- so the site-level 'constant' of site_ID (random effect) and site age are confounding, so the contribution/smooth function of site age is poorly formed at model inference  
+
+
+# Combining these R2 and RMSE values with the main DF  
+- to evaluate potential similarities within sites and their GAM predictions need to attach these values to the main df which contains metadata about climate type/other met data etc.
+
+```{r}
+# pivot wider to attach to main df by site_id later
+df_10_wide <- df_10 %>%
+    pivot_wider(
+        names_from = bam_model,
+        values_from = c(r2, rmse)
+    ) %>%
+    rename(Site_ID = site)
+
+# dfs to merge
+dfs_list = list(df_08, df_10_wide)
+
+df_merged <- dfs_list %>%
+    reduce(full_join, by = "Site_ID")
+
+summary(df_merged)
+
+```
+
+
+# looking at predictions across sites 
+- will look at preds per model across various aspects of the data (as in the initial data exploration Rmd)
+
+## 1. Climate types  
+### 1.1 R2
+```{r}
+p_r2_climates <- df_merged %>%
+  
+  ggplot(mapping = aes(x = Climate_zone, y = r2_no_age)) +
+  
+  # violin plot 
+  geom_violin(aes(fill = Climate_zone)) + 
+  
+  # hide redundant legend
+  guides(fill = "none") +
+  
+  # add boxplot 
+  geom_boxplot(width = 0.1, col = "black")+
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("Darjeeling2")) +
+  ggtitle("Represented Site Ages Across Climate Zones") +
+  theme_minimal() +
+  ylab("Site Age (Years)") + 
+  xlab("Climate Zone") 
+
+p_r2_climates  
+
+```
+
+### 1.2 RMSE
+```{r}
+
+
+```
+
+
+
+
+
+
 
 
 ### notes: try to find an existing ET-age relationship

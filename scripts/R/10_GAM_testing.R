@@ -1,6 +1,6 @@
-# GAM_testing.R - forms 68 x 4 models using bam() to evaluate per site RMSE and R^2 across different predictor combinations
-# 5 models split: full predictors age k20, full predictors age k5, without age, without Pa, and without age or Pa
-# removing these was determined on concurvity values in 09_GAM.Rmd 
+# GAM_testing.R - forms many models using bam() to evaluate per site RMSE and R^2 across different predictor combinations
+# predictors to include was initially based on concurvity values in 09_GAM.Rmd, but extended to evaluate across different predictors
+# such as comparing between met only, and met + structure data (ie, met + LAI)
 
 rm(list = ls())
 
@@ -19,10 +19,9 @@ df_08 <- read_csv("data/main/08_sorting/df_main.csv")
 # set site ID as a factor
 df_08$Site_ID <- as.factor(df_08$Site_ID)
 
-# Evaluating 3 GAMs (bams)
 # to evaluate each model (determined in last script) held out site testing will be carried out  
 # will hold out a site one-by-one and predict all rows' ET at that site, then repeat for other sites  
-# using bam() as it's faster and will be forming 68 different sites x 5 types of models = 340 models
+# using bam() as it's faster and will be forming many models for every site 
 
 # set site list to loop over for held out site testing
 sites <- c(unique(df_08$Site_ID))
@@ -48,23 +47,21 @@ for (i in sites){
                         s(SW_rad, bs = "cr", k = 20) +
                         s(Tair, bs = "cr", k = 20) +     
                         s(Wspeed, bs = "cr", k = 20) +
-                        s(VPD, bs = "cr", k = 20) +
-                        s(Pa, bs = "cr", k = 20)    
+                        s(VPD, bs = "cr", k = 20) 
+                        #s(Pa, bs = "cr", k = 20)    
                     
                     # form only from training sites
                     , data = train)
     
     bam_nage <- update(bam_full, . ~ . -s(Site_age, bs = "cr", k = 20))
-    bam_full_k5 <- update(bam_nage, . ~ . +s(Site_age, bs = "cr", k = 5))
-    bam_pa <- update(bam_full, . ~ . -s(Pa, bs = "cr", k = 20))
-    bam_nage_pa <- update(bam_nage, . ~ . -s(Pa, bs = "cr", k = 20))
+    bam_nlai <- update(bam_full, . ~ . -s(Lai_500m, bs = "cr", k = 20))
+    bam_nage_nlai <- update(bam_nage, . ~ . -s(Lai_500m, bs = "cr", k = 20))
     
     models <- list(
-        full_k20 = bam_full,
-        full_k5 = bam_full_k5,
+        all = bam_full,
         no_age = bam_nage,
-        no_pa = bam_pa,
-        no_age_no_pa = bam_nage_pa
+        no_lai = bam_nlai,
+        no_age_no_lai = bam_nage_nlai
     )
     
     # loop over each of the 3 model names

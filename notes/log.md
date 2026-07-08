@@ -91,3 +91,7 @@
 - like making 5 types of models and doing hold out on single site testing for r2 and rmse  
 - looked into concurvity issues with Pa, site age, and site_ID, and making models with combinations of these included  
 - and want to look into trying to get some sort of relationship between ET-age explicitly mapped, rather than relying just on exact age data in models, like besnard f(age)
+
+## 8-7-26
+- deciding to drop pressure from GAMs - it doens't seem to add anything useful and just brings up concurvity issues with the site_ID/age  
+- martin also agreed with dropping Pa when i spoke to him last on the 6th, so no Pa used going forwards in GAMs (can test in RF etc. though)
