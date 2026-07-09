@@ -14,6 +14,10 @@ library(tidyverse)
 library(here)
 library(wesanderson)
 library(gridExtra)
+library(sf)
+library(rnaturalearth)
+library(countrycode)
+library(ggrepel)
 
 ```
 
@@ -22,7 +26,7 @@ library(gridExtra)
 - Calculated RMSE and R^2 per site so will explore these and see if there is relatedness between strong vs. poor performing sites across these models  
 
 ```{r}
-df_08 <- df_08 <- read_csv(here("data/main/08_sorting/df_main.csv"))
+df_sites <- read_csv(here("data/main/08_sorting/sites.csv"))
 df_10 <- read.csv(here("data/main/10_GAM_testing/results.csv"))
 ```
 
@@ -103,7 +107,7 @@ df_10_wide <- df_10 %>%
     rename(Site_ID = site)
 
 # dfs to merge
-dfs_list = list(df_08, df_10_wide)
+dfs_list = list(df_sites, df_10_wide)
 
 df_merged <- dfs_list %>%
     reduce(full_join, by = "Site_ID")
@@ -134,9 +138,9 @@ p_r2_climates <- df_merged %>%
     
   # aesthetics
   scale_fill_manual(values = wes_palette("Darjeeling2")) +
-  ggtitle("Represented Site Ages Across Climate Zones") +
+  ggtitle("R-squared from 'No Age' GAM across Climate Zones") +
   theme_minimal() +
-  ylab("Site Age (Years)") + 
+  ylab("R-squared") + 
   xlab("Climate Zone") 
 
 p_r2_climates  
@@ -145,15 +149,154 @@ p_r2_climates
 
 ### 1.2 RMSE
 ```{r}
+p_rmse_climates <- df_merged %>%
+  
+  ggplot(mapping = aes(x = Climate_zone, y = rmse_no_age)) +
+  
+  # violin plot 
+  geom_violin(aes(fill = Climate_zone)) + 
+  
+  # hide redundant legend
+  guides(fill = "none") +
+  
+  # add boxplot 
+  geom_boxplot(width = 0.1, col = "black")+
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("Darjeeling2")) +
+  ggtitle("RMSE from 'No Age' GAM across Climate Zones") +
+  theme_minimal() +
+  ylab("RMSE") + 
+  xlab("Climate Zone") 
 
+p_r2_climates  
 
 ```
 
 
 
+## 2. Cover types
+### 2.1 R2
+
+```{r}
+p_r2_cover <- df_merged %>%
+  
+  ggplot(mapping = aes(x = Cover_type, y = r2_no_age)) +
+  
+  # violin plot 
+  geom_violin(aes(fill = Cover_type)) + 
+  
+  # hide redundant legend
+  guides(fill = "none") +
+  
+  # add boxplot 
+  geom_boxplot(width = 0.1, col = "black")+
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("Royal2")) +
+  ggtitle("R-squared from 'No Age' GAM across Cover Types") +
+  theme_minimal() +
+  ylab("Site Age (Years)") + 
+  xlab("Cover Type") 
+
+p_r2_cover
+
+```
+
+### 2.2 RMSE across cover types
+
+```{r}
+p_rmse_cover <- df_merged %>%
+  
+  ggplot(mapping = aes(x = Cover_type, y = rmse_no_age)) +
+  
+  # violin plot 
+  geom_violin(aes(fill = Cover_type)) + 
+  
+  # hide redundant legend
+  guides(fill = "none") +
+  
+  # add boxplot 
+  geom_boxplot(width = 0.1, col = "black")+
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("Royal2")) +
+  ggtitle("RMSE from 'No Age' GAM across Cover Types") +
+  theme_minimal() +
+  ylab("Site Age (Years)") + 
+  xlab("Cover Type") 
+
+p_rmse_cover
+
+```
 
 
+## 3. MAPS
+- will project values onto a map to see possible relations geographically 
 
+### 3.1 R2 world map 
+
+```{r}
+# get world data
+world <- ne_countries(returnclass = "sf")
+
+# convert site long/lat for robinson projection
+sites_coords_robin <- df_merged %>%
+    st_as_sf(coords = c("Longitude", "Latitude"), crs = 4326) %>%
+    st_transform(crs = "+proj=robin")
+
+p_r2_world <- world %>%
+    st_transform(crs = "+proj=robin") %>%
+    ggplot() +
+    geom_sf(fill = "grey90", colour = "grey75", linewidth = 0.2) + 
+    geom_sf(data = sites_coords_robin, aes(colour = r2_no_age)) +
+    scale_colour_gradient(
+        low = "tomato", high = "springgreen3",
+        name = "R-squared",
+        breaks = c(0, 0.25, 0.5, 0.75, 1),
+        labels = c("0", "0.25", "0.5", "0.75", "1")
+    ) +
+    theme_linedraw() +
+    theme(legend.text = element_text(size = 8),
+          legend.title = element_text(size = 8),
+          legend.margin = margin(r = 10)) + 
+    
+    ggtitle("R-squared for 'No age' model plotted geographically")
+
+p_r2_world
+```
+
+### 3.2 RMSE world map
+
+```{r}
+# get world data
+world <- ne_countries(returnclass = "sf")
+
+# convert site long/lat for robinson projection
+sites_coords_robin <- df_merged %>%
+    st_as_sf(coords = c("Longitude", "Latitude"), crs = 4326) %>%
+    st_transform(crs = "+proj=robin")
+
+p_rmse_world <- world %>%
+    st_transform(crs = "+proj=robin") %>%
+    ggplot() +
+    geom_sf(fill = "grey90", colour = "grey75", linewidth = 0.2) + 
+    geom_sf(data = sites_coords_robin, aes(colour = rmse_no_age)) +
+    scale_colour_gradient(
+        low = "tomato", high = "springgreen3",
+        name = "RMSE",
+        breaks = c(0, 1, 2, 3),
+        labels = c("0", "1", "2", "3")
+    ) +
+    theme_linedraw() +
+    theme(legend.text = element_text(size = 8),
+          legend.title = element_text(size = 8),
+          legend.margin = margin(r = 10)) + 
+    
+    ggtitle("RMSE for 'No age' model plotted geographically")
+
+p_rmse_world
+```
 
 
 ### notes: try to find an existing ET-age relationship

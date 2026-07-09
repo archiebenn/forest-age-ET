@@ -95,3 +95,10 @@
 ## 8-7-26
 - deciding to drop pressure from GAMs - it doens't seem to add anything useful and just brings up concurvity issues with the site_ID/age  
 - martin also agreed with dropping Pa when i spoke to him last on the 6th, so no Pa used going forwards in GAMs (can test in RF etc. though)
+- started `11_GAM_exploration.Rmd`
+
+## 9-7-26 
+- looked into RMSE nd R-squared values across the 68 sites from the 'No age' (ie. baseline) model across climate zones, cover types, and on maps  
+- This is all on GAM exploration map  
+- Martin also sent me some papers and links to look at for plots  
+- Need to do lots tomorrow in the library for the exploration of these results and maybe some RF/other ML stuff  
