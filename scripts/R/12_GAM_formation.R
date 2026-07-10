@@ -39,7 +39,7 @@ for (i in sites){
         filter(Site_ID == i)
     
     # use training data to form bams for 5 instances: full predictors age k20, full predictors age k5, without age, without Pa, and without age or Pa
-    bam_full <- bam(ET ~ 
+    bam_full <- bam((ET)^(1/2) ~ 
                         s(Site_ID, bs = "re") +               # site as random effect
                         s(Tair, bs = "cr", k = 20) + 
                         s(P_sum_14D, bs = "cr", k = 20) +
@@ -47,6 +47,7 @@ for (i in sites){
                         s(Wspeed, bs = "cr", k = 20) +
                         s(VPD, bs = "cr", k = 20) +
                         s(Lai_500m, bs = "cr", k = 20) +
+                        #Age_range
                         s(Site_age, bs = "cr", k = 20)
                         #s(Pa, bs = "cr", k = 20)    
                     
@@ -69,9 +70,9 @@ for (i in sites){
         
         # predict ET from the BAM and save each in df
         # models[[model]] accesses the actual model object itself, just 'model' would be trying to access the string
-        fitted <- predict(models[[model]], 
+        fitted <- (predict(models[[model]], 
                           newdata = test,
-                          exclude = "s(Site_ID)")
+                          exclude = "s(Site_ID)"))^2
         
         # add to growing list
         results_list[[paste(i, "_", model)]] <- data.frame(

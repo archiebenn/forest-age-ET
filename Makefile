@@ -4,7 +4,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 
 
-.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting gams engineer small_scale generalisation model_comparison diss
+.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer small_scale generalisation model_comparison diss
 
 .DEFAULT_GOAL := help
 
@@ -13,7 +13,7 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: setup sites fluxnet lai filter ET_plots climates sorting gams map
+all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams map
 
 setup: ## setup the folder structure for data to be read into/out of
 	./scripts/bash/setup.sh
@@ -47,7 +47,7 @@ filter2: ## data prep part 8 - filter sites based on georgraphic data
 	Rscript scripts/R/10_filtering2.R
 
 gams: ## Forms GAMs (bams) to assess R-squared and RMSE per site for all predictions
-	Rscript scripts/R/11_GAM_formation.R
+	Rscript scripts/R/12_GAM_formation.R
 
 engineer: ## data prep part 7 - select + engineer variables for ML
 	python scripts/python/engineer.py

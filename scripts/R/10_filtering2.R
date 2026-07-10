@@ -22,5 +22,23 @@ df_filtered2 <- df_08 %>%
     filter(Site_ID != "GF-Guy")
 
 
-# save out
+##################
+# re-doing filtering for year/site data
+df_sites <- read_csv("data/main/08_sorting/sites.csv")
+
+df_sites2 <- df_sites %>%
+    filter(Site_ID %in% df_filtered2$Site_ID)
+
+df_yearly <- read_csv("data/main/08_sorting/yearly.csv")
+
+df_yearly2 <- df_yearly %>%
+    filter(Site_ID %in% df_filtered2$Site_ID)
+
+
+
+##################
+# save out new data
 write_csv(df_filtered2, "data/main/10_filtering2/df_10.csv")
+write_csv(df_sites2, "data/main/10_filtering2/df_sites2.csv")
+write_csv(df_yearly2, "data/main/10_filtering2/df_yearly2.csv")
+

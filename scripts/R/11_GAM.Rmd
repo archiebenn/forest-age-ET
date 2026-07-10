@@ -121,11 +121,14 @@ ggplot(df_10, aes(x = Tair, y = ET)) +
 ## 3. GAM for all predictors (and all except age)
 ```{r}
 # cr = cubic regression
+df_10$Age_range <- factor(df_10$Age_range, 
+                           levels = c("0-10", "11-20", "21-50", "51-100", "101-150", "151-320"))
 
 # 1. ALL DATA MODEL, gaussian link
 ET_gam <- gam(ET ~ 
                         s(Site_ID, bs = "re") +               # site as random effect
-                        s(Site_age, bs = "cr", k = 20) +
+                        Age_range +
+                        #s(Site_age, bs = "cr", k = 20) +
                         s(Lai_500m, bs = "cr", k = 20) +
                         s(P_sum_14D, bs = "cr", k = 20) +
                         s(SW_rad, bs = "cr", k = 20) +
@@ -136,7 +139,7 @@ ET_gam <- gam(ET ~
                         , data = df_10)
 
 # 2. NO AGE MODEL, gauss link
-ET_gam_nage <- update(ET_gam, . ~ . -s(Site_age, bs = "cr", k = 20))
+ET_gam_nage <- update(ET_gam, . ~ . -Age_range)
 ```
 
 ### model summaries
@@ -206,7 +209,7 @@ print(gam_p1, pages = 1)
 concurvity(ET_gam_sqrt)
 ```
 
-- so can see that site_ID, site_age, and Pa are all scoring very close to 1, so there are concurvity issues with these predictors  
+- so can see that site_ID and Pa are scoring very close to 1, so there are concurvity issues with these predictors  
 - Pa and site_age vary coniderably across sites, but within each site are fairly constant, so the model is linking these three highly and essentially all three encode "which site is this observation from?"  
 
 
@@ -218,28 +221,31 @@ concurvity(ET_gam_sqrt)
 
 ```{r}
 # k = 10 (default) -> edf = 8.996 (near max), R2 = 0.522
-mod2_gam_k20 <- gam((ET)^(1/2) ~ s(Site_age, bs = "cr" , k = 20) + s(Site_ID, bs = "re"), data = df_10)
+mod2_gam_k20_sqrt <- gam((ET)^(1/2) ~ Age_range + s(Site_ID, bs = "re"), data = df_10)
+#mod2_gam_k20_sqrt <- gam((ET)^(1/2) ~ s(Site_age, bs = "cr" , k = 5) + s(Site_ID, bs = "re"), data = df_10)
 
-summary(mod2_gam_k20)
+
+summary(mod2_gam_k20_sqrt)
 #gam.check(mod2_gam_k20)
 
 ```
 
 ```{r}
 # make new df and add predictions from each model along range of ages in main df
-ET_age_preds <- data.frame(Site_age = seq(min(df_10$Site_age), max(df_10$Site_age), length.out = 300))
+ET_age_preds <- data.frame(Age_range = unique(df_10$Age_range))
 
 # placeholder as needs site_ID column
 ET_age_preds$Site_ID <- df_10$Site_ID[1]
-ET_age_preds$ET_pred <- predict(ET_gam_sqrt, 
+ET_age_preds$ET_pred <- (predict(mod2_gam_k20_sqrt, 
                                 newdata = ET_age_preds,
                                 
                                 # ignore the site ID as this is set as a placeholder
-                                exclude = "s(Site_ID)")
+                                # squared to back transform
+                                exclude = "s(Site_ID)"))^2
 
-ggplot(df_10, aes(x = Site_age, y = ET)) +
+ggplot(df_10, aes(x = Age_range, y = ET)) +
     geom_point(alpha = 0.01) +
-    geom_line(data = ET_age_preds, aes(x = Site_age, y = ET_pred), colour = "seagreen") +
+    geom_col(data = ET_age_preds, aes(x = Age_range, y = ET_pred, colour = Age_range)) +
     
     theme_minimal() +
     xlab("Site Age (years)") +
@@ -320,7 +326,7 @@ summary(ET_bam_nage_pa)
 
 ### testing GAM vs. BAM models
 ```{r}
-anova(ET_bam_nage_pa, ET_gam_nage_pa, test = "Chisq")
+#anova(ET_bam_nage_pa, ET_gam_nage_pa, test = "Chisq")
 ```
 
 

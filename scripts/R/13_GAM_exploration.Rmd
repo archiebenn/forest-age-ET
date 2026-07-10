@@ -26,15 +26,15 @@ library(ggrepel)
 - Calculated RMSE and R^2 per site so will explore these and see if there is relatedness between strong vs. poor performing sites across these models  
 
 ```{r}
-df_sites <- read_csv(here("data/main/08_sorting/sites.csv"))
-df_10 <- read.csv(here("data/main/10_GAM_testing/results.csv"))
+df_sites <- read_csv(here("data/main/10_filtering2/df_sites2.csv"))
+df_12 <- read.csv(here("data/main/12_GAM_testing/results.csv"))
 ```
 
 ## R2 spread
 
 ```{r}
 # full spread histgram
-p1_r2 <- df_10 %>%
+p1_r2 <- df_12 %>%
   
   ggplot(mapping = aes(x = bam_model, y = r2)) +
   
@@ -65,7 +65,7 @@ p1_r2
 
 ```{r}
 # full spread histgram
-p1_rmse <- df_10 %>%
+p1_rmse <- df_12 %>%
   
   ggplot(mapping = aes(x = bam_model, y = rmse)) +
   
@@ -99,7 +99,7 @@ p1_rmse
 
 ```{r}
 # pivot wider to attach to main df by site_id later
-df_10_wide <- df_10 %>%
+df_12_wide <- df_12 %>%
     pivot_wider(
         names_from = bam_model,
         values_from = c(r2, rmse)
@@ -107,7 +107,7 @@ df_10_wide <- df_10 %>%
     rename(Site_ID = site)
 
 # dfs to merge
-dfs_list = list(df_sites, df_10_wide)
+dfs_list = list(df_sites, df_12_wide)
 
 df_merged <- dfs_list %>%
     reduce(full_join, by = "Site_ID")
@@ -169,7 +169,7 @@ p_rmse_climates <- df_merged %>%
   ylab("RMSE") + 
   xlab("Climate Zone") 
 
-p_r2_climates  
+p_rmse_climates  
 
 ```
 

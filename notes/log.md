@@ -86,6 +86,7 @@
 - plotted P against Tair means for sites to try and gauge energy vs water limited sites  
 - started more GAM.Rmd but i want to make sure data exploration stuff is complete before I begin this so will work on that more
 
+# July
 ## 6-7-26  
 - last few days have been doing a lot of GAM things  
 - like making 5 types of models and doing hold out on single site testing for r2 and rmse  
@@ -93,7 +94,7 @@
 - and want to look into trying to get some sort of relationship between ET-age explicitly mapped, rather than relying just on exact age data in models, like besnard f(age)
 
 ## 8-7-26
-- deciding to drop pressure from GAMs - it doens't seem to add anything useful and just brings up concurvity issues with the site_ID/age  
+- deciding to drop pressure from GAMs - it doesn't seem to add anything useful and just brings up concurvity issues with the site_ID/age  
 - martin also agreed with dropping Pa when i spoke to him last on the 6th, so no Pa used going forwards in GAMs (can test in RF etc. though)
 - started `11_GAM_exploration.Rmd`
 
@@ -102,3 +103,10 @@
 - This is all on GAM exploration map  
 - Martin also sent me some papers and links to look at for plots  
 - Need to do lots tomorrow in the library for the exploration of these results and maybe some RF/other ML stuff  
+
+## 10-7-26
+- did quite a bit today but not a lot of 'forward' progress  
+- re-ran all the GAM formations and used the sqrt ET transformation (and back transformation too)  
+- also decided to only focus on sites from north america and europe, so took a while attaching continental data to the dfs to the filter on  
+- now back at a point where I can do GAM exploration next week and start RF stuff in python  
+- looking like age might not be a supporting factor so far from the GAMs, but let's see with RF etc.
