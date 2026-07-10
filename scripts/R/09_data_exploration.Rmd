@@ -189,7 +189,7 @@ p_cover_ET
 
 ```
 
-### LAI vs ET at sites
+### 1.6 LAI vs ET at sites
 
 ```{r}
 p_ET_LAI <- df_sites %>%
@@ -208,6 +208,61 @@ p_ET_LAI <- df_sites %>%
   
  p_ET_LAI
 ```
+
+### 1.7 Geographic spread
+```{r}
+# get world data
+world <- ne_countries(returnclass = "sf")
+
+# convert site long/lat for robinson projection
+sites_coords_robin <- df_sites %>%
+    st_as_sf(coords = c("Longitude", "Latitude"), crs = 4326) %>%
+    st_transform(crs = "+proj=robin")
+
+p_r2_world <- world %>%
+    st_transform(crs = "+proj=robin") %>%
+    ggplot() +
+    geom_sf(fill = "grey90", colour = "grey75", linewidth = 0.2) + 
+    geom_sf(data = sites_coords_robin, aes(colour = Continent)) +
+    theme_linedraw() +
+    theme(legend.text = element_text(size = 8),
+          legend.title = element_text(size = 8),
+          legend.margin = margin(r = 10)) +
+    
+    # text labels to find which site is being labelled as europe when in south america
+    geom_sf_text(data = sites_coords_robin, aes(label = Site_ID), 
+                 size = 2, nudge_y = 200000, check_overlap = TRUE) +
+    
+    ggtitle("Geographic distribution of sites")
+
+p_r2_world 
+```
+
+### 1.8 Data by continent
+- to assess whether small site counts are affecting ET significantly 
+
+```{r}
+# create summary df for site counts by continent
+summary_df <- df_sites %>%
+    group_by(Continent) %>%
+    summarise(
+        n = n_distinct(Site_ID),
+        days_of_data = sum(Days_of_data),
+        ET_mean2 = mean(ET_mean),
+    )
+
+# bar plot
+ggplot(summary_df, aes(x = Continent, y = days_of_data)) +
+    
+    geom_col(aes(fill = ET_mean2)) +
+    geom_text(aes(label = paste0("n=", n)), vjust = -0.5) +
+    scale_fill_gradient(low = "lightblue", high = "darkblue") +
+    
+    labs(x = "Continent", y = "Days of FLUXNET Data", fill = "Mean daily ET (mm)", title = "Days of data, site counts, and mean ET across continents") +
+    theme_minimal()
+
+```
+- could focus on Europe and North America
 
 
 ## 2. Daily data

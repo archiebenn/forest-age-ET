@@ -14,17 +14,17 @@ library(ggeffects)
 
 set.seed(42)
 
-df_08 <- read_csv("data/main/08_sorting/df_main.csv")
+df_10 <- read_csv("data/main/10_filtering2/df_10.csv")
 
 # set site ID as a factor
-df_08$Site_ID <- as.factor(df_08$Site_ID)
+df_10$Site_ID <- as.factor(df_10$Site_ID)
 
 # to evaluate each model (determined in last script) held out site testing will be carried out  
 # will hold out a site one-by-one and predict all rows' ET at that site, then repeat for other sites  
 # using bam() as it's faster and will be forming many models for every site 
 
 # set site list to loop over for held out site testing
-sites <- c(unique(df_08$Site_ID))
+sites <- c(unique(df_10$Site_ID))
 
 # initialise empty list to store r^2 and rmse data in
 results_list = list()
@@ -32,10 +32,10 @@ results_list = list()
 for (i in sites){
     
     # setup train/test split for held out sites
-    train <- df_08 %>%
+    train <- df_10 %>%
         filter(Site_ID != i)
     
-    test <- df_08 %>%
+    test <- df_10 %>%
         filter(Site_ID == i)
     
     # use training data to form bams for 5 instances: full predictors age k20, full predictors age k5, without age, without Pa, and without age or Pa
@@ -91,6 +91,6 @@ for (i in sites){
 validations_df <- do.call(rbind, results_list)
 
 # write out
-write_csv(validations_df, "data/main/10_GAM_testing/results.csv")
+write_csv(validations_df, "data/main/12_GAM_testing/results.csv")
 
 print("GAM_testing.R complete")

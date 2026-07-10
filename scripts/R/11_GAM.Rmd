@@ -21,10 +21,10 @@ library(ggeffects)
 
 set.seed(42)
 
-df_08 <- read_csv(here("data/main/08_sorting/df_main.csv"))
+df_10 <- read_csv(here("data/main/10_filtering2/df_10.csv"))
 
 # set site ID as a factor
-df_08$Site_ID <- as.factor(df_08$Site_ID)
+df_10$Site_ID <- as.factor(df_10$Site_ID)
 ```
 
 
@@ -58,11 +58,11 @@ Trying out ET vs Air Temperature at all sites
 # to use smoothing power of GAM would do ET ~ s(Tair) - will do later
 
 # highest P/Tair site
-mod1_lm <- gam(ET ~ Tair, data = df_08)
+mod1_lm <- gam(ET ~ Tair, data = df_10)
 summary(mod1_lm)
 ```
 
-(Air temp is highly significant to ET at this site with R2 at ~0.45)
+(Air temp is highly significant to ET at this site with R2 at ~0.39)
 
 ### Independence and random effects note
 - ~ 186k observations at 68 sites means that these observations are not truly independent 
@@ -74,13 +74,13 @@ summary(mod1_lm)
 # cr = cubic regression
 
 # k = 10 (default) -> edf = 8.996 (near max), R2 = 0.522
-mod1_gam_k10 <- gam(ET ~ s(Tair, bs = "cr" , k =10) + s(Site_ID, bs = "re"), data = df_08)
+mod1_gam_k10 <- gam(ET ~ s(Tair, bs = "cr" , k =10) + s(Site_ID, bs = "re"), data = df_10)
 
 # k = 20 -> edf = 18.94 (near max still), R2 = 0.526
-mod1_gam_k20 <- gam(ET ~ s(Tair, bs = "cr", k =20) + s(Site_ID, bs = "re"), data = df_08)
+mod1_gam_k20 <- gam(ET ~ s(Tair, bs = "cr", k =20) + s(Site_ID, bs = "re"), data = df_10)
 
 # k = 40 (default) -> edf = 36.96, R2 = 0.527
-mod1_gam_k40 <- gam(ET ~ s(Tair, bs = "cr", k =40) + s(Site_ID, bs = "re"), data = df_08)
+mod1_gam_k40 <- gam(ET ~ s(Tair, bs = "cr", k =40) + s(Site_ID, bs = "re"), data = df_10)
 
 summary(mod1_lm)
 summary(mod1_gam_k20)
@@ -95,17 +95,17 @@ anova(mod1_lm, mod1_gam_k10, mod1_gam_k20, mod1_gam_k40, test = "Chisq")
 ### plotting ET Tair GAM 
 ```{r}
 # make new df and add predictions from each model along range of air temps in main df and 200 temps
-ET_Tair_preds <- data.frame(Tair = seq(min(df_08$Tair), max(df_08$Tair), length.out = 200))
+ET_Tair_preds <- data.frame(Tair = seq(min(df_10$Tair), max(df_10$Tair), length.out = 200))
 
 # placeholder as needs site_ID column
-ET_Tair_preds$Site_ID <- df_08$Site_ID[1]
+ET_Tair_preds$Site_ID <- df_10$Site_ID[1]
 ET_Tair_preds$lm <- predict(mod1_lm, newdata = ET_Tair_preds)
 ET_Tair_preds$GAM_k10 <- predict(mod1_gam_k10, newdata = ET_Tair_preds)
 ET_Tair_preds$GAM_k20 <- predict(mod1_gam_k20, newdata = ET_Tair_preds)
 
 pred_long <- ET_Tair_preds %>% pivot_longer(-c(Tair, Site_ID), names_to = "model", values_to = "fit")
 
-ggplot(df_08, aes(x = Tair, y = ET)) +
+ggplot(df_10, aes(x = Tair, y = ET)) +
     geom_point(alpha = 0.01) +
     geom_line(data = pred_long, aes(x = Tair, y = fit, colour = model)) +
     
@@ -133,7 +133,7 @@ ET_gam <- gam(ET ~
                         s(Wspeed, bs = "cr", k = 20) +
                         s(VPD, bs = "cr", k = 20) +
                         s(Pa, bs = "cr", k = 20)              # leaving out precip as cumulative precip is used
-                        , data = df_08)
+                        , data = df_10)
 
 # 2. NO AGE MODEL, gauss link
 ET_gam_nage <- update(ET_gam, . ~ . -s(Site_age, bs = "cr", k = 20))
@@ -166,22 +166,25 @@ gv_ET_gam_nage <- getViz(ET_gam_nage)
 check.gamViz(gv_ET_gam)    # equivalent to gam.check(ET_gam)
 ```
 
-- some issues with tails on the qq plot so will attempt afamily swap
+- serious issues with tails on the qq plot so will attempt afamily swap
 
 ```{r}
-# 3. Tweedie family link to try and correct some of the checm.gam() plots
-log_ET_sqrt <- update(ET_gam, (ET)^(1/2) ~ .)
+# transforming response
+ET_gam_sqrt <- update(ET_gam, (ET)^(1/2) ~ .)
 
-gv_log_ET_sqrt <- getViz(log_ET_sqrt)
-check.gamViz(gv_log_ET_sqrt)
+gv_gam_ET_sqrt <- getViz(ET_gam_sqrt)
+check.gamViz(gv_gam_ET_sqrt)
 ``` 
 
+- not perfect, but appears to satisfy the assumptions of GAMs a lot better  
+- from now on, this log and sqrt
+
 ### Plotting GAM per predictor
-- Each of these plots represents the predictor's contribution to the response (ET)  
+- Each of these plots represents the predictor's (sqrt) contribution to the response (ET)  
 - So the effective contribution at each x axis is represented in the y per plot with everything else fixed  
 
 ```{r}
-gam_p1 <- plot(gv_ET_gam, allTerms = T) +
+gam_p1 <- plot(gv_gam_ET_sqrt, allTerms = T) +
     l_fitLine(linetype = 1, colour = "red3")  +
     l_ciLine(linetype = 4, colour = "blue4") +
     l_ciBar() +
@@ -200,7 +203,7 @@ print(gam_p1, pages = 1)
 - worst/observed/estimates looks at different scenarios: worst = fairly pessimistic etc.  
 
 ```{r}
-concurvity(ET_gam)
+concurvity(ET_gam_sqrt)
 ```
 
 - so can see that site_ID, site_age, and Pa are all scoring very close to 1, so there are concurvity issues with these predictors  
@@ -215,7 +218,7 @@ concurvity(ET_gam)
 
 ```{r}
 # k = 10 (default) -> edf = 8.996 (near max), R2 = 0.522
-mod2_gam_k20 <- gam(ET ~ s(Site_age, bs = "cr" , k = 20) + s(Site_ID, bs = "re"), data = df_08)
+mod2_gam_k20 <- gam((ET)^(1/2) ~ s(Site_age, bs = "cr" , k = 20) + s(Site_ID, bs = "re"), data = df_10)
 
 summary(mod2_gam_k20)
 #gam.check(mod2_gam_k20)
@@ -224,17 +227,17 @@ summary(mod2_gam_k20)
 
 ```{r}
 # make new df and add predictions from each model along range of ages in main df
-ET_age_preds <- data.frame(Site_age = seq(min(df_08$Site_age), max(df_08$Site_age), length.out = 300))
+ET_age_preds <- data.frame(Site_age = seq(min(df_10$Site_age), max(df_10$Site_age), length.out = 300))
 
 # placeholder as needs site_ID column
-ET_age_preds$Site_ID <- df_08$Site_ID[1]
-ET_age_preds$ET_pred <- predict(mod2_gam_k20, 
+ET_age_preds$Site_ID <- df_10$Site_ID[1]
+ET_age_preds$ET_pred <- predict(ET_gam_sqrt, 
                                 newdata = ET_age_preds,
                                 
                                 # ignore the site ID as this is set as a placeholder
                                 exclude = "s(Site_ID)")
 
-ggplot(df_08, aes(x = Site_age, y = ET)) +
+ggplot(df_10, aes(x = Site_age, y = ET)) +
     geom_point(alpha = 0.01) +
     geom_line(data = ET_age_preds, aes(x = Site_age, y = ET_pred), colour = "seagreen") +
     
@@ -310,7 +313,7 @@ ET_bam_nage_pa <- bam(ET ~
                         s(Tair, bs = "cr", k = 20) +     
                         s(Wspeed, bs = "cr", k = 20) +
                         s(VPD, bs = "cr", k = 20)
-                        , data = df_08)
+                        , data = df_10)
 
 summary(ET_bam_nage_pa)
 ```

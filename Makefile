@@ -43,11 +43,14 @@ climates: ## data prep part 6 - adds koeppen climate zone data to each site
 sorting: ## data prep part 7 - sorts full dataset into main, by-year, and by-site DFs (and adds some columns)
 	Rscript scripts/R/08_sorting.R
 
+filter2: ## data prep part 8 - filter sites based on georgraphic data 
+	Rscript scripts/R/10_filtering2.R
+
 gams: ## Forms GAMs (bams) to assess R-squared and RMSE per site for all predictions
-	Rscript scripts/R/10_GAM_testing.R
+	Rscript scripts/R/11_GAM_formation.R
 
 engineer: ## data prep part 7 - select + engineer variables for ML
-	Rscript scripts/R/07_engineer.R
+	python scripts/python/engineer.py
 
 small_scale: ## analysis 1 - small scale testing
 	python scripts/python/small_scale.py --arch $(ARCHITECTURE)

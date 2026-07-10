@@ -22,7 +22,7 @@ library(ggrepel)
 ```
 
 # GAM results exploration
-- Previous script `10_GAM_testing.R` formed 272 models and calculated predictions per site for each of the 4 models formed  
+- Previous script `11_GAM_testing.R` formed 272 models and calculated predictions per site for each of the 4 models formed  
 - Calculated RMSE and R^2 per site so will explore these and see if there is relatedness between strong vs. poor performing sites across these models  
 
 ```{r}
@@ -231,7 +231,7 @@ p_rmse_cover
 ```
 
 
-## 3. MAPS
+## 3. Geographic distributions
 - will project values onto a map to see possible relations geographically 
 
 ### 3.1 R2 world map 

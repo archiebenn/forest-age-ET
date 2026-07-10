@@ -33,6 +33,7 @@ df_08_extra <- df_08_climate %>%
              Date, 
              Latitude, 
              Longitude, 
+             Continent,
              Cover_type, 
              Climate_zone,
              Site_age,
@@ -56,6 +57,7 @@ df_yearly <- df_08_extra %>%
               n_days_coverage = n(),                 # to check if years are complete (n = 365 or 366)
               Latitude = first(Latitude),
               Longitude = first(Longitude),
+              Continent = first(Continent),
               Cover_type = first(Cover_type),
               Climate_zone = first(Climate_zone),
               Site_age = first(Site_age),
@@ -92,6 +94,7 @@ df_sites <- df_08_extra %>%
               Days_of_data = n_distinct(Date),
               Latitude = first(Latitude),
               Longitude = first(Longitude),
+              Continent = first(Continent),
               Cover_type = first(Cover_type),
               Climate_zone = first(Climate_zone),
               Site_age = mean(Site_age),
