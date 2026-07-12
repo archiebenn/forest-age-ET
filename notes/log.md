@@ -110,3 +110,7 @@
 - also decided to only focus on sites from north america and europe, so took a while attaching continental data to the dfs to the filter on  
 - now back at a point where I can do GAM exploration next week and start RF stuff in python  
 - looking like age might not be a supporting factor so far from the GAMs, but let's see with RF etc.
+
+## 12-7-26  
+- trying to do some more GAM exploration  
+- also remade gam formation script to also output raw predictions per row so i can do a time-series prediction and fit observed vs. fitted on the same graph  

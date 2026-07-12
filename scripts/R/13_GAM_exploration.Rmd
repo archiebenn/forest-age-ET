@@ -27,7 +27,8 @@ library(ggrepel)
 
 ```{r}
 df_sites <- read_csv(here("data/main/10_filtering2/df_sites2.csv"))
-df_12 <- read.csv(here("data/main/12_GAM_testing/results.csv"))
+df_12_preds <- read.csv(here("data/main/12_GAM_testing/preds_results.csv"))
+df_12_stats <- read.csv(here("data/main/12_GAM_testing/stats_results.csv"))
 ```
 
 ## R2 spread
@@ -203,6 +204,8 @@ p_r2_cover
 
 ```
 
+- ENF has by far the greatest dirstibution of R^2 values  
+
 ### 2.2 RMSE across cover types
 
 ```{r}
@@ -253,8 +256,8 @@ p_r2_world <- world %>%
     scale_colour_gradient(
         low = "tomato", high = "springgreen3",
         name = "R-squared",
-        breaks = c(0, 0.25, 0.5, 0.75, 1),
-        labels = c("0", "0.25", "0.5", "0.75", "1")
+        breaks = c(0.00, 0.25, 0.5, 0.75, 1.00),
+        labels = c("0.00", "0.25", "0.5", "0.75", "1.00")
     ) +
     theme_linedraw() +
     theme(legend.text = element_text(size = 8),
@@ -297,6 +300,9 @@ p_rmse_world <- world %>%
 
 p_rmse_world
 ```
+
+## 4. predicted vs. fitted time series plots  
+
 
 
 ### notes: try to find an existing ET-age relationship

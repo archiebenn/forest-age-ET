@@ -26,8 +26,9 @@ df_10$Site_ID <- as.factor(df_10$Site_ID)
 # set site list to loop over for held out site testing
 sites <- c(unique(df_10$Site_ID))
 
-# initialise empty list to store r^2 and rmse data in
-results_list = list()
+# initialise empty lists to store raw predicted values, r^2 and rmse data in
+stats_list = list()
+predicted_list <- list()
 
 for (i in sites){
     
@@ -70,28 +71,38 @@ for (i in sites){
         
         # predict ET from the BAM and save each in df
         # models[[model]] accesses the actual model object itself, just 'model' would be trying to access the string
-        fitted <- (predict(models[[model]], 
+        fitted <- as.numeric((predict(models[[model]], 
                           newdata = test,
-                          exclude = "s(Site_ID)"))^2
+                          exclude = "s(Site_ID)"))^2)
         
-        # add to growing list
-        results_list[[paste(i, "_", model)]] <- data.frame(
+        
+        # per row predicted values attached to test df per site
+        predicted_list[[paste(i, "_", model)]] <- test %>%
+            mutate(bam_model = model,
+                   predicted_ET = fitted,
+                   observed_ET = ET)
             
+        
+        # and adding to growing stats list
+        stats_list[[paste(i, "_", model)]] <- data.frame(
             bam_model = model,
             site = i,
-            
             # rmse and r^2 per site by comparison to observed ET (test$ET)
             rmse = sqrt(mean((test$ET - fitted)^2)),
             r2   = cor(test$ET, fitted)^2)
+            
+    
     }
     print(paste("completed ", i))
 }
 
 
-# then convert results list to a df and save as a .csv
-validations_df <- do.call(rbind, results_list)
+# then convert both lists to dfs and save as .csvs
+preds_df <- bind_rows(predicted_list)
+stats_df <- bind_rows(stats_list)
 
 # write out
-write_csv(validations_df, "data/main/12_GAM_testing/results.csv")
+write_csv(preds_df, "data/main/12_GAM_testing/preds_results.csv")
+write_csv(stats_df, "data/main/12_GAM_testing/stats_results.csv")
 
 print("GAM_testing.R complete")
