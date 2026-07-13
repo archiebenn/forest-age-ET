@@ -41,7 +41,13 @@ for (i in sites){
     
     # use training data to form bams for 5 instances: full predictors age k20, full predictors age k5, without age, without Pa, and without age or Pa
     bam_full <- bam((ET)^(1/2) ~ 
+                        
+                        # random effects
                         s(Site_ID, bs = "re") +               # site as random effect
+                        s(Cover_type, bs="re") +              # 13-7-26 cover type as re (in leave one out s(Site_ID) does nothing but this might)
+                        s(Climate_zone, bs = "re") +          # 13-7-26 and climate zone too for same reason
+                        
+                        # fixed effects
                         s(Tair, bs = "cr", k = 20) + 
                         s(P_sum_14D, bs = "cr", k = 20) +
                         s(SW_rad, bs = "cr", k = 20) +
