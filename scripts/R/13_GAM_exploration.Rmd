@@ -29,13 +29,15 @@ library(ggrepel)
 df_sites <- read_csv(here("data/main/10_filtering2/df_sites2.csv"))
 df_12_preds <- read.csv(here("data/main/12_GAM_testing/preds_results.csv"))
 df_12_stats <- read.csv(here("data/main/12_GAM_testing/stats_results.csv"))
+
+df_12_preds$Date <- as.Date(df_12_preds$Date)
 ```
 
 ## R2 spread
 
 ```{r}
 # full spread histgram
-p1_r2 <- df_12 %>%
+p1_r2 <- df_12_stats %>%
   
   ggplot(mapping = aes(x = bam_model, y = r2)) +
   
@@ -66,7 +68,7 @@ p1_r2
 
 ```{r}
 # full spread histgram
-p1_rmse <- df_12 %>%
+p1_rmse <- df_12_stats %>%
   
   ggplot(mapping = aes(x = bam_model, y = rmse)) +
   
@@ -100,7 +102,7 @@ p1_rmse
 
 ```{r}
 # pivot wider to attach to main df by site_id later
-df_12_wide <- df_12 %>%
+df_12_wide <- df_12_stats %>%
     pivot_wider(
         names_from = bam_model,
         values_from = c(r2, rmse)
@@ -302,8 +304,80 @@ p_rmse_world
 ```
 
 ## 4. predicted vs. fitted time series plots  
+### 4.1 generating plots for all sites
+- uses function to loop over every site and generate a plot of observed vs. fitted for full time series of data  
+- this will filter to just use the 'No age' GAM model as it is the best one atm  
 
+```{R}
+# set site ID as a factor 
+df_sites$Site_ID <- as.factor(df_sites$Site_ID)
+# site list
+sites <- c(unique(df_sites$Site_ID))
 
+# just use the 'no age' model (best performing atm)
+df_12_preds_nage <- df_12_preds %>%
+    filter(bam_model == "no_age")
+
+# function to generate ET vs.time plots for observed and fitted from GAM
+get_ET_sites <- function(site, data, path_to_dir){
+    
+    # plot ET vs time per site
+    p <- data %>%
+        filter(Site_ID == site) %>%
+        ggplot(aes(x = Date)) +
+        
+        # fit observed and predicted to same plot
+    geom_line(aes(y = observed_ET, colour = "Observed")) +
+    geom_line(aes(y = predicted_ET, colour = "Predicted")) +
+    
+    ylab("Daily ET (mm)") +
+    
+    # legend
+    scale_colour_manual(name = "Legend", 
+                         values = c("Observed" = "seagreen", "Predicted" = "tomato")) +
+    
+    theme_minimal()
+    
+    png(here(path_to_dir, paste0(site, ".png")), width = 8, height = 4, units = "in", res = 300)
+    print(p)
+    dev.off()
+}
+```
+
+- and running the loop to generate plots:
+```{R}
+# apply above function to generate plots for all 57 sites of nage GAM
+for (i in sites){
+    get_ET_sites(i, df_12_preds_nage)
+}
+```
+
+- interesting results from looking at the plots - the model appears to underestimate a lot of peaks compared to the observed which could be worth looking into  
+- it does also follow annual trends well  
+
+### 4.2 plots example - IT-Ren
+- example of a site where the model consistently under predicts ET during peaks  
+
+```{R}
+# plot ET vs time per site
+p_IT_Ren <- df_12_preds_nage %>%
+        filter(Site_ID == "IT-Ren") %>%
+        ggplot(aes(x = Date)) +
+        
+        # fit observed and predicted to same plot
+    geom_line(aes(y = observed_ET, colour = "Observed")) +
+    geom_line(aes(y = predicted_ET, colour = "Predicted")) +
+    
+    ylab("Daily ET (mm)") +
+    
+    # legend
+    scale_colour_manual(name = "Legend", 
+                         values = c("Observed" = "seagreen", "Predicted" = "tomato")) +
+    
+    theme_minimal()
+
+p_IT_Ren
+```
 
 ### notes: try to find an existing ET-age relationship
 - look into literature for an existing ET-age relationship as besnard did with NEP and age (f(age) predictor)  
