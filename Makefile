@@ -13,7 +13,7 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams map
+all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams engineer map
 
 setup: ## setup the folder structure for data to be read into/out of
 	./scripts/bash/setup.sh
@@ -49,8 +49,8 @@ filter2: ## data prep part 8 - filter sites based on georgraphic data
 gams: ## Forms GAMs (bams) to assess R-squared and RMSE per site for all predictions
 	Rscript scripts/R/12_GAM_formation.R
 
-engineer: ## data prep part 7 - select + engineer variables for ML
-	python scripts/python/engineer.py
+engineer: ## data prep part 9 - select + engineer variables for ML
+	python scripts/python/14_ml_engineering.py
 
 small_scale: ## analysis 1 - small scale testing
 	python scripts/python/small_scale.py --arch $(ARCHITECTURE)

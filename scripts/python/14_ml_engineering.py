@@ -42,4 +42,4 @@ merged = pd.concat([df_10.drop(columns=categorical_list), encoded_df], axis=1)
 
 # write out
 merged.to_csv("data/main/14_pre_processing/df_ml_ready.csv")
-print("ML data pre processing complete")
+print("ML data engineering complete")
