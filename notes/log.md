@@ -114,3 +114,9 @@
 ## 12-7-26  
 - trying to do some more GAM exploration  
 - also remade gam formation script to also output raw predictions per row so i can do a time-series prediction and fit observed vs. fitted on the same graph  
+
+## 13-7-26
+- setup loop to do observd vs. fitted on same graphs from GAMs  
+- started and finished `14_engineering.py` to engineer features for ML stuff  
+- started random forest and have done a few tests on single held out sites but need to work on this more  
+
