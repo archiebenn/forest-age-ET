@@ -16,8 +16,9 @@ set.seed(42)
 
 df_10 <- read_csv("data/main/10_filtering2/df_10.csv")
 
-# set site ID as a factor
-df_10$Site_ID <- as.factor(df_10$Site_ID)
+# set site ID, cover type, and climate zone as factors
+df_10 <- df_10 %>%
+    mutate(across(c(Site_ID, Cover_type, Climate_zone), as.factor))
 
 # to evaluate each model (determined in last script) held out site testing will be carried out  
 # will hold out a site one-by-one and predict all rows' ET at that site, then repeat for other sites  

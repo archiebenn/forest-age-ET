@@ -120,3 +120,7 @@
 - started and finished `14_engineering.py` to engineer features for ML stuff  
 - started random forest and have done a few tests on single held out sites but need to work on this more  
 
+## 14-7-26  
+- got optuna running on the RF models and did some one site held out testing  
+- need to loop over all sites as with the GAM and save these resuklts to visualise in R tomorrow too like with GAM  
+- then need to start looking at why these results may be as they are - what is causing under/over estimations? what could the models be missing? etc.  
