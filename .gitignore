@@ -43,3 +43,7 @@ fluxnet/fluxnet-shuttle-run.log
 *.csv
 *.zip
 *.html
+
+
+# user codes for pushover
+.env
