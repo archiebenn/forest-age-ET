@@ -4,7 +4,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 
 
-.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer small_scale generalisation model_comparison diss
+.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out diss
 
 .DEFAULT_GOAL := help
 
@@ -13,7 +13,7 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams engineer map
+all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out map
 
 setup: ## setup the folder structure for data to be read into/out of
 	./scripts/bash/setup.sh
@@ -52,14 +52,8 @@ gams: ## Forms GAMs (bams) to assess R-squared and RMSE per site for all predict
 engineer: ## data prep part 9 - select + engineer variables for ML
 	python scripts/python/14_ml_engineering.py
 
-small_scale: ## analysis 1 - small scale testing
-	python scripts/python/small_scale.py --arch $(ARCHITECTURE)
-
-generalisation: ## analysis 2 - generalisation
-	python scripts/python/generalisation.py --arch $(ARCHITECTURE)
-
-model_comparison: ## analysis 3 - 4 way model accuracy comparison
-	python scripts/python/model_comparison.py --arch $(ARCHITECTURE)
+single_held_out: ## python script which runs multiple ML architectures and generates preds and stats per site
+	python scripts/python/x_ML_single_held_out.py 
 
 diss: ## compile diss PDF with LaTeX
 	cd diss/LaTeX && latexmk -pdf main.tex && xdg-open main.pdf

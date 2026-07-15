@@ -86,8 +86,8 @@ for (i in sites){
         # per row predicted values attached to test df per site
         predicted_list[[paste(i, "_", model)]] <- test %>%
             mutate(bam_model = model,
-                   predicted_ET = fitted,
-                   observed_ET = ET)
+                   GAM_predicted_ET = fitted,
+                   GAM_observed_ET = ET)
             
         
         # and adding to growing stats list
@@ -109,7 +109,11 @@ preds_df <- bind_rows(predicted_list)
 stats_df <- bind_rows(stats_list)
 
 # write out
-write_csv(preds_df, "data/main/12_GAM_testing/preds_results.csv")
-write_csv(stats_df, "data/main/12_GAM_testing/stats_results.csv")
+write_csv(preds_df, "data/main/12_GAM_testing/GAM_preds_results.csv")
+write_csv(stats_df, "data/main/12_GAM_testing/GAM_stats_results.csv")
+
+# also write out to other folder as this houses the other ML architecture results for same thing
+write_csv(preds_df, "data/main/x_ML_results/GAM_preds_results.csv")
+write_csv(stats_df, "data/main/x_ML_results/GAM_stats_results.csv")
 
 print("GAM_testing.R complete")

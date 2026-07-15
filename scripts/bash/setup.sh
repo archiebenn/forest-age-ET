@@ -17,7 +17,15 @@ mkdir -p 06_ET_plots
 mkdir -p 07_climates
 mkdir -p 08_sorting  
 mkdir -p 09_GAM      
-mkdir -p 10_GAM_testing
+mkdir -p 10_filtering2
+mkdir -p 11_GAM
+mkdir -p 12_GAM_testing
+mkdir -p 13_GAM_exploration
+mkdir -p 14_pre_processing
+mkdir -p 15_random_forest_test
+mkdir -p x_ML_results
+
+
 
 echo "setup.sh complete"
 
