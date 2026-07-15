@@ -200,7 +200,6 @@ for model, dropped_feature in model_variants.items():
         shaps.append(rf_shap_df)
 
         print(f"Model {architecture}:{model} complete")
-        pushover_message(f"Model {architecture}:{model} complete")
 
 
 # combine all preds and stats to long format
