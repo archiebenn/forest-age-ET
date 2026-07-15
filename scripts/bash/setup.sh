@@ -23,7 +23,7 @@ mkdir -p 12_GAM_testing
 mkdir -p 13_GAM_exploration
 mkdir -p 14_pre_processing
 mkdir -p 15_random_forest_test
-mkdir -p x_ML_results
+mkdir -p 16_ML_results
 
 
 

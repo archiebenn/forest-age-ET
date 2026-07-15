@@ -6,6 +6,10 @@
 import numpy as np
 import pandas as pd
 import os
+import shap
+from dotenv import load_dotenv
+import http.client
+import urllib
 from sklearn.model_selection import LeaveOneGroupOut
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
@@ -21,8 +25,35 @@ os.chdir('/home/ab/Dropbox/university/github/bbinf_project')
 df_14 = pd.read_csv("data/main/14_pre_processing/df_ml_ready.csv")
 
 
+# **********************************************************************************
+# pushover stuff (for notifications to phone when script has finished)
+# read .env
+load_dotenv()
+
+def pushover_message(message):
+
+    # sets user token from .env
+    user_token = os.environ["PUSHOVER_USER_TOKEN"]
+    api_token = os.environ["PUSHOVER_API_TOKEN"]
+
+    conn = http.client.HTTPSConnection("api.pushover.net:443")
+
+    conn.request("POST", "/1/messages.json",
+                urllib.parse.urlencode({
+                    "token": api_token,
+                    "user": user_token,
+
+                    # message to phone
+                    "message": message,
+                    }), { "Content-type": "application/x-www-form-urlencoded" })
+
+    conn.getresponse()
+# **********************************************************************************
+
+
+
 # RANDOM FOREST SETUP
-def random_forest(X, y, sites, cv):
+def random_forest(X, y, sites, cv, full_data):
 
     params = {
         "n_estimators": 250, 
@@ -34,9 +65,13 @@ def random_forest(X, y, sites, cv):
     # empty lists
     preds_results = []
     stats_results = []
+    shap_results = []
 
     # run the leaveOneOut generator (cv) until the test index name == test site
     for train_idx, test_idx in cv.split(X, y, groups=sites):
+
+        # get test site id for this loop
+        test_site = sites.iloc[test_idx[0]]
 
         # set train/test split for features (X df) using indices from the leaveOneOute generator
         # train_idx is the row indices of the training rows (ie. non test site rows, opposite for test_idx)
@@ -56,21 +91,23 @@ def random_forest(X, y, sites, cv):
         # and train the model
         rf.fit(X_train, y_train)
 
+        # shap analysis
+        explainer = shap.TreeExplainer(rf)
+        shap_values = explainer.shap_values(X_test)
+        fold_shap_df = pd.DataFrame(shap_values, columns=X_test.columns)
+        fold_shap_df["site"] = test_site
+        # append to shap results list
+        shap_results.append(fold_shap_df)
+
         # preds and stats
         preds = rf.predict(X_test)
         rmse = np.sqrt(mean_squared_error(y_test, preds))
         r2 = r2_score(y_test, preds)
 
-        # get test site id for this loop
-        test_site = sites.iloc[test_idx[0]]
-
-        # setup this fold's/test site's results per row preds dataframe
-        fold_df = pd.DataFrame({
-            "site": test_site,
-            "observed_ET": y_test.values,
-            "predicted_ET": preds
-        
-        })
+        # take the full original rows for this fold and append predictions to it
+        fold_df = full_data.iloc[test_idx].copy()
+        fold_df["observed_ET"] = y_test.values
+        fold_df["predicted_ET"] = preds
 
         # appending to lists
         preds_results.append(fold_df)
@@ -80,9 +117,10 @@ def random_forest(X, y, sites, cv):
 
     # concatenate all the preds individual dfs to one out of the list before returning
     preds_results = pd.concat(preds_results, ignore_index=True)
+    shap_results = pd.concat(shap_results, ignore_index=True)
 
-    # return out stats and preds dfs
-    return preds_results, pd.DataFrame(stats_results)
+    # return out preds, stats, and shap dfs
+    return preds_results, pd.DataFrame(stats_results), shap_results
     
 
 
@@ -124,8 +162,9 @@ model_variants = {
 }
 
 # preds and stats lists for all architectures
-preds = []
+predictions = []
 stats = []
+shaps = []
 
 # outer loop determines which variant of ML model (full, no age, etc.)
 for model, dropped_feature in model_variants.items():
@@ -141,24 +180,38 @@ for model, dropped_feature in model_variants.items():
         # for naming final .csv 
         architecture = "RF"
 
-        # run random forest
-        rf_preds_df, rf_stats_df = random_forest(X_variant, y, site_names, validation)
+        print(f"Starting {architecture}:{model} run")
+        pushover_message(f"Starting {architecture}:{model} run")
 
-        # add model used to dfs as a column
+        # run random forest
+        rf_preds_df, rf_stats_df, rf_shap_df = random_forest(X_variant, y, site_names, validation, df_14)
+
+        # add model and architecture used to dfs as a column
         rf_preds_df["model"] = model
+        rf_preds_df["architecture"] = architecture
         rf_stats_df["model"] = model
+        rf_stats_df["architecture"] = architecture
+        rf_shap_df["model"] = model
+        rf_shap_df["architecture"] = architecture
 
         # append to outer lists
-        preds.append(rf_preds_df)
+        predictions.append(rf_preds_df)
         stats.append(rf_stats_df)
+        shaps.append(rf_shap_df)
 
         print(f"Model {architecture}:{model} complete")
+        pushover_message(f"Model {architecture}:{model} complete")
 
 
 # combine all preds and stats to long format
-preds_df = pd.concat(preds, ignore_index=True)
+preds_df = pd.concat(predictions, ignore_index=True)
 stats_df = pd.concat(stats, ignore_index=True)
+shap_df = pd.concat(shaps, ignore_index=True)
 
 # save out results
-preds_df.to_csv(f"data/main/x_ML_results/{architecture}_preds_results.csv", index=False)
-stats_df.to_csv(f"data/main/x_ML_results/{architecture}_stats_results.csv", index=False)
+preds_df.to_csv(f"data/main/16_ML_results/{architecture}_preds_results.csv", index=False)
+stats_df.to_csv(f"data/main/16_ML_results/{architecture}_stats_results.csv", index=False)
+shap_df.to_csv(f"data/main/16_ML_results/{architecture}_shap_results.csv", index=False)
+
+
+pushover_message("Script complete!")

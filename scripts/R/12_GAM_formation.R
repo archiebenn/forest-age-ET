@@ -83,21 +83,23 @@ for (i in sites){
                           exclude = "s(Site_ID)"))^2)
         
         
-        # per row predicted values attached to test df per site
+        # per row predicted values attached to test df per site - with architecture and model columns
         predicted_list[[paste(i, "_", model)]] <- test %>%
-            mutate(bam_model = model,
-                   GAM_predicted_ET = fitted,
-                   GAM_observed_ET = ET)
+            mutate(model = model,
+                   architecture = "GAM",
+                   predicted_ET = fitted,
+                   observed_ET = ET)
             
         
-        # and adding to growing stats list
+        # and adding to growing stats list - with architecture and model columns
         stats_list[[paste(i, "_", model)]] <- data.frame(
-            bam_model = model,
+            model = model,
+            architecture = "GAM",
             site = i,
             # rmse and r^2 per site by comparison to observed ET (test$ET)
             rmse = sqrt(mean((test$ET - fitted)^2)),
-            r2   = cor(test$ET, fitted)^2)
-            
+            r2 = 1 - sum((test$ET - fitted)^2) / sum((test$ET - mean(test$ET))^2)
+        )
     
     }
     print(paste("completed ", i))
