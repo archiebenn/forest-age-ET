@@ -91,10 +91,13 @@ def random_forest(X, y, sites, cv, full_data):
         # and train the model
         rf.fit(X_train, y_train)
 
-        # shap analysis
+        # shap analysis on a subset of X_test (was massively slowing down script)
         explainer = shap.TreeExplainer(rf)
-        shap_values = explainer.shap_values(X_test)
-        fold_shap_df = pd.DataFrame(shap_values, columns=X_test.columns)
+        # random 100 rows of X_test
+        X_shap_subset = X_test.sample(100, random_state=42)
+        # run shap
+        shap_values = explainer.shap_values(X_shap_subset)
+        fold_shap_df = pd.DataFrame(shap_values, columns=X_shap_subset.columns)
         fold_shap_df["site"] = test_site
         # append to shap results list
         shap_results.append(fold_shap_df)
@@ -124,8 +127,9 @@ def random_forest(X, y, sites, cv, full_data):
     
 
 
-# OTHER MODEL SETUPS GO HERE
 
+
+# OTHER MODEL SETUPS GO HERE
 
 
 
@@ -161,10 +165,12 @@ model_variants = {
     "no_age_no_lai": ["Site_age", "Lai_500m"]
 }
 
+
 # preds and stats lists for all architectures
 predictions = []
 stats = []
 shaps = []
+
 
 # outer loop determines which variant of ML model (full, no age, etc.)
 for model, dropped_feature in model_variants.items():
