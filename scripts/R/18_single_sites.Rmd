@@ -22,8 +22,11 @@ library(ggrepel)
 
 # Exploring single site model predictions (GAM/RF/other ML models)
 - similar to the earlier `13_GAM_exploration.Rmd`, but alongside other ML models  
-- GAM results are from `12_GAM_formation.R`  
-- Other model results are from `16_ML_single_held_out.py`  
+
+- Results are from GAM and RF models trained on 56/57 sites, and predicting ET on the final site  
+- In each architecture the same variales were used and removed per model (not identical, as RF had encoded categorical data as this will be used for other ML models which require this in the same .py file)
+- GAM results are formed in `12_GAM_formation.R`  
+- RF results are formed in `16_ML_single_held_out.py`  
 
 # Load in data
 ```{R}
