@@ -124,3 +124,17 @@
 - got optuna running on the RF models and did some one site held out testing  
 - need to loop over all sites as with the GAM and save these resuklts to visualise in R tomorrow too like with GAM  
 - then need to start looking at why these results may be as they are - what is causing under/over estimations? what could the models be missing? etc.  
+
+## 15-7-26 
+- formed the full RF held out site train/test loop for the 4 models and across all sites which takes about 2hrs to run  
+- so not i have the full RF and GAM datasets and predictions compared to observed  
+- also got SHAP analysis running so I can have a look through that soon too
+
+## 16-7-26  
+- generated loops to get the RF and GAM plots formed and saved to folders in `17_plots_generate.R`  
+- made `18_single_sites.Rmd` in which I have started to explore the results of the RF and GAM preds/stats  
+- had meeting with martin and need to think of proper questions now, not just more analysis  
+- having said that, I do want to try to form XGBoost models in the same was as the RF ones  
+- also want to try setting age to be incrementing every day of the year rather than a static value every day of the same year  
+- so tomorrow will give that a go and then also have to do a full re-run i'd imagine bc of that  
+- also more exploration of SHAP/RF/GAM stuff etc in the `.Rmd` file  

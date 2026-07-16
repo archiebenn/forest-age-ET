@@ -13,7 +13,7 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots map
+all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots map diss
 
 setup: ## setup the folder structure for data to be read into/out of
 	./scripts/bash/setup.sh
