@@ -15,7 +15,7 @@ library(here)
 library(wesanderson)
 library(gridExtra)
 library(sf)
-library(rnaturalearth)
+library(rnaturalearth) 
 library(countrycode)
 library(ggrepel)
 
@@ -27,8 +27,8 @@ library(ggrepel)
 
 ```{r}
 df_sites <- read_csv(here("data/main/10_filtering2/df_sites2.csv"))
-df_12_preds <- read.csv(here("data/main/12_GAM_testing/preds_results.csv"))
-df_12_stats <- read.csv(here("data/main/12_GAM_testing/stats_results.csv"))
+df_12_preds <- read.csv(here("data/main/12_GAM_testing/GAM_preds_results.csv"))
+df_12_stats <- read.csv(here("data/main/12_GAM_testing/GAM_stats_results.csv"))
 
 df_12_preds$Date <- as.Date(df_12_preds$Date)
 ```
@@ -39,10 +39,10 @@ df_12_preds$Date <- as.Date(df_12_preds$Date)
 # full spread histgram
 p1_r2 <- df_12_stats %>%
   
-  ggplot(mapping = aes(x = bam_model, y = r2)) +
+  ggplot(mapping = aes(x = model, y = r2)) +
   
   # violin plot 
-  geom_violin(aes(fill = bam_model)) + 
+  geom_violin(aes(fill = model)) + 
   
   # hide redundant legend
   guides(fill = "none") +
@@ -70,10 +70,10 @@ p1_r2
 # full spread histgram
 p1_rmse <- df_12_stats %>%
   
-  ggplot(mapping = aes(x = bam_model, y = rmse)) +
+  ggplot(mapping = aes(x = model, y = rmse)) +
   
   # violin plot 
-  geom_violin(aes(fill = bam_model)) + 
+  geom_violin(aes(fill = model)) + 
   
   # hide redundant legend
   guides(fill = "none") +
@@ -104,7 +104,7 @@ p1_rmse
 # pivot wider to attach to main df by site_id later
 df_12_wide <- df_12_stats %>%
     pivot_wider(
-        names_from = bam_model,
+        names_from = model,
         values_from = c(r2, rmse)
     ) %>%
     rename(Site_ID = site)
@@ -288,7 +288,7 @@ p_rmse_world <- world %>%
     geom_sf(fill = "grey90", colour = "grey75", linewidth = 0.2) + 
     geom_sf(data = sites_coords_robin, aes(colour = rmse_no_age)) +
     scale_colour_gradient(
-        low = "tomato", high = "springgreen3",
+        low = "springgreen3", high = "tomato",
         name = "RMSE",
         breaks = c(0, 1, 2, 3),
         labels = c("0", "1", "2", "3")
@@ -316,7 +316,7 @@ sites <- c(unique(df_sites$Site_ID))
 
 # just use the 'no age' model (best performing atm)
 df_12_preds_nage <- df_12_preds %>%
-    filter(bam_model == "no_age")
+    filter(model == "no_age")
 
 # function to generate ET vs.time plots for observed and fitted from GAM
 get_ET_sites <- function(site, data, path_to_dir){
@@ -348,7 +348,7 @@ get_ET_sites <- function(site, data, path_to_dir){
 ```{R}
 # apply above function to generate plots for all 57 sites of nage GAM
 for (i in sites){
-    get_ET_sites(i, df_12_preds_nage)
+    get_ET_sites(i, df_12_preds_nage, "data/main/13_GAM_exploration/time_plots")
 }
 ```
 

@@ -4,7 +4,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 
 
-.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out diss
+.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots diss
 
 .DEFAULT_GOAL := help
 
@@ -13,7 +13,7 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out map
+all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots map
 
 setup: ## setup the folder structure for data to be read into/out of
 	./scripts/bash/setup.sh
@@ -54,6 +54,9 @@ engineer: ## data prep part 9 - select + engineer variables for ML
 
 single_held_out: ## python script which runs multiple ML architectures and generates preds and stats per site
 	python scripts/python/16_ML_single_held_out.py 
+
+generate_plots: ## R script which generates predicted vs. observed plots fo different architectures and models  
+	Rscript scripts/R/17_plots_generate.R
 
 diss: ## compile diss PDF with LaTeX
 	cd diss/LaTeX && latexmk -pdf main.tex && xdg-open main.pdf

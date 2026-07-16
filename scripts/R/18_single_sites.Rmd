@@ -1,0 +1,290 @@
+---
+title: "ML_single_sites.Rmd"
+author: "Archie Benn"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+rm(list = ls())
+
+library(tidyverse)
+library(here)
+library(wesanderson)
+library(gridExtra)
+library(sf)
+library(rnaturalearth) 
+library(countrycode)
+library(ggrepel)
+```
+
+# Exploring single site model predictions (GAM/RF/other ML models)
+- similar to the earlier `13_GAM_exploration.Rmd`, but alongside other ML models  
+- GAM results are from `12_GAM_formation.R`  
+- Other model results are from `16_ML_single_held_out.py`  
+
+# Load in data
+```{R}
+df_sites <- read_csv(here("data/main/10_filtering2/df_sites2.csv"))
+
+results_dir <- "data/main/16_ML_results/"
+
+# load in data
+GAM_preds <- read.csv(here(paste(results_dir, "GAM_preds_results.csv", sep = "")))
+GAM_stats <- read.csv(here(paste(results_dir, "GAM_stats_results.csv", sep = "")))
+
+RF_preds <- read.csv(here(paste(results_dir, "RF_preds_results.csv", sep = "")))
+RF_stats <- read.csv(here(paste(results_dir, "RF_stats_results.csv", sep = "")))
+RF_shap <- read.csv(here(paste(results_dir, "RF_shap_results.csv", sep = "")))
+
+# set dates to Date type from char
+GAM_preds$Date <- as.Date(GAM_preds$Date)
+RF_preds$Date <- as.Date(RF_preds$Date)
+```
+
+# Form merged dataframes for stats/preds/shap stuff
+```{R}
+preds_merged <- bind_rows(GAM_preds, RF_preds)
+
+stats_merged <- bind_rows(GAM_stats, RF_stats)
+    
+shap_merged <- bind_rows(RF_shap)
+
+# rename 'site' to Site_ID in both shap and stats merged dfs
+stats_merged <- stats_merged %>%
+    rename(Site_ID = site)
+
+shap_merged <- shap_merged %>%
+    rename(Site_ID = site)
+```
+
+# 1.stats df
+## 1.1 R-squared and RMSE across models and architectures  
+```{R}
+# full spread histgram
+p1_r2 <- stats_merged %>%
+    
+  ggplot(mapping = aes(x = model, y = r2)) +
+  
+  # violin plot 
+  geom_violin(aes(fill = model)) + 
+  
+  # hide redundant legend
+  guides(fill = "none") +
+  
+  # add boxplot 
+  geom_boxplot(width = 0.1, col = "black")+
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("AsteroidCity2")) +
+  ggtitle("R^2 for all sites across models") +
+  theme_minimal() +
+  ylab("R^2") + 
+  xlab("Model") +
+  scale_x_discrete(limits = c("all", "no_lai", "no_age", "no_age_no_lai")) +
+    
+    facet_wrap(~architecture)
+
+p1_r2
+```
+
+## 1.2 RMSE
+```{R}
+# full spread histgram
+p1_r2 <- stats_merged %>%
+    
+  ggplot(mapping = aes(x = model, y = rmse)) +
+  
+  # violin plot 
+  geom_violin(aes(fill = model)) + 
+  
+  # hide redundant legend
+  guides(fill = "none") +
+  
+  # add boxplot 
+  geom_boxplot(width = 0.1, col = "black")+
+    
+  # aesthetics
+  scale_fill_manual(values = wes_palette("AsteroidCity2")) +
+  ggtitle("RMSE for all sites across models") +
+  theme_minimal() +
+  ylab("R^2") + 
+  xlab("Model") +
+  scale_x_discrete(limits = c("all", "no_lai", "no_age", "no_age_no_lai")) +
+    
+    facet_wrap(~architecture)
+
+p1_r2
+```
+
+# 2. Observed vs. predicted over time across models
+- these functions are the same as in `17_generate_plots.R`, but for single sites to selectively show the chosen plots  
+- this last script generated plots in a loop for all sites using similar functions  
+
+```{R}
+# function to generate ET vs.time plots for observed and fitted from different architectures
+# (model constant, compare architectures)
+
+preds_by_architecture_single <- function(mod, site, data, stats_df){
+    
+    # get r2 and rmse form stats_df
+    stats_sub <- stats_df %>%
+        filter(model == mod, Site_ID == site)
+    
+    # plot ET vs time per site
+    p <- data %>%
+        
+        filter(model == mod) %>%
+        filter(Site_ID == site) %>%
+        ggplot(aes(x = Date)) +
+        
+        # fit observed and predicted to same plot
+        geom_line(aes(y = observed_ET, colour = "Observed"), alpha = 0.6) +
+        geom_line(aes(y = predicted_ET, colour = "Predicted"), alpha = 0.6) +
+        
+        ylab("Daily ET (mm)") +
+            
+        ggtitle(paste(site, " (Model: ", mod, ")", sep = "")) +
+        
+        # legend
+        scale_colour_manual(name = "Legend", 
+                             values = c("Observed" = "seagreen", "Predicted" = "tomato")) +
+            
+            
+        facet_wrap(~architecture) +
+        
+        # add stats to plot
+        geom_text(data = stats_sub,
+                  aes(x = -Inf, y = Inf, 
+                      label = paste("R-squared = ", round(r2, 2), 
+                                     "\nRMSE = ", round(rmse, 2))),
+                  hjust = -0.1, vjust = 1.2,  
+                  size = 3) +
+        
+        theme_minimal() 
+    
+    p
+}
+
+# function do facet by model
+# (# architecture constant, compare models)
+RF_preds_by_model_single <- function(arch, site, data, stats_df){
+    
+    # get r2 and rmse form stats_df
+    stats_sub <- stats_df %>%
+        filter(architecture == arch, Site_ID == site)
+    
+    # plot ET vs time per site
+    p <- data %>%
+        
+        filter(architecture == arch) %>%
+        filter(Site_ID == site) %>%
+        ggplot(aes(x = Date)) +
+        
+        # fit observed and predicted to same plot
+        geom_line(aes(y = observed_ET, colour = "Observed"), alpha=0.6) +
+        geom_line(aes(y = predicted_ET, colour = "Predicted"), alpha=0.6) +
+        
+        ylab("Daily ET (mm)") +
+            
+        ggtitle(paste(arch, "models at", site)) +
+        
+        # legend
+        scale_colour_manual(name = "Legend", 
+                             values = c("Observed" = "seagreen", "Predicted" = "tomato")) +
+            
+            
+        facet_wrap(~model) +
+        
+        # add stats to plot
+        geom_text(data = stats_sub,
+                  aes(x = -Inf, y = Inf, 
+                      label = paste("R-squared = ", round(r2, 2), 
+                                     "\nRMSE = ", round(rmse, 2))),
+                  hjust = -0.1, vjust = 1.2,  
+                  size = 3) +
+        
+        theme_minimal() 
+        
+    p
+}
+
+```
+
+
+## 2.2 Example plots from `17_plots_generate.R`  
+- some of the more interesting plots which came out of the last script (produces plots for all sites)  
+
+### Constant model, compare across ML architecture:
+#### 1. All vs. no age model at CA-Man
+
+```{R, warning = FALSE}
+preds_by_architecture_single("all", "CA-Man", preds_merged, stats_merged)
+```
+
+- RF performing far better than GAM here, why? 
+
+```{R, warning = FALSE}
+preds_by_architecture_single("no_age", "CA-Man", preds_merged, stats_merged)
+```
+
+- Same as above without age - GAM can now predict ET far better, so why is age as a feature causing this?  
+- and why in GAM but not RF?
+
+#### 2. RF vs. GAM at CA-NS7 all model
+
+```{R, warning = FALSE}
+preds_by_architecture_single("all", "CA-NS7", preds_merged, stats_merged)
+```
+
+```{R, warning = FALSE}
+preds_by_architecture_single("no_age", "CA-NS7", preds_merged, stats_merged)
+```
+
+- similar again to CA-Man, no-age model is forming far better predictions compared to the full model in GAM
+
+- RF performing far better than GAM here, why?
+
+### Constant ML architecture, compare scross models:
+#### 1. RF at CA-TP1
+```{R, warning = FALSE}
+RF_preds_by_model_single("RF", "CA-TP1", preds_merged, stats_merged)
+```
+
+- Over predicting in earlier years compared to observed - what is happening in these earlier years?    
+- Very poor R-squared as a result  
+
+
+#### 2. RF at US-GBT
+```{R, warning = FALSE}
+RF_preds_by_model_single("RF", "US-GBT", preds_merged, stats_merged)
+```
+
+- here age appears to have a slight positive impact  
+- in both models where age was removed the R-squared was reduced and RMSE increased, although this is minor (should test significance)  
+
+### 3. RF at US-Me3
+```{R, warning = FALSE}
+RF_preds_by_model_single("RF", "US-Me3", preds_merged, stats_merged)
+```
+
+- this one is interesting as the model over predicts only when both age and LAI are removed  
+- the R-squared is largely reduced and RMSE increased when these are both removed, and much more pronounced compared to removing LAI or age individually (although removing age alone appears to have no real impact)
+
+#### 4. RF at US-NR1
+```{R, warning = FALSE}
+RF_preds_by_model_single("RF", "US-NR1", preds_merged, stats_merged)
+```
+
+- removing age appears to have a positive impact on the predictions at this site with RF  
+
+# Going forward  
+- look into more of the plots as above (this was a brief look at some of them) 
+- in some sites including stand age has a positive impact on R-squared and RMSE, whereas at others (and in more cases) it has a negative impact 
+- in many it has a negligible impact on R-squared and RMSE
+- this changes across model architectures significantly too
+- what do these sites share on either side? - for those benefitting from age, do they have anything in common? are the models over training in closely-located and similarly-aged sites?  
+- could try to make a dataset of these impacts both ways and look at correlating variables (if existing) of sites in each
+- also want to form some ML models from a few other architectures if time permits  
