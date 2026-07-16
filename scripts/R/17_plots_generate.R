@@ -1,3 +1,8 @@
+# plots_generate.R - generate observed vs. fitted plots for ET over site dates for all architectures/models
+# Author: Archie Benn
+# Date: 16-07-2026
+
+
 rm(list = ls())
 
 library(tidyverse)

@@ -1,4 +1,7 @@
 # GAM_testing.R - forms many models using bam() to evaluate per site RMSE and R^2 across different predictor combinations
+# Author: Archie Benn
+# Date: 06-07-2026
+
 # predictors to include was initially based on concurvity values in 09_GAM.Rmd, but extended to evaluate across different predictors
 # such as comparing between met only, and met + structure data (ie, met + LAI)
 
