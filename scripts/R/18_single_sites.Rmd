@@ -13,7 +13,7 @@ rm(list = ls())
 library(tidyverse)
 library(here)
 library(wesanderson)
-library(gridExtra)
+library(patchwork)
 library(sf)
 library(rnaturalearth) 
 library(countrycode)
@@ -151,6 +151,8 @@ preds_by_architecture_single <- function(mod, site, data, stats_df){
             
         ggtitle(paste(site, " (Model: ", mod, ")", sep = "")) +
         
+        theme_minimal() +
+        
         # legend
         scale_colour_manual(name = "Legend", 
                              values = c("Observed" = "seagreen", "Predicted" = "tomato")) +
@@ -164,9 +166,7 @@ preds_by_architecture_single <- function(mod, site, data, stats_df){
                       label = paste("R-squared = ", round(r2, 2), 
                                      "\nRMSE = ", round(rmse, 2))),
                   hjust = -0.1, vjust = 1.2,  
-                  size = 3) +
-        
-        theme_minimal() 
+                  size = 3) 
     
     p
 }
@@ -282,6 +282,169 @@ RF_preds_by_model_single("RF", "US-NR1", preds_merged, stats_merged)
 ```
 
 - removing age appears to have a positive impact on the predictions at this site with RF  
+
+
+# 3. SHAP feature importance from the ML models  
+- will investigate the importance the models place on individual features here by various factors like climate type, cover type, continent etc.  
+- SHAP gives magnitude (+ve and -ve impact on prediction) and is also measure in the response's units (so mm here for ET preds)  
+- these SHAP values are based on 100 randomly sampled row predictions and formed in `16_ML_single_held_out.py`  
+
+## 3.1 Global SHAP feature importance at all sites (abs mean)  
+- non-directional feature importance means for all feature model across all sites 
+- non-directional for all sites version as it stops +ves and -ves cancelling out in mean
+
+```{R}
+# select site/architecture/model
+ml_arch <- "RF"
+ml_model <- "all"
+
+# create df of SHAP score means across features per site
+shap_site_summary <- shap_merged %>%
+    
+    # select chosen rows
+    filter(architecture == ml_arch, model == ml_model) %>%
+    
+    # apply summaries across all columns with everything()
+    # ~mean(abs(.x)) applies the absolute mean across all columns (.x means apply to current column across is on)
+    summarise(across(where(is.numeric), list(mean = ~mean(abs(.x)), sd = sd))) %>%
+    
+    # pivot across all (will drop non numeric NAs later), then name feature/value (sd or mean)
+    # (?=mean$|sd$) is a lookahead which sees what follows the underscore and then sorts 
+    pivot_longer(everything(), names_to = c("feature", ".value"), names_sep = "_(?=mean$|sd$)") %>%
+    drop_na()
+
+    
+# plotting
+shap_p <- shap_site_summary %>%
+    
+    # re-orders features by most important
+    ggplot(aes(x = reorder(feature, mean), y = mean, fill = mean > 0)) +
+    
+    geom_col(position=position_dodge()) +
+    geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.2) +
+    
+    # aesthetics
+    theme_minimal() +
+    ggtitle(paste("SHAP feature importance for ", ml_arch, " at all sites  (model: ", ml_model, ")", sep = "")) +
+    scale_fill_manual(values = c("TRUE" = "springgreen3", "FALSE" = "tomato"), guide = "none") +
+    
+    # flip coords to fit in feature names easily
+    coord_flip()
+
+shap_p
+```
+## 3.2 trialing a function for main script (17) to form gridded plots of obs vs. fitted + SHAP feature importance in one plot
+
+```{R}
+# adjusted above to be able to select architecture, rather than facetting by it
+preds_with_SHAP <- function(mod, arch, site, data, stats_df, shap_df){
+    
+    # get r2 and rmse form stats_df
+    stats_sub <- stats_df %>%
+        filter(model == mod, Site_ID == site, architecture == arch)
+    
+    # plot ET vs time per site
+    pred_p <- data %>%
+        
+        filter(model == mod) %>%
+        filter(Site_ID == site) %>%
+        ggplot(aes(x = Date)) +
+        
+        # fit observed and predicted to same plot
+        geom_line(aes(y = observed_ET, colour = "Observed"), alpha = 0.6) +
+        geom_line(aes(y = predicted_ET, colour = "Predicted"), alpha = 0.6) +
+        
+        ylab("Daily ET (mm)") +
+            
+        ggtitle("Observed vs. Fitted") +
+        
+        theme_minimal()+
+        
+        # legend
+        scale_colour_manual(name = NULL, 
+                             values = c("Observed" = "seagreen", "Predicted" = "tomato")) +
+        
+        # move legend to bottom
+        theme(legend.position = "bottom") +
+            
+        # add stats to plot
+        geom_text(data = stats_sub,
+                  aes(x = -Inf, y = Inf, 
+                      label = paste("R-squared = ", round(r2, 2), 
+                                     "\nRMSE = ", round(rmse, 2))),
+                  hjust = -0.1, vjust = 1.2,  
+                  size = 3) 
+    
+    
+    # create df of SHAP score means across features
+    shap_site_summary <- shap_df %>%
+        
+        # select chosen rows
+        filter(Site_ID == site, architecture == arch, model == mod) %>%
+        
+        # apply summaries across all columns with everything()
+        summarise(across(everything(), list(mean = mean, sd = sd))) %>%
+        
+        # pivot across all (will drop non numeric NAs later), then name feature/value (sd or mean)
+        # (?=mean$|sd$) is a lookahead which sees what follows the underscore and then sorts 
+        pivot_longer(everything(), names_to = c("feature", ".value"), names_sep = "_(?=mean$|sd$)") %>%
+        drop_na()
+    
+    # and now the shap plot
+    shap_p <- shap_site_summary %>%
+        
+        # re-orders features by most important
+        ggplot(aes(x = reorder(feature, mean), y = mean, fill = mean > 0)) +
+        
+        geom_col(position=position_dodge()) +
+        geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.2) +
+        
+        # aesthetics
+        theme_minimal() +
+        xlab("Features in Model") +
+        ylab("Mean SHAP value") +
+        ggtitle("SHAP feature importance") +
+        scale_fill_manual(name = NULL,
+                          values = c("TRUE" = "steelblue", "FALSE" = "coral"), 
+                          labels = c("TRUE" = "+ impact", "FALSE" = "- impact")) +
+        
+        # move legend to bottom
+        theme(legend.position = "bottom") +
+        
+        # flip coords to fit in feature names easily
+        coord_flip()
+    
+    # forming the arranged plot of the above two with patchwork lib
+    final_p <- pred_p + shap_p + plot_layout(widths = c(1.3, 1)) +
+          plot_annotation(title = paste(arch, " at ", site, " (model: ", mod, ")", sep = "" ))
+    
+    # show gridded plot
+    final_p
+}
+
+```
+### 3.3 Interesting result for site age at US-Syv  
+- US-Syv is a very old site (300+ years old)  
+- I believe this makes it the oldest site in the data  
+Looking at the feature importance and R-squares vs. RMSE here for all vs. no_age models: 
+
+```{R}
+preds_with_SHAP("all", "RF", "US-Syv", preds_merged, stats_merged, shap_merged)
+```
+- pretty poor and over predicting a lot  
+- leans on site age heavily
+
+- and then removing age...: 
+
+```{R}
+preds_with_SHAP("no_age", "RF", "US-Syv", preds_merged, stats_merged, shap_merged)
+```
+
+- far better result when age is removed.  
+- suggests at this old site that age might be leading to overfitting/noise rather than a helpful signal in the model
+
+
+
 
 # Going forward  
 - look into more of the plots as above (this was a brief look at some of them) 
