@@ -1,0 +1,185 @@
+---
+title: "Time series decomposition"
+author: "Archie Benn"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+rm(list = ls())
+
+library(tidyverse)
+library(tsibble)
+library(ggtime)
+library(feasts)
+library(here)
+library(wesanderson)
+
+```
+
+# Time series decomposition
+- Time series decomposition splits/decomposes time series data 
+- This splits up the data into 3:  
+- - Trend - represents long term movements ie. slow change over years  
+- - Seasonality - represents repeating patterns over fixed periods ie. months/years  
+- - Resisuals - random fluctuations which remain after trends and easonality have been accounted for ie. unexpected stress events  
+- Comparing decomposition components of the observed vs. fitted data could help to see where models are missing
+
+```{R}
+# load in data and convert to tsibbles for time series
+# also fill gaps (from weird ET earlier) for these time series analyses
+preds_GAM <- read_csv(here("data/main/16_ML_results/GAM_preds_results.csv")) %>%
+    as_tsibble(key = c(Site_ID, model), index = Date) %>%
+    fill_gaps()
+    
+preds_RF <- read_csv(here("data/main/16_ML_results/RF_preds_results.csv")) %>%
+    as_tsibble(key = c(Site_ID, model), index = Date) %>%
+    fill_gaps()
+
+```
+
+# 1. Testing out some `feasts`/`tsibble` stuff as haven't done before
+```{R}
+preds_RF %>%
+    filter(Site_ID == "DE-Hai") %>%
+    gg_season(predicted_ET) +
+    theme_minimal()
+```
+
+# 2. Decomposition
+- trying out time series decomposition at one site  
+
+```{R}
+# select
+site = "US-Blo"
+mod = "no_age"
+
+
+dcmp_pred <- preds_RF %>%
+    filter(Site_ID == site,
+           model == mod) %>%
+    
+    # decompose time series
+    # smaller window = more wiggly. Inf window forces identical seasonal shape yera on year so not good to use here
+    model(STL(predicted_ET ~ season(window = 20))) %>%
+    
+    # for binding
+    components() %>%
+    as_tibble() %>%
+    rename(ET = predicted_ET) %>%
+    mutate(source = "Predicted")
+
+
+
+dcmp_obs<- preds_RF %>%
+    filter(Site_ID == site,
+           model == mod) %>%
+    
+    # decompose time series
+    # smaller window = more wiggly. Inf window forces identical seasonal shape yera on year so not good to use here
+    model(STL(observed_ET ~ season(window = 20))) %>%
+    
+    # for binding
+    components() %>%
+    as_tibble() %>%
+    rename(ET = observed_ET) %>%
+    mutate(source = "Observed")
+
+dcmp_pred
+```
+
+- plotting decomposition 
+
+```{R}
+# bind both pred and obs decomps
+dcmp_merge <- bind_rows(dcmp_obs, dcmp_pred)
+
+
+dcmp_merge %>%
+    
+    # pivot long
+    pivot_longer(cols = c(ET, trend, season_year, remainder), names_to = "component", values_to = "value") %>%
+    ggplot(aes(x = Date, y = value, colour = source)) +
+    geom_line(alpha=0.85) +
+    
+    # colour
+    scale_colour_manual(name = NULL,
+                          values = c("Predicted" = wes_palette("Darjeeling1")[2], 
+                                     "Observed" = wes_palette("Darjeeling1")[3])) +
+    
+    # facet by component of the decomposition
+    facet_wrap(~component, ncol = 1, scales = "free_y") +
+    theme_minimal()
+```
+
+```{R}
+decompose <- function(site, mod, arch){
+
+    # decompose observed data
+    dcmp_obs<- preds_RF %>%
+        filter(Site_ID == site,
+               model == mod,
+               architecture == arch) %>%
+        
+        # decompose time series
+        # smaller window = more wiggly. Inf window forces identical seasonal shape yera on year so not good to use here
+        model(STL(observed_ET ~ season(window = 20))) %>%
+        
+        # for binding
+        components() %>%
+        as_tibble() %>%
+        rename(ET = observed_ET) %>%
+        mutate(source = "Observed")
+    
+    
+    # decompose predicted/fitted data
+    dcmp_pred <- preds_RF %>%
+        filter(Site_ID == site,
+               model == mod,
+               architecture == arch) %>%
+        
+        # decompose time series
+        # smaller window = more wiggly. Inf window forces identical seasonal shape yera on year so not good to use here
+        model(STL(predicted_ET ~ season(window = 20))) %>%
+        
+        # for binding
+        components() %>%
+        as_tibble() %>%
+        rename(ET = predicted_ET) %>%
+        mutate(source = "Predicted")
+    
+    
+    # bind both pred and obs decomps
+    dcmp_merge <- bind_rows(dcmp_obs, dcmp_pred)
+    
+    dcmp_p <- dcmp_merge %>%
+        
+        # pivot long
+        pivot_longer(cols = c(ET, trend, season_year, remainder), names_to = "component", values_to = "value") %>%
+        ggplot(aes(x = Date, y = value, colour = source)) +
+        geom_line(alpha = 0.65) +
+        
+        theme_minimal() +
+        
+        # colour
+        scale_colour_manual(name = NULL,
+                          values = c("Predicted" = wes_palette("Darjeeling1")[2], 
+                                     "Observed" = wes_palette("Darjeeling1")[3])) +
+        
+        ggtitle(paste("Time series decomposition of ", arch, " (Model: ", mod, ")", " at ", site, sep = "")) +
+        
+        
+        # facet by component of the decomposition
+        facet_wrap(~component, ncol = 1, scales = "free_y") 
+        
+    dcmp_p
+    
+}
+
+```
+
+```{R}
+decompose("US-Blo", "all", "RF")
+```

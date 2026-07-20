@@ -168,6 +168,7 @@ dependencies:
   - pytorch=2.10.0=cpu_mkl_py313_h626f1c5_101
   - pyyaml=6.0.3=py313h3dea7bd_1
   - pyzmq=27.1.0=py312hda471dd_3
+  - r-anytime=0.3.13=r45h3697838_0
   - r-askpass=1.2.1=r45h54b55ab_1
   - r-assertthat=0.2.1=r45hc72bb7e_6
   - r-backports=1.5.1=r45h54b55ab_0
@@ -211,6 +212,7 @@ dependencies:
   - r-desc=1.4.3=r45hc72bb7e_2
   - r-diagram=1.6.5=r45ha770c72_4
   - r-digest=0.6.39=r45h3697838_0
+  - r-distributional=0.8.1=r45hc72bb7e_0
   - r-doparallel=1.0.17=r45hc72bb7e_4
   - r-dotcall64=1.2=r45heaba542_1
   - r-dplyr=1.2.1=r45h3697838_0
@@ -218,9 +220,11 @@ dependencies:
   - r-e1071=1.7_17=r45h3697838_0
   - r-ellipsis=0.3.3=r45h54b55ab_0
   - r-evaluate=1.0.5=r45hc72bb7e_1
+  - r-fabletools=0.8.0=r45hc72bb7e_0
   - r-fansi=1.0.7=r45h54b55ab_0
   - r-farver=2.1.2=r45h3697838_2
   - r-fastmap=1.2.0=r45h3697838_2
+  - r-feasts=0.5.0=r45hc72bb7e_0
   - r-fields=17.3=r45heaba542_0
   - r-filehash=2.4_6=r45h54b55ab_2
   - r-fontawesome=0.5.3=r45hc72bb7e_1
@@ -238,10 +242,12 @@ dependencies:
   - r-generics=0.1.4=r45hc72bb7e_1
   - r-ggally=2.4.0=r45hc72bb7e_1
   - r-ggcorrplot=0.1.4.1=r45hc72bb7e_2
+  - r-ggdist=3.3.3=r45h3697838_1
   - r-ggeffects=2.3.2=r45hc72bb7e_0
   - r-ggplot2=4.0.3=r45h785f33e_0
   - r-ggrepel=0.9.8=r45h3697838_0
   - r-ggstats=0.13.0=r45hc72bb7e_0
+  - r-ggtime=0.2.0=r45hc72bb7e_0
   - r-globals=0.19.1=r45hc72bb7e_0
   - r-glue=1.8.1=r45h54b55ab_0
   - r-googledrive=2.1.2=r45hc72bb7e_1
@@ -322,6 +328,7 @@ dependencies:
   - r-ps=1.9.3=r45h54b55ab_0
   - r-purrr=1.2.2=r45h54b55ab_0
   - r-qgam=2.0.0=r45h54b55ab_1
+  - r-quadprog=1.5_8=r45ha0a88a1_7
   - r-r.cache=0.17.0=r45hc72bb7e_1
   - r-r.methodss3=1.8.2=r45hc72bb7e_4
   - r-r.oo=1.27.1=r45hc72bb7e_1
@@ -365,6 +372,7 @@ dependencies:
   - r-shape=1.4.6.1=r45ha770c72_2
   - r-shiny=1.14.0=r45h785f33e_0
   - r-skimr=2.2.2=r45hc72bb7e_0
+  - r-slider=0.3.3=r45h3697838_0
   - r-sourcetools=0.1.7_2=r45h3697838_0
   - r-sp=2.2_1=r45h54b55ab_0
   - r-spam=2.11_4=r45h2ddecb4_0
@@ -386,6 +394,7 @@ dependencies:
   - r-timechange=0.4.0=r45h3697838_0
   - r-timedate=4052.112=r45hc72bb7e_0
   - r-tinytex=0.59=r45hc72bb7e_0
+  - r-tsibble=1.2.0=r45hc72bb7e_0
   - r-tzdb=0.5.0=r45h3697838_2
   - r-units=1.0_1=r45h3697838_0
   - r-utf8=1.2.6=r45h54b55ab_1
@@ -394,6 +403,7 @@ dependencies:
   - r-viridis=0.6.5=r45hc72bb7e_2
   - r-viridislite=0.4.3=r45hc72bb7e_0
   - r-vroom=1.7.1=r45h3697838_0
+  - r-warp=0.2.3=r45h54b55ab_0
   - r-wesanderson=0.3.7=r45hc72bb7e_2
   - r-withr=3.0.2=r45hc72bb7e_1
   - r-wk=0.9.5=r45h3697838_0

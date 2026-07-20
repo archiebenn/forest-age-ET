@@ -138,3 +138,14 @@
 - also want to try setting age to be incrementing every day of the year rather than a static value every day of the same year  
 - so tomorrow will give that a go and then also have to do a full re-run i'd imagine bc of that  
 - also more exploration of SHAP/RF/GAM stuff etc in the `.Rmd` file  
+
+## 17-7-26 
+- ran `18_single_sites.Rmd` on loop for al sites to generate a load of plots of SHAP alongside obs and fitted  
+- basically took all day but have those plots now  
+
+## 20-7-26  
+- spoke to JOnah at party on weekend and he told me about time series decomposition for time series data  
+- actually really nice idea to split up prediction/observed data into into seasonal, trend, and variance/noise components  
+- generated a function which i can then apply to all site/arch/mods  
+- however, should really look into nicer ways of converging all of this info rather than having loads of separate plots  
+- so tomorrow look into doing this and maybe also applying to the plots from the other day too  
