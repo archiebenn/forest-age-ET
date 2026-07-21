@@ -187,4 +187,5 @@
 3. Predicting recent years based on historical training within long term sites (compare `all' and`no\_age' models)  
 
 - This should allow a focused but broad application of investigating forest age for ET RF models  
-- In terms of part 2: need to make a pipeline which can randomise 10 sites as tests and save their characteristics, then also randomise a further 25-30 for training and save their characteristics, before forming a RF model and testing, and then saving out those metrics, all to be repeated many times over. Also should stratify random draws somewhat (climate zone, cover type etc.)
+- In terms of part 2: need to make a pipeline which can randomise 10 sites as tests and save their characteristics, then also randomise a further 25-30 for training and save their characteristics, before forming a RF model and testing, and then saving out those metrics, all to be repeated many times over. Also should stratify random draws somewhat (climate zone, cover type etc.)  
+- tomorrow i need to finish this plan mostly and also do the age as more continuous. ie age = age_years + (day in current_year)/len(day(current_year))
