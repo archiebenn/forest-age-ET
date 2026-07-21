@@ -159,7 +159,7 @@ decompose <- function(site, mod, arch){
         # pivot long
         pivot_longer(cols = c(ET, trend, season_year, remainder), names_to = "component", values_to = "value") %>%
         ggplot(aes(x = Date, y = value, colour = source)) +
-        geom_line(alpha = 0.65) +
+        geom_line(alpha = 0.75) +
         
         theme_minimal() +
         
@@ -181,5 +181,5 @@ decompose <- function(site, mod, arch){
 ```
 
 ```{R}
-decompose("US-Blo", "all", "RF")
+decompose("US-Blo", "no_age_no_lai", "RF")
 ```
