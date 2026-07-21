@@ -44,7 +44,7 @@ fluxnet/fluxnet-shuttle-run.log
 *.zip
 *.html
 *.png
-*_files/libs
+*_files
 
 
 # user codes for pushover
