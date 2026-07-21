@@ -18,7 +18,6 @@ library(sf)
 library(rnaturalearth) 
 library(countrycode)
 library(ggrepel)
-
 ```
 
 # GAM results exploration

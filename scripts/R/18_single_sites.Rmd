@@ -8,6 +8,9 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+# new package not yet available on conda - undo if script fails
+# install.packages("ltc")
+
 rm(list = ls())
 
 library(tidyverse)
@@ -18,6 +21,7 @@ library(sf)
 library(rnaturalearth) 
 library(countrycode)
 library(ggrepel)
+library(ltc)
 ```
 
 # Exploring single site model predictions (GAM/RF/other ML models)
@@ -29,7 +33,7 @@ library(ggrepel)
 - RF results are formed in `16_ML_single_held_out.py`  
 
 # Load in data
-```{R}
+```{r}
 df_sites <- read_csv(here("data/main/10_filtering2/df_sites2.csv"))
 
 results_dir <- "data/main/16_ML_results/"
@@ -48,7 +52,7 @@ RF_preds$Date <- as.Date(RF_preds$Date)
 ```
 
 # Form merged dataframes for stats/preds/shap stuff
-```{R}
+```{r}
 preds_merged <- bind_rows(GAM_preds, RF_preds)
 
 stats_merged <- bind_rows(GAM_stats, RF_stats)
@@ -65,8 +69,12 @@ shap_merged <- shap_merged %>%
 
 # 1.stats df
 ## 1.1 R-squared and RMSE across models and architectures  
-```{R}
+```{r}
+# ltc colour palette
+pal=ltc("shuggie")
+
 # full spread histgram
+
 p1_r2 <- stats_merged %>%
     
   ggplot(mapping = aes(x = model, y = r2)) +
@@ -81,7 +89,7 @@ p1_r2 <- stats_merged %>%
   geom_boxplot(width = 0.1, col = "black")+
     
   # aesthetics
-  scale_fill_manual(values = wes_palette("AsteroidCity2")) +
+  scale_fill_manual(values = pal) +
   ggtitle("R^2 for all sites across models") +
   theme_minimal() +
   ylab("R^2") + 
@@ -94,7 +102,10 @@ p1_r2
 ```
 
 ## 1.2 RMSE
-```{R}
+```{r}
+# colour palette
+pal = ltc("seafarer")
+
 # full spread histgram
 p1_r2 <- stats_merged %>%
     
@@ -110,10 +121,10 @@ p1_r2 <- stats_merged %>%
   geom_boxplot(width = 0.1, col = "black")+
     
   # aesthetics
-  scale_fill_manual(values = wes_palette("AsteroidCity2")) +
+  scale_fill_manual(values = pal) +
   ggtitle("RMSE for all sites across models") +
   theme_minimal() +
-  ylab("R^2") + 
+  ylab("RMSE") + 
   xlab("Model") +
   scale_x_discrete(limits = c("all", "no_lai", "no_age", "no_age_no_lai")) +
     
@@ -126,7 +137,11 @@ p1_r2
 - these functions are the same as in `17_generate_plots.R`, but for single sites to selectively show the chosen plots  
 - this last script generated plots in a loop for all sites using similar functions  
 
-```{R}
+```{r}
+# colour palettes
+pal1 = ltc("paloma")
+pal2 = ltc("casa_natal")
+
 # function to generate ET vs.time plots for observed and fitted from different architectures
 # (model constant, compare architectures)
 
@@ -155,7 +170,7 @@ preds_by_architecture_single <- function(mod, site, data, stats_df){
         
         # legend
         scale_colour_manual(name = "Legend", 
-                             values = c("Observed" = "seagreen", "Predicted" = "tomato")) +
+                             values = c("Observed" = pal1[1], "Predicted" = pal2[2])) +
             
             
         facet_wrap(~architecture) +
@@ -196,7 +211,7 @@ RF_preds_by_model_single <- function(arch, site, data, stats_df){
         
         # legend
         scale_colour_manual(name = "Legend", 
-                             values = c("Observed" = "seagreen", "Predicted" = "tomato")) +
+                             values = c("Observed" = pal1[1], "Predicted" = pal2[2])) +
             
             
         facet_wrap(~model) +
@@ -223,13 +238,13 @@ RF_preds_by_model_single <- function(arch, site, data, stats_df){
 ### Constant model, compare across ML architecture:
 #### 1. All vs. no age model at CA-Man
 
-```{R, warning = FALSE}
+```{r, warning = FALSE}
 preds_by_architecture_single("all", "CA-Man", preds_merged, stats_merged)
 ```
 
 - RF performing far better than GAM here, why? 
 
-```{R, warning = FALSE}
+```{r, warning = FALSE}
 preds_by_architecture_single("no_age", "CA-Man", preds_merged, stats_merged)
 ```
 
@@ -238,7 +253,7 @@ preds_by_architecture_single("no_age", "CA-Man", preds_merged, stats_merged)
 
 #### 2. RF vs. GAM at CA-NS7 all model
 
-```{R, warning = FALSE}
+```{r, warning = FALSE}
 preds_by_architecture_single("all", "CA-NS7", preds_merged, stats_merged)
 ```
 
@@ -252,7 +267,7 @@ preds_by_architecture_single("no_age", "CA-NS7", preds_merged, stats_merged)
 
 ### Constant ML architecture, compare scross models:
 #### 1. RF at CA-TP1
-```{R, warning = FALSE}
+```{r, warning = FALSE}
 RF_preds_by_model_single("RF", "CA-TP1", preds_merged, stats_merged)
 ```
 
@@ -261,7 +276,7 @@ RF_preds_by_model_single("RF", "CA-TP1", preds_merged, stats_merged)
 
 
 #### 2. RF at US-GBT
-```{R, warning = FALSE}
+```{r, warning = FALSE}
 RF_preds_by_model_single("RF", "US-GBT", preds_merged, stats_merged)
 ```
 
@@ -269,7 +284,7 @@ RF_preds_by_model_single("RF", "US-GBT", preds_merged, stats_merged)
 - in both models where age was removed the R-squared was reduced and RMSE increased, although this is minor (should test significance)  
 
 ### 3. RF at US-Me3
-```{R, warning = FALSE}
+```{r, warning = FALSE}
 RF_preds_by_model_single("RF", "US-Me3", preds_merged, stats_merged)
 ```
 
@@ -277,7 +292,7 @@ RF_preds_by_model_single("RF", "US-Me3", preds_merged, stats_merged)
 - the R-squared is largely reduced and RMSE increased when these are both removed, and much more pronounced compared to removing LAI or age individually (although removing age alone appears to have no real impact)
 
 #### 4. RF at US-NR1
-```{R, warning = FALSE}
+```{r, warning = FALSE}
 RF_preds_by_model_single("RF", "US-NR1", preds_merged, stats_merged)
 ```
 
@@ -293,7 +308,7 @@ RF_preds_by_model_single("RF", "US-NR1", preds_merged, stats_merged)
 - non-directional feature importance means for all feature model across all sites 
 - non-directional for all sites version as it stops +ves and -ves cancelling out in mean
 
-```{R}
+```{r}
 # select site/architecture/model
 ml_arch <- "RF"
 ml_model <- "all"
@@ -326,7 +341,7 @@ shap_p <- shap_site_summary %>%
     # aesthetics
     theme_minimal() +
     ggtitle(paste("SHAP feature importance for ", ml_arch, " at all sites  (model: ", ml_model, ")", sep = "")) +
-    scale_fill_manual(values = c("TRUE" = "springgreen3", "FALSE" = "tomato"), guide = "none") +
+    scale_fill_manual(values = c("TRUE" = pal1[1], "FALSE" = "tomato"), guide = "none") +
     
     # flip coords to fit in feature names easily
     coord_flip()
@@ -335,7 +350,10 @@ shap_p
 ```
 ## 3.2 trialing a function for main script (17) to form gridded plots of obs vs. fitted + SHAP feature importance in one plot
 
-```{R}
+```{r}
+# palette
+pal3 <- ltc("dora")
+
 # adjusted above to be able to select architecture, rather than facetting by it
 preds_with_SHAP <- function(mod, arch, site, data, stats_df, shap_df){
     
@@ -351,8 +369,8 @@ preds_with_SHAP <- function(mod, arch, site, data, stats_df, shap_df){
         ggplot(aes(x = Date)) +
         
         # fit observed and predicted to same plot
-        geom_line(aes(y = observed_ET, colour = "Observed"), alpha = 0.6) +
-        geom_line(aes(y = predicted_ET, colour = "Predicted"), alpha = 0.6) +
+        geom_line(aes(y = observed_ET, colour = "Observed"), alpha = 0.8) +
+        geom_line(aes(y = predicted_ET, colour = "Predicted"), alpha = 0.4) +
         
         ylab("Daily ET (mm)") +
             
@@ -362,7 +380,7 @@ preds_with_SHAP <- function(mod, arch, site, data, stats_df, shap_df){
         
         # legend
         scale_colour_manual(name = NULL, 
-                             values = c("Observed" = "seagreen", "Predicted" = "tomato")) +
+                             values = c("Observed" = pal3[2], "Predicted" = pal3[5])) +
         
         # move legend to bottom
         theme(legend.position = "bottom") +
@@ -405,7 +423,7 @@ preds_with_SHAP <- function(mod, arch, site, data, stats_df, shap_df){
         ylab("Mean SHAP value") +
         ggtitle("SHAP feature importance") +
         scale_fill_manual(name = NULL,
-                          values = c("TRUE" = "steelblue", "FALSE" = "coral"), 
+                          values = c("TRUE" = pal3[1], "FALSE" = pal3[3]), 
                           labels = c("TRUE" = "+ impact", "FALSE" = "- impact")) +
         
         # move legend to bottom
@@ -428,7 +446,7 @@ preds_with_SHAP <- function(mod, arch, site, data, stats_df, shap_df){
 - I believe this makes it the oldest site in the data  
 Looking at the feature importance and R-squares vs. RMSE here for all vs. no_age models: 
 
-```{R}
+```{r}
 preds_with_SHAP("all", "RF", "US-Syv", preds_merged, stats_merged, shap_merged)
 ```
 - pretty poor and over predicting a lot  
@@ -436,7 +454,7 @@ preds_with_SHAP("all", "RF", "US-Syv", preds_merged, stats_merged, shap_merged)
 
 - and then removing age...: 
 
-```{R}
+```{r}
 preds_with_SHAP("no_age", "RF", "US-Syv", preds_merged, stats_merged, shap_merged)
 ```
 

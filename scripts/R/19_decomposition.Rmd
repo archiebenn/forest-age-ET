@@ -16,6 +16,7 @@ library(ggtime)
 library(feasts)
 library(here)
 library(wesanderson)
+library(ltc)
 
 ```
 
@@ -27,7 +28,7 @@ library(wesanderson)
 - - Resisuals - random fluctuations which remain after trends and easonality have been accounted for ie. unexpected stress events  
 - Comparing decomposition components of the observed vs. fitted data could help to see where models are missing
 
-```{R}
+```{r}
 # load in data and convert to tsibbles for time series
 # also fill gaps (from weird ET earlier) for these time series analyses
 preds_GAM <- read_csv(here("data/main/16_ML_results/GAM_preds_results.csv")) %>%
@@ -41,17 +42,17 @@ preds_RF <- read_csv(here("data/main/16_ML_results/RF_preds_results.csv")) %>%
 ```
 
 # 1. Testing out some `feasts`/`tsibble` stuff as haven't done before
-```{R}
+```{r}
 preds_RF %>%
     filter(Site_ID == "DE-Hai") %>%
     gg_season(predicted_ET) +
-    theme_minimal()
+    theme_minimal(base_family = "Liberation Sans") 
 ```
 
 # 2. Decomposition
 - trying out time series decomposition at one site  
 
-```{R}
+```{r}
 # select
 site = "US-Blo"
 mod = "no_age"
@@ -92,7 +93,7 @@ dcmp_pred
 
 - plotting decomposition 
 
-```{R}
+```{r}
 # bind both pred and obs decomps
 dcmp_merge <- bind_rows(dcmp_obs, dcmp_pred)
 
@@ -111,10 +112,16 @@ dcmp_merge %>%
     
     # facet by component of the decomposition
     facet_wrap(~component, ncol = 1, scales = "free_y") +
+
     theme_minimal()
 ```
 
-```{R}
+## Decompose and plot function  
+
+```{r}
+# palette
+pal <- ltc("shuggie")
+
 decompose <- function(site, mod, arch){
 
     # decompose observed data
@@ -165,8 +172,8 @@ decompose <- function(site, mod, arch){
         
         # colour
         scale_colour_manual(name = NULL,
-                          values = c("Predicted" = wes_palette("Darjeeling1")[2], 
-                                     "Observed" = wes_palette("Darjeeling1")[3])) +
+                          values = c("Predicted" = pal[5], 
+                                     "Observed" = pal[3])) +
         
         ggtitle(paste("Time series decomposition of ", arch, " (Model: ", mod, ")", " at ", site, sep = "")) +
         
@@ -174,12 +181,12 @@ decompose <- function(site, mod, arch){
         # facet by component of the decomposition
         facet_wrap(~component, ncol = 1, scales = "free_y") 
         
-    dcmp_p
+    dcmp_p 
     
 }
 
 ```
 
-```{R}
-decompose("US-Blo", "no_age_no_lai", "RF")
+```{r}
+decompose("US-GBT", "no_age_no_lai", "RF")
 ```

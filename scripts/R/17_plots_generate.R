@@ -13,6 +13,7 @@ library(sf)
 library(rnaturalearth) 
 library(countrycode)
 library(ggrepel)
+library(ltc)
 
 # Load in data
 df_sites <- read_csv(here("data/main/10_filtering2/df_sites2.csv"))
@@ -153,6 +154,9 @@ arch_preds_by_model <- function(arch, site, data, stats_df, path_to_dir){
 # *******************************************************************
 # 3. function to generate observed vs. fitted + SHAP importance per architecture at sites
 # *******************************************************************
+# palette
+pal3 <- ltc("dora")
+
 preds_with_SHAP <- function(mod, arch, site, data, stats_df, shap_df, path_to_dir){
     
     # get r2 and rmse form stats_df
@@ -178,7 +182,7 @@ preds_with_SHAP <- function(mod, arch, site, data, stats_df, shap_df, path_to_di
         
         # legend
         scale_colour_manual(name = NULL, 
-                            values = c("Observed" = "seagreen", "Predicted" = "tomato")) +
+                             values = c("Observed" = pal3[2], "Predicted" = pal3[5])) +
         
         # move legend to bottom
         theme(legend.position = "bottom") +
@@ -221,7 +225,7 @@ preds_with_SHAP <- function(mod, arch, site, data, stats_df, shap_df, path_to_di
         ylab("Mean SHAP value") +
         ggtitle("SHAP feature importance") +
         scale_fill_manual(name = NULL,
-                          values = c("TRUE" = "steelblue", "FALSE" = "coral"), 
+                          values = c("TRUE" = pal3[1], "FALSE" = pal3[3]), 
                           labels = c("TRUE" = "+ impact", "FALSE" = "- impact")) +
         
         # move legend to bottom
