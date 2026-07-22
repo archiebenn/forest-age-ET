@@ -15,8 +15,8 @@ library(conflicted)
 # use dplyr even if masked by plyr (was causing a few issues)
 conflicted::conflict_prefer_all("dplyr", quiet = TRUE)
 
-# attach LATEST main fluxnet df after site selections etc. (9-7-2026)
-sites <- read_csv("data/main/08_sorting/sites.csv")
+# attach LATEST main fluxnet df after site selections etc. (22-7-2026)
+sites <- read_csv("data/main/10_filtering2/df_sites2.csv")
 
 # get world data
 world <- ne_countries(returnclass = "sf")

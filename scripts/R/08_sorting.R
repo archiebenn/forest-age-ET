@@ -5,6 +5,9 @@
 rm(list = ls())
 
 library(tidyverse)
+library(conflicted)
+
+conflicted::conflict_prefer_all("dplyr", quiet = TRUE)
 
 df_08_climate <- read_csv("data/main/07_climates/climates_data.csv")
 
@@ -43,9 +46,6 @@ df_08_extra <- df_08_climate %>%
              Lai_500m,
              P_sum_14D
     )
-
-# save out
-write_csv(df_08_extra, "data/main/08_sorting/df_main.csv")
 
 
 
@@ -89,8 +89,6 @@ df_yearly <- df_08_extra %>%
     # for complete years, n_days_coverage can be 365 or 366 (leap years)
     filter(n_days_coverage %in% c(365, 366)) 
 
-# write out yearly df
-write_csv(df_yearly, "data/main/08_sorting/yearly.csv")
 
 
 # 3. site dataframe
@@ -127,7 +125,31 @@ df_sites <- df_08_extra %>%
     # as kelvin to stop near-0 divisions
     mutate(moisture_index_est = P_mean/(Tair_mean + 273.15) * 1000)            
 
-# write out site df
+
+# **********************************************************
+# failsafe for site age at a given site where age is known
+# was having some issues with the site age changing from masked packages downstream, so adding this to fail the script if the age is false
+# this is important as my analysis is very focused on age
+# BE-Bra is in full pipeline, so used as reference.
+# age expected here is 87.088 as have now back-propagated with decimal (and is in 2005, aged 78 in 1996)
+expected_age <- 87.088
+
+actual_age <- df_08_extra %>%
+    filter(Site_ID == "BE-Bra", 
+           Date == "2005-02-01") %>%
+    pull(Site_age)
+
+# stop execution and paste issue
+if (!isTRUE(all.equal(actual_age, expected_age))) {
+    stop(paste("BE-Bra site age has drifted from expected value!",
+               "\nExpected age:", expected_age,
+               "\nActual age:", actual_age))
+}
+# **********************************************************
+
+# save out
+write_csv(df_08_extra, "data/main/08_sorting/df_main.csv")
+write_csv(df_yearly, "data/main/08_sorting/yearly.csv")
 write_csv(df_sites, "data/main/08_sorting/sites.csv")
 
 print("sorting.R complete")

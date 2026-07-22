@@ -19,27 +19,46 @@ df_merged <- df_05 %>%
 
 
 
+
+# Source - https://stackoverflow.com/a/52067205
+# Posted by Adam Erickson, modified by community. See post 'Timeline' for change history
+# Retrieved 2026-07-22, License - CC BY-SA 4.0
+leap_year <- function(year) {
+    return(ifelse((year %%4 == 0 & year %%100 != 0) | year %%400 == 0, TRUE, FALSE))
+}
+
+
 # **********************************************************
 #1. Now I have the age ranges for the fluxnet data I can back-propagate the ages of the sites so they aren't static
 # essentially, besnard2018 ages sites regardless of ranges, so FLUXNET data range does not change the site age
 # e.g a '2 year old' site with a range from 2004-2010 is still seen as ~2 in 2010, when it should be ~8 (disturbance year = start - besnard age)
 # so will attempt to re-age the sites based on fluxnet yearly data. note this is an estimate and does introduce uncertainties
 # on top of this, i will try to treat age as continuous, so age will become year + (day as a fraction of year)
-
 back_prop_age <- df_merged %>%
     
     # group by site to get min year per site
     group_by(SITE_ID) %>%    
     
-    # offset the age by the difference between observation date and start of observation date
-    dplyr::mutate(SITE_AGE = SITE_AGE + year(TIMESTAMP) - min(year(TIMESTAMP))) %>%
+    # first check if leap year or not with ifelse()
+    dplyr::mutate(days_in_year = ifelse(leap_year(year(TIMESTAMP)), 366, 365),
+                  
+                  # offset the age by the difference between observation date and start of observation date
+                  # base site_age is defined at besnard2018's start date. also add decimal as date within that year's length and to 3dp with round()
+                  SITE_AGE = round(
+                      (SITE_AGE + (year(TIMESTAMP) - min(year(TIMESTAMP))) + (yday(TIMESTAMP)/days_in_year))
+                      , 3), nsmall = 3
+                  
+    ) %>%
     
-    # select onlt site id, date, and back-proagated age
+    # select only site id, date, and back-proagated age
     ungroup() %>%
     select(SITE_ID, TIMESTAMP, SITE_AGE)
 # **********************************************************
 
-
+df_merged %>% 
+    filter(SITE_ID == "BE-Bra", TIMESTAMP == "2005-02-01") %>%
+    pull(TIMESTAMP) %>%
+    yday()
 
 
 # **********************************************************
@@ -208,12 +227,12 @@ filtered <- filtered_data %>%
 # was having some issues with the site age changing from masked packages downstream, so adding this to fail the script if the age is false
 # this is important as my analysis is very focused on age
 # BE-Bra is in full pipeline, so used as reference.
-# age expected here is 87 as have now back-propagated (and is in 2005, aged 78 in 1996)
-expected_age <- 87
+# age expected here is 87.088 as have now back-propagated with decimal (and is in 2005, aged 78 in 1996)
+expected_age <- 87.088
 
 actual_age <- filtered %>%
     filter(Site_ID == "BE-Bra", 
-           Date == "2005-01-01") %>%
+           Date == "2005-02-01") %>%
     pull(Site_age)
 
 # stop execution and paste issue

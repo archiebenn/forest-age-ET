@@ -1,8 +1,7 @@
-# Makefile for MSc Diss
+# Makefile for MSc Dissertation.
 # usage: make [target]
-# --arch options: rf, xgboost, lstm, rnn
 # author:  Archie Benn sj19031@bristol.ac.uk
-
+# May - September 2026
 
 .PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots diss
 

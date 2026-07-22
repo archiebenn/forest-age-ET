@@ -380,7 +380,7 @@ preds_with_SHAP <- function(mod, arch, site, data, stats_df, shap_df){
         
         # legend
         scale_colour_manual(name = NULL, 
-                             values = c("Observed" = pal3[2], "Predicted" = pal3[5])) +
+                             values = c("Observed" = pal3[4], "Predicted" = pal3[1])) +
         
         # move legend to bottom
         theme(legend.position = "bottom") +

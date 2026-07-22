@@ -69,14 +69,14 @@ for (i in sites){
                     , data = train)
     
     bam_nage <- update(bam_full, . ~ . -s(Site_age, bs = "cr", k = 20))
-    bam_nlai <- update(bam_full, . ~ . -s(Lai_500m, bs = "cr", k = 20))
-    bam_nage_nlai <- update(bam_nage, . ~ . -s(Lai_500m, bs = "cr", k = 20))
+    # bam_nlai <- update(bam_full, . ~ . -s(Lai_500m, bs = "cr", k = 20))
+    # bam_nage_nlai <- update(bam_nage, . ~ . -s(Lai_500m, bs = "cr", k = 20))
     
     models <- list(
         all = bam_full,
-        no_age = bam_nage,
-        no_lai = bam_nlai,
-        no_age_no_lai = bam_nage_nlai
+        no_age = bam_nage
+        #no_lai = bam_nlai,
+        #no_age_no_lai = bam_nage_nlai
     )
     
     # loop over each of the 3 model names
@@ -121,7 +121,7 @@ write_csv(preds_df, "data/main/12_GAM_testing/GAM_preds_results.csv")
 write_csv(stats_df, "data/main/12_GAM_testing/GAM_stats_results.csv")
 
 # also write out to other folder as this houses the other ML architecture results for same thing
-write_csv(preds_df, "data/main/x_ML_results/GAM_preds_results.csv")
-write_csv(stats_df, "data/main/x_ML_results/GAM_stats_results.csv")
+write_csv(preds_df, "data/main/16_ML_results/GAM_preds_results.csv")
+write_csv(stats_df, "data/main/16_ML_results/GAM_stats_results.csv")
 
 print("GAM_testing.R complete")

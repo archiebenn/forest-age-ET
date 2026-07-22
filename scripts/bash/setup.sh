@@ -24,6 +24,9 @@ mkdir -p 13_GAM_exploration
 mkdir -p 14_pre_processing
 mkdir -p 15_random_forest_test
 mkdir -p 16_ML_results
+mkdir -p 17_plots_generate
+mkdir -p 18_single_site_exploration
+mkdir -p 19_decomposition
 
 
 

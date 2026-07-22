@@ -120,6 +120,29 @@ site_ids <- unique(df_cleaned$Site_ID)
 # walk(site_ids, \(site) get_ET_sites(site, df_cleaned, "data/main/06_ET_plots/ET_time_adjusted/"))
 
 
+
+# **********************************************************
+# failsafe for site age at a given site where age is known
+# was having some issues with the site age changing from masked packages downstream, so adding this to fail the script if the age is false
+# this is important as my analysis is very focused on age
+# BE-Bra is in full pipeline, so used as reference.
+# age expected here is 87.088 as have now back-propagated with decimal (and is in 2005, aged 78 in 1996)
+expected_age <- 87.088
+
+actual_age <- df_cleaned %>%
+    filter(Site_ID == "BE-Bra", 
+           Date == "2005-02-01") %>%
+    pull(Site_age)
+
+# stop execution and paste issue
+if (!isTRUE(all.equal(actual_age, expected_age))) {
+    stop(paste("BE-Bra site age has drifted from expected value!",
+               "\nExpected age:", expected_age,
+               "\nActual age:", actual_age))
+}
+# **********************************************************
+
+
 # happy with those new plots and time ranges, so save out
 write_csv(df_cleaned, "data/main/06_ET_plots/adjusted_dates_data.csv")
 

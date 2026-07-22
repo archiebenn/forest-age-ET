@@ -160,9 +160,9 @@ non_features = [
 # features (values) to drop based on model (keys)
 model_variants = {
     "all": [],
-    "no_age": ["Site_age"],
-    "no_lai": ["Lai_500m"],
-    "no_age_no_lai": ["Site_age", "Lai_500m"]
+    "no_age": ["Site_age"]
+    # "no_lai": ["Lai_500m"],
+    # "no_age_no_lai": ["Site_age", "Lai_500m"]
 }
 
 
