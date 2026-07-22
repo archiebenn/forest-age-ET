@@ -36,20 +36,24 @@ vars_keep <- c("TIMESTAMP",            # date
 # also attach site name to link to other .csv with ages later
 fluxnet_selected <- file_names_DD %>%                                                             
     map(\(x) read_csv(x, 
+                      
+                      # apply col select and remove N/A values for each file name in list
                       col_select = any_of(vars_keep),
-                      na = "-9999") %>%                                                   # apply col select and remove N/A values for each file name in list
-            mutate(SITE_ID = str_extract(basename(x), "FLX_([^_]+)", group = 1))) %>%     # save the site name from standard FLUXNET naming of data
+                      na = "-9999") %>%                   
+            
+            # save the site name from standard FLUXNET naming of data with a regex
+            mutate(SITE_ID = str_extract(basename(x), "FLX_([^_]+)", group = 1))) %>%    
     list_rbind()
 
 
 # read in sites from sites.R
 sites_metadata = read_csv("data/main/01_site_selection/site_ages.csv")
 
-# attach the two data frames based on site name to form final dataset (non-scaled/filtered) for engineer.R
+# attach the two data frames based on site name to form final dataset (non-scaled/filtered) 
 df_fluxnet_ages <- fluxnet_selected %>%
     left_join(sites_metadata, by="SITE_ID",
               relationship = "many-to-one") %>%
-    rename(
+    dplyr::rename(
         LE = LE_F_MDS,
         LE_QC = LE_F_MDS_QC,
         Rn = NETRAD,
@@ -69,6 +73,29 @@ df_fluxnet_ages <- fluxnet_selected %>%
         Cover_type = IGBP
     ) %>%
     mutate(TIMESTAMP = as.Date(as.character(TIMESTAMP), format = '%Y%m%d'))
+
+
+# **********************************************************
+# failsafe for site age at a given site where age is known
+# was having some issues with the site age changing from masked packages downstream, so adding this to fail the script if the age is false
+# this is important as my analysis is very focused on age
+# BE-Bra is in full pipeline, so used as reference.
+# age expected here is 78 as not back-propagated yet
+expected_age <- 78
+
+actual_age <- df_fluxnet_ages %>%
+    filter(SITE_ID == "BE-Bra", 
+           TIMESTAMP == "2005-01-01") %>%
+    pull(SITE_AGE)
+
+# stop execution and paste issue
+if (!isTRUE(all.equal(actual_age, expected_age))) {
+    stop(paste("BE-Bra site age has drifted from expected value!",
+               "\nExpected age:", expected_age,
+               "\nActual age:", actual_age))
+}
+# **********************************************************
+
 
 # save out as a .csv
 write_csv(df_fluxnet_ages, "data/main/03_full_unscaled/full_unscaled.csv")

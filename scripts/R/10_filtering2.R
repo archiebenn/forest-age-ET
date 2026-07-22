@@ -19,7 +19,7 @@ df_filtered2 <- df_08 %>%
     filter(Continent %in% c("Europe", "North America")) %>%
     
     # need to drop GF-Guy independently, as it is incorrectly labelled as Europe but is in French Guiana
-    filter(Site_ID != "GF-Guy") %>%
+    filter(Site_ID != "GF-Guy")
     
 
 ##################
@@ -42,3 +42,4 @@ write_csv(df_filtered2, "data/main/10_filtering2/df_10.csv")
 write_csv(df_sites2, "data/main/10_filtering2/df_sites2.csv")
 write_csv(df_yearly2, "data/main/10_filtering2/df_yearly2.csv")
 
+print("filterin2.R complete")

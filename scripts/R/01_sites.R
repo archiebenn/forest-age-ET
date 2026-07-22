@@ -4,11 +4,15 @@
 
 rm(list = ls())
 library(tidyverse)
+library(conflicted)
+
+# use dplyr even if masked by plyr (was causing a few issues)
+conflicted::conflict_prefer_all("dplyr", quiet = TRUE)
 
 # metadata on FLUXNET2015 sites
 df_01 <- read_csv("data/main/01_site_selection/daily_metadata.csv")
 
-# sites with ages in Besnard 2018
+# sites with ages in Besnard 2018 (mix of FLUXNET2015 and other FLUX dataset which is not used here)
 besnard_sites <- c(
     "AU-Cum", "AU-How", "AU-Rob", "AU-Tum", "AU-Wom",
     "BE-Bra", "BE-Vie",
@@ -60,6 +64,7 @@ non_dist1_sites <- c("DE-Lkb",
                      "US-SO3",
                      "ZM-Mon")
 
+
 # get IGBP of each site 
 igbp <- df_01 %>%
     filter(VARIABLE == "IGBP") %>%
@@ -77,31 +82,66 @@ forest_IGBP <- c(
 
 
 # ages defined in supplementary materials for these forest sites
-SITE_AGE <- c(300, 198, 83, 32,
-              78, 94,
-              300, 2,
-              78, 161, 154, 73, 39, 23,14,6,
-              80, 112, 102,
-              9, 37, 70, 98,
-              222, 184,
-              300, 96, 19,
-              31,
-              254, 2, 117, 76, 118,
-              85,
-              46, 83,
-              161, 34, 64,
-              300,
-              180, 63, 56, 89, 13, 188,
-              10, 19, 64, 54,
-              106,
-              106,
-              7,
-              236,
-              13, 176, 184, 96,
-              94, 20, 24, 22,
-              95, 110, 50, 150, 98,
-              300, 93, 90, 96,
-              88)
+# country codes above ages
+SITE_AGE <- c(
+    
+    # AU
+    300, 198, 83, 32,
+    
+    # BE
+    78, 94,
+    
+    # BR
+    300, 2,
+    
+    # CA
+    78, 161, 154, 73, 39, 23,14,6, 80, 112, 102, 9, 37, 70, 98,
+    
+    # CH
+    222, 184,
+    
+    # CN
+    300, 96, 19,
+    
+    # CZ
+    31,
+    
+    # DE
+    254, 2, 117, 76, 118,
+    
+    # DK
+    85,
+    
+    # FI
+    46, 83,
+    
+    # FR
+    161, 34, 64,
+    
+    # GF
+    300,
+    
+    # IT
+    180, 63, 56, 89, 13, 188, 10, 19, 64, 54,
+    
+    # MY
+    106,
+    
+    # NL
+    106,
+    
+    # PA
+    7,
+    
+    # RU
+    236,
+    
+    # US
+    13, 176, 184, 96, 94, 20, 24, 22, 95, 110, 50, 150, 98, 300, 93, 90, 96,
+    
+    # ZM
+    88
+    )
 
 # site locations
 lat <- df_01 %>%
@@ -115,14 +155,45 @@ long <- df_01 %>%
 merged <- merge(igbp, lat, by="SITE_ID")
 merged <- merge(merged, long, by="SITE_ID")
 
+
 # sites
 sites <- merged %>% 
+    
+     # only forest sites
     filter(IGBP %in% forest_IGBP,
-           SITE_ID %in% besnard_sites) %>%         
+           
+           # only sites in besnard2018 (sites with age)
+           SITE_ID %in% besnard_sites) %>%     
+    
     add_column(SITE_AGE) %>%
-    filter(! SITE_ID %in% non_dist1_sites)     # keep only disturbance 1 sites
+    
+    # keep only disturbance 1 sites
+    filter(! SITE_ID %in% non_dist1_sites)     
+
 
 site_ids <- sites$SITE_ID
+
+
+# **********************************************************
+# failsafe for site age at a given site where age is known
+# was having some issues with the site age changing from masked packages downstream, so adding this to fail the script if the age is false
+# this is important as my analysis is very focused on age
+# BE-Bra is in full pipeline, so used as reference.
+# age expected here is 78 as not back-propagated yet
+
+expected_age <- 78
+
+actual_age <- sites %>%
+    filter(SITE_ID == "BE-Bra") %>%
+    pull(SITE_AGE)
+
+# stop execution and paste this error message
+if (!isTRUE(all.equal(actual_age, expected_age))) {
+    stop(paste("BE-Bra site age has drifted from expected value!",
+               "\nExpected age:", expected_age,
+               "\nActual age:", actual_age))
+}
+# **********************************************************
 
 # write out
 writeLines(site_ids, "data/main/01_site_selection/original_site_list.txt")

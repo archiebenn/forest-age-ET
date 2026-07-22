@@ -10,6 +10,10 @@ library(rnaturalearth)
 library(countrycode)
 library(ggrepel)
 library(tikzDevice)
+library(conflicted)
+
+# use dplyr even if masked by plyr (was causing a few issues)
+conflicted::conflict_prefer_all("dplyr", quiet = TRUE)
 
 # attach LATEST main fluxnet df after site selections etc. (9-7-2026)
 sites <- read_csv("data/main/08_sorting/sites.csv")

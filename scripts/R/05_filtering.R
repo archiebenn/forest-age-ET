@@ -5,11 +5,13 @@
 rm(list = ls())
 
 if (!require(bigleaf)) install.packages("bigleaf")
-library(plyr)
 library(bigleaf)
 library(tidyverse)
 library(zoo)
+library(conflicted)
 
+# use dplyr even if masked by plyr (was causing a few issues)
+conflicted::conflict_prefer_all("dplyr", quiet = TRUE)
 
 # import full (unscaled) data and LAI data
 df_05 <- read_csv("data/main/03_full_unscaled/full_unscaled.csv")
@@ -23,8 +25,13 @@ lai_full <- read_csv("data/main/04_lai/lai_all.csv")
 # show summaries of total and good quality sites
 print(lai_full %>%
           group_by(SITE_ID) %>%
-          summarise(n_LAI_measurements = n(),                                # number of measurements at each site
-                    n_good_quality = sum(bitwAnd(FparLai_QC, 1L) == 0)))     # number of good quality measurements at sites
+          
+          # number of measurements at each site
+          dplyr::summarise(n_LAI_measurements = n(),  
+                    
+                    # number of good quality measurements at sites
+                    n_good_quality = sum(bitwAnd(FparLai_QC, 1L) == 0)))     
+
 
 
 # this will replace any poor quality LAI measurements with N/A based off the QC
@@ -34,7 +41,9 @@ lai_filtered <- lai_full %>%
                           Lai_500m,                             # 0: keep Lai_500m as is (good quality)
                           NA                                    # 1: replace with NA (poor quality)
         )) %>%
-    select(SITE_ID, calendar_date, Lai_500m)                    # just keep these cols post-filtering
+    
+    # just keep these cols post-filtering
+    select(SITE_ID, calendar_date, Lai_500m)                
 
 
 # now these NA values are filled, linear interpolation will be used to gap fill the LAI (slow changing variable)
@@ -42,10 +51,17 @@ lai_filtered <- lai_full %>%
 full_data <- df_05 %>%
     left_join(lai_filtered, by = c("SITE_ID", "TIMESTAMP" = "calendar_date")) %>%
     group_by(SITE_ID) %>%
-    arrange(TIMESTAMP, .by_group = TRUE) %>%                                       # before interpolating to ensure right order
-    mutate(Lai_500m = zoo::na.approx(Lai_500m, na.rm = F)) %>%                     # approximate LAI values interpolated between misssing values
+    
+    # before interpolating to ensure right order
+    dplyr::arrange(TIMESTAMP, .by_group = TRUE) %>%           
+    
+    # approximate LAI values interpolated between misssing values
+    mutate(Lai_500m = zoo::na.approx(Lai_500m, na.rm = F)) %>%     
+    
+    # removes rows before LAI measurements began
     ungroup() %>%
-    filter(!is.na(Lai_500m))                                                       # removes rows before LAI measurements began
+    filter(!is.na(Lai_500m))                                                      
+
 
 
 # 2. filtering/checking for FLUXNET gap filled
@@ -54,7 +70,7 @@ full_data <- df_05 %>%
 # check distributions with a summary()
 flux_QC <- full_data %>%
     group_by(SITE_ID) %>%
-    summarise(
+    dplyr::summarise(
         # total
         n_measurements = n(),
         
@@ -105,11 +121,19 @@ write_csv(flux_QC, "data/main/05_filtering/flux_QC.csv")
 
 #3. Now I have the age ranges for the fluxnet data I can back-propagate the ages of the sites so they aren't static
 # essentially, besnard2018 ages sites regardless of ranges, so FLUXNET data range does not change the site age
-# e.g a '2 year old' site with a range from 2004-2010 is still seen as 2 in 2010, when it should be 8 (disturbance year = start - besnard age)
+# e.g a '2 year old' site with a range from 2004-2010 is still seen as ~2 in 2010, when it should be ~8 (disturbance year = start - besnard age)
 # so will attempt to re-age the sites based on fluxnet yearly data. note this is an estimate and does introduce uncertainties
+# on top of this, i will try to treat age as continuous, so age will become year + (day as a fraction of year)
+
 full_data_aged <- full_data %>%
-    group_by(SITE_ID) %>%                                                 # group by site to get min year per site
-    mutate(SITE_AGE = SITE_AGE + year(TIMESTAMP) - min(year(TIMESTAMP)))  # offset the age by the difference between observation date and start of observation date
+    
+    # group by site to get min year per site
+    group_by(SITE_ID) %>%    
+    
+    # offset the age by the difference between observation date and start of observation date
+    dplyr::mutate(SITE_AGE = SITE_AGE + year(TIMESTAMP) - min(year(TIMESTAMP)))  
+
+
 
 
 # will filter out any qc scores > 1 and then save as the full dataset - leave out Rn_QC as it has NA values which messes up next steps
@@ -118,16 +142,26 @@ cols_filter <- c("LE_QC", "SW_rad_QC", "Tair_QC", "Wspeed_QC", "VPD_QC", "P_QC",
 
 # set up final/full dataset
 filtered_data <- full_data_aged %>%
-    filter(if_all(all_of(cols_filter), \(x) x <= 1)) %>%       # checks against all columns in row simultaneously and drops full row if any QC > 1 ie. poor gap filling
-    select(-all_of(cols_filter)) %>%                           # and drop QC cols after filtering
-    mutate(ET = (LE.to.ET(LE, Tair)) * 86400) %>%              # add ET column (kg m-2 s-1 units in function so need to multiply by sec/day to get mm/day) - from bigleaf (https://search.r-project.org/CRAN/refmans/bigleaf/html/LE.to.ET.html)
-    rename(                                                    # renaming for consistency
+    
+    # checks against all columns in row simultaneously and drops full row if any QC > 1 ie. poor gap filling
+    filter(if_all(all_of(cols_filter), \(x) x <= 1)) %>%  
+    
+    # and drop QC cols after filtering
+    select(-all_of(cols_filter)) %>%      
+    
+    # add ET column (kg m-2 s-1 units in function so need to multiply by sec/day to get mm/day) - from bigleaf (https://search.r-project.org/CRAN/refmans/bigleaf/html/LE.to.ET.html)
+    mutate(ET = (LE.to.ET(LE, Tair)) * 86400) %>%             
+    
+    # renaming for consistency
+    dplyr::rename(                                                    
         Site_age = SITE_AGE,
         Latitude = LATITUDE,
         Longitude = LONGITUDE,
         Date = TIMESTAMP,
-        Site_ID = SITE_ID) %>%                                  
-    relocate(Site_ID,                                          # rearranging columns
+        Site_ID = SITE_ID) %>%   
+    
+    # rearranging columns
+    relocate(Site_ID,                                          
              Date, 
              Latitude, 
              Longitude, 
@@ -140,20 +174,36 @@ filtered_data <- full_data_aged %>%
 
 
 # df without Rn - MAIN dataset going forward
-filtered_no_Rn <- filtered_data %>%
-    select(-Rn, -Rn_QC)                  # drop all Rn cols
+filtered <- filtered_data %>%
+    
+    # drop all Rn cols
+    select(-Rn, -Rn_QC)                  
 
 
-# df with Rn - might use if i have time later on but missing lots of dates 
-filtered_Rn <- filtered_data %>%
-    filter(!is.na(Rn), Rn_QC <= 1) %>%
-    select(-Rn_QC)                       # now can drop Rn_QC after filtering
-    
-    
+# **********************************************************
+# failsafe for site age at a given site where age is known
+# was having some issues with the site age changing from masked packages downstream, so adding this to fail the script if the age is false
+# this is important as my analysis is very focused on age
+# BE-Bra is in full pipeline, so used as reference.
+# age expected here is 78 as not back-propagated yet
+expected_age <- 78
+
+actual_age <- filtered %>%
+    filter(Site_ID == "BE-Bra", 
+           Date == "2005-01-01") %>%
+    pull(Site_age)
+
+# stop execution and paste issue
+if (!isTRUE(all.equal(actual_age, expected_age))) {
+    stop(paste("BE-Bra site age has drifted from expected value!",
+               "\nExpected age:", expected_age,
+               "\nActual age:", actual_age))
+}
+# **********************************************************
+
+
 # save out both
-write_csv(filtered_no_Rn, "data/main/05_filtering/filtered_main.csv")
-write_csv(filtered_Rn, "data/main/05_filtering/filtered_Rn.csv")
-
+write_csv(filtered, "data/main/05_filtering/filtered_main.csv")
 
 print("filtering.R complete")
 

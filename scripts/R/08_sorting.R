@@ -54,7 +54,9 @@ df_yearly <- df_08_extra %>%
     
     group_by(Site_ID, year(Date)) %>%
     summarise(Site_ID = first(Site_ID),
-              n_days_coverage = n(),                 # to check if years are complete (n = 365 or 366)
+              
+              # to check if years are complete (n = 365 or 366)
+              n_days_coverage = n(),                 
               Latitude = first(Latitude),
               Longitude = first(Longitude),
               Continent = first(Continent),
@@ -62,7 +64,9 @@ df_yearly <- df_08_extra %>%
               Climate_zone = first(Climate_zone),
               Site_age = first(Site_age),
               Age_range = first(Age_range),
-              ET_year = sum(ET),                     # yearly sum of ET
+              
+              # yearly sum of ET
+              ET_year = sum(ET),                     
               Lai_mean = mean(Lai_500m),
               Lai_sd = sd(Lai_500m),
               P_sum_14D_mean = mean(P_sum_14D),
@@ -75,7 +79,9 @@ df_yearly <- df_08_extra %>%
               Wspeed_sd = sd(Wspeed),
               VPD_mean = mean(VPD),
               VPD_sd = sd(VPD),
-              P_year = sum(P),                       # yearly sum of precip
+              
+              # yearly sum of precip
+              P_year = sum(P),                  
               Pa_mean = mean(Pa),
               Pa_sd = sd(Pa)) %>%
     
@@ -117,7 +123,9 @@ df_sites <- df_08_extra %>%
               P_sd = sd(P),
               Pa_mean = mean(Pa),
               Pa_sd = sd(Pa)) %>%
-    mutate(moisture_index_est = P_mean/(Tair_mean + 273.15) * 1000)            # as kelvin to stop near-0 divisions
+    
+    # as kelvin to stop near-0 divisions
+    mutate(moisture_index_est = P_mean/(Tair_mean + 273.15) * 1000)            
 
 # write out site df
 write_csv(df_sites, "data/main/08_sorting/sites.csv")

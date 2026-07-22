@@ -10,7 +10,7 @@ library(rnaturalearth)
 library(sf)
 
 # read in data
-df_07 <- read_csv("data/main/06_ET_plots/adjusted_dates_data.csv")
+df_06 <- read_csv("data/main/06_ET_plots/adjusted_dates_data.csv")
 
 # 1. continent data
 # get continent data for all countries
@@ -18,7 +18,7 @@ countries_continents <- ne_countries(scale = "medium", returnclass = "sf") %>%
     select(continent)
 
 # attach continent data by merging
-sites_w_cont <- df_07 %>%
+sites_w_cont <- df_06 %>%
     
     # drop duplicate rows of these vars
     distinct(Site_ID, Longitude, Latitude) %>%
@@ -56,7 +56,7 @@ koeppen_lookup <- c(
 
 
 # df for determining Koeggen climate zones based off coordinates of sites using kgc library
-site_climates <- df_07 %>%
+site_climates <- df_06 %>%
     distinct(Site_ID, Longitude, Latitude) %>%
     mutate(
         rndCoord.lon = RoundCoordinates(Longitude, latlong = "lon"),
@@ -73,7 +73,7 @@ site_climates <- df_07 %>%
 
 
 # 3. recombining climate and continent data
-df_climates <- df_07 %>%
+df_climates <- df_06 %>%
     left_join(select(site_climates, Site_ID, Climate_zone, Continent), by = "Site_ID") %>%
     relocate(Site_ID,                                                            # rearranging columns
              Date, 

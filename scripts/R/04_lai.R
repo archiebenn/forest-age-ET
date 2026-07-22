@@ -41,7 +41,9 @@ get_LAI <- function(site_id, latitude, longitude, start_date, end_date){
     site_lai <- mt_subset(product = "MCD15A3H",
               lat = latitude,
               lon = longitude,
-              band = c("Lai_500m", "FparLai_QC"),  # retrieve these bands (for QC etc.)
+              
+              # retrieve these bands (for QC etc.)
+              band = c("Lai_500m", "FparLai_QC"),  
               start = start_date,
               end = end_date,
               km_lr = 0,                           # 0,0 = 1 pixel. 1,1 = 9 pixels - MARTIN SAID PROBABLY DO 1,1
@@ -66,7 +68,9 @@ lai_setup_df <- df_04 %>%
     summarise(
         LATITUDE = first(LATITUDE),
         LONGITUDE = first(LONGITUDE),
-        START_DATE = as.character(min(TIMESTAMP)),      # characters for mt_subset() later
+        
+        # characters for mt_subset() later
+        START_DATE = as.character(min(TIMESTAMP)),      
         END_DATE = as.character(max(TIMESTAMP))
     )
 
@@ -74,26 +78,40 @@ lai_setup_df <- df_04 %>%
 # warning: will be SLOW 
 # use future_pmap() to apply get_LAI() across each row in lai_setup_df with multiple cores used
 future_pmap(
+    
+    # pass these args
     list(lai_setup_df$SITE_ID, lai_setup_df$LATITUDE, lai_setup_df$LONGITUDE,
-         lai_setup_df$START_DATE, lai_setup_df$END_DATE),                          # pass these args
+         lai_setup_df$START_DATE, lai_setup_df$END_DATE),                          
     get_LAI
 )
 
 
 # form full LAI df from the individual cached site csvs (and un nest and into wide format)
 lai_full <- list.files(cached_dir, pattern = "*.csv", full.names = T) %>%
-    map(read_csv) %>%                                                       # read the csvs in
-    bind_rows() %>%                                                         # bind all csvs to single df
+    
+    # read the csvs in
+    map(read_csv) %>% 
+    
+    # bind all csvs to single df
+    bind_rows() %>%                                                         
     select(site, calendar_date, band, value) %>% 
     rename(SITE_ID = site) %>%
-    tidyr::pivot_wider(                                                     # wide instead of long format
-        id_cols = c(SITE_ID, calendar_date),                                # these form a unique row in the output (site and date)
+    
+    # wide instead of long format
+    tidyr::pivot_wider(
+        
+        # these form a unique row in the output (site and date)
+        id_cols = c(SITE_ID, calendar_date),                                
         names_from = band,
         values_from = value
     ) %>% 
     mutate(
-        calendar_date = as.Date(calendar_date),                             # back to Date class for merging with main df
-        Lai_500m = Lai_500m * 0.1                                           # scale factor for LAI band from MODIS (see https://lpdaac.usgs.gov/documents/926/MOD15_User_Guide_V61.pdf)
+        
+        # back to Date class for merging with main df
+        calendar_date = as.Date(calendar_date),  
+        
+        # scale factor for LAI band from MODIS (see https://lpdaac.usgs.gov/documents/926/MOD15_User_Guide_V61.pdf)
+        Lai_500m = Lai_500m * 0.1                                           
     )
     
 
