@@ -8,17 +8,42 @@ if (!require(bigleaf)) install.packages("bigleaf")
 library(bigleaf)
 library(tidyverse)
 library(zoo)
-library(conflicted)
-
-# use dplyr even if masked by plyr (was causing a few issues)
-conflicted::conflict_prefer_all("dplyr", quiet = TRUE)
 
 # import full (unscaled) data and LAI data
 df_05 <- read_csv("data/main/03_full_unscaled/full_unscaled.csv")
 lai_full <- read_csv("data/main/04_lai/lai_all.csv")
 
+# merge lai and main df
+df_merged <- df_05 %>%
+    left_join(lai_full, by = c("SITE_ID", "TIMESTAMP" = "calendar_date")) 
 
-# 1. filter LAI quality first:
+
+
+# **********************************************************
+#1. Now I have the age ranges for the fluxnet data I can back-propagate the ages of the sites so they aren't static
+# essentially, besnard2018 ages sites regardless of ranges, so FLUXNET data range does not change the site age
+# e.g a '2 year old' site with a range from 2004-2010 is still seen as ~2 in 2010, when it should be ~8 (disturbance year = start - besnard age)
+# so will attempt to re-age the sites based on fluxnet yearly data. note this is an estimate and does introduce uncertainties
+# on top of this, i will try to treat age as continuous, so age will become year + (day as a fraction of year)
+
+back_prop_age <- df_merged %>%
+    
+    # group by site to get min year per site
+    group_by(SITE_ID) %>%    
+    
+    # offset the age by the difference between observation date and start of observation date
+    dplyr::mutate(SITE_AGE = SITE_AGE + year(TIMESTAMP) - min(year(TIMESTAMP))) %>%
+    
+    # select onlt site id, date, and back-proagated age
+    ungroup() %>%
+    select(SITE_ID, TIMESTAMP, SITE_AGE)
+# **********************************************************
+
+
+
+
+# **********************************************************
+# 2. filtering LAI quality:
 # FparLai_QC is a bit-encoded quality metric, see (https://www.earthdata.nasa.gov/s3fs-public/2025-04/MOD15_User_Guide_V5.pdf?VersionId=eBlss9mLOaTk4czZcz4ZEwioQ4AwJqj3)
 # bit 0 of each of these values refers to the MODLAND_QC bits where 0 = good quality, 1 = other (filled/other algorithm etc.)
 
@@ -48,7 +73,7 @@ lai_filtered <- lai_full %>%
 
 # now these NA values are filled, linear interpolation will be used to gap fill the LAI (slow changing variable)
 # attach LAI to full/main fluxnet data frame by site and date
-full_data <- df_05 %>%
+interpolated <- df_05 %>%
     left_join(lai_filtered, by = c("SITE_ID", "TIMESTAMP" = "calendar_date")) %>%
     group_by(SITE_ID) %>%
     
@@ -60,11 +85,22 @@ full_data <- df_05 %>%
     
     # removes rows before LAI measurements began
     ungroup() %>%
-    filter(!is.na(Lai_500m))                                                      
+    filter(!is.na(Lai_500m)) 
 
 
+# now merge this full + cleaned iterpolated dataframe with the back-propogated age
+full_data <- interpolated %>%
+    
+    # drop the static age first
+    select(-SITE_AGE) %>%         
+    
+    # join to the back-propagated age
+    left_join(back_prop_age, by = c("SITE_ID", "TIMESTAMP"))
+# **********************************************************
 
-# 2. filtering/checking for FLUXNET gap filled
+
+# **********************************************************
+# 3. filtering/checking for FLUXNET gap filled
 # _QC columns = 0 means measured, while = 1 is good gap filled, and 2-3 is poor quality
 
 # check distributions with a summary()
@@ -114,34 +150,19 @@ flux_QC <- full_data %>%
         Pa_good = sum((Pa_QC > 0) & (Pa_QC <= 1)),
         Pa_poor = sum(Pa_QC > 1)
     )
+# **********************************************************
 
 # save qualities
 write_csv(flux_QC, "data/main/05_filtering/flux_QC.csv")
-
-
-#3. Now I have the age ranges for the fluxnet data I can back-propagate the ages of the sites so they aren't static
-# essentially, besnard2018 ages sites regardless of ranges, so FLUXNET data range does not change the site age
-# e.g a '2 year old' site with a range from 2004-2010 is still seen as ~2 in 2010, when it should be ~8 (disturbance year = start - besnard age)
-# so will attempt to re-age the sites based on fluxnet yearly data. note this is an estimate and does introduce uncertainties
-# on top of this, i will try to treat age as continuous, so age will become year + (day as a fraction of year)
-
-full_data_aged <- full_data %>%
-    
-    # group by site to get min year per site
-    group_by(SITE_ID) %>%    
-    
-    # offset the age by the difference between observation date and start of observation date
-    dplyr::mutate(SITE_AGE = SITE_AGE + year(TIMESTAMP) - min(year(TIMESTAMP)))  
-
-
 
 
 # will filter out any qc scores > 1 and then save as the full dataset - leave out Rn_QC as it has NA values which messes up next steps
 cols_filter <- c("LE_QC", "SW_rad_QC", "Tair_QC", "Wspeed_QC", "VPD_QC", "P_QC", "Pa_QC")
 
 
-# set up final/full dataset
-filtered_data <- full_data_aged %>%
+# **********************************************************
+# 4. set up final/full dataset
+filtered_data <- full_data %>%
     
     # checks against all columns in row simultaneously and drops full row if any QC > 1 ie. poor gap filling
     filter(if_all(all_of(cols_filter), \(x) x <= 1)) %>%  
@@ -178,6 +199,8 @@ filtered <- filtered_data %>%
     
     # drop all Rn cols
     select(-Rn, -Rn_QC)                  
+# **********************************************************
+
 
 
 # **********************************************************
@@ -185,8 +208,8 @@ filtered <- filtered_data %>%
 # was having some issues with the site age changing from masked packages downstream, so adding this to fail the script if the age is false
 # this is important as my analysis is very focused on age
 # BE-Bra is in full pipeline, so used as reference.
-# age expected here is 78 as not back-propagated yet
-expected_age <- 78
+# age expected here is 87 as have now back-propagated (and is in 2005, aged 78 in 1996)
+expected_age <- 87
 
 actual_age <- filtered %>%
     filter(Site_ID == "BE-Bra", 

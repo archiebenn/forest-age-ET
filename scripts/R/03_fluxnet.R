@@ -85,7 +85,7 @@ expected_age <- 78
 
 actual_age <- df_fluxnet_ages %>%
     filter(SITE_ID == "BE-Bra", 
-           TIMESTAMP == "2005-01-01") %>%
+           TIMESTAMP == "2005-02-01") %>%
     pull(SITE_AGE)
 
 # stop execution and paste issue
