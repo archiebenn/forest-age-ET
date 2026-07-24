@@ -187,7 +187,7 @@ for model, dropped_feature in model_variants.items():
         architecture = "RF"
 
         print(f"Starting {architecture}:{model} run")
-        pushover_message(f"Starting {architecture}:{model} run")
+        # pushover_message(f"Starting {architecture}:{model} run")
 
         # run random forest
         rf_preds_df, rf_stats_df, rf_shap_df = random_forest(X_variant, y, site_names, validation, df_14)
@@ -219,4 +219,4 @@ stats_df.to_csv(f"data/main/16_ML_results/{architecture}_stats_results.csv", ind
 shap_df.to_csv(f"data/main/16_ML_results/{architecture}_shap_results.csv", index=False)
 
 
-pushover_message("Script complete!")
+# pushover_message("Script complete!")

@@ -190,7 +190,6 @@
 - In terms of part 2: need to make a pipeline which can randomise 10 sites as tests and save their characteristics, then also randomise a further 25-30 for training and save their characteristics, before forming a RF model and testing, and then saving out those metrics, all to be repeated many times over. Also should stratify random draws somewhat (climate zone, cover type etc.)  
 - tomorrow i need to finish this plan mostly and also do the age as more continuous. ie age = age_years + (day in current_year)/len(day(current_year))
 
-
 ## 22-7-26
 
 - spent most of the day fixing issues with site age so now i know i can trust it (with fail safes at ends of scripts to check if a single row is identical along pipeline)  
@@ -198,3 +197,14 @@
 - re-ran the whole pipeline start to finish with `make all`, and glad that that works well/perfectly  
 - also removed `no_lai` and `no_ge_no_lai` as i am only planning on assessing impacts of age  
 - need to now actually get the plan finished and sent to martin over the weekend at some point
+
+## 23-7-26  
+
+- re-ran the entire pipeline with `no_lai` and `no_ge_no_lai` models removed (much faster) while on the train to London
+
+## 24-7-26
+
+- working on my dissertation plan for Martin and 'finalising' the exact questions/areas I want to look at  
+- i want to also be able to characterise the sites/datasets used at model formation, and have been looking at some ways to do this based on my sites dataset  
+- looking at Gower's Distance calculations which can use continuous and categorical information about sites to characterise them  (https://towardsdatascience.com/gowers-distance-for-mixed-categorical-and-numerical-data-799fedd1080c/)  
+- 

@@ -94,7 +94,7 @@ p1_r2 <- stats_merged %>%
   theme_minimal() +
   ylab("R^2") + 
   xlab("Model") +
-  scale_x_discrete(limits = c("all", "no_lai", "no_age", "no_age_no_lai")) +
+  scale_x_discrete(limits = c("all", "no_age")) +
     
     facet_wrap(~architecture)
 
@@ -126,8 +126,8 @@ p1_r2 <- stats_merged %>%
   theme_minimal() +
   ylab("RMSE") + 
   xlab("Model") +
-  scale_x_discrete(limits = c("all", "no_lai", "no_age", "no_age_no_lai")) +
-    
+  scale_x_discrete(limits = c("all", "no_age")) +
+
     facet_wrap(~architecture)
 
 p1_r2

@@ -263,14 +263,6 @@ for (i in sites){
 for (i in sites){
     preds_by_architecture("no_age", i, preds_merged, stats_merged, "data/main/17_plots_generate/1_obs_pred")
 }
-# no lai model
-for (i in sites){
-    preds_by_architecture("no_lai", i, preds_merged, stats_merged, "data/main/17_plots_generate/1_obs_pred")
-}
-# no age or lai model
-for (i in sites){
-    preds_by_architecture("no_age_no_lai", i, preds_merged, stats_merged, "data/main/17_plots_generate/1_obs_pred")
-}
 
 
 # 2. architecture constant, compare model
@@ -289,12 +281,6 @@ for (i in sites){
 }
 for (i in sites){
     preds_with_SHAP("no_age", "RF", i, preds_merged, stats_merged, shap_merged, "data/main/17_plots_generate/3_obs_pred_SHAP")
-}
-for (i in sites){
-    preds_with_SHAP("no_lai", "RF", i, preds_merged, stats_merged, shap_merged, "data/main/17_plots_generate/3_obs_pred_SHAP")
-}
-for (i in sites){
-    preds_with_SHAP("no_age_no_lai", "RF", i, preds_merged, stats_merged, shap_merged, "data/main/17_plots_generate/3_obs_pred_SHAP")
 }
 
 # *******************************************************************

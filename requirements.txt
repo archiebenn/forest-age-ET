@@ -22,6 +22,7 @@ fonttools==4.63.0
 frozenlist==1.8.0
 fsspec @ file:///home/conda/feedstock_root/build_artifacts/fsspec_1777547723461/work
 gmpy2 @ file:///home/conda/feedstock_root/build_artifacts/gmpy2_1773244940482/work
+gower==0.1.2
 greenlet @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_greenlet_1779292372/work
 idna==3.11
 importlib-metadata @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_importlib-metadata_1779714582/work

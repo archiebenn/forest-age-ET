@@ -3,7 +3,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 # May - September 2026
 
-.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots diss
+.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots gower diss
 
 .DEFAULT_GOAL := help
 
@@ -12,7 +12,7 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots map diss
+all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots gower map diss
 
 setup: ## setup the folder structure for data to be read into/out of
 	./scripts/bash/setup.sh
@@ -56,6 +56,9 @@ single_held_out: ## python script which runs multiple ML architectures and gener
 
 generate_plots: ## R script which generates predicted vs. observed plots fo different architectures and models  
 	Rscript scripts/R/17_plots_generate.R
+
+gower: ## dissimilarity calculation for site features (to characterise these sites)
+	Rscript scripts/R/20_gower.R
 
 diss: ## compile diss PDF with LaTeX
 	cd diss/LaTeX && latexmk -pdf main.tex && xdg-open main.pdf
