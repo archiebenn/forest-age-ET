@@ -58,7 +58,7 @@ generate_plots: ## R script which generates predicted vs. observed plots fo diff
 	Rscript scripts/R/17_plots_generate.R
 
 gower: ## dissimilarity calculation for site features (to characterise these sites)
-	Rscript scripts/R/20_gower.R
+	Rscript scripts/R/20_gower_pam.R
 
 diss: ## compile diss PDF with LaTeX
 	cd diss/LaTeX && latexmk -pdf main.tex && xdg-open main.pdf

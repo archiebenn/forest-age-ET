@@ -1,8 +1,10 @@
-# gower.R - computing gower matrices to characterise sites as an initial test. 
+# gower_pam.R - computing gower matrices to characterise sites as an initial test. 
+# also carrying out PAM to cluster sites
 # author: Archie Benn
 # date: 24-07-2026
 
 # the computed matrix will use gower as it is a mix of numerical and categorical values and represents dissimilarity between site characteristics
+# this gower matrix then feeds into pam
 
 rm(list = ls())
 
@@ -23,6 +25,10 @@ numerical_features <- c("Site_age",
                       "VPD_mean",
                       "P_sum_14D_mean")
 
+
+# *********************************************
+# GOWER MATRIX
+# *********************************************
 # select only these cols for matrix calculation
 df_features <- df %>%
     mutate(across(all_of(categorical_features), as.factor)) %>%
@@ -46,7 +52,21 @@ as_tibble(gower_matrix, rownames = "Site_ID") %>%
     write_csv("data/main/20_gower/gower_matrix.csv")
 
 
-print("gower.R complete")
+# *********************************************
+# PAM + silhouette
+# *********************************************
+
+
+
+
+
+
+
+
+
+
+
+print("gower_pam.R complete")
 
 
 
