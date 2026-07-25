@@ -19,7 +19,7 @@ df_filtered2 <- df_08 %>%
     filter(Continent %in% c("Europe", "North America")) %>%
     
     # need to drop GF-Guy independently, as it is incorrectly labelled as Europe but is in French Guiana
-    filter(Site_ID != "GF-Guy")
+    filter(Site_ID != "GF-Guy") 
     
 
 ##################

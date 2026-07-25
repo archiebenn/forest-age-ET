@@ -10,6 +10,12 @@ rm(list = ls())
 
 library(tidyverse)
 library(cluster)
+library(factoextra)
+library(rnaturalearth)
+library(sf)
+
+# set numpy seed
+set.seed(42)
 
 df <- read_csv("data/main/10_filtering2/df_sites2.csv")
 
@@ -56,8 +62,36 @@ as_tibble(gower_matrix, rownames = "Site_ID") %>%
 # PAM + silhouette
 # *********************************************
 
+# using silhouette method to determine ideal value of k (clusters) with factoextra package
+# peaks at k=7
+fviz_nbclust(gower, FUN = pam, method = "silhouette") +
+    labs(subtitle = "Silhouette Method for Optimal k")
 
+# now run pam on the dissimilarity matrix with k=6. diss = TRUE as passing a dissimilarity matrix (gower)
+pam_result_gower <- pam(gower_matrix, k = 7, diss = TRUE)
 
+# view cluster assignments
+print(pam_result_gower$clustering)
+
+# visualise clusters
+fviz_cluster(pam_result_gower, data = gower_matrix, geom = "point", ellipse.type = "convex")
+fviz_silhouette(pam_result_gower)
+
+# visualise on world map
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# access cluster per site ID
+df_clustered <- df %>%
+    mutate(cluster = factor(pam_result_gower$clustering[Site_ID]))
+
+# plot on map
+p_map <- ggplot() +
+    geom_sf(data = world, fill = "grey95", colour = "grey80") +
+    geom_point(data = df_clustered, aes(Longitude, Latitude, colour = cluster), size = 2.5) +
+    coord_sf(xlim = c(-130, 40), ylim = c(25, 70)) + 
+    theme_minimal()
+
+p_map
 
 
 
@@ -67,10 +101,6 @@ as_tibble(gower_matrix, rownames = "Site_ID") %>%
 
 
 print("gower_pam.R complete")
-
-
-
-
 
 
 

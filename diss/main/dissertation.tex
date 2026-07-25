@@ -20,7 +20,7 @@
 %----------------------------------------------------------------------------------------
 
 \documentclass[
-10pt, % Main document font size
+11pt, % Main document font size
 a4paper, % Paper type, use 'letterpaper' for US Letter paper
 oneside, % One page layout (no page indentation)
 %twoside, % Two page layout (page indentation for binding and different headers)
@@ -28,7 +28,7 @@ headinclude,footinclude, % Extra spacing for the header and footer
 BCOR5mm, % Binding correction
 ]{scrartcl}
 
-\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+\input{preamble.tex} % Include the structure.tex file which specified the document structure and layout
 
 \hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
 
@@ -36,18 +36,69 @@ BCOR5mm, % Binding correction
 %	TITLE AND AUTHOR(S)
 %----------------------------------------------------------------------------------------
 
-\title{\normalfont\spacedallcaps{\Large The Effect of Forest Age on Machine Learning Evapotranspiration Generalisation}} % The article title
+\title{} % The article title
 
 %\subtitle{Subtitle} % Uncomment to display a subtitle
 
-\author{\spacedlowsmallcaps{Archie Benn}} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
+\author{} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
 
 \date{} % An optional date to appear under the author(s)
 
 %----------------------------------------------------------------------------------------
 
 \begin{document}
+	\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\vspace*{1em} % star for top of page
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
+	
+	\centering	
+	\includegraphics[scale=3.5]{uni_logo.png}
+	\vspace{3em}
 
+	\rule[0.5ex]{\linewidth}{2pt}\vspace*{-\baselineskip}\vspace*{3.2pt}
+	\rule[0.5ex]{\linewidth}{1pt}\\[\baselineskip]
+	\spacedallcaps{\Large Impacts of Forest Age on Spatial and Temporal Generalisation of Random Forest Evapotranspiration models}
+
+	\rule[0.5ex]{\linewidth}{1pt}\vspace*{-\baselineskip}\vspace{3.2pt}
+	\rule[0.5ex]{\linewidth}{2pt}
+	
+	\vspace{1.5em}
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			\textit{Author}\\
+			Archie \textsc{Benn} % Your name
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushright}
+			\large
+			\textit{Supervisor}\\
+			Professor Martin \textsc{De Kauwe} % Supervisor's name
+		\end{flushright}
+	\end{minipage}
+	
+	\vspace{3em}
+	\begin{abstract} 
+		{\noindent{\textsc{Abstract}}}
+		\newline
+		
+	\end{abstract}
+	
+	\vfill
+	
+	A dissertation submitted to the University of Bristol in accordance with
+	the requirements of the degree of Master of Science by advanced study
+	in Bioinformatics in the Faculty of Health and Life Sciences.
+	
+	\let\thefootnote\relax\footnotetext{* \textit{Department of Biology, University of Examples, London, United Kingdom}}
+	
+	\let\thefootnote\relax\footnotetext{\textsuperscript{1} \textit{Department of Chemistry, University of Examples, London, United Kingdom}}
+	
+	\vspace{2em}
+\end{titlepage}
 %----------------------------------------------------------------------------------------
 %	HEADERS
 %----------------------------------------------------------------------------------------
@@ -61,8 +112,7 @@ BCOR5mm, % Binding correction
 %----------------------------------------------------------------------------------------
 %	TABLE OF CONTENTS & LISTS OF FIGURES AND TABLES
 %----------------------------------------------------------------------------------------
-\includegraphics[scale=3.5]{Figures/uni_logo.png}
-\vspace{2em}
+
 \maketitle % Print the title/author/date block
 
 \setcounter{tocdepth}{2} % Set the depth of the table of contents to show sections and subsections only
@@ -79,15 +129,11 @@ BCOR5mm, % Binding correction
 
 \section*{Abstract} % This section will not appear in the table of contents due to the star (\section*)
 
-\lipsum[1] % Dummy text
+
 
 %----------------------------------------------------------------------------------------
 %	AUTHOR AFFILIATIONS
 %----------------------------------------------------------------------------------------
-
-\let\thefootnote\relax\footnotetext{* \textit{Department of Biology, University of Examples, London, United Kingdom}}
-
-\let\thefootnote\relax\footnotetext{\textsuperscript{1} \textit{Department of Chemistry, University of Examples, London, United Kingdom}}
 
 %----------------------------------------------------------------------------------------
 
@@ -101,7 +147,6 @@ BCOR5mm, % Binding correction
 
 A statement requiring citation \cite{Figueredo:2009dg}.
 
-\lipsum[1-3] % Dummy text
 
 Some mathematics in the text: $\cos\pi=-1$ and $\alpha$.
  
@@ -111,7 +156,7 @@ Some mathematics in the text: $\cos\pi=-1$ and $\alpha$.
 
 \section{Methods}
 
-\lipsum[5] % Dummy text
+
 
 \begin{enumerate}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
 \item First item in a list
@@ -123,7 +168,7 @@ Some mathematics in the text: $\cos\pi=-1$ and $\alpha$.
 
 \subsection{Paragraphs}
 
-\lipsum[6] % Dummy text
+
 
 \paragraph{Paragraph Description} \lipsum[7] % Dummy text
 
@@ -133,7 +178,7 @@ Some mathematics in the text: $\cos\pi=-1$ and $\alpha$.
 
 \subsection{Math}
 
-\lipsum[4] % Dummy text
+
 
 \begin{equation}
 \cos^3 \theta =\frac{1}{4}\cos\theta+\frac{3}{4}\cos 3\theta
@@ -164,26 +209,23 @@ Then $2\log(-1)=0$, from which the proof.
 
 \section{Results and Discussion}
 
-Reference to Figure~\vref{fig:gallery}. % The \vref command specifies the location of the reference
-
-\begin{figure}[tb]
-\centering 
-\includegraphics[width=0.5\columnwidth]{GalleriaStampe} 
-\caption[An example of a floating figure]{An example of a floating figure (a reproduction from the \emph{Gallery of prints}, M.~Escher,\index{Escher, M.~C.} from \url{http://www.mcescher.com/}).} % The text in the square bracket is the caption for the list of figures while the text in the curly brackets is the figure caption
-\label{fig:gallery} 
+\begin{figure}[H]
+	\frame{\includegraphics[width=\linewidth]{../figures/world_sites.pdf}}
+	\captionsetup{justification=centering}
+	\caption{Map of FLUXNET sites and associated stand age in this study}
 \end{figure}
 
-\lipsum[10] % Dummy text
+
 
 %------------------------------------------------
 
 \subsection{Subsection}
 
-\lipsum[11] % Dummy text
+
 
 \subsubsection{Subsubsection}
 
-\lipsum[12] % Dummy text
+
 
 \begin{description}
 \item[Word] Definition
@@ -191,7 +233,7 @@ Reference to Figure~\vref{fig:gallery}. % The \vref command specifies the locati
 \item[Idea] Text
 \end{description}
 
-\lipsum[12] % Dummy text
+
 
 \begin{itemize}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
 \item First item in a list
@@ -201,7 +243,7 @@ Reference to Figure~\vref{fig:gallery}. % The \vref command specifies the locati
 
 \subsubsection{Table}
 
-\lipsum[13] % Dummy text
+
 
 \begin{table}[hbt]
 \caption{Table of Grades}
@@ -227,17 +269,6 @@ Reference to Table~\vref{tab:label}. % The \vref command specifies the location 
 
 Reference the figure composed of multiple subfigures as Figure~\vref{fig:esempio}. Reference one of the subfigures as Figure~\vref{fig:ipsum}. % The \vref command specifies the location of the reference
 
-\lipsum[15-18] % Dummy text
-
-\begin{figure}[tb]
-\centering
-\subfloat[A city market.]{\includegraphics[width=.45\columnwidth]{Lorem}} \quad
-\subfloat[Forest landscape.]{\includegraphics[width=.45\columnwidth]{Ipsum}\label{fig:ipsum}} \\
-\subfloat[Mountain landscape.]{\includegraphics[width=.45\columnwidth]{Dolor}} \quad
-\subfloat[A tile decoration.]{\includegraphics[width=.45\columnwidth]{Sit}}
-\caption[A number of pictures.]{A number of pictures with no common theme.} % The text in the square bracket is the caption for the list of figures while the text in the curly brackets is the figure caption
-\label{fig:esempio}
-\end{figure}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
@@ -247,7 +278,7 @@ Reference the figure composed of multiple subfigures as Figure~\vref{fig:esempio
 
 \bibliographystyle{unsrt}
 
-\bibliography{sample.bib} % The file containing the bibliography
+\bibliography{references.bib} % The file containing the bibliography
 
 %----------------------------------------------------------------------------------------
 

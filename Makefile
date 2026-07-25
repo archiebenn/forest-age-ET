@@ -12,7 +12,7 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: setup sites fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots gower map diss
+all: setup sites fluxnet lai filter ET_plots climates sorting filter2 engineer gower map diss
 
 setup: ## setup the folder structure for data to be read into/out of
 	./scripts/bash/setup.sh
@@ -20,9 +20,9 @@ setup: ## setup the folder structure for data to be read into/out of
 sites: ## data prep  part 1 - filter sites, make csv, create world map
 	Rscript scripts/R/01_sites.R
 
-map: ## make a world map (will need to change order such that this runs later)
+map: ## make a world map, compile standalone tikz to PDF
 	Rscript scripts/R/02_site_maps.R
-	sed -i 's/{world_sites_ras/{..\/figures\/world_sites_ras/g' diss/figures/world_sites.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode world_sites.tex
 
 fluxnet: ## data prep part 2 - take suitable sites and get full fluxnet data
 	Rscript scripts/R/03_fluxnet.R
@@ -60,5 +60,5 @@ generate_plots: ## R script which generates predicted vs. observed plots fo diff
 gower: ## dissimilarity calculation for site features (to characterise these sites)
 	Rscript scripts/R/20_gower_pam.R
 
-diss: ## compile diss PDF with LaTeX
+diss: map ## compile diss PDF with LaTeX
 	cd diss/LaTeX && latexmk -pdf main.tex && xdg-open main.pdf
