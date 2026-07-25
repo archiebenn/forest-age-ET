@@ -61,4 +61,4 @@ gower: ## dissimilarity calculation for site features (to characterise these sit
 	Rscript scripts/R/20_gower_pam.R
 
 diss: map ## compile diss PDF with LaTeX
-	cd diss/LaTeX && latexmk -pdf main.tex && xdg-open main.pdf
+	cd diss/main && latexmk -pdf dissertation.tex && xdg-open dissertation.pdf
