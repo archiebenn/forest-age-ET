@@ -207,4 +207,13 @@
 - working on my dissertation plan for Martin and 'finalising' the exact questions/areas I want to look at  
 - i want to also be able to characterise the sites/datasets used at model formation, and have been looking at some ways to do this based on my sites dataset  
 - looking at Gower's Distance calculations which can use continuous and categorical information about sites to characterise them  (https://towardsdatascience.com/gowers-distance-for-mixed-categorical-and-numerical-data-799fedd1080c/)  
-- 
+
+
+## 5-8-26
+
+- setup and finished `analysis_1.2.py` script so i can now run that on the full set of held out data  
+- need to now figure out what i will do with these results/how to cluster the training sites and metrics properly downstream in R (cluster analysis all in R)  
+- also need to do the other 2 scripts soon ish  
+
+
+
