@@ -13,6 +13,10 @@ library(cluster)
 library(factoextra)
 library(rnaturalearth)
 library(sf)
+library(pheatmap)
+library(ltc)
+
+
 
 # set numpy seed
 set.seed(42)
@@ -67,7 +71,7 @@ as_tibble(gower_matrix, rownames = "Site_ID") %>%
 fviz_nbclust(gower, FUN = pam, method = "silhouette") +
     labs(subtitle = "Silhouette Method for Optimal k")
 
-# now run pam on the dissimilarity matrix with k=6. diss = TRUE as passing a dissimilarity matrix (gower)
+# now run pam on the dissimilarity matrix with k=7. diss = TRUE as passing a dissimilarity matrix (gower)
 pam_result_gower <- pam(gower_matrix, k = 7, diss = TRUE)
 
 # view cluster assignments
@@ -94,10 +98,91 @@ p_map <- ggplot() +
 p_map
 
 
+# *********************************************
+# Classifying clusters
+# *********************************************
+# try yto classify the clusters by looking at mean values for the vars
+df_clustered %>%
+    group_by(cluster) %>%
+    summarise(
+        across(all_of(numerical_features), list(mean = mean, sd = sd)),
+        across(all_of(categorical_features), ~ as.character(names(sort(table(.), decreasing = TRUE))[1]))
+    )
 
 
 
+# heatmap cluster setup
+# colour palette
+pal=ltc("heatmap2",50,"continuous")
 
+# retrieve medoid site per cluster
+medoid_ids <- pam_result_gower$medoids
+centroids <- df_features[medoid_ids, ]
+
+centroids_num <- centroids %>%
+    select(all_of(numerical_features)) %>%
+    
+    # scale numerical values (z scores)
+    scale()
+
+# categorical features converted to numeric codes
+centroids_cat_num <- centroids %>%
+    select(all_of(categorical_features)) %>%
+    mutate(across(everything(), ~ as.numeric(as.factor(.))))
+
+# combine into one matrix
+centroids_mat <- cbind(centroids_num, centroids_cat_num)
+
+# form heatmap of variables and centroids
+p_heat <- pheatmap(
+    centroids_mat,
+    cluster_rows = FALSE,
+    cluster_cols = TRUE,
+    main = "Cluster Centroid Heatmap (Medoids)",
+    fontsize_row = 10,
+    fontsize_col = 10,
+    color = pal
+)
+
+p_heat
+
+# get string names back for categoricAL columns
+centroids_cat <- centroids %>%
+    select(all_of(categorical_features)) %>%
+    mutate(across(all_of(categorical_features), as.character))
+
+# automatic labelling of cluster variables (high, low, average etc.) for one cluster
+# this will label each variable in the cluster as high/low/average based on the scaled means of each
+labeller <- function(cluster, high_thresh = 1, low_thresh = -1){
+    
+    # get vars vals
+    vals = centroids_num[cluster, ]
+    
+    # identify high and low and average vals
+    high <- names(vals[vals > high_thresh])
+    low <- names(vals[vals < low_thresh])
+    
+    # string label
+    high_labels <- paste("High", high)
+    low_labels  <- paste("Low", low)
+
+    # categoricals 
+    cat_labels <- paste(
+        names(centroids_cat), " = ", as.character(centroids_cat[cluster, ])
+    )
+    
+    # combine into one label
+    paste(
+        paste("Cluster", cluster, ":"),
+        paste(c(high_labels, low_labels, cat_labels), collapse = ", "),
+        sep = " "
+    )
+}
+
+# apply to all
+cluster_labels <- sapply(1:nrow(centroids_num), labeller)
+
+cluster_labels
 
 
 print("gower_pam.R complete")

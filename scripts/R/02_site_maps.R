@@ -22,7 +22,7 @@ sites_sf <- sites %>%
 world <- ne_countries(scale = "medium", returnclass = "sf")
 
 # colour palette
-pal=ltc("heatmap0",10,"continuous")
+pal=ltc("heatmap0",50,"continuous")
 
 
 p <- world %>%
