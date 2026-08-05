@@ -84,9 +84,13 @@ fviz_silhouette(pam_result_gower)
 # visualise on world map
 world <- ne_countries(scale = "medium", returnclass = "sf")
 
-# access cluster per site ID
+# create and save out df
+# full site df with cluster attached
 df_clustered <- df %>%
     mutate(cluster = factor(pam_result_gower$clustering[Site_ID]))
+write_csv(df_clustered, "data/main/20_gower/df_clustered.csv")
+
+
 
 # plot on map
 p_map <- ggplot() +
@@ -163,8 +167,8 @@ labeller <- function(cluster, high_thresh = 1, low_thresh = -1){
     low <- names(vals[vals < low_thresh])
     
     # string label
-    high_labels <- paste("High", high)
-    low_labels  <- paste("Low", low)
+    high_labels <- paste("High:", high)
+    low_labels  <- paste("Low:", low)
 
     # categoricals 
     cat_labels <- paste(
@@ -173,7 +177,6 @@ labeller <- function(cluster, high_thresh = 1, low_thresh = -1){
     
     # combine into one label
     paste(
-        paste("Cluster", cluster, ":"),
         paste(c(high_labels, low_labels, cat_labels), collapse = ", "),
         sep = " "
     )
@@ -181,9 +184,16 @@ labeller <- function(cluster, high_thresh = 1, low_thresh = -1){
 
 # apply to all
 cluster_labels <- sapply(1:nrow(centroids_num), labeller)
-
 cluster_labels
 
+# and now form cluster labels with description as a df
+df_cluster_labels <- data.frame(
+    cluster = 1:length(cluster_labels),
+    medoid_site = pam_result_gower$medoids,
+    label = cluster_labels
+)
+
+write_csv(df_cluster_labels, "data/main/20_gower/df_cluster_labels.csv")
 
 print("gower_pam.R complete")
 
