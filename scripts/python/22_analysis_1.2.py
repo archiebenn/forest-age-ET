@@ -1,4 +1,4 @@
-# analysis_1.2.R - part 1.2 of final analysis for dissertation
+# analysis_1.2.py - part 1.2 of final analysis for dissertation
 # this script builds rf models (with and without age) based on 20 randomly samples training sites and predicts on the 7 medoid (representative) test sites, before saving metrics
 # date: 5-8-2026
 # author: Archie Benn sj19031@bristol.ac.uk
@@ -153,8 +153,8 @@ features_no_age = [c for c in df_cleaned.columns
 results = []
 predictions_full = []
 
-# loop over 20 random training sets
-for run in range(3):
+# loop over 100 random training sets
+for run in range(100):
 
     # set NumPy seed to change every run (otherwise constant training set)
     np.random.seed(run)
@@ -185,7 +185,7 @@ for run in range(3):
                         target="ET")
 
         # compute mean training set Gower distance to this test site
-        mean_gower = df_gower.loc[train_df["Site_ID"], site].mean()
+        mean_gower = df_gower.loc[train_df["Site_ID"].unique(), site].mean()
 
         # save out metrics to results
         results.append({
