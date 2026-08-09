@@ -61,7 +61,7 @@ gower: ## dissimilarity calculation for site features (to characterise these sit
 	Rscript scripts/R/20_gower_pam.R
 
 analysis_1.1: ## tests the effect of iterative addition of features to RF models with r-squared and rmse of predictions against the 7 medoid test sites
-	python scripts/python/22_analysis_1.1.py
+	python scripts/python/21_analysis_1.1.py
 
 analysis_1.2: ## large scale train/test loops. trains on 20 random sites and predicts on 7 medoid/cluster sites, then saves metrics and repeats
 	python scripts/python/22_analysis_1.2.py

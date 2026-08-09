@@ -136,6 +136,18 @@ non_features = [
                     'Pa',             # dropped
                     'Date',
                     'Unnamed: 0',     # not sure where this came from
+
+                    # the following categorical columns will all be dropped as a test 9-8-26 (from 1.1 analysis)
+                    "Continent_Europe",
+                    "Continent_North America",
+                    "Cover_type_DBF",
+                    "Cover_type_EBF",
+                    "Cover_type_ENF",
+                    "Cover_type_MF",
+                    "Cover_type_OSH",
+                    "Climate_zone_Dry",
+                    "Climate_zone_Temperate",
+                    "Climate_zone_Tropical"
                     ]
 
 # age column to drop for the no age model

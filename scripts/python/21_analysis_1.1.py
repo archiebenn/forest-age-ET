@@ -165,6 +165,8 @@ results_main = []
 # loop over all test sites
 for site in test_sites:
 
+    print(f"Starting site {site}")
+
     # set train/test dfs
     test_df = df_cleaned[df_cleaned["Site_ID"] == site]
     train_df = df_cleaned[df_cleaned["Site_ID"] != site]
@@ -178,7 +180,9 @@ for site in test_sites:
                           test_df=test_df,
                           target="ET")
 
-    results_main.append({"test_site": site, "metrics": metrics})
+    test_site_cluster = df_sites_cleaned.loc[df_sites_cleaned["Site_ID"] == site, "cluster"].values[0]
+
+    results_main.append({"test_site": site, "test_site_cluster": test_site_cluster, "metrics": metrics})
 
     print(f"Site {site} complete!")
 
@@ -194,14 +198,15 @@ for entry in results_main:
 
         rows.append({
             "test_site": entry["test_site"],
+            "test_site_cluster": entry["test_site_cluster"],
             "n_features": len(m["features"]),
             "features": ",".join(m["features"]),
             "rmse": m["rmse"],
             "r2": m["r2"],
         })
-        
+
 results_main_df = pd.DataFrame(rows)
-results_main_df.to_csv(f"data/main/22_analysis_1.1/results_{timestamp}.csv", index=False)
+results_main_df.to_csv(f"data/main/21_analysis_1.1/results_{timestamp}.csv", index=False)
 
 print("analysis_1.1.py complete")
 
