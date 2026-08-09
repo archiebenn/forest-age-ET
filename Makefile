@@ -3,7 +3,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 # May - September 2026
 
-.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots gower analysis_1.2 diss
+.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots gower analysis_1.1 analysis_1.2 diss
 
 .DEFAULT_GOAL := help
 
@@ -12,7 +12,7 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: setup sites fluxnet lai filter ET_plots climates sorting filter2 engineer gower analysis_1.2 map diss
+all: setup sites fluxnet lai filter ET_plots climates sorting filter2 engineer gower analysis_1.1 analysis_1.2 map diss
 
 setup: ## setup the folder structure for data to be read into/out of
 	./scripts/bash/setup.sh
@@ -59,6 +59,9 @@ generate_plots: ## R script which generates predicted vs. observed plots fo diff
 
 gower: ## dissimilarity calculation for site features (to characterise these sites)
 	Rscript scripts/R/20_gower_pam.R
+
+analysis_1.1: ## tests the effect of iterative addition of features to RF models with r-squared and rmse of predictions against the 7 medoid test sites
+	python scripts/python/22_analysis_1.1.py
 
 analysis_1.2: ## large scale train/test loops. trains on 20 random sites and predicts on 7 medoid/cluster sites, then saves metrics and repeats
 	python scripts/python/22_analysis_1.2.py
