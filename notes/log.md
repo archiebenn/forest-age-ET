@@ -215,5 +215,10 @@
 - need to now figure out what i will do with these results/how to cluster the training sites and metrics properly downstream in R (cluster analysis all in R)  
 - also need to do the other 2 scripts soon ish  
 
+# 9-8-26
+
+- setup and finished `analysis_1.1.py` and ran this with the iteratively added features to test r-squared and rmse for the medoid sites  
+- decided to remove the categorical variables from models as these are largely site dpeendent and also complicates model  
+
 
 
