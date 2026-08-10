@@ -223,4 +223,10 @@
 - so now just need to do temporal analysis and then get on with analysing it all  
 
 
+# 10-8-26
+
+- found a bug which caused the koeppen lookup index thing to be mis-categorising lots of the sites (to do with index values being returned instead of characters..., and meant sites in Germany and France were coming up as 'Tropical' etc.), so fixed that and then re-ran all scripts from there downstream  
+- finished `analysis_2.py`, and now just need to run it to get results before doing analysis exploration in 3 `.Rmd` files and tarting my actual final plots/stats  
+
+
 
