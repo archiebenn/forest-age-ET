@@ -5,12 +5,22 @@ date: "2026-08-10"
 ---
 
 ```{r setup, include=FALSE}
-rm(list = ls())
-
 knitr::opts_chunk$set(echo = TRUE)
 
+rm(list = ls())
+
 library(tidyverse)
+library(here)
+library(ltc)
+library(ggrepel)
+library(gridExtra)
+
 ```
 
 # Analysis part 1.1
+- After forming the iteratively added feature models and predictions, can now visualise and investigate these further by test sites.
 
+```{r}
+df_sites <- read_csv(here("data/main/21_analysis_1.1/cleaned_sites.csv"))
+df_results <- read_csv(here("data/main/21_analysis_1.1/results_1008_1312.csv"))
+```

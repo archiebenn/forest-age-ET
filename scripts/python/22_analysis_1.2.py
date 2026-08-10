@@ -25,20 +25,14 @@ timestamp = datetime.now().strftime("%d%m_%H%M")
 # *********************************************
 
 df = pd.read_csv("data/main/14_pre_processing/df_ml_ready.csv")
-df_sites = pd.read_csv("data/main/20_gower/df_clustered.csv")
+df_sites = pd.read_csv("data/main/21_analysis_1.1/cleaned_sites.csv")
 df_gower = pd.read_csv("data/main/20_gower/gower_matrix.csv", index_col=0)
 df_cluster_labels = pd.read_csv("data/main/20_gower/df_cluster_labels.csv")
 
-# remove CA-TP1 and CA-TP4 as these are part of the chronosequence of CA-TP3 which is a test site (stops local site leakage)
-sites_remove = ["CA-TP1", "CA-TP4"]
-df_cleaned = df[~df["Site_ID"].isin(sites_remove)]
-df_sites_cleaned = df_sites[~df_sites["Site_ID"].isin(sites_remove)]
-
-# save out this cleaned site df too for map
-df_sites_cleaned.to_csv("data/main/22_analysis_1.2/cleaned_sites.csv", index=False)
+df_cleaned = df[df["Site_ID"].isin(df_sites["Site_ID"])]
 
 # all sites list
-all_sites = df_sites_cleaned["Site_ID"].astype(str).tolist()
+all_sites = df_sites["Site_ID"].astype(str).tolist()
 
 # test sites list (medoids)
 test_sites = df_cluster_labels.iloc[:, 1].astype(str).tolist()
@@ -148,10 +142,12 @@ non_features = [
                     "Cover_type_ENF",
                     "Cover_type_MF",
                     "Cover_type_OSH",
-                    "Climate_zone_Dry",
+                    "Climate_zone_Continental",
+                    "Climate_zone_Polar",
                     "Climate_zone_Temperate",
                     "Climate_zone_Tropical"
                     ]
+
 
 # age column to drop for the no age model
 age_column = 'Site_age'
@@ -206,7 +202,7 @@ for run in range(100):
         results.append({
             "run": run,
             "test_site": site,
-            "test_site_cluster": df_sites_cleaned.loc[df_sites_cleaned["Site_ID"] == site, "cluster"].values[0],
+            "test_site_cluster": df_sites.loc[df_sites["Site_ID"] == site, "cluster"].values[0],
             "rmse_age": metrics["rmse_age"],
             "rmse_no_age": metrics["rmse_no_age"],
             "r2_age": metrics["r2_age"],
@@ -220,7 +216,7 @@ for run in range(100):
             predictions_full.append({
             "run": run,
             "test_site": site,
-            "test_site_cluster": df_sites_cleaned.loc[df_sites_cleaned["Site_ID"] == site, "cluster"].values[0],
+            "test_site_cluster": df_sites.loc[df_sites["Site_ID"] == site, "cluster"].values[0],
             "timestamp": test_df.iloc[i]["Date"],
             "y_true": test_df.iloc[i]["ET"],
             "pred_age": metrics["preds_age"][i],

@@ -32,10 +32,13 @@ df_gower = pd.read_csv("data/main/20_gower/gower_matrix.csv", index_col=0)
 df_cluster_labels = pd.read_csv("data/main/20_gower/df_cluster_labels.csv")
 
 
-# remove CA-TP1 and CA-TP4 as these are part of the chronosequence of CA-TP3 which is a test site (stops local site leakage)
-sites_remove = ["CA-TP1", "CA-TP4"]
+# remove chronosequence sites of which other sites in chronosequence are also represented in test medoids (stops local site leakage)
+sites_remove = ["CA-TP1", "CA-TP4", "US-Me2", "US-Me5", "US-Me6"]
 df_cleaned = df[~df["Site_ID"].isin(sites_remove)]
 df_sites_cleaned = df_sites[~df_sites["Site_ID"].isin(sites_remove)]
+
+# save out this cleaned site df too for map
+df_sites_cleaned.to_csv("data/main/21_analysis_1.1/cleaned_sites.csv", index=False)
 
 # all sites list
 all_sites = df_sites_cleaned["Site_ID"].astype(str).tolist()

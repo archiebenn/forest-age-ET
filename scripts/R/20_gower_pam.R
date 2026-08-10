@@ -41,7 +41,7 @@ numerical_features <- c("Site_age",
 # *********************************************
 # select only these cols for matrix calculation
 df_features <- df %>%
-    mutate(across(all_of(categorical_features), as.factor)) %>%
+    dplyr::mutate(across(all_of(categorical_features), as.factor)) %>%
     column_to_rownames("Site_ID") %>%
     select(all_of(c(categorical_features, numerical_features)))
 
@@ -67,12 +67,12 @@ as_tibble(gower_matrix, rownames = "Site_ID") %>%
 # *********************************************
 
 # using silhouette method to determine ideal value of k (clusters) with factoextra package
-# peaks at k=7
-fviz_nbclust(gower, FUN = pam, method = "silhouette") +
+# peaks at k=14 = too high for 57ish sites
+fviz_nbclust(gower, FUN = pam, method = "silhouette", k.max = 20) +
     labs(subtitle = "Silhouette Method for Optimal k")
 
-# now run pam on the dissimilarity matrix with k=7. diss = TRUE as passing a dissimilarity matrix (gower)
-pam_result_gower <- pam(gower_matrix, k = 7, diss = TRUE)
+# now run pam on the dissimilarity matrix. diss = TRUE as passing a dissimilarity matrix (gower)
+pam_result_gower <- pam(gower_matrix, k = 6, diss = TRUE)
 
 # view cluster assignments
 print(pam_result_gower$clustering)
@@ -113,10 +113,10 @@ p_map
 # *********************************************
 # try yto classify the clusters by looking at mean values for the vars
 df_clustered %>%
-    group_by(cluster) %>%
-    summarise(
-        across(all_of(numerical_features), list(mean = mean, sd = sd)),
-        across(all_of(categorical_features), ~ as.character(names(sort(table(.), decreasing = TRUE))[1]))
+    dplyr::group_by(cluster) %>%
+    dplyr::summarise(
+        dplyr::across(all_of(numerical_features), list(mean = mean, sd = sd)),
+        dplyr::across(all_of(categorical_features), ~ as.character(names(sort(table(.), decreasing = TRUE))[1]))
     )
 
 
@@ -137,8 +137,8 @@ centroids_num <- centroids %>%
 
 # categorical features converted to numeric codes
 centroids_cat_num <- centroids %>%
-    select(all_of(categorical_features)) %>%
-    mutate(across(everything(), ~ as.numeric(as.factor(.))))
+    dplyr::select(all_of(categorical_features)) %>%
+    dplyr::mutate(across(everything(), ~ as.numeric(as.factor(.))))
 
 # combine into one matrix
 centroids_mat <- cbind(centroids_num, centroids_cat_num)
@@ -158,23 +158,27 @@ p_heat
 
 # get string names back for categoricAL columns
 centroids_cat <- centroids %>%
-    select(all_of(categorical_features)) %>%
-    mutate(across(all_of(categorical_features), as.character))
+    dplyr::select(all_of(categorical_features)) %>%
+    dplyr::mutate(across(all_of(categorical_features), as.character))
 
 # automatic labelling of cluster variables (high, low, average etc.) for one cluster
 # this will label each variable in the cluster as high/low/average based on the scaled means of each
-labeller <- function(cluster, high_thresh = 1, low_thresh = -1){
+labeller <- function(cluster, vhigh_thresh = 1.5, high_thresh = 1, low_thresh = -1, vlow_thresh = -1.5){
     
     # get vars vals
     vals = centroids_num[cluster, ]
     
-    # identify high and low and average vals
-    high <- names(vals[vals > high_thresh])
-    low <- names(vals[vals < low_thresh])
+    # identify very high/high/low/very low vals
+    vhigh <- names(vals[vals > vhigh_thresh])
+    high  <- names(vals[vals > high_thresh & vals <= vhigh_thresh])
+    low   <- names(vals[vals < low_thresh & vals >= vlow_thresh])
+    vlow  <- names(vals[vals < vlow_thresh])
     
-    # string label
-    high_labels <- paste("High:", high)
-    low_labels  <- paste("Low:", low)
+    # string labels
+    vhigh_labels <- if (length(vhigh) > 0) paste("Very High:", vhigh) else NULL
+    high_labels  <- if (length(high) > 0)  paste("High:", high) else NULL
+    low_labels   <- if (length(low) > 0)   paste("Low:", low) else NULL
+    vlow_labels  <- if (length(vlow) > 0)  paste("Very Low:", vlow) else NULL
 
     # categoricals 
     cat_labels <- paste(
@@ -183,7 +187,7 @@ labeller <- function(cluster, high_thresh = 1, low_thresh = -1){
     
     # combine into one label
     paste(
-        paste(c(high_labels, low_labels, cat_labels), collapse = ", "),
+        paste(c(vhigh_labels, high_labels, low_labels, vlow_labels, cat_labels), collapse = ", "),
         sep = " "
     )
 }
