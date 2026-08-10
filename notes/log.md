@@ -208,6 +208,7 @@
 - i want to also be able to characterise the sites/datasets used at model formation, and have been looking at some ways to do this based on my sites dataset  
 - looking at Gower's Distance calculations which can use continuous and categorical information about sites to characterise them  (https://towardsdatascience.com/gowers-distance-for-mixed-categorical-and-numerical-data-799fedd1080c/)  
 
+# August
 
 ## 5-8-26
 
@@ -219,6 +220,7 @@
 
 - setup and finished `analysis_1.1.py` and ran this with the iteratively added features to test r-squared and rmse for the medoid sites  
 - decided to remove the categorical variables from models as these are largely site dpeendent and also complicates model  
+- so now just need to do temporal analysis and then get on with analysing it all  
 
 
 

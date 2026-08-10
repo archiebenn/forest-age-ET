@@ -34,6 +34,9 @@ sites_remove = ["CA-TP1", "CA-TP4"]
 df_cleaned = df[~df["Site_ID"].isin(sites_remove)]
 df_sites_cleaned = df_sites[~df_sites["Site_ID"].isin(sites_remove)]
 
+# save out this cleaned site df too for map
+df_sites_cleaned.to_csv("data/main/22_analysis_1.2/cleaned_sites.csv", index=False)
+
 # all sites list
 all_sites = df_sites_cleaned["Site_ID"].astype(str).tolist()
 

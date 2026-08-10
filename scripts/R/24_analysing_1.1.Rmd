@@ -1,0 +1,16 @@
+---
+title: "Analysis for part 1.1"
+output: html_document
+date: "2026-08-10"
+---
+
+```{r setup, include=FALSE}
+rm(list = ls())
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+# Analysis part 1.1
+

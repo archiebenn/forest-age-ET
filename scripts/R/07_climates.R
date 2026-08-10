@@ -64,8 +64,8 @@ site_climates <- df_06 %>%
         Climate_zone = LookupCZ(data.frame(Site = Site_ID, Longitude, Latitude, rndCoord.lon, rndCoord.lat))
     ) %>%
     
-    # simplify using lookup vector
-    mutate(Climate_zone = koeppen_lookup[Climate_zone]) %>%
+    # simplify using lookup vector (edited 10-8-26 as major error caused by returning integer position not name!)
+    mutate(Climate_zone = koeppen_lookup[as.character(Climate_zone)]) %>%
     
     # attach continent data from above
     left_join(select(sites_w_cont, continent, Site_ID), by = "Site_ID") %>%
@@ -109,8 +109,6 @@ if (!isTRUE(all.equal(actual_age, expected_age))) {
                "\nExpected age:", expected_age,
                "\nActual age:", actual_age))
 }
-# **********************************************************
-
 
 # write out
 write_csv(df_climates, "data/main/07_climates/climates_data.csv")

@@ -78,7 +78,13 @@ pam_result_gower <- pam(gower_matrix, k = 7, diss = TRUE)
 print(pam_result_gower$clustering)
 
 # visualise clusters
-fviz_cluster(pam_result_gower, data = gower_matrix, geom = "point", ellipse.type = "convex")
+# cluster plot
+fviz_cluster(pam_result_gower, 
+             data = gower_matrix,
+             geom = "point", 
+             ellipse.type = "convex")
+
+# silhouette plot
 fviz_silhouette(pam_result_gower)
 
 # visualise on world map

@@ -144,7 +144,7 @@ feature_order = [
     "Lai_500m", "Site_age",
     "Continent_Europe", "Continent_North America",
     "Cover_type_DBF", "Cover_type_EBF", "Cover_type_ENF", "Cover_type_MF", "Cover_type_OSH",
-    "Climate_zone_Dry", "Climate_zone_Temperate", "Climate_zone_Tropical",
+    "Climate_zone_Continental", "Climate_zone_Polar", "Climate_zone_Temperate", "Climate_zone_Tropical"
 ]
 
 # safety check: catches typos/missing cols
