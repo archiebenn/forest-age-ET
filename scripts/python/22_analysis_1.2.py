@@ -239,5 +239,4 @@ predictions_df = pd.DataFrame(predictions_full)
 results_df.to_csv(f"data/main/22_analysis_1.2/metrics_{timestamp}.csv", index=False)
 predictions_df.to_csv(f"data/main/22_analysis_1.2/predictions_{timestamp}.csv", index=False)
 
-
 print("analysis_1.2.py complete")
