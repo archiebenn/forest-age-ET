@@ -229,4 +229,12 @@
 - finished `analysis_2.py`, and now just need to run it to get results before doing analysis exploration in 3 `.Rmd` files and tarting my actual final plots/stats  
 
 
+# 11-8-26 
+
+- started exploration of analysis results for part 1.1 and 1.2 in `.Rmd` files  
+- also generated two main plots for the diss and got those looking nice  
+- need to carry on exploring 1.2 results and part 2 results tomorrow, and think of some more plots etc.  
+
+
+
 
