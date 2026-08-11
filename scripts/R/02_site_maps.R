@@ -13,7 +13,7 @@ library(tikzDevice)
 library(ltc)
 
 # attach LATEST main fluxnet df after site selections etc. (22-7-2026)
-sites <- read_csv("data/main/21_analysis_1.1/cleaned_sites.csv")
+sites <- read_csv("data/main/20_gower/df_clustered.csv")
 
 sites_sf <- sites %>%
     st_as_sf(coords = c("Longitude", "Latitude"), crs = 4326)
@@ -29,7 +29,7 @@ p <- world %>%
     ggplot() +
     geom_sf(fill = "grey95", colour = "grey75", linewidth = 0.2) + 
     geom_sf(data = sites_sf, aes(colour = Site_age), size = 1) +
-    coord_sf(xlim = c(-145, 32.5), ylim = c(30, 70), default_crs = sf::st_crs(4326)) +
+    coord_sf(xlim = c(-145, 32.5), ylim = c(6.5, 70), default_crs = sf::st_crs(4326)) +
     scale_colour_gradientn(
         colours = pal,
         name = "Stand Age \n(Years)",

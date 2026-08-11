@@ -163,22 +163,18 @@ centroids_cat <- centroids %>%
 
 # automatic labelling of cluster variables (high, low, average etc.) for one cluster
 # this will label each variable in the cluster as high/low/average based on the scaled means of each
-labeller <- function(cluster, vhigh_thresh = 1.5, high_thresh = 1, low_thresh = -1, vlow_thresh = -1.5){
+labeller <- function(cluster, high_thresh = 1, low_thresh = -1){
     
     # get vars vals
     vals = centroids_num[cluster, ]
     
-    # identify very high/high/low/very low vals
-    vhigh <- names(vals[vals > vhigh_thresh])
-    high  <- names(vals[vals > high_thresh & vals <= vhigh_thresh])
-    low   <- names(vals[vals < low_thresh & vals >= vlow_thresh])
-    vlow  <- names(vals[vals < vlow_thresh])
+    # identify high and low and average vals
+    high <- names(vals[vals > high_thresh])
+    low <- names(vals[vals < low_thresh])
     
-    # string labels
-    vhigh_labels <- if (length(vhigh) > 0) paste("Very High:", vhigh) else NULL
-    high_labels  <- if (length(high) > 0)  paste("High:", high) else NULL
-    low_labels   <- if (length(low) > 0)   paste("Low:", low) else NULL
-    vlow_labels  <- if (length(vlow) > 0)  paste("Very Low:", vlow) else NULL
+    # string label
+    high_labels <- paste("High:", high)
+    low_labels  <- paste("Low:", low)
 
     # categoricals 
     cat_labels <- paste(
@@ -187,7 +183,7 @@ labeller <- function(cluster, vhigh_thresh = 1.5, high_thresh = 1, low_thresh = 
     
     # combine into one label
     paste(
-        paste(c(vhigh_labels, high_labels, low_labels, vlow_labels, cat_labels), collapse = ", "),
+        paste(c(high_labels, low_labels, cat_labels), collapse = ", "),
         sep = " "
     )
 }

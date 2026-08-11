@@ -24,3 +24,41 @@ library(gridExtra)
 df_sites <- read_csv(here("data/main/21_analysis_1.1/cleaned_sites.csv"))
 df_results <- read_csv(here("data/main/21_analysis_1.1/results_1008_1312.csv"))
 ```
+```{r}
+# colour palette
+pal = ltc(minou)
+
+
+p1 <- df_results %>%
+    
+    # pivot the metrics column long
+    pivot_longer(cols = c(r2, rmse), names_to = "metric", values_to = "value") %>%
+    
+    # plot
+    ggplot(aes(x = n_features, y = value, colour = metric, group = metric)) +
+    geom_line() +
+    # colour lines
+    scale_colour_manual(name = NULL,
+                          values = c("r2" = pal[2], 
+                                     "rmse" = pal[5])) +
+    
+    # facet by medoid/test site
+    facet_wrap(~test_site, scales = "free_y") + 
+    
+    # aesthetics
+    ggtitle("R-squared and RMSE from consecutively increasing feature counts in RF models") +
+    xlab("Number of features in model") +
+    theme_bw()
+p1
+```
+
+
+
+
+
+
+
+
+
+
+

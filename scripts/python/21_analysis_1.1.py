@@ -137,6 +137,19 @@ non_features = [
                     'Pa',             # dropped
                     'Date',
                     'Unnamed: 0',     # not sure where this came from
+
+                    # the following categorical columns will all be dropped as a test 9-8-26 (from 1.1 analysis)
+                    "Continent_Europe",
+                    "Continent_North America",
+                    "Cover_type_DBF",
+                    "Cover_type_EBF",
+                    "Cover_type_ENF",
+                    "Cover_type_MF",
+                    "Cover_type_OSH",
+                    "Climate_zone_Continental",
+                    "Climate_zone_Polar",
+                    "Climate_zone_Temperate",
+                    "Climate_zone_Tropical"
                     ]
 
 features_all = [c for c in df_cleaned.columns if c not in non_features]
@@ -144,10 +157,7 @@ features_all = [c for c in df_cleaned.columns if c not in non_features]
 # re-order as the order of added features in this case is important
 feature_order = [
     "Tair", "SW_rad", "VPD", "Wspeed", "P_sum_14D",
-    "Lai_500m", "Site_age",
-    "Continent_Europe", "Continent_North America",
-    "Cover_type_DBF", "Cover_type_EBF", "Cover_type_ENF", "Cover_type_MF", "Cover_type_OSH",
-    "Climate_zone_Continental", "Climate_zone_Polar", "Climate_zone_Temperate", "Climate_zone_Tropical"
+    "Lai_500m", "Site_age"
 ]
 
 # safety check: catches typos/missing cols
