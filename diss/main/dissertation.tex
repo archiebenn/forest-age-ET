@@ -20,7 +20,7 @@
 %----------------------------------------------------------------------------------------
 
 \documentclass[
-11pt, % Main document font size
+12pt, % Main document font size
 a4paper, % Paper type, use 'letterpaper' for US Letter paper
 oneside, % One page layout (no page indentation)
 %twoside, % Two page layout (page indentation for binding and different headers)
@@ -28,17 +28,15 @@ headinclude,footinclude, % Extra spacing for the header and footer
 BCOR5mm, % Binding correction
 ]{scrartcl}
 
-\input{preamble.tex} % Include the structure.tex file which specified the document structure and layout
-
-\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
-
+\input{preamble.tex} % 
+\hyphenation{Fortran hy-phen-ation} 
 %----------------------------------------------------------------------------------------
 %	TITLE AND AUTHOR(S)
 %----------------------------------------------------------------------------------------
 
 \title{} % The article title
 
-%\subtitle{Subtitle} % Uncomment to display a subtitle
+\subtitle{Subtitle} % Uncomment to display a subtitle
 
 \author{} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
 
@@ -52,53 +50,58 @@ BCOR5mm, % Binding correction
 	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
 	
 	\centering	
-	\includegraphics[scale=3.5]{uni_logo.png}
-	\vspace{3em}
+	\vspace*{8em}
 
-	\rule[0.5ex]{\linewidth}{2pt}\vspace*{-\baselineskip}\vspace*{3.2pt}
-	\rule[0.5ex]{\linewidth}{1pt}\\[\baselineskip]
-	\spacedallcaps{\Large Impacts of Forest Age on Spatial and Temporal Generalisation of Random Forest Evapotranspiration models}
 
-	\rule[0.5ex]{\linewidth}{1pt}\vspace*{-\baselineskip}\vspace{3.2pt}
-	\rule[0.5ex]{\linewidth}{2pt}
+	\spacedallcaps{\normalsize Archie Benn}\\ \vspace{1em}
+	\spacedallcaps{\Large \bfseries How to Train Your Model}\\ \vspace{1em}
+	\spacedallcaps{\normalsize Assessing the Impacts of Forest Age on the Spatial and Temporal Generalisation of Random Forest Evapotranspiration Models}
 	
-	\vspace{1.5em}
+	\vspace{6em}
 	
-	\begin{minipage}{0.4\textwidth}
-		\begin{flushleft}
-			\large
-			\textit{Author}\\
-			Archie \textsc{Benn} % Your name
-		\end{flushleft}
-	\end{minipage}
-	~
-	\begin{minipage}{0.4\textwidth}
-		\begin{flushright}
-			\large
-			\textit{Supervisor}\\
-			Professor Martin \textsc{De Kauwe} % Supervisor's name
-		\end{flushright}
-	\end{minipage}
-	
-	\vspace{3em}
-	\begin{abstract} 
-		{\noindent{\textsc{Abstract}}}
-		\newline
-		
-	\end{abstract}
+	MSc Bioinformatics \\ Supervisor: Martin De Kauwe \\ April - September 2026
 	
 	\vfill
 	
-	A dissertation submitted to the University of Bristol in accordance with
-	the requirements of the degree of Master of Science by advanced study
-	in Bioinformatics in the Faculty of Health and Life Sciences.
+	\begin{tabular} {cc}
+		\parbox{0.35\textwidth}{\includegraphics[scale=2.5]{uni_logo.png}}
+		&
+		\parbox{0.65\textwidth}{\normalfont \normalsize
+		A dissertation submitted to the University of Bristol in accordance with
+		the requirements of the degree of Master of Science by advanced study
+		in Bioinformatics in the Faculty of Health and Life Sciences.}
+	\end{tabular}
+
 	
-	\let\thefootnote\relax\footnotetext{* \textit{Department of Biology, University of Examples, London, United Kingdom}}
+	\newpage
+	%----------------------------------------------------------------------------------------
+	%	ABSTRACT
+	%----------------------------------------------------------------------------------------
 	
-	\let\thefootnote\relax\footnotetext{\textsuperscript{1} \textit{Department of Chemistry, University of Examples, London, United Kingdom}}
+	\section*{Abstract} % This section will not appear in the table of contents due to the star (\section*)
+	
+	\normalfont \normalsize
+	\lipsum[20]
+		
+	\vfill
+	\textbf{Key words:} Evapotranspiration, Forest Age, Machine Learning, FLUXNET.
+	\textbf{Word count:} 4000
+	
+	
+	%\let\thefootnote\relax\footnotetext{* \textit{Department of Biology, University of Examples, London, United Kingdom}}
+	
+	%\let\thefootnote\relax\footnotetext{\textsuperscript{1} \textit{Department of Chemistry, University of Examples, London, United Kingdom}}
 	
 	\vspace{2em}
 \end{titlepage}
+
+\newpage
+\section*{Declaration}
+I declare that the work in this dissertation was carried out in accordance with the requirements of the University’s Regulations and Code of Practice for Taught Programmes and that it has not been submitted for any other academic award. Except where indicated by specific reference in the text, this work is my own work. Work done in collaboration with, or with the assistance of others, is indicated as such. I have identified all material in this dissertation which is not my own work through appropriate referencing and acknowledgement. Where I have quoted or otherwise incorporated material which is the work of others, I have included the source in the references. Any views expressed in the dissertation, other than referenced material, are those of the author. \newline \\Archie Benn
+%\\\today
+
+\newpage
+
 %----------------------------------------------------------------------------------------
 %	HEADERS
 %----------------------------------------------------------------------------------------
@@ -113,21 +116,10 @@ BCOR5mm, % Binding correction
 %	TABLE OF CONTENTS & LISTS OF FIGURES AND TABLES
 %----------------------------------------------------------------------------------------
 
-\maketitle % Print the title/author/date block
-
-\setcounter{tocdepth}{2} % Set the depth of the table of contents to show sections and subsections only
-
+\setcounter{tocdepth}{2} 
 \tableofcontents % Print the table of contents
-
-\listoffigures % Print the list of figures
-
-\listoftables % Print the list of tables
-
-%----------------------------------------------------------------------------------------
-%	ABSTRACT
-%----------------------------------------------------------------------------------------
-
-\section*{Abstract} % This section will not appear in the table of contents due to the star (\section*)
+%\listoffigures % Print the list of figures
+%\listoftables % Print the list of tables
 
 
 
@@ -137,137 +129,67 @@ BCOR5mm, % Binding correction
 
 %----------------------------------------------------------------------------------------
 
-\newpage % Start the article content on the second page, remove this if you have a longer abstract that goes onto the second page
+\newpage 
 
 %----------------------------------------------------------------------------------------
 %	INTRODUCTION
 %----------------------------------------------------------------------------------------
-
-\section{Introduction}
+\section{Aims and Objectives}
 
 A statement requiring citation \cite{Figueredo:2009dg}.
 
-
-Some mathematics in the text: $\cos\pi=-1$ and $\alpha$.
  
+
 %----------------------------------------------------------------------------------------
 %	METHODS
 %----------------------------------------------------------------------------------------
-
 \section{Methods}
 
+\subsection{Data Acquisition and Setup}
 
 
-\begin{enumerate}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
-\item First item in a list
-\item Second item in a list
-\item Third item in a list
-\end{enumerate}
-
-%------------------------------------------------
-
+%----------------------------------------------------------------------------------------
+%	RESULTS
+%----------------------------------------------------------------------------------------
+\section{Results}
 \subsection{Paragraphs}
 
-
-
-\paragraph{Paragraph Description} \lipsum[7] % Dummy text
-
-\paragraph{Different Paragraph Description} \lipsum[8] % Dummy text
-
-%------------------------------------------------
-
-\subsection{Math}
-
-
-
-\begin{equation}
-\cos^3 \theta =\frac{1}{4}\cos\theta+\frac{3}{4}\cos 3\theta
-\label{eq:refname2}
-\end{equation}
-
-\lipsum[5] % Dummy text
-
-\begin{definition}[Gauss] 
-To a mathematician it is obvious that
-$\int_{-\infty}^{+\infty}
-e^{-x^2}\,dx=\sqrt{\pi}$. 
-\end{definition} 
-
-\begin{theorem}[Pythagoras]
-The square of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the other two sides.
-\end{theorem}
-
-\begin{proof} 
-We have that $\log(1)^2 = 2\log(1)$.
-But we also have that $\log(-1)^2=\log(1)=0$.
-Then $2\log(-1)=0$, from which the proof.
-\end{proof}
-
-%----------------------------------------------------------------------------------------
-%	RESULTS AND DISCUSSION
-%----------------------------------------------------------------------------------------
-
-\section{Results and Discussion}
-
 \begin{figure}[H]
-	\frame{\includegraphics[width=\linewidth]{../figures/world_sites.pdf}}
+	\includegraphics[width=\linewidth]{../figures/world_sites.pdf}
 	\captionsetup{justification=centering}
-	\caption{Map of FLUXNET sites and associated stand age in this study}
+	\caption{Map of FLUXNET sites and associated forest stand age in this study}
 \end{figure}
 
+\subsection{Spatial Generalisation}
+\subsubsection{Analysis 1.1}
+
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{../figures/1.1_p1.pdf}
+	\captionsetup{justification=centering}
+	\caption{R$^2$ and RMSE for medoid site predictions}
+\end{figure}
+
+\subsubsection{Analysis 1.2}
+
+\subsection{Temporal Generalisation}
 
 
-%------------------------------------------------
-
-\subsection{Subsection}
-
-
-
-\subsubsection{Subsubsection}
-
-
-
-\begin{description}
-\item[Word] Definition
-\item[Concept] Explanation
-\item[Idea] Text
-\end{description}
-
-
-
-\begin{itemize}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
-\item First item in a list
-\item Second item in a list
-\item Third item in a list
-\end{itemize}
-
-\subsubsection{Table}
+%----------------------------------------------------------------------------------------
+%	DISCUSSION
+%----------------------------------------------------------------------------------------
+\section{Discussion}
 
 
 
-\begin{table}[hbt]
-\caption{Table of Grades}
-\centering
-\begin{tabular}{llr}
-\toprule
-\multicolumn{2}{c}{Name} \\
-\cmidrule(r){1-2}
-First name & Last Name & Grade \\
-\midrule
-John & Doe & $7.5$ \\
-Richard & Miles & $2$ \\
-\bottomrule
-\end{tabular}
-\label{tab:label}
-\end{table}
 
-Reference to Table~\vref{tab:label}. % The \vref command specifies the location of the reference
+%----------------------------------------------------------------------------------------
+%	CONCLUSION
+%----------------------------------------------------------------------------------------
+\section{Conclusion}
 
-%------------------------------------------------
 
-\subsection{Figure Composed of Subfigures}
 
-Reference the figure composed of multiple subfigures as Figure~\vref{fig:esempio}. Reference one of the subfigures as Figure~\vref{fig:ipsum}. % The \vref command specifies the location of the reference
+
 
 
 %----------------------------------------------------------------------------------------
@@ -280,6 +202,12 @@ Reference the figure composed of multiple subfigures as Figure~\vref{fig:esempio
 
 \bibliography{references.bib} % The file containing the bibliography
 
+
+
+%----------------------------------------------------------------------------------------
+%	SUPPLEMENTARY MATERIAL
+%----------------------------------------------------------------------------------------
+\section{Supplementary Material}
 %----------------------------------------------------------------------------------------
 
 \end{document}

@@ -29,7 +29,7 @@ p <- world %>%
     ggplot() +
     geom_sf(fill = "grey95", colour = "grey75", linewidth = 0.2) + 
     geom_sf(data = sites_sf, aes(colour = Site_age), size = 1) +
-    coord_sf(xlim = c(-145, 32.5), ylim = c(6.5, 70), default_crs = sf::st_crs(4326)) +
+    coord_sf(xlim = c(-145, 32.5), ylim = c(20, 72.5), default_crs = sf::st_crs(4326)) +
     scale_colour_gradientn(
         colours = pal,
         name = "Stand Age \n(Years)",
@@ -40,8 +40,7 @@ p <- world %>%
     theme_void() +
     theme(legend.text = element_text(size = 10),
           legend.title = element_text(size = 10),
-          legend.margin = margin(r = 10)) 
-
+          legend.margin = margin(r = 10))  
 p
 
 p_climates <- world %>%

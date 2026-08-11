@@ -14,6 +14,8 @@ library(here)
 library(ltc)
 library(ggrepel)
 library(gridExtra)
+library(tikzDevice)
+
 
 ```
 
@@ -22,39 +24,78 @@ library(gridExtra)
 
 ```{r}
 df_sites <- read_csv(here("data/main/21_analysis_1.1/cleaned_sites.csv"))
-df_results <- read_csv(here("data/main/21_analysis_1.1/results_1008_1312.csv"))
+df_results <- read_csv(here("data/main/21_analysis_1.1/results_1108_1217.csv"))
 ```
+
+```{r}
+# this pulls out the last fgeature added (splits at last comma) and then fixes for tikz
+df_results_relabelled <- df_results %>%
+  mutate(
+    last_feature = str_extract(features, "[^,]+$"), 
+    
+    # does not relabel Tair with a + in front (str_detect only TRUE if a comma is in the 'features ie FALSE for Tair)
+    last_feature_label = if_else(
+      str_detect(features, ","),
+      paste0("+ ", str_replace_all(last_feature, "_", "\\\\_")),
+      str_replace_all(last_feature, "_", "\\\\_")  # no "+" for the base feature
+    ),
+    
+    # preserves row order
+    last_feature_label = factor(last_feature_label, levels = unique(last_feature_label))  
+  )
+```
+
 ```{r}
 # colour palette
-pal = ltc(minou)
+pal = ltc(trio1)
 
 
-p1 <- df_results %>%
+p1 <- df_results_relabelled %>%
     
     # pivot the metrics column long
     pivot_longer(cols = c(r2, rmse), names_to = "metric", values_to = "value") %>%
     
     # plot
-    ggplot(aes(x = n_features, y = value, colour = metric, group = metric)) +
+    ggplot(aes(x = last_feature_label, y = value, colour = metric, group = metric)) +
     geom_line() +
-    # colour lines
-    scale_colour_manual(name = NULL,
-                          values = c("r2" = pal[2], 
-                                     "rmse" = pal[5])) +
+    geom_point(aes(shape = metric), size = 1) +
     
+    # colour lines and rename key values
+    scale_colour_manual(
+      name = NULL,
+      values = c("r2" = pal[1], "rmse" = pal[2]),
+      labels = c("r2" = "R$^2$", "rmse" = "RMSE")
+    ) + 
+    
+    # and for the geom_points
+     scale_shape_manual(
+        name = NULL,
+        values = c("r2" = 5, "rmse" = 2),  # 16 = filled circle, 17 = filled triangle
+        labels = c("r2" = "R$^2$", "rmse" = "RMSE")
+      ) +
+        
     # facet by medoid/test site
     facet_wrap(~test_site, scales = "free_y") + 
     
     # aesthetics
-    ggtitle("R-squared and RMSE from consecutively increasing feature counts in RF models") +
+    theme_bw() +
     xlab("Number of features in model") +
-    theme_bw()
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) 
+
 p1
 ```
 
-
-
-
+```{r}
+# plot as TikZ object for integration into LaTeX
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{MinionPro}\n",
+    "\\usepackage{MnSymbol}\n"
+))
+tikz(here("diss/figures/1.1_p1.tex"), width = 6, height = 3, standAlone = TRUE)
+print(p1)
+dev.off()
+```
 
 
 
