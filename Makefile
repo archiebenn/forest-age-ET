@@ -71,6 +71,7 @@ analysis_2: ## temporal analysis - trains RF models on earliest 80% of FLUXNET d
 tex_plots: ## run latex on the individual plots from tikzDevice for integration as pdfs into main .tex 
 	cd diss/figures && pdflatex -interaction=nonstopmode world_sites.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.1_p1.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_p3.tex
 
-diss: map ## compile diss PDF with LaTeX
+diss: tex_plots ## compile diss PDF with LaTeX
 	cd diss/main && latexmk -pdf dissertation.tex && xdg-open dissertation.pdf

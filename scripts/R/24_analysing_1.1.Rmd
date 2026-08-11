@@ -64,14 +64,14 @@ p1 <- df_results_relabelled %>%
     scale_colour_manual(
       name = NULL,
       values = c("r2" = pal[1], "rmse" = pal[2]),
-      labels = c("r2" = "R$^2$", "rmse" = "RMSE")
+      labels = c("r2" = "R$^2$", "rmse" = "RMSE\n(mm/day)")
     ) + 
     
     # and for the geom_points
      scale_shape_manual(
         name = NULL,
         values = c("r2" = 5, "rmse" = 2),  # 16 = filled circle, 17 = filled triangle
-        labels = c("r2" = "R$^2$", "rmse" = "RMSE")
+        labels = c("r2" = "R$^2$", "rmse" = "RMSE\n(mm/day)")
       ) +
         
     # facet by medoid/test site
@@ -79,7 +79,8 @@ p1 <- df_results_relabelled %>%
     
     # aesthetics
     theme_bw() +
-    xlab("Number of features in model") +
+    xlab("Features included in model") +
+    ylab(NULL) +
     theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) 
 
 p1

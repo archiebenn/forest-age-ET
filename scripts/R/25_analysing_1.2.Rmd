@@ -6,24 +6,174 @@ date: "2026-08-11"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+rm(list = ls())
+
+library(tidyverse)
+library(here)
+library(ltc)
+library(ggrepel)
+library(patchwork)
+library(tikzDevice)
+library(ggsignif)
 ```
 
-## R Markdown
+# Analysis part 1.2
+- 100 repeats of 20 randomly selected training sites and impacts of predictions on the 7 medoid test sites
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+df_sites <- read_csv(here("data/main/21_analysis_1.1/cleaned_sites.csv"))
+df_metrics <- read_csv(here("data/main/22_analysis_1.2/metrics_1008_1353.csv"))
+df_preds <- read_csv(here("data/main/22_analysis_1.2/predictions_1008_1353.csv"))
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+```{r}
+df_metrics_added <- df_metrics %>%
+    
+    rowwise() %>%
+    
+    # this sets 'updown' to 'up' if r2 improves when age is added,  and 'down' if it gets worse for colouring line between paired boxplot
+    mutate(updown = case_when(
+    r2_no_age > r2_age ~ "down",
+    r2_no_age == r2_age ~ "no_change",
+    r2_no_age < r2_age ~ "up"
+  )) %>%
+    
+    pivot_longer(cols = c(r2_age, r2_no_age), names_to = "model_used", values_to = "value") %>% 
+    
+    mutate(model_used = factor(model_used, levels = c("r2_no_age", "r2_age"))) 
 
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# testing residuals of age vs no age for R-squared with shapiro test
+
+```{r}
+diffs <- df_metrics %>%
+  filter(test_site == "US-Me3") %>%
+  arrange(run) %>%
+  mutate(diff = r2_age - r2_no_age) %>%
+  pull(diff)
+
+shapiro.test(diffs)
+```
+
+- repeated for the 6 test sites, only IT-SRo was non-significant, so most are not normally distributed and therefore should use wilcoxon for all sites for consistency
+
+
+```{r}
+# colour palette
+pal = ltc(alger)
+
+p1 <- df_metrics_added %>%
+    
+    filter(test_site == "DE-Lnf") %>%
+    
+    # just rename the row values for these to work in the boxplot
+    mutate(model_used = recode(model_used, r2_age = "Mod + Age", r2_no_age = "Mod")) %>%
+    
+    ggplot(aes(x = model_used, y = value)) +
+    
+    # colour and rename key values
+    scale_colour_manual(
+      name = "Impact",
+      values = c(up = pal[2], down = pal[5], no_change = pal[1]),
+      labels = c(up = "Improved R$^2$", down = "Reduced R$^2$", no_change = "No change")
+    ) +
+    
+    theme_bw() + 
+    ylab("R$^2$") + 
+    xlab("RF model") +
+
+    geom_point() +
+    geom_line(aes(group=run, colour=updown), linetype="11") +
+    geom_boxplot(width = 0.35) +
+    
+    geom_signif(comparisons = list(c("Mod + Age", "Mod")), 
+                test = "wilcox.test", test.args = list(paired = TRUE),
+                map_signif_level = TRUE) +
+    
+    facet_wrap(~test_site)
+
+p1
+```
+
+```{r}
+# colour palette
+p2 <- df_metrics_added %>%
+    
+    filter(test_site != "DE-Lnf") %>%
+    
+    # just rename the row values for these to work in the boxplot
+    mutate(model_used = recode(model_used, r2_age = "Mod + Age", r2_no_age = "Mod")) %>%
+    
+    ggplot(aes(x = model_used, y = value)) +
+    
+    # colour and rename key values
+    scale_colour_manual(
+      name = "Impact",
+      values = c(up = pal[2], down = pal[5], no_change = pal[1]),
+      labels = c(up = "Improved R$^2$", down = "Reduced R$^2$", no_change = "No change")
+    ) +
+    
+    theme_bw() + 
+    ylab("R$^2$") + 
+    xlab("RF model") +
+    
+    geom_point() +
+    geom_line(aes(group=run, colour=updown), linetype="11") +
+    geom_boxplot(width = 0.35) +
+    
+    geom_signif(comparisons = list(c("Mod + Age", "Mod")), 
+                test = "wilcox.test", test.args = list(paired = TRUE),
+                map_signif_level = TRUE) +
+    
+    facet_wrap(~test_site, scales = "free_y") +
+    
+    theme(legend.position="none")
+
+p2
+```
+
+
+```{r}
+# join above two plots
+p3 = p1 / p2 +
+    #guide_area() +
+    plot_layout(guides = 'collect', 
+                axes = "collect", 
+                widths = c(0.75, 1.2)
+                #heights = c(1, 1)
+    )
+p3
+
+```
+
+```{r}
+# plot as TikZ object for integration into LaTeX
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{MinionPro}\n",
+    "\\usepackage{MnSymbol}\n"
+))
+
+# p1
+tikz(here("diss/figures/1.2_p1.tex"), width = 6, height = 4, standAlone = TRUE)
+print(p1)
+dev.off()
+
+# p2
+tikz(here("diss/figures/1.2_p2.tex"), width = 6, height = 4, standAlone = TRUE)
+print(p2)
+dev.off()
+
+# p3
+#tikz(here("diss/figures/1.2_p3.tex"), width = 6, height = 4, standAlone = TRUE)
+#print(p3)
+#dev.off()
+```
+
+
+
+
