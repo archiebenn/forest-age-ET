@@ -222,12 +222,10 @@
 - decided to remove the categorical variables from models as these are largely site dpeendent and also complicates model  
 - so now just need to do temporal analysis and then get on with analysing it all  
 
-
 # 10-8-26
 
 - found a bug which caused the koeppen lookup index thing to be mis-categorising lots of the sites (to do with index values being returned instead of characters..., and meant sites in Germany and France were coming up as 'Tropical' etc.), so fixed that and then re-ran all scripts from there downstream  
 - finished `analysis_2.py`, and now just need to run it to get results before doing analysis exploration in 3 `.Rmd` files and tarting my actual final plots/stats  
-
 
 # 11-8-26 
 
@@ -235,6 +233,10 @@
 - also generated two main plots for the diss and got those looking nice  
 - need to carry on exploring 1.2 results and part 2 results tomorrow, and think of some more plots etc.  
 
+# 12-8-26
 
+- did some more fixing of plots  
+- tried to assess cluster numbers but think i'll stick with 6, and did pheatmap plot for this too (cleaned it up)  
+- need to carry on with 1.2 exploration and time series plots etc from part 2  
 
 

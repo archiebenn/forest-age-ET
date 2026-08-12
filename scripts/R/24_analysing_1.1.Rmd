@@ -27,23 +27,44 @@ df_sites <- read_csv(here("data/main/21_analysis_1.1/cleaned_sites.csv"))
 df_results <- read_csv(here("data/main/21_analysis_1.1/results_1108_1217.csv"))
 ```
 
+## adapting df for plot and re-ordering etc.
+
 ```{r}
 # this pulls out the last fgeature added (splits at last comma) and then fixes for tikz
 df_results_relabelled <- df_results %>%
-  mutate(
-    last_feature = str_extract(features, "[^,]+$"), 
     
-    # does not relabel Tair with a + in front (str_detect only TRUE if a comma is in the 'features ie FALSE for Tair)
-    last_feature_label = if_else(
-      str_detect(features, ","),
-      paste0("+ ", str_replace_all(last_feature, "_", "\\\\_")),
-      str_replace_all(last_feature, "_", "\\\\_")  # no "+" for the base feature
-    ),
+    mutate(
+        
+        # last feature (after final comma)
+        last_feature = str_extract(features, "[^,]+$"), 
+        
+        # does not relabel Tair with a + in front (str_detect only TRUE if a comma is in the 'features ie FALSE for Tair)
+        last_feature_label = if_else(
+          str_detect(features, ","),
+          paste0("+ ", str_replace_all(last_feature, "_", "\\\\_")),
+          str_replace_all(last_feature, "_", "\\\\_")  # no "+" for the base feature
+        ),
+        
+        # add cluster to name
+        name_cluster = paste(test_site, " (", test_site_cluster, ")", sep = ""),
+        
+        # preserves row order
+        last_feature_label = factor(last_feature_label, levels = unique(last_feature_label))  
+      )
+
+
+# order facets by peak r2 of each plot
+facet_order <- df_results_relabelled %>%
     
-    # preserves row order
-    last_feature_label = factor(last_feature_label, levels = unique(last_feature_label))  
-  )
+    group_by(name_cluster) %>%
+    summarise(max_r2 = max(r2, na.rm = TRUE)) %>%
+    
+    # highest to lowest r2
+    arrange(desc(max_r2)) %>%
+    pull(name_cluster)
 ```
+
+## plot facets
 
 ```{r}
 # colour palette
@@ -51,6 +72,9 @@ pal = ltc(trio1)
 
 
 p1 <- df_results_relabelled %>%
+    
+    # order name of facets by r2
+    mutate(name_cluster = factor(name_cluster, levels = facet_order)) %>%
     
     # pivot the metrics column long
     pivot_longer(cols = c(r2, rmse), names_to = "metric", values_to = "value") %>%
@@ -63,7 +87,7 @@ p1 <- df_results_relabelled %>%
     # colour lines and rename key values
     scale_colour_manual(
       name = NULL,
-      values = c("r2" = pal[1], "rmse" = pal[2]),
+      values = c("r2" = pal[3], "rmse" = pal[1]),
       labels = c("r2" = "R$^2$", "rmse" = "RMSE\n(mm/day)")
     ) + 
     
@@ -75,11 +99,11 @@ p1 <- df_results_relabelled %>%
       ) +
         
     # facet by medoid/test site
-    facet_wrap(~test_site, scales = "free_y") + 
+    facet_wrap(~name_cluster, scales = "free_y") + 
     
     # aesthetics
     theme_bw() +
-    xlab("Features included in model") +
+    xlab("Features included in RF model") +
     ylab(NULL) +
     theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) 
 
@@ -93,7 +117,7 @@ options(tikzLatexPackages = c(
     "\\usepackage{MinionPro}\n",
     "\\usepackage{MnSymbol}\n"
 ))
-tikz(here("diss/figures/1.1_p1.tex"), width = 6, height = 3, standAlone = TRUE)
+tikz(here("diss/figures/1.1_p1.tex"), width = 6, height = 4, standAlone = TRUE)
 print(p1)
 dev.off()
 ```

@@ -1,0 +1,16 @@
+---
+title: "Analysing part 2"
+output: html_document
+date: "2026-08-12"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+
+
+
+```
+
+

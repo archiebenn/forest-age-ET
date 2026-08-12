@@ -72,6 +72,8 @@ tex_plots: ## run latex on the individual plots from tikzDevice for integration 
 	cd diss/figures && pdflatex -interaction=nonstopmode world_sites.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.1_p1.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_p3.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode pheat2.tex
+
 
 diss: tex_plots ## compile diss PDF with LaTeX
 	cd diss/main && latexmk -pdf dissertation.tex && xdg-open dissertation.pdf

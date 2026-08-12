@@ -48,9 +48,11 @@ df_metrics_added <- df_metrics %>%
 
 
 # testing residuals of age vs no age for R-squared with shapiro test
+- run through site by site to check assumptions for t test etc.
 
 ```{r}
 diffs <- df_metrics %>%
+    
   filter(test_site == "US-Me3") %>%
   arrange(run) %>%
   mutate(diff = r2_age - r2_no_age) %>%
@@ -59,7 +61,8 @@ diffs <- df_metrics %>%
 shapiro.test(diffs)
 ```
 
-- repeated for the 6 test sites, only IT-SRo was non-significant, so most are not normally distributed and therefore should use wilcoxon for all sites for consistency
+- repeated for the 6 test sites, only IT-SRo was non-significant, so most are not normally distributed and therefore should use wilcoxon for all sites for consistency  
+- "Wilcoxon test is a good alternative to the t-test when the normal distribution of the differences between paired individuals cannot be assumed"c
 
 
 ```{r}
@@ -77,22 +80,29 @@ p1 <- df_metrics_added %>%
     
     # colour and rename key values
     scale_colour_manual(
-      name = "Impact",
+      name = "R$^2$ Impact",
       values = c(up = pal[2], down = pal[5], no_change = pal[1]),
-      labels = c(up = "Improved R$^2$", down = "Reduced R$^2$", no_change = "No change")
+      labels = c(up = "Improved", down = "Worsened", no_change = "No change")
     ) +
     
-    theme_bw() + 
+    theme_minimal() + 
     ylab("R$^2$") + 
     xlab("RF model") +
 
-    geom_point() +
+    geom_point(alpha = 0.25) +
     geom_line(aes(group=run, colour=updown), linetype="11") +
-    geom_boxplot(width = 0.35) +
+    geom_boxplot(width = 0.35, outlier.shape = NA) +
     
+    annotate("text", x = -Inf, y = Inf, label = "n = 100",
+              hjust = -0.5, vjust = 3, size = 3.5) +
+    
+    # run wilcoxon signed rank on the paired data (paired by run)
     geom_signif(comparisons = list(c("Mod + Age", "Mod")), 
+                
                 test = "wilcox.test", test.args = list(paired = TRUE),
-                map_signif_level = TRUE) +
+                map_signif_level = TRUE,
+                vjust = 0.5,
+                textsize = 4.25) +
     
     facet_wrap(~test_site)
 
@@ -112,24 +122,30 @@ p2 <- df_metrics_added %>%
     
     # colour and rename key values
     scale_colour_manual(
-      name = "Impact",
+      name = "R$^2$ Impact",
       values = c(up = pal[2], down = pal[5], no_change = pal[1]),
-      labels = c(up = "Improved R$^2$", down = "Reduced R$^2$", no_change = "No change")
+      labels = c(up = "Improved", down = "Worsened", no_change = "No change")
     ) +
     
-    theme_bw() + 
+    theme_minimal() + 
     ylab("R$^2$") + 
     xlab("RF model") +
     
-    geom_point() +
+    geom_point(alpha = 0.25, size = 0.5) +
     geom_line(aes(group=run, colour=updown), linetype="11") +
-    geom_boxplot(width = 0.35) +
+    geom_boxplot(width = 0.35, outlier.shape = NA) +
     
     geom_signif(comparisons = list(c("Mod + Age", "Mod")), 
                 test = "wilcox.test", test.args = list(paired = TRUE),
-                map_signif_level = TRUE) +
+                map_signif_level = TRUE,
+                
+                vjust = 0.4,
+                textsize = 2) +
     
-    facet_wrap(~test_site, scales = "free_y") +
+    facet_wrap(~test_site, scales = "free_y", nrow = 1) +
+    
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
+
     
     theme(legend.position="none")
 
@@ -143,12 +159,13 @@ p3 = p1 / p2 +
     #guide_area() +
     plot_layout(guides = 'collect', 
                 axes = "collect", 
-                widths = c(0.75, 1.2)
-                #heights = c(1, 1)
+                widths = c(0.4, 1.2),
+                heights = c(2, 1)
     )
 p3
 
 ```
+
 
 ```{r}
 # plot as TikZ object for integration into LaTeX
@@ -159,20 +176,99 @@ options(tikzLatexPackages = c(
 ))
 
 # p1
-tikz(here("diss/figures/1.2_p1.tex"), width = 6, height = 4, standAlone = TRUE)
-print(p1)
-dev.off()
+#tikz(here("diss/figures/1.2_p1.tex"), width = 6, height = 4, standAlone = TRUE)
+#print(p1)
+#dev.off()
 
 # p2
-tikz(here("diss/figures/1.2_p2.tex"), width = 6, height = 4, standAlone = TRUE)
-print(p2)
-dev.off()
+#tikz(here("diss/figures/1.2_p2.tex"), width = 6, height = 2, standAlone = TRUE)
+#print(p2)
+#dev.off()
 
 # p3
-#tikz(here("diss/figures/1.2_p3.tex"), width = 6, height = 4, standAlone = TRUE)
-#print(p3)
-#dev.off()
+tikz(here("diss/figures/1.2_p3.tex"), width = 6, height = 4, standAlone = TRUE)
+print(p3)
+dev.off()
 ```
+
+
+
+# site and cluster stuff
+- making facetted bar plote by features per cluster as a visual aid to what clusters represent
+
+
+```{r}
+# set features
+numerical_features <- c("Site_age",
+                      "ET_mean",
+                      "Lai_mean",
+                      "SW_rad_mean",
+                      "Tair_mean",
+                      "Wspeed_mean",
+                      "VPD_mean",
+                      "P_sum_14D_mean")
+
+# create a summary df for the ggplot
+df_summary <- df_sites %>%
+    
+    group_by(cluster) %>%
+    
+    # create summery of mean and sd for each feature within the clusters
+    summarise(across(all_of(numerical_features), 
+                      list(mean = mean, sd = sd), 
+                     
+                     # name columns as (original column) + (function name e.g mean)
+                      .names = "{.col}_{.fn}")) %>%
+    
+    pivot_longer(
+        cols = -cluster,
+        names_to = c("feature", ".value"),
+        names_pattern = "(.+)_(mean|sd)"
+    )
+```
+
+```{r}    
+pal2 = ltc(lincoln)
+
+# now plot facets
+p_clusters_bar <- df_summary %>%
+    
+    ggplot(aes(x = factor(cluster), y = mean, fill = factor(cluster))) +
+    
+    geom_col() +
+    geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25) +
+    
+    scale_fill_manual(values = pal2) +
+    
+    # wrap by features
+    facet_wrap(~feature, scales = "free_y") +
+
+    theme_minimal() +
+    xlab("Cluster") +
+    ylab("Mean value") +
+    theme(legend.position = "none")
+    
+p_clusters_bar
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

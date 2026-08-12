@@ -17,9 +17,12 @@ library(pheatmap)
 library(ltc)
 
 
-
 # set numpy seed
 set.seed(42)
+
+# *********************************************
+# 1. DATA SETUP
+# *********************************************
 
 df <- read_csv("data/main/10_filtering2/df_sites2.csv")
 
@@ -37,7 +40,7 @@ numerical_features <- c("Site_age",
 
 
 # *********************************************
-# GOWER MATRIX
+# 2. GOWER MATRIX
 # *********************************************
 # select only these cols for matrix calculation
 df_features <- df %>%
@@ -63,7 +66,7 @@ as_tibble(gower_matrix, rownames = "Site_ID") %>%
 
 
 # *********************************************
-# PAM + silhouette
+# 3. PAM + silhouette
 # *********************************************
 
 # using silhouette method to determine ideal value of k (clusters) with factoextra package
@@ -109,7 +112,7 @@ p_map
 
 
 # *********************************************
-# Classifying clusters
+# 4. Classifying clusters
 # *********************************************
 # try yto classify the clusters by looking at mean values for the vars
 df_clustered %>%
@@ -120,8 +123,9 @@ df_clustered %>%
     )
 
 
-
-# heatmap cluster setup
+# *********************************************
+# 5. HEATMAP
+# *********************************************
 # colour palette
 pal=ltc("heatmap2",50,"continuous")
 
@@ -151,7 +155,11 @@ p_heat <- pheatmap(
     main = "Cluster Centroid Heatmap (Medoids)",
     fontsize_row = 10,
     fontsize_col = 10,
-    color = pal
+    color = pal,
+    
+    # for tikzdevice
+    labels_col = gsub("_", "\\\\_", colnames(centroids_mat)),
+    labels_row = gsub("_", "\\\\_", rownames(centroids_mat))
 )
 
 p_heat
@@ -161,36 +169,93 @@ centroids_cat <- centroids %>%
     dplyr::select(all_of(categorical_features)) %>%
     dplyr::mutate(across(all_of(categorical_features), as.character))
 
-# automatic labelling of cluster variables (high, low, average etc.) for one cluster
-# this will label each variable in the cluster as high/low/average based on the scaled means of each
-labeller <- function(cluster, high_thresh = 1, low_thresh = -1){
-    
-    # get vars vals
-    vals = centroids_num[cluster, ]
-    
-    # identify high and low and average vals
-    high <- names(vals[vals > high_thresh])
-    low <- names(vals[vals < low_thresh])
-    
-    # string label
-    high_labels <- paste("High:", high)
-    low_labels  <- paste("Low:", low)
 
-    # categoricals 
+
+
+
+
+# cluster-level mean z-scores for numerical features
+cluster_means_num <- df_clustered %>%
+    mutate(across(all_of(numerical_features), ~ as.numeric(scale(.)))) %>%
+    group_by(cluster) %>%
+    summarise(across(all_of(numerical_features), mean)) %>%
+    column_to_rownames("cluster") %>%
+    as.matrix()
+
+# cluster-level mode for categorical features
+cluster_mode_cat <- df_clustered %>%
+    group_by(cluster) %>%
+    summarise(across(all_of(categorical_features),
+                     ~ names(sort(table(.), decreasing = TRUE))[1])) %>%
+    column_to_rownames("cluster")
+
+
+# function to label clusters
+labeller <- function(cluster, high_thresh = 1, vhigh_thresh = 1.5, low_thresh = -1, vlow_thresh = -1.5){
+    
+    vals = cluster_means_num[as.character(cluster), ]
+    
+    vhigh <- names(vals[!is.na(vals) & vals > vhigh_thresh])
+    vlow  <- names(vals[!is.na(vals) & vals < vlow_thresh])
+    high  <- names(vals[!is.na(vals) & vals > high_thresh & vals <= vhigh_thresh])
+    low   <- names(vals[!is.na(vals) & vals < low_thresh & vals >= vlow_thresh])
+    
+    vhigh_labels <- paste("Very high:", vhigh)
+    vlow_labels  <- paste("Very low:", vlow)
+    high_labels  <- paste("High:", high)
+    low_labels   <- paste("Low:", low)
+    
     cat_labels <- paste(
-        names(centroids_cat), " = ", as.character(centroids_cat[cluster, ])
+        names(cluster_mode_cat), " = ", as.character(cluster_mode_cat[as.character(cluster), ])
     )
     
-    # combine into one label
-    paste(
-        paste(c(high_labels, low_labels, cat_labels), collapse = ", "),
-        sep = " "
-    )
+    all_labels <- c(vhigh_labels, high_labels, low_labels, vlow_labels, cat_labels)
+    
+    paste(all_labels, collapse = ", ")
 }
 
-# apply to all
-cluster_labels <- sapply(1:nrow(centroids_num), labeller)
+# apply to all clusters
+cluster_labels <- sapply(sort(unique(df_clustered$cluster)), labeller)
 cluster_labels
+
+
+# colour palette
+pal=ltc("heatmap3", 30, "continuous")
+
+# form heatmap of variables and centroids
+p_heat2 <- pheatmap(
+        cluster_means_num,
+    cluster_rows = FALSE,
+    cluster_cols = TRUE,
+    fontsize_row = 10,
+    fontsize_col = 10,
+    display_numbers = TRUE,
+    number_color = "black",
+    angle_col = 45,
+
+    #color = hcl.colors(50, "BluYl"),
+
+    # for tikzdevice
+    labels_col = gsub("_", "\\\\_", colnames(centroids_mat)),
+    labels_row = gsub("_", "\\\\_", rownames(centroids_mat))
+)
+
+p_heat2
+
+
+# plot as TikZ object for integration into LaTeX
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{MinionPro}\n",
+    "\\usepackage{MnSymbol}\n"
+))
+
+
+# pheatmap
+tikz(here("diss/figures/pheat2.tex"), width = 6, height = 4, standAlone = TRUE)
+print(p_heat2)
+dev.off()
+
 
 # and now form cluster labels with description as a df
 df_cluster_labels <- data.frame(

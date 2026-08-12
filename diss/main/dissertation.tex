@@ -155,27 +155,56 @@ A statement requiring citation \cite{Figueredo:2009dg}.
 \subsection{Paragraphs}
 
 \begin{figure}[H]
-	\includegraphics[width=\linewidth]{../figures/world_sites.pdf}
+	\fbox{\includegraphics[width=\linewidth]{../figures/world_sites.pdf}}
 	\captionsetup{justification=centering}
 	\caption{Map of FLUXNET sites and associated forest stand age in this study}
 \end{figure}
 
+
+\subsection{Cluster Analysis}
+
+\begin{table}[hbt]
+	\caption{Main characteristics of each cluster defined during cluster analysis. To see all clusters on a map see Fig. X (supplementary materials).}
+	\centering
+	\begin{tabularx}{\linewidth}{llX}
+		\toprule
+		Cluster & Medoid Site & Defining Characteristics\\
+		\midrule
+		1 & DE-Lnf & Temperate sites without significant features.  \\
+		2 & US-UMd & Continental sites without significant features. \\
+		3 & CA-Obs & Continental sites with low mean air temperatures.  \\
+		4 & CA-TP3 & Continental sites with high precipitation.  \\
+		5 & IT-SRo & Temperate sites with high air temperatures.  \\
+		6 & US-Me3 & Temperate sites with very high VPD, high SW radiation, low stand age, low wind speeds, and low precipitation. \\
+		\bottomrule
+	\end{tabularx}
+	\label{tab:label}
+\end{table}
+
+
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../figures/pheat2.pdf}}
+	\captionsetup{justification=centering}
+	\caption{Pheat}
+\end{figure}
+
 \subsection{Spatial Generalisation}
+
 \subsubsection{Analysis 1.1}
 
 \begin{figure}[H]
-	\includegraphics[width=\linewidth]{../figures/1.1_p1.pdf}
+	\fbox{\includegraphics[width=\linewidth]{../figures/1.1_p1.pdf}}
 	\captionsetup{justification=centering}
-	\caption{R$^2$ and RMSE for medoid site predictions of ET. Models built and tested using a consecutively greater number of input features from FLUXNET and LAI data. For example, the `+VPD' model incorporates Tair, SW\_rad, and VPD as input features.}
+	\caption{R$^2$ and RMSE for medoid cluster site predictions of ET, ordered by peak R$^2$ with clusters indicated in facet names. Models built and tested using a consecutively greater number of input features from FLUXNET and LAI data. For example, the `+VPD' model incorporates Tair, SW\_rad, and VPD as input features.}
 \end{figure}
 
 \subsubsection{Analysis 1.2}
 
 \newpage
 \begin{figure}[H]
-	\includegraphics[width=\linewidth]{../figures/1.2_p3.pdf}
+	\fbox{\includegraphics[width=\linewidth]{../figures/1.2_p3.pdf}}
 	\captionsetup{justification=centering}
-	\caption{R$^2$ ...}
+	\caption{Paired box-plots indicate how R$^2$ changes when age is added as a feature to RF models across 100 repeated runs of randomly sampled training datasets. Points are connected on a per-run basis where training dataset site composition is identical. Wilcoxon signed-rank tests suggest model performances differ significantly at all test sites. DE-Lnf is shown large for readability, with other cluster medoid sites shown at a reduced scale for comparison.}
 \end{figure}
 
 \subsection{Temporal Generalisation}

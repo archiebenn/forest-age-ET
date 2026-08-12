@@ -52,6 +52,17 @@ dottedtoc % Dotted lines leading to the page numbers in the table of contents
 \linespread{1.1}
 \usepackage[margin=3cm]{geometry}
 \usepackage{subcaption}
+\usepackage{caption}
+\captionsetup{
+	format=plain,      % don't use the hanging/justified style
+	justification=justified,
+	singlelinecheck=false,
+	labelsep=colon,    % "Figure 1: " inline before the text
+	labelfont=bf,      % optional — bold "Figure 1:"
+	textfont=normalfont
+}
+
+\usepackage{tabularx}
 
 
 
