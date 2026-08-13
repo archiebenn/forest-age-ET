@@ -190,9 +190,9 @@ options(tikzLatexPackages = c(
 #dev.off()
 
 # p3
-tikz(here("diss/figures/1.2_p3.tex"), width = 6, height = 4, standAlone = TRUE)
-print(p3)
-dev.off()
+#tikz(here("diss/figures/1.2_p3.tex"), width = 6, height = 4, standAlone = TRUE)
+#print(p3)
+#dev.off()
 ```
 
 
@@ -257,20 +257,110 @@ p_clusters_bar
 ```
 
 
+# R-squared plots preds vs obs
+
+```{r}
+# pivot preds for age and no age into one column to then facet
+df_preds_long <- df_preds %>%
+    
+    # pivot preds, r2, and rmse using pattern matching
+    pivot_longer(cols = c(pred_age, pred_no_age, r2_age, r2_no_age, rmse_age, rmse_no_age),
+                 names_to = c(".value", "pred_model"),
+                 names_pattern = "(pred|r2|rmse)_(age|no_age)"
+    ) %>%
+    
+    # factor for facet order
+     mutate(pred_model = factor(pred_model, levels = c("no_age", "age")))
+
+# stats df
+df_preds_long_stats <- df_preds_long %>%
+
+    # r2 and rmse per site/model combo
+    group_by(pred_model, test_site) %>%
+    summarise(mean_r2 = round(mean(r2), 3), mean_rmse = round(mean(rmse), 3), .groups = "drop")
+
+# colourpalette
+pal_p = ltc("trio1")
+
+# for re-naming facets
+model_names <- list(
+    "no_age" = "Mod",
+    "age" = "Mod + Age"
+)
+
+# as_labeller()= ggplot function to convert named vector to a labeller (to rename facets here)
+mod_labeller <- as_labeller(c("no_age" = "Mod", "age" = "Mod + Age"))
+```
 
 
 
+```{r}
+# fro sampler
+set.seed(42)
+
+# plotter function
+plotter_r2 <- function(testing_site){
+
+    # plot
+    p_r2 <- df_preds_long %>%
+    
+    filter(test_site == testing_site) %>%
+    
+    # take a sample of 20,000 rows
+    slice_sample(n = 2500) %>%
+
+    ggplot(aes(x = y_true, y = pred)) +
+    geom_point(alpha = 0.2,  colour = pal_p[1]) +
+    # 1:1 line (ie. a perfect model)
+    geom_abline(slope = 1, intercept = 0, colour = pal_p[2], linetype = "dashed") +
+    
+    theme_bw()+
+    xlab("Observed ET") +
+    ylab("Predicted ET") +
+    ggtitle(testing_site) +
+    
+    # add mean R2 and RMSE
+     geom_text(data = df_preds_long_stats %>% filter(test_site == testing_site), aes(x = -Inf, y = Inf, label = paste0("Mean $R^2$ = ", mean_r2, "\nMean RMSE = ", mean_rmse)),
+            hjust = -0.1, vjust = 1.5, size = 3.5, inherit.aes = FALSE) +
+    
+    facet_wrap(~pred_model, labeller = mod_labeller)
+    
+    return(p_r2)
+}
+
+plotter_r2("US-UMd")
+```
+
+```{r}
+# generate the plots for the two focus medoid sites
+p_US_UMd <- plotter_r2("US-UMd")
+p_DE_Lnf <- plotter_r2("DE-Lnf")
+
+p_merged1 <- p_US_UMd / p_DE_Lnf+
+    
+    #guide_area() +
+    plot_layout(guides = 'collect', 
+                axes = "collect", 
+                widths = c(0.4, 1.2),
+                heights = c(2, 2)
+    )
+p_merged1
+```
 
 
+```{r}
+# plot as TikZ object for integration into LaTeX
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{MinionPro}\n",
+    "\\usepackage{MnSymbol}\n"
+))
 
-
-
-
-
-
-
-
-
+# DE-Lnf
+tikz(here("diss/figures/1.2_merged1.tex"), width = 6, height = 6, standAlone = TRUE)
+print(p_merged1)
+dev.off()
+```
 
 
 

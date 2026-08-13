@@ -152,16 +152,14 @@ A statement requiring citation \cite{Figueredo:2009dg}.
 %	RESULTS
 %----------------------------------------------------------------------------------------
 \section{Results}
-\subsection{Paragraphs}
+
+\subsection{Cluster Analysis}
 
 \begin{figure}[H]
 	\fbox{\includegraphics[width=\linewidth]{../figures/world_sites.pdf}}
 	\captionsetup{justification=centering}
 	\caption{Map of FLUXNET sites and associated forest stand age in this study}
 \end{figure}
-
-
-\subsection{Cluster Analysis}
 
 \begin{table}[hbt]
 	\caption{Main characteristics of each cluster defined during cluster analysis. To see all clusters on a map see Fig. X (supplementary materials).}
@@ -192,7 +190,9 @@ A statement requiring citation \cite{Figueredo:2009dg}.
 
 Suggested framing:
 
-DE-Tha (age helps) vs CA-Obs (age hurts) as your case studies
+US-UMd (age helps) vs De-Lnf (age hurts) as case studies
+
+
 For each: SHAP dependence plot for age, feature importance ranking, brief site characteristics (climate, age, cluster membership)
 Then the permutation test as a cross-cutting check — not per-site, but run once (or per-cluster) across the whole train/test setup to test whether age's apparent value is real signal or site-proxy leakage
 
@@ -214,11 +214,37 @@ Discussion: synthesize — when/why age helps, leakage risk, what it means for f
 
 \subsubsection{Analysis 1.2}
 
+\begin{equation}
+	ET_i = RF_{Mod}(T\_air_i, SW\_rad_i, W\_Speed_i, \sum_{i - 14}^{i}P_i, LAI)
+\end{equation}
+\vspace{-0.75em}
+\begin{equation}
+	ET_i = RF_{Mod + Age}(T\_air_i, SW\_rad_i, W\_Speed_i, \sum_{i - 14}^{i}P_i, LAI, Stand\_Age)
+\end{equation}
+
 \newpage
 \begin{figure}[H]
 	\fbox{\includegraphics[width=\linewidth]{../figures/1.2_p3.pdf}}
 	\captionsetup{justification=centering}
 	\caption{Paired box-plots indicate how R$^2$ changes when age is added as a feature to RF models across 100 repeated runs of randomly sampled training datasets. Points are connected on a per-run basis where training dataset site composition is identical. Wilcoxon signed-rank tests suggest model performances differ significantly at all test sites. DE-Lnf is shown large for readability, with other cluster medoid sites shown at a reduced scale for comparison.}
+\end{figure}
+
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../figures/1.2_merged1.pdf}}
+	\captionsetup{justification=centering}
+	\caption{P}
+\end{figure}
+
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../figures/1.2_lnf.pdf}}
+	\captionsetup{justification=centering}
+	\caption{P}
+\end{figure}
+
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../figures/1.2_umd.pdf}}
+	\captionsetup{justification=centering}
+	\caption{P}
 \end{figure}
 
 \subsection{Temporal Generalisation}

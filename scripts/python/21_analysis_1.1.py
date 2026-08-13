@@ -33,7 +33,8 @@ df_cluster_labels = pd.read_csv("data/main/20_gower/df_cluster_labels.csv")
 
 
 # remove chronosequence sites of which other sites in chronosequence are also represented in test medoids (stops local site leakage)
-sites_remove = ["CA-TP1", "CA-TP4", "US-Me2", "US-Me5", "US-Me6"]
+# CH-Dav also goes as the only polar site as v limited climate zone coverage
+sites_remove = ["CA-TP1", "CA-TP4", "US-Me2", "US-Me5", "US-Me6", "CH-Dav"]
 df_cleaned = df[~df["Site_ID"].isin(sites_remove)]
 df_sites_cleaned = df_sites[~df_sites["Site_ID"].isin(sites_remove)]
 

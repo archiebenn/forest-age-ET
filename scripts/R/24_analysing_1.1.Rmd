@@ -124,7 +124,31 @@ dev.off()
 
 
 
+# some other random plots
+```{r}
+p_age <- df_sites %>%
+    
+    ggplot(aes(x = Site_age, y = ET_mean, colour = Climate_zone)) +
+    
+    geom_point() +
+    
+    geom_smooth(method = lm) +
+
+    theme_minimal() +
+    xlab("Site Age (years)") +
+    ylab("Mean daily ET (mm)") +
+    facet_wrap(~Climate_zone)
+
+p_age
+    
+    
+
+```
 
 
+```{r}
+summary(lm(ET_mean ~ Site_age * Climate_zone, df_sites))
+    
+```
 
 
