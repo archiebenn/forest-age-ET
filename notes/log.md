@@ -238,5 +238,7 @@
 - did some more fixing of plots  
 - tried to assess cluster numbers but think i'll stick with 6, and did pheatmap plot for this too (cleaned it up)  
 - need to carry on with 1.2 exploration and time series plots etc from part 2  
+- look into focusing on one +ve and one -ve cluster and doing random huffling of age within the training sites to assess robustness  
+- also pred vs obs as a plot 
 
 

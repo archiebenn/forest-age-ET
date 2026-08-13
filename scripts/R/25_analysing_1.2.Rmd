@@ -40,9 +40,13 @@ df_metrics_added <- df_metrics %>%
     r2_no_age < r2_age ~ "up"
   )) %>%
     
-    pivot_longer(cols = c(r2_age, r2_no_age), names_to = "model_used", values_to = "value") %>% 
+    ungroup() %>%
     
-    mutate(model_used = factor(model_used, levels = c("r2_no_age", "r2_age"))) 
+    pivot_longer(cols = c(r2_age, r2_no_age), names_to = "model_used", values_to = "value") %>% 
+    mutate(model_used = factor(model_used, levels = c("r2_no_age", "r2_age"))) %>%
+    
+    # add cluster to name
+    mutate(name_cluster = paste(test_site, " (", test_site_cluster, ")", sep = ""))
 
 ```
 
@@ -104,7 +108,7 @@ p1 <- df_metrics_added %>%
                 vjust = 0.5,
                 textsize = 4.25) +
     
-    facet_wrap(~test_site)
+    facet_wrap(~name_cluster)
 
 p1
 ```
@@ -142,7 +146,7 @@ p2 <- df_metrics_added %>%
                 vjust = 0.4,
                 textsize = 2) +
     
-    facet_wrap(~test_site, scales = "free_y", nrow = 1) +
+    facet_wrap(~name_cluster, scales = "free_y", nrow = 1) +
     
     theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
 

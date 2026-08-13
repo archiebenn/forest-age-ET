@@ -190,6 +190,20 @@ A statement requiring citation \cite{Figueredo:2009dg}.
 
 \subsection{Spatial Generalisation}
 
+Suggested framing:
+
+DE-Tha (age helps) vs CA-Obs (age hurts) as your case studies
+For each: SHAP dependence plot for age, feature importance ranking, brief site characteristics (climate, age, cluster membership)
+Then the permutation test as a cross-cutting check — not per-site, but run once (or per-cluster) across the whole train/test setup to test whether age's apparent value is real signal or site-proxy leakage
+
+Mention the other 4 clusters exist and were tested (maybe one summary table/plot of all 6 site R² deltas) so it's clear you didn't cherry-pick — then justify the deep dive as case studies. That's a normal, well-scoped move for a 4k-word section, not weak coverage.
+
+Yeah, that's a sensible scope for ~4k words total. Rough shape:
+
+Spatial (bulk of results): cluster analysis overview (brief, all 6), then deep dive on DE-Tha vs CA-Obs (SHAP, feature importance, why age helps/hurts), permutation test as the credibility check
+Temporal: shorter section — does age still help/hurt over time at a couple of long-record sites, tying back to the leakage question (age varies within-site here, so it's a cleaner test)
+Discussion: synthesize — when/why age helps, leakage risk, what it means for future FLUXNET+age model building
+
 \subsubsection{Analysis 1.1}
 
 \begin{figure}[H]
