@@ -246,7 +246,8 @@
 - found a potential correlation between effect of inclusing age and climate zone (may benefit continental sites more than temperate - need to investigate)  
 - made 1:1 and R-squared plots for the two sites I will focus on in the spatial generalisation part (US-UMd and DE-Lnf)  
 - tomorrow can look into how i can test these two sites and RF models... random shuffling of ages and note effects?  
-- can i come up with a hypothesis to then move back and apply to main dataset again?  
+- can i come up with a hypothesis to then move back and apply to main dataset again? 
+- also another plot to consider would be R2 or RMSE (both) against run count - does this value change significantly? although actually paired boxplot already might show that 
 
 
 
