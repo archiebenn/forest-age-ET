@@ -16,6 +16,7 @@ library(ggrepel)
 library(patchwork)
 library(tikzDevice)
 library(ggsignif)
+library(ggh4x)
 ```
 
 # Analysis part 1.2
@@ -279,9 +280,6 @@ df_preds_long_stats <- df_preds_long %>%
     group_by(pred_model, test_site) %>%
     summarise(mean_r2 = round(mean(r2), 3), mean_rmse = round(mean(rmse), 3), .groups = "drop")
 
-# colourpalette
-pal_p = ltc("trio1")
-
 # for re-naming facets
 model_names <- list(
     "no_age" = "Mod",
@@ -300,13 +298,20 @@ set.seed(42)
 
 # plotter function
 plotter_r2 <- function(testing_site){
+    
+    pal_f = ltc(paloma)
+    # colourpalette
+    pal_p = ltc("trio1")
+    
+    # for colouring facets later
+    strip_colours <- if (testing_site == "US-UMd") c(pal_f[5], pal_f[1]) else c(pal[1], pal[5])
 
     # plot
     p_r2 <- df_preds_long %>%
     
     filter(test_site == testing_site) %>%
     
-    # take a sample of 20,000 rows
+    # take a sample of 2500 rows
     slice_sample(n = 2500) %>%
 
     ggplot(aes(x = y_true, y = pred)) +
@@ -323,7 +328,9 @@ plotter_r2 <- function(testing_site){
      geom_text(data = df_preds_long_stats %>% filter(test_site == testing_site), aes(x = -Inf, y = Inf, label = paste0("Mean $R^2$ = ", mean_r2, "\nMean RMSE = ", mean_rmse)),
             hjust = -0.1, vjust = 1.5, size = 3.5, inherit.aes = FALSE) +
     
-    facet_wrap(~pred_model, labeller = mod_labeller)
+    # bit hacky but gets facet to be coloured based on r2 improvement or not when adding age
+    facet_wrap2(~pred_model, labeller = mod_labeller,
+                strip = strip_themed(background_x = elem_list_rect(fill = strip_colours)))
     
     return(p_r2)
 }

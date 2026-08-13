@@ -241,4 +241,12 @@
 - look into focusing on one +ve and one -ve cluster and doing random huffling of age within the training sites to assess robustness  
 - also pred vs obs as a plot 
 
+# 13-8-26  
+
+- found a potential correlation between effect of inclusing age and climate zone (may benefit continental sites more than temperate - need to investigate)  
+- made 1:1 and R-squared plots for the two sites I will focus on in the spatial generalisation part (US-UMd and DE-Lnf)  
+- tomorrow can look into how i can test these two sites and RF models... random shuffling of ages and note effects?  
+- can i come up with a hypothesis to then move back and apply to main dataset again?  
+
+
 
