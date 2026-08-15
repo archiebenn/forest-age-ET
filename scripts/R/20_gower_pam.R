@@ -17,6 +17,13 @@ library(pheatmap)
 library(ltc)
 library(tikzDevice)
 
+# plot as TikZ object for integration into LaTeX
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{MinionPro}\n",
+    "\\usepackage{MnSymbol}\n"
+))
+
 
 # set numpy seed
 set.seed(42)
@@ -83,10 +90,18 @@ print(pam_result_gower$clustering)
 
 # visualise clusters
 # cluster plot
-fviz_cluster(pam_result_gower, 
+p_cluster_plot <- fviz_cluster(pam_result_gower, 
              data = gower_matrix,
              geom = "point", 
-             ellipse.type = "convex")
+             ellipse.type = "convex") + 
+    theme_minimal() 
+    
+p_cluster_plot
+
+# pheatmap
+#tikz("diss/figures/cluster_plot.tex", width = 6, height = 4, standAlone = TRUE)
+#print(p_cluster_plot)
+#dev.off()
 
 # silhouette plot
 fviz_silhouette(pam_result_gower)
@@ -242,14 +257,6 @@ p_heat2 <- pheatmap(
 )
 
 p_heat2
-
-
-# plot as TikZ object for integration into LaTeX
-options(tikzLatexPackages = c(
-    getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
-))
 
 
 # pheatmap

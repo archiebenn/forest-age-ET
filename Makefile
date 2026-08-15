@@ -78,6 +78,7 @@ tex_plots: ## run latex on the individual plots from tikzDevice for integration 
 	cd diss/figures && pdflatex -interaction=nonstopmode pheat2.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_merged1.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode case_study_bars.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode cluster_plot.tex
 
 diss: tex_plots ## compile diss PDF with LaTeX
 	cd diss/main && latexmk -pdf dissertation.tex && xdg-open dissertation.pdf
