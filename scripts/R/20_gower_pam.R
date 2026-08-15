@@ -15,6 +15,7 @@ library(rnaturalearth)
 library(sf)
 library(pheatmap)
 library(ltc)
+library(tikzDevice)
 
 
 # set numpy seed
@@ -252,7 +253,7 @@ options(tikzLatexPackages = c(
 
 
 # pheatmap
-tikz(here("diss/figures/pheat2.tex"), width = 6, height = 4, standAlone = TRUE)
+tikz("diss/figures/pheat2.tex", width = 6, height = 4, standAlone = TRUE)
 print(p_heat2)
 dev.off()
 

@@ -122,12 +122,15 @@ def rf_pred(age_model, no_age_model, test_df, features_age, features_no_age, tar
 # 3. SETUP FEATURES
 # *********************************************
 # features to exluce in all instances
+# features in main df to exlude in all instances
 non_features = [
                     'Site_ID',       
                     'Latitude',
                     'Longitude',
                     'Age_range',
                     'ET',
+                    "ET_90D_peak",
+                    "year(Date)",
                     'LE',
                     'P',              # have cumulative sum already
                     'Pa',             # dropped

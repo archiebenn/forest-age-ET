@@ -30,7 +30,17 @@ df_08_extra <- df_08_climate %>%
     slice(-(1:14)) %>%
 
     ungroup() %>%
-        
+    group_by(Site_ID, year(Date)) %>%
+    
+    # only do this for full years of data to avoid taking winter averages if no peak dates exist in the year
+    #filter(n() >= 365) %>%
+    
+    # get maximum value of 90 day cumulative sum of ET (so 90 day period back from this = max ET period)
+    # divide by cumulative sum period to get daily peak average in 'high ET season'
+    mutate(ET_90D_peak = max(cumsum(ET) - lag(cumsum(ET), 90, default = 0))/90) %>%
+    
+    ungroup() %>%
+   
     # rearrange
     relocate(Site_ID, 
              Date, 
@@ -42,6 +52,7 @@ df_08_extra <- df_08_climate %>%
              Site_age,
              Age_range,
              ET,
+             ET_90D_peak,
              LE, 
              Lai_500m,
              P_sum_14D
@@ -53,10 +64,11 @@ df_08_extra <- df_08_climate %>%
 df_yearly <- df_08_extra %>%
     
     group_by(Site_ID, year(Date)) %>%
+    
     summarise(Site_ID = first(Site_ID),
               
               # to check if years are complete (n = 365 or 366)
-              n_days_coverage = n(),                 
+              n_days_coverage = n(), 
               Latitude = first(Latitude),
               Longitude = first(Longitude),
               Continent = first(Continent),
@@ -66,7 +78,13 @@ df_yearly <- df_08_extra %>%
               Age_range = first(Age_range),
               
               # yearly sum of ET
-              ET_year = sum(ET),                     
+              ET_year = sum(ET),     
+              
+              # get maximum value of 90 day cumulative sum of ET (so 90 day period back from this = max ET period)
+              # divide by cumulative sum period to get daily peak average in 'high ET season'
+              ET_90D_peak = max(cumsum(ET) - lag(cumsum(ET), 90, default = 0))/90,
+              #ET_90D_peak_start = 
+              
               Lai_mean = mean(Lai_500m),
               Lai_sd = sd(Lai_500m),
               P_sum_14D_mean = mean(P_sum_14D),
@@ -83,15 +101,25 @@ df_yearly <- df_08_extra %>%
               # yearly sum of precip
               P_year = sum(P),                  
               Pa_mean = mean(Pa),
-              Pa_sd = sd(Pa)) %>%
+              Pa_sd = sd(Pa)) %>% 
     
     # need to ensure years are complete (ie drop non-complete years) as sum() is being used below for P and ET:
     # for complete years, n_days_coverage can be 365 or 366 (leap years)
     filter(n_days_coverage %in% c(365, 366)) 
 
 
+# 3. need to do this separately
+df_90D_summary <- df_yearly %>%
+    
+    group_by(Site_ID) %>%
+    
+    # now can get site summary for avergae daily ET during peak 90 days
+    summarise(ET_90D_peak_mean = mean(ET_90D_peak),
+              ET_90D_peak_sd = sd(ET_90D_peak))
+    
 
-# 3. site dataframe
+
+# 4. site dataframe
 df_sites <- df_08_extra %>%
     group_by(Site_ID) %>%
     summarise(Site_ID = first(Site_ID),
@@ -121,9 +149,31 @@ df_sites <- df_08_extra %>%
               P_sd = sd(P),
               Pa_mean = mean(Pa),
               Pa_sd = sd(Pa)) %>%
-    
+
     # as kelvin to stop near-0 divisions
-    mutate(moisture_index_est = P_mean/(Tair_mean + 273.15) * 1000)            
+    mutate(moisture_index_est = P_mean/(Tair_mean + 273.15) * 1000)   
+
+
+# 5. and now join to add peak 90 day daily ET average at sites
+df_sites <- df_sites %>%
+    
+    left_join(df_90D_summary, by = "Site_ID") %>%
+    
+    relocate(
+        Site_ID,
+        Days_of_data,
+        Latitude,
+        Longitude,
+        Continent,
+        Cover_type,
+        Climate_zone,
+        Site_age,
+        Age_range,
+        ET_mean,
+        ET_sd,
+        ET_90D_peak_mean,
+        ET_90D_peak_sd,
+    )
 
 
 # **********************************************************

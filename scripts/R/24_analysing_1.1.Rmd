@@ -128,7 +128,7 @@ dev.off()
 ```{r}
 p_age <- df_sites %>%
     
-    ggplot(aes(x = Site_age, y = ET_mean, colour = Climate_zone)) +
+    ggplot(aes(x = Site_age, y = ET_mean)) +
     
     geom_point() +
     

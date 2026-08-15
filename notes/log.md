@@ -249,5 +249,13 @@
 - can i come up with a hypothesis to then move back and apply to main dataset again? 
 - also another plot to consider would be R2 or RMSE (both) against run count - does this value change significantly? although actually paired boxplot already might show that 
 
+# 14-8-26
+
+- added peak 90 days of ET as a daily measure average to site dataframes while on train to/from oxford  
+- not sure if it will help at all to investigate but oh well  
+- to do: Permutation importance and SHAP dependence plot for new modelson two sites
+
+
+
 
 

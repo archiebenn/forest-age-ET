@@ -133,6 +133,8 @@ non_features = [
                     'Longitude',
                     'Age_range',
                     'ET',
+                    "ET_90D_peak",
+                    "year(Date)",
                     'LE',
                     'P',              # have cumulative sum already
                     'Pa',             # dropped
