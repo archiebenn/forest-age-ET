@@ -3,7 +3,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 # May - September 2026
 
-.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots gower analysis_1.1 analysis_1.2 analysis_2 tex_plots diss
+.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots gower analysis_1.1 analysis_1.2 analysis_2 case_study tex_plots diss
 
 .DEFAULT_GOAL := help
 
@@ -12,7 +12,7 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: setup sites fluxnet lai filter ET_plots climates sorting filter2 engineer gower analysis_1.1 analysis_1.2 analysis_2 map tex_plots diss
+all: setup sites fluxnet lai filter ET_plots climates sorting filter2 engineer gower analysis_1.1 analysis_1.2 analysis_2 case_study map tex_plots diss
 
 setup: ## setup the folder structure for data to be read into/out of
 	./scripts/bash/setup.sh
@@ -68,14 +68,15 @@ analysis_1.2: ## large scale train/test loops. trains on 20 random sites and pre
 analysis_2: ## temporal analysis - trains RF models on earliest 80% of FLUXNET data and then tests against the most recent 20%, site by site
 	python scripts/python/23_analysis_2.py 
 
+case_study: ## looking into US-Umd and DE-Lnf in depth with SHAP values and straining site age perturbations
+	python scripts/python/27_case_study.py
+
 tex_plots: ## run latex on the individual plots from tikzDevice for integration as pdfs into main .tex 
 	cd diss/figures && pdflatex -interaction=nonstopmode world_sites.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.1_p1.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_p3.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode pheat2.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_merged1.tex
-
-
 
 diss: tex_plots ## compile diss PDF with LaTeX
 	cd diss/main && latexmk -pdf dissertation.tex && xdg-open dissertation.pdf

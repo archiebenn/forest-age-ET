@@ -7,10 +7,6 @@ import numpy as np
 import pandas as pd
 import os
 import shap
-from dotenv import load_dotenv
-import http.client
-import urllib
-from sklearn.model_selection import LeaveOneGroupOut
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 
@@ -57,8 +53,8 @@ def random_forest_normal(X, y, all_sites, case_sites, full_data, seed_list):
         X_train, X_test = X.loc[train_idx], X.loc[test_idx]
         y_train, y_test = y.loc[train_idx], y.loc[test_idx]
 
-        # now loop over the seed list to repeat RF stuff
-        for seed in seed_list:
+        # now loop over the seed list to repeat RF stuff (enumerate for messages)
+        for i, seed in enumerate(seed_list, start=1):
         
             # now actually setup the random forest
             rf = RandomForestRegressor(
@@ -116,7 +112,7 @@ def random_forest_normal(X, y, all_sites, case_sites, full_data, seed_list):
             preds_results.append(fold_df)
             stats_results.append({"site": site, "seed": seed, "rmse": rmse, "r2": r2})
 
-            print(f"RF test site {site} complete.")
+            print(f"NORMAL RF test site {site} complete for seed {i}/{len(seed_list)}.")
 
     # concatenate all the preds individual dfs to one out of the list before returning
     preds_results = pd.concat(preds_results, ignore_index=True)
@@ -156,7 +152,7 @@ def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list)
         y_train, y_test = y.loc[train_idx], y.loc[test_idx]
 
         # now loop over the seed list to repeat RF stuff
-        for seed in seed_list:
+        for i, seed in enumerate(seed_list, start=1):
 
             # SHUFFLE TRAINING DATASET AGES BASED ON SEED
             rng = np.random.default_rng(seed)
@@ -222,7 +218,7 @@ def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list)
             preds_results_shuffled.append(fold_df)
             stats_results_shuffled.append({"site": site, "seed": seed, "rmse": rmse, "r2": r2})
 
-            print(f"RF test site {site} complete.")
+            print(f"SHUFFLED RF test site {site} complete for seed {i}/{len(seed_list)}.")
 
     # concatenate all the preds individual dfs to one out of the list before returning
     preds_results_shuffled = pd.concat(preds_results_shuffled, ignore_index=True)
@@ -265,7 +261,7 @@ non_features = [
                     "Climate_zone_Continental",
                     "Climate_zone_Polar",
                     "Climate_zone_Temperate",
-                    "Climate_zone_Tropical"
+                    #"Climate_zone_Tropical"
                     ]
 
 
@@ -300,6 +296,8 @@ shap_train_list = []
 
 # and for age vs. no age models
 for model in model_variants:
+
+    print(f"Starting runs for {model}")
 
     # this accessed the model_variants dict and pulls out the value (feature)
     # ie. for model_variants[mod] (the no age model = key) it will drop 'Site_age' (value) from X
