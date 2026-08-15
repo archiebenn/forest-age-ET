@@ -1,0 +1,97 @@
+%----------------------------------------------------------------------------------------
+%	RESULTS 1150 words
+%----------------------------------------------------------------------------------------
+\section{Results}
+
+\subsection{Cluster Analysis}
+
+Cluster analysis from Gower distances and 
+
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/world_sites.pdf}}
+	\captionsetup{justification=centering}
+	\caption{Map of FLUXNET sites and associated forest stand age in this study, with medoid cluster site IDs highlighted.}
+	\label{map}
+\end{figure}
+
+\begin{table}[hbt]
+	\caption{Main characteristics of each cluster defined during cluster analysis. To see all clusters on a map see Fig. X (supplementary materials).}
+	\centering
+	\begin{tabularx}{\linewidth}{llX}
+		\toprule
+		Cluster & Medoid Site & Defining Characteristics\\
+		\midrule
+		1 & DE-Lnf & Temperate sites without significant features.  \\
+		2 & US-UMd & Continental sites without significant features. \\
+		3 & CA-Obs & Continental sites with low mean air temperatures.  \\
+		4 & CA-TP3 & Continental sites with high precipitation.  \\
+		5 & IT-SRo & Temperate sites with high air temperatures.  \\
+		6 & US-Me3 & Temperate sites with very high VPD, high SW radiation, low stand age, low wind speeds, and low precipitation. \\
+	\end{tabularx}
+	\label{tab:label}
+\end{table}
+
+
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/pheat2.pdf}}
+	\captionsetup{justification=centering}
+	\caption{Heatmap of cluster medoid sites and scaled feature values. Scaled features $\geq$ 1.5 standard deviations from the mean were classed as 'very' (high or low), while features between 1 and 1.5 standard deviations out were classed as high or low, depending on direction, in order to characterise clusters.}
+\end{figure}
+
+\subsection{Spatial Generalisation}
+
+Suggested framing:
+
+US-UMd (age helps) vs De-Lnf (age hurts) as case studies
+
+
+For each: SHAP dependence plot for age, feature importance ranking, brief site characteristics (climate, age, cluster membership)
+Then the permutation test as a cross-cutting check — not per-site, but run once (or per-cluster) across the whole train/test setup to test whether age's apparent value is real signal or site-proxy leakage
+
+Mention the other 4 clusters exist and were tested (maybe one summary table/plot of all 6 site R² deltas) so it's clear you didn't cherry-pick — then justify the deep dive as case studies. That's a normal, well-scoped move for a 4k-word section, not weak coverage.
+
+Yeah, that's a sensible scope for ~4k words total. Rough shape:
+
+Spatial (bulk of results): cluster analysis overview (brief, all 6), then deep dive on DE-Tha vs CA-Obs (SHAP, feature importance, why age helps/hurts), permutation test as the credibility check
+Temporal: shorter section — does age still help/hurt over time at a couple of long-record sites, tying back to the leakage question (age varies within-site here, so it's a cleaner test)
+Discussion: synthesize — when/why age helps, leakage risk, what it means for future FLUXNET+age model building
+
+\subsubsection{Analysis 1.1}
+
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/1.1_p1.pdf}}
+	\captionsetup{justification=centering}
+	\caption{R$^2$ and RMSE for medoid cluster site predictions of ET (ordered left-right and top-bottom) by peak R$^2$ with clusters indicated in facet names. Models built and tested using a consecutively greater number of input features from FLUXNET and LAI data. For example, the `+VPD' model incorporates Tair, SW\_rad, and VPD as input features.}
+\end{figure}
+
+\subsubsection{Analysis 1.2}
+
+
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/1.2_p3.pdf}}
+	\captionsetup{justification=centering}
+	\caption{Paired box-plots indicate how R$^2$ changes when age is added as a feature to RF models across 100 repeated runs of randomly sampled training datasets. Points are connected on a per-run basis where training dataset site composition is identical. Wilcoxon signed-rank tests suggest model performances differ significantly at all test sites. DE-Lnf is shown large for readability, with other cluster medoid sites shown at a reduced scale for comparison.}
+\end{figure}
+
+
+\subsection{Temporal Generalisation}
+
+
+\subsection{Case Study of US-UMd and DE-Lnf}
+
+- Look into predictions vs observed at both this R2 plot but also over timeframe  \\
+- US-UMd: Continental Site, 2715 days of data  \\
+- DE-Lnf: Temperate Site, 2670 days of data
+
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/1.2_merged1.pdf}}
+	\captionsetup{justification=centering}
+	\caption{P}
+\end{figure}
+
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/case_study_bars.pdf}}
+	\captionsetup{justification=centering}
+	\caption{Bar plot showing the effect of different model setups on R$^2$ at DE-Lnf and US-UMd, with error bars indicating standard error. Models were trained using a leave one group out (LOGO) approach, with five repeats using different \texttt{NumPy} seeds. To assess whether site age was acting as a proxy for other site-level characteristics in these models, a model which randomly shuffled ages between sites was also formed using identical seeds and LOGO approach. This `shuffled age' model appeared to increase R$^2$ at DE-Lnf compared to the Mod + Age model where an opposite effect was observed at US-UMd, suggesting that true age-ET relationships learned by the model transfer well to predicting ET at US-UMd, but not at DE-Lnf.}
+\end{figure}
+
