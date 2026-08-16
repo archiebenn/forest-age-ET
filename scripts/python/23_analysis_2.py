@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score, mean_squared_error
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
 # set wd 
 os.chdir('/home/ab/Dropbox/university/github/bbinf_project')
@@ -101,11 +101,15 @@ def rf_pred(age_model, no_age_model, test_df, features_age, features_no_age, tar
     rmse_no_age = np.sqrt(mean_squared_error(test_df[target], preds_no_age))
     r2_age = r2_score(test_df[target], preds_age)
     r2_no_age = r2_score(test_df[target], preds_no_age)
+    mae_age = mean_absolute_error(test_df[target], preds_age)
+    mae_no_age = mean_absolute_error(test_df[target], preds_no_age)
 
     # return dict of metrics
     return {
         "rmse_age": rmse_age,
         "rmse_no_age": rmse_no_age,
+        "mae_age": mae_age,
+        "mae_no_age": mae_no_age,
         "r2_age":r2_age,
         "r2_no_age": r2_no_age,
         "preds_age": preds_age,
@@ -191,6 +195,8 @@ for site in sites_long["Site_ID"]:
         "test_site_cluster": df_sites.loc[df_sites["Site_ID"] == site, "cluster"].values[0],
         "rmse_age": metrics["rmse_age"],
         "rmse_no_age": metrics["rmse_no_age"],
+        "mae_age": metrics["mae_age"],
+        "mae_no_age": metrics["mae_no_age"],
         "r2_age": metrics["r2_age"],
         "r2_no_age": metrics["r2_no_age"],
     })
@@ -206,6 +212,8 @@ for site in sites_long["Site_ID"]:
         "pred_no_age": metrics["preds_no_age"][i],
         "rmse_age": metrics["rmse_age"],
         "rmse_no_age": metrics["rmse_no_age"],
+        "mae_age": metrics["mae_age"],
+        "mae_no_age": metrics["mae_no_age"],
         "r2_age": metrics["r2_age"],
         "r2_no_age": metrics["r2_no_age"],
     })
