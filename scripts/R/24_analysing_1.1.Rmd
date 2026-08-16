@@ -24,7 +24,7 @@ library(tikzDevice)
 
 ```{r}
 df_sites <- read_csv(here("data/main/21_analysis_1.1/cleaned_sites.csv"))
-df_results <- read_csv(here("data/main/21_analysis_1.1/results_1108_1217.csv"))
+df_results <- read_csv(here("data/main/21_analysis_1.1/results_1608_1228.csv"))
 ```
 
 ## adapting df for plot and re-ordering etc.
@@ -77,7 +77,7 @@ p1 <- df_results_relabelled %>%
     mutate(name_cluster = factor(name_cluster, levels = facet_order)) %>%
     
     # pivot the metrics column long
-    pivot_longer(cols = c(r2, rmse), names_to = "metric", values_to = "value") %>%
+    pivot_longer(cols = c(r2, rmse, mae), names_to = "metric", values_to = "value") %>%
     
     # plot
     ggplot(aes(x = last_feature_label, y = value, colour = metric, group = metric)) +
@@ -87,15 +87,15 @@ p1 <- df_results_relabelled %>%
     # colour lines and rename key values
     scale_colour_manual(
       name = NULL,
-      values = c("r2" = pal[3], "rmse" = pal[1]),
-      labels = c("r2" = "R$^2$", "rmse" = "RMSE\n(mm/day)")
+      values = c("r2" = pal[3], "rmse" = pal[1], "mae" = pal[2]),
+      labels = c("r2" = "R$^2$", "rmse" = "RMSE\n(mm/day)", "mae" = "MAE\n(mm/day)")
     ) + 
     
     # and for the geom_points
      scale_shape_manual(
         name = NULL,
-        values = c("r2" = 5, "rmse" = 2),  # 16 = filled circle, 17 = filled triangle
-        labels = c("r2" = "R$^2$", "rmse" = "RMSE\n(mm/day)")
+        values = c("r2" = 5, "rmse" = 2, "mae" = 4),  # 16 = filled circle, 17 = filled triangle
+        labels = c("r2" = "R$^2$", "rmse" = "RMSE\n(mm/day)", "mae" = "MAE\n(mm/day)")
       ) +
         
     # facet by medoid/test site

@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score, mean_squared_error
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
 # set wd 
 os.chdir('/home/ab/Dropbox/university/github/bbinf_project')
@@ -109,9 +109,10 @@ def rf_it_train(feature_sets, train_df, test_df, target):
 
         # metrics
         rmse = np.sqrt(mean_squared_error(test_df[target], preds))
+        mae = mean_absolute_error(test_df[target], preds)
         r2 = r2_score(test_df[target], preds)
 
-        results.append({"features": feature_set, "rmse": rmse, "r2": r2})
+        results.append({"features": feature_set, "rmse": rmse, "mae": mae, "r2": r2})
 
         print(f"RF model {index}/{total_models} complete")
 
@@ -218,6 +219,7 @@ for entry in results_main:
             "n_features": len(m["features"]),
             "features": ",".join(m["features"]),
             "rmse": m["rmse"],
+            "mae": m["mae"],
             "r2": m["r2"],
         })
 

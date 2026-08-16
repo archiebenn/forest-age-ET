@@ -16,6 +16,8 @@ library(sf)
 library(pheatmap)
 library(ltc)
 library(tikzDevice)
+library(ggrepel)
+
 
 # plot as TikZ object for integration into LaTeX
 options(tikzLatexPackages = c(
@@ -73,8 +75,10 @@ as_tibble(gower_matrix, rownames = "Site_ID") %>%
     write_csv("data/main/20_gower/gower_matrix.csv")
 
 
+
+
 # *********************************************
-# 3. PAM + silhouette
+# 3. PAM + silhouette (cluster assignment)
 # *********************************************
 
 # using silhouette method to determine ideal value of k (clusters) with factoextra package
@@ -88,16 +92,34 @@ pam_result_gower <- pam(gower_matrix, k = 6, diss = TRUE)
 # view cluster assignments
 print(pam_result_gower$clustering)
 
+# get medoid site ID labels
+medoid_ids <- pam_result_gower$medoids
+
+# label list, blank if not medoid site id
+site_ids <- rownames(gower_matrix)
+labels <- ifelse(site_ids %in% rownames(pam_result_gower$medoids), site_ids, "")
+
 # visualise clusters
 # cluster plot
 p_cluster_plot <- fviz_cluster(pam_result_gower, 
              data = gower_matrix,
              geom = "point", 
              ellipse.type = "convex") + 
-    theme_minimal() 
+    theme_minimal() +
+    xlab("Dimension 1 (46.7\\%)") +
+    ylab("Dimension 2 (20.1\\%)") +
+    ggtitle(NULL) +
     
-p_cluster_plot
+    labs(color = "Cluster", shape = "Cluster", fill = "Cluster") +
+    
+    # add medoid ids
+    geom_text_repel(aes(label = ifelse(rownames(gower_matrix) %in% medoid_ids, rownames(gower_matrix), "")),
+                    min.segment.length = 0,
+                    force = 25,
+                    box.padding = 1.25)
 
+
+p_cluster_plot 
 # pheatmap
 #tikz("diss/figures/cluster_plot.tex", width = 6, height = 4, standAlone = TRUE)
 #print(p_cluster_plot)
@@ -137,6 +159,9 @@ df_clustered %>%
         dplyr::across(all_of(numerical_features), list(mean = mean, sd = sd)),
         dplyr::across(all_of(categorical_features), ~ as.character(names(sort(table(.), decreasing = TRUE))[1]))
     )
+
+
+
 
 
 # *********************************************
