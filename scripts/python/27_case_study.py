@@ -12,7 +12,7 @@ import pandas as pd
 import os
 import shap
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
 
 # *********************************************
@@ -105,6 +105,8 @@ def random_forest_normal(X, y, all_sites, case_sites, full_data, seed_list):
             preds = rf.predict(X_test)
             rmse = np.sqrt(mean_squared_error(y_test, preds))
             r2 = r2_score(y_test, preds)
+            mae = mean_absolute_error(y_test, preds)
+            
 
             # take the full original rows for this fold and append predictions to it
             fold_df = full_data.loc[test_idx].copy()
@@ -114,7 +116,7 @@ def random_forest_normal(X, y, all_sites, case_sites, full_data, seed_list):
 
             # appending to lists
             preds_results.append(fold_df)
-            stats_results.append({"site": site, "seed": seed, "rmse": rmse, "r2": r2})
+            stats_results.append({"site": site, "seed": seed, "rmse": rmse, "mae": mae, "r2": r2})
 
             print(f"NORMAL RF test site {site} complete for seed {i}/{len(seed_list)}.")
 
@@ -263,6 +265,7 @@ def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list)
             preds = rf.predict(X_test)
             rmse = np.sqrt(mean_squared_error(y_test, preds))
             r2 = r2_score(y_test, preds)
+            mae = mean_absolute_error(y_test, preds)
 
             # take the full original rows for this fold and append predictions to it
             fold_df = full_data.loc[test_idx].copy()
@@ -272,7 +275,7 @@ def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list)
 
             # appending to lists
             preds_results_shuffled.append(fold_df)
-            stats_results_shuffled.append({"site": site, "seed": seed, "rmse": rmse, "r2": r2})
+            stats_results_shuffled.append({"site": site, "seed": seed, "rmse": rmse, "mae": mae, "r2": r2})
 
             print(f"SHUFFLED RF test site {site} complete for seed {i}/{len(seed_list)}.")
 
@@ -324,9 +327,7 @@ non_features = [
 # features (values) to drop based on model (keys)
 model_variants = {
     "mod": ["Site_age"],
-    "mod+age": [],
-    # "no_lai": ["Lai_500m"],
-    # "no_age_no_lai": ["Site_age", "Lai_500m"]
+    "mod+age": []
 }
 
 # set the two case study sites to test on
