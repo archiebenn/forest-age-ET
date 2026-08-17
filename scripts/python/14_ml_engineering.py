@@ -21,7 +21,6 @@ os.chdir('/home/ab/Dropbox/university/github/bbinf_project')
 df_10 = pd.read_csv("data/main/10_filtering2/df_10.csv")
 
 
-
 # one hot encoding categorical vars
 encoder = OneHotEncoder(sparse_output=False)
 

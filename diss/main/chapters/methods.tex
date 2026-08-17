@@ -3,33 +3,59 @@
 %----------------------------------------------------------------------------------------
 \section{Methods}
 \subsection{Data Acquisition and Setup}
-Flux tower data were downloaded from the FLUXNET2015 dataset \cite{fluxnet2015}.
+Flux tower data were downloaded from the FLUXNET2015 dataset \cite{fluxnet2015} and processed using \texttt{R} (version 4.5.3) \parencite{why_R_you_reading_this} with the \texttt{tidyverse} \parencite{tidy_this_up} suite of packages. Flux data were filtered to only keep North American and European sites whose forest ages are dated in \textcite{besnard2018}, with rows of variables within these sites filtered based on their provided FLUXNET QC flag value. Four-day LAI data (NASA product: MCD15A3H \parencite{myneni2015}) were retrieved using site coordinates via \texttt{MODISTools} \parencite{hufkens2023bluegreen}, filtered on QC, and linearly interpolated between the four-day periods of LAI to provide a continuous daily value, before joining by date and site to the main FLUXNET dataset.\par Site stand ages retrieved from \textcite{besnard2018} are static despite multi-year data ranges often contained at these sites in the FLUXNET. As such, site ages were extrapolated across the range of data at each site to act as a continuous metric, with the provided age set to the first row of the FLUXNET data for each site. K\"{o}ppen climate sites were retrieved and attached based on site latitude and longitude, and these classifications were further simplified to their main groups (Temperate and Continental in this case). A two week cumulative sum of precipitation prior to the day of measurement was also calculated and attached per row, with the first 13 days of data at each site then being discarded. 
 
 
+\subsection{Cluster Analysis}
+Cluster analysis is an exploratory technique which aims to classify objects into as-yet-unknown groups based on their similarities \parencite{landau2010cluster}. To group sites in this study using cluster analysis, a Gower's distance matrix was first formed. Gower's distances are a similarity measure which can handle both numerical and categorical data to provide a distance value between two data points (sites) from 0 (completely dissimilar) to 1 (completely similar) \parencite{gower1971}. A table of the site features used for these distance calculations can be seen in \autoref{tab:cluster_vars}. The Partitioning Around Medoids (PAM) algorithm and silhouette method was then used to map the Gower's distance matrix into a specified set of clusters \parencite{rousseeuw1990}. PAM identifies medoids, which are the points within each cluster whose sum of dissimilarities to all other sites in the same cluster is minimal, and so, in this case, can be identified as the most representative flux tower sites of each cluster.
 
-\subsection{Site Clustering}
+
+\begin{table}[H]
+	\caption{Variables and definitions used to calculate Gower's distances during cluster analysis.}
+	\centering
+	\begin{tabularx}{\linewidth}{llX}
+		\toprule
+		Variable & Data Type & Definition \\
+		\midrule
+		\texttt{ET} & Numerical &  Mean daily ET rate ($\si{\milli\metre\per\day}$ )\\
+		\texttt{T\_air} & Numerical & Mean air temperature at site (\si{\degreeCelsius}) \\
+		\texttt{SW\_rad} & Numerical & Mean daily incoming short-wave radiation ($\si{\watt\per\metre\squared}$) \\
+		\texttt{VPD} & Numerical & Mean daily vapour pressure deficit (\si{\hecto\pascal}) \\
+		\texttt{Site\_age} & Numerical & Mean forest stand age at site (years) \\
+		\texttt{W\_speed} & Numerical & Mean daily wind speed ($\si{\meter\per\second}$) \\
+		\texttt{P\_sum\_14D} & Numerical & Mean two-week cumulative sum of precipitation prior to the day of measurement ($\si{\milli\metre}$) \\
+		\texttt{Lai} & Numerical & Mean daily leaf area index ($\si{\metre\squared\per\metre\squared}$) \\
+		\texttt{Cover\_type} & Categorical & IGBP cover type classifiation of site \\
+		\texttt{Climate\_zone} & Categorical & Main K\"{o}ppen climate group of site\\
+	\end{tabularx}
+	\label{tab:cluster_vars}
+\end{table}
+
+
 
 
 
 
 \subsection{Random Forest modelling}
-In this study, Random Forest models were trained and tested using different methods outlined below.
+In this study, Random Forest models were trained and tested with \texttt{RandomForestRegressor()} from \texttt{scikit-learn} \parencite{pedregosa2011scikit} using the different methods outlined below.
 
 
 
-\subsubsection{Forward Feature Selection}
-
+\subsubsection{Model Sensitivity Testing}
+To assess the sensitivity of the RF models to different features, a forward feature selection assessment was carried out. Features  
 
 
 \subsubsection{Random Sampling of Training Data}
 
 \begin{equation}
-	ET_i = RF_{Mod}(T\_air_i, SW\_rad_i, W\_Speed_i, \sum_{i - 14}^{i}P_i, LAI)
+	ET_i = RF_{Mod}(T\_air_i, SW\_rad_i, VPD_i, W\_speed_i, \sum_{i - 13}^{i}P_i, LAI_i)
 \end{equation}
 \vspace{-0.75em}
 \begin{equation}
-	ET_i = RF_{Mod + Age}(T\_air_i, SW\_rad_i, W\_Speed_i, \sum_{i - 14}^{i}P_i, LAI, Stand\_Age)
+	ET_i = RF_{Mod + Age}(T\_air_i, SW\_rad_i, VPD_i, W\_speed_i, \sum_{i - 13}^{i}P_i, LAI_i, Site\_Age_i)
 \end{equation}
+
+where the target $ET_i$ is the estimated ET rate on the $i$th day (mm/day); $RF(\cdot)$ is the Random Forest model; the features $T\_air$, $SW\_rad$, $VPD$, $W\_speed$, $\sum_{i - 13}^{i}P_i$, $LAI$, $Site\_Age$ are all listed with descriptions in \autoref{tab:cluster_characteristics}.
 
 
 

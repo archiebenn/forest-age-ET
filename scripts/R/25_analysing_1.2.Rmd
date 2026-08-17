@@ -13,10 +13,12 @@ library(tidyverse)
 library(here)
 library(ltc)
 library(ggrepel)
+library(purrr)
 library(patchwork)
 library(tikzDevice)
 library(ggsignif)
 library(ggh4x)
+library(tidyplots)
 ```
 
 # Analysis part 1.2
@@ -24,8 +26,8 @@ library(ggh4x)
 
 ```{r}
 df_sites <- read_csv(here("data/main/21_analysis_1.1/cleaned_sites.csv"))
-df_metrics <- read_csv(here("data/main/22_analysis_1.2/metrics_1008_1353.csv"))
-df_preds <- read_csv(here("data/main/22_analysis_1.2/predictions_1008_1353.csv"))
+df_metrics <- read_csv(here("data/main/22_analysis_1.2/metrics_1608_1310.csv"))
+df_preds <- read_csv(here("data/main/22_analysis_1.2/predictions_1608_1310.csv"))
 ```
 
 
@@ -43,7 +45,7 @@ df_metrics_added <- df_metrics %>%
     
     ungroup() %>%
     
-    pivot_longer(cols = c(r2_age, r2_no_age), names_to = "model_used", values_to = "value") %>% 
+    pivot_longer(cols = c(r2_age, r2_no_age), names_to = "model_used", values_to = "r2_value") %>% 
     mutate(model_used = factor(model_used, levels = c("r2_no_age", "r2_age"))) %>%
     
     # add cluster to name
@@ -58,7 +60,7 @@ df_metrics_added <- df_metrics %>%
 ```{r}
 diffs <- df_metrics %>%
     
-  filter(test_site == "US-Me3") %>%
+  filter(test_site == "US-UMd") %>%
   arrange(run) %>%
   mutate(diff = r2_age - r2_no_age) %>%
   pull(diff)
@@ -81,7 +83,7 @@ p1 <- df_metrics_added %>%
     # just rename the row values for these to work in the boxplot
     mutate(model_used = recode(model_used, r2_age = "Mod + Age", r2_no_age = "Mod")) %>%
     
-    ggplot(aes(x = model_used, y = value)) +
+    ggplot(aes(x = model_used, y = r2_value)) +
     
     # colour and rename key values
     scale_colour_manual(
@@ -123,7 +125,7 @@ p2 <- df_metrics_added %>%
     # just rename the row values for these to work in the boxplot
     mutate(model_used = recode(model_used, r2_age = "Mod + Age", r2_no_age = "Mod")) %>%
     
-    ggplot(aes(x = model_used, y = value)) +
+    ggplot(aes(x = model_used, y = r2_value)) +
     
     # colour and rename key values
     scale_colour_manual(
@@ -196,6 +198,179 @@ print(p3)
 dev.off()
 ```
 
+# looking into US-Me3 composition
+```{r}
+# colour palette
+pal = ltc(alger)
+
+p_me3 <- df_metrics_added %>%
+    
+    filter(test_site == "US-Me3") %>%
+    
+    # just rename the row values for these to work in the boxplot
+    mutate(model_used = recode(model_used, r2_age = "Mod + Age", r2_no_age = "Mod")) %>%
+    
+    ggplot(aes(x = model_used, y = r2_value)) +
+    
+    # colour and rename key values
+    scale_colour_manual(
+      name = "R$^2$ Impact",
+      values = c(up = pal[2], down = pal[5], no_change = pal[1]),
+      labels = c(up = "Improved", down = "Worsened", no_change = "No change")
+    ) +
+    
+    theme_minimal() + 
+    ylab("R$^2$") + 
+    xlab("RF model") +
+
+    geom_point(alpha = 0.25) +
+    geom_line(aes(group=run, colour=updown), linetype="11") +
+    geom_boxplot(width = 0.35, outlier.shape = NA) +
+    
+    annotate("text", x = -Inf, y = Inf, label = "n = 100",
+              hjust = -0.5, vjust = 3, size = 3.5) +
+    
+    # run wilcoxon signed rank on the paired data (paired by run)
+    geom_signif(comparisons = list(c("Mod + Age", "Mod")), 
+                
+                test = "wilcox.test", test.args = list(paired = TRUE),
+                map_signif_level = TRUE,
+                vjust = 0.5,
+                textsize = 4.25) +
+    
+    facet_wrap(~name_cluster)
+
+p_me3
+```
+- clearly a very poorly performing site  
+- now want to have a look at the composition of these runs where it improved r2...
+- average gower where it improved  
+- average age site where it helped etc.  
+- both vs worsened
+
+
+- the following attaches mean age distance from test site to mean age of training set and is more of a summary df across these 100 runs  
+- only needs one row/model, not both as focused on training set composition which is the same across the two models  
+
+
+
+
+```{r}
+df_metrics_wide <- df_metrics_added %>%
+    
+    # widen to then mutate r2_no_age - r2_age in next df
+    pivot_wider(
+    id_cols = c(run, test_site), 
+    names_from = model_used,       
+    values_from = r2_value) %>%
+    
+    mutate(r2_change = r2_age - r2_no_age)
+
+
+# dfs for when it helped vs didn't help
+df_train_sets <- df_metrics_added %>%
+    
+    # only need one row for training sites composition
+    filter(model_used == "r2_age") %>%
+    
+    # this undoes the single string form (as it's not actually a vector currently)
+    # strip brackets/quotes
+    mutate(train_sites = str_remove_all(train_sites, "\\[|\\]|'"),  
+         
+         # split into list-column
+         train_sites = str_split(train_sites, ",\\s*"))  %>%
+    
+    select(run ,test_site, updown, mean_gower, train_sites) %>%
+    
+    rowwise() %>%
+    
+    # uses match to get the test site age from df_sites
+    mutate(
+        test_site_age = df_sites$Site_age[match(test_site, df_sites$Site_ID)],
+    
+    # takes the mean of the absolute difference from the mean age of training set (using match to access via site ids in df_sites)
+    mean_age_dist = mean(abs(df_sites$Site_age[match(train_sites, df_sites$Site_ID)] - test_site_age))
+  ) %>%
+    
+  ungroup()
+
+df_train_sets2 <- left_join(df_metrics_wide, df_train_sets, 
+                            
+                            # by row identifiers in both dfs
+                            by = c("run", "test_site"))
+
+```
+
+
+```{r}
+#pal_con <-  ltc(heatmap0, 30, type = "continuous")
+pal_con <- rev(colors_continuous_viridis)
+
+# plot
+p_gower_r2 <- df_train_sets2 %>%
+    
+    ggplot(aes(x = mean_gower, y = r2_change)) +
+    
+    geom_point(aes(colour = mean_age_dist), alpha = 0.5) +
+    
+    geom_smooth(method = "lm") +
+    geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
+    
+    # colour and rename key values
+    scale_colour_gradientn(
+      name = "Mean Absolute Difference of Ages, Medoid Site $\\rightarrow$ Training Set (Years)",
+      colours = pal_con
+    ) +
+    
+    theme_bw() +
+     theme(legend.position = "top") +
+    xlab("Mean Gower's Distance, Medoid Site $\\rightarrow$ Training Set") +
+    ylab("$\\Delta$R$^2$ with Mod + Age") +
+    
+    facet_wrap(~test_site, scales = "free")
+
+p_gower_r2
+
+```
+
+`
+```{r}
+# plot as TikZ object for integration into LaTeX
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{MinionPro}\n",
+    "\\usepackage{MnSymbol}\n"
+))
+
+# p3
+tikz(here("diss/figures/1.2_gower_r2.tex"), width = 6, height = 5, standAlone = TRUE)
+print(p_gower_r2)
+dev.off()
+
+```
+
+```{r}
+# plot
+p_ages_r2 <- df_train_sets2 %>%
+    
+    ggplot(aes(x = mean_age_dist, y = r2_age)) +
+    
+    geom_smooth(method = "lm") +
+    geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
+    
+    geom_point() +
+
+    
+    theme_bw() +
+     theme(legend.position = "top") +
+    xlab("Mean Absolute Difference of Ages, Medoid Site $\\rightarrow$ Training Set (Years)") +
+    ylab("Mod + Age R$^2$") +
+    
+    facet_wrap(~test_site, scales = "free")
+
+p_ages_r2
+
+```
 
 
 # site and cluster stuff
@@ -265,9 +440,9 @@ p_clusters_bar
 df_preds_long <- df_preds %>%
     
     # pivot preds, r2, and rmse using pattern matching
-    pivot_longer(cols = c(pred_age, pred_no_age, r2_age, r2_no_age, rmse_age, rmse_no_age),
+    pivot_longer(cols = c(pred_age, pred_no_age, r2_age, r2_no_age, rmse_age, rmse_no_age, mae_age, mae_no_age),
                  names_to = c(".value", "pred_model"),
-                 names_pattern = "(pred|r2|rmse)_(age|no_age)"
+                 names_pattern = "(pred|r2|rmse|mae)_(age|no_age)"
     ) %>%
     
     # factor for facet order
@@ -278,7 +453,10 @@ df_preds_long_stats <- df_preds_long %>%
 
     # r2 and rmse per site/model combo
     group_by(pred_model, test_site) %>%
-    summarise(mean_r2 = round(mean(r2), 2), mean_rmse = round(mean(rmse), 2), .groups = "drop")
+    summarise(mean_r2 = round(mean(r2), 2), 
+              mean_rmse = round(mean(rmse), 2),
+              mean_mae = round(mean(mae), 2),
+              .groups = "drop")
 
 # for re-naming facets
 model_names <- list(
@@ -325,9 +503,18 @@ plotter_r2 <- function(testing_site){
     ylab("Predicted ET (mm/day)") +
     ggtitle(testing_site) +
     
-    # add mean R2 and RMSE
-     geom_text(data = df_preds_long_stats %>% filter(test_site == testing_site), aes(x = -Inf, y = Inf, label = paste0("Mean $R^2$ = ", mean_r2, "\nMean RMSE = ", mean_rmse, "mm/day")),
-            hjust = -0.1, vjust = 1.5, size = 3.5, inherit.aes = FALSE) +
+    # add mean R2 and RMSE and MAE (separately to fix in-line issue)
+     geom_text(data = df_preds_long_stats %>% filter(test_site == testing_site),
+          aes(x = -Inf, y = Inf, label = paste0("$\\overline{\\mathrm{R^2}}$ = ", mean_r2)),
+          hjust = -0.15, vjust = 2, size = 3.5, inherit.aes = FALSE) +
+        
+geom_text(data = df_preds_long_stats %>% filter(test_site == testing_site),
+          aes(x = -Inf, y = Inf, label = paste0("$\\overline{\\mathrm{RMSE}}$ = ", mean_rmse, " mm/day")),
+          hjust = -0.1, vjust = 4, size = 3.5, inherit.aes = FALSE) +
+        
+geom_text(data = df_preds_long_stats %>% filter(test_site == testing_site),
+          aes(x = -Inf, y = Inf, label = paste0("$\\overline{\\mathrm{MAE}}$ = ", mean_mae, " mm/day")),
+          hjust = -0.1, vjust = 6, size = 3.5, inherit.aes = FALSE) +
         
         facet_wrap(~pred_model, labeller = mod_labeller)
     

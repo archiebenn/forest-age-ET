@@ -75,6 +75,7 @@ tex_plots: ## run latex on the individual plots from tikzDevice for integration 
 	cd diss/figures && pdflatex -interaction=nonstopmode world_sites.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.1_p1.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_p3.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_gower_r2.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode pheat2.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_merged1.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode case_study_bars.tex

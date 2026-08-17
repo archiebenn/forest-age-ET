@@ -149,7 +149,9 @@ lat <- df_01 %>%
     select(SITE_ID, LATITUDE = DATAVALUE)
 
 long <- df_01 %>%
-    filter(VARIABLE == "LOCATION_LONG", SITE_ID %in% besnard_sites) %>%  # only keep sites present in besnard2018
+    
+    # only keep sites present in besnard2018
+    filter(VARIABLE == "LOCATION_LONG", SITE_ID %in% besnard_sites) %>%  
     select(SITE_ID, LONGITUDE = DATAVALUE)
 
 merged <- merge(igbp, lat, by="SITE_ID")
