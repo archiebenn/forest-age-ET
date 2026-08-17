@@ -46,7 +46,7 @@ df_results_relabelled <- df_results %>%
         ),
         
         # add cluster to name
-        name_cluster = paste(test_site, " (", test_site_cluster, ")", sep = ""),
+        #name_cluster = paste(test_site, " (", test_site_cluster, ")", sep = ""),
         
         # preserves row order
         last_feature_label = factor(last_feature_label, levels = unique(last_feature_label))  
@@ -56,12 +56,12 @@ df_results_relabelled <- df_results %>%
 # order facets by peak r2 of each plot
 facet_order <- df_results_relabelled %>%
     
-    group_by(name_cluster) %>%
+    group_by(test_site) %>%
     summarise(max_r2 = max(r2, na.rm = TRUE)) %>%
     
     # highest to lowest r2
     arrange(desc(max_r2)) %>%
-    pull(name_cluster)
+    pull(test_site)
 ```
 
 ## plot facets
@@ -74,10 +74,13 @@ pal = ltc(trio1)
 p1 <- df_results_relabelled %>%
     
     # order name of facets by r2
-    mutate(name_cluster = factor(name_cluster, levels = facet_order)) %>%
+    mutate(test_site = factor(test_site, levels = facet_order)) %>%
     
     # pivot the metrics column long
     pivot_longer(cols = c(r2, rmse, mae), names_to = "metric", values_to = "value") %>%
+    
+    # force this order in legend
+    mutate(metric = factor(metric, levels = c("r2", "rmse", "mae"))) %>%
     
     # plot
     ggplot(aes(x = last_feature_label, y = value, colour = metric, group = metric)) +
@@ -99,7 +102,7 @@ p1 <- df_results_relabelled %>%
       ) +
         
     # facet by medoid/test site
-    facet_wrap(~name_cluster, scales = "free_y") + 
+    facet_wrap(~test_site, scales = "free_y") + 
     
     # aesthetics
     theme_bw() +

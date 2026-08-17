@@ -22,9 +22,9 @@ Cluster analysis is an exploratory technique which aims to classify objects into
 		\texttt{SW\_rad} & Numerical & Mean daily incoming short-wave radiation ($\si{\watt\per\metre\squared}$) \\
 		\texttt{VPD} & Numerical & Mean daily vapour pressure deficit (\si{\hecto\pascal}) \\
 		\texttt{Site\_age} & Numerical & Mean forest stand age at site (years) \\
-		\texttt{W\_speed} & Numerical & Mean daily wind speed ($\si{\meter\per\second}$) \\
+		\texttt{Wspeed} & Numerical & Mean daily wind speed ($\si{\meter\per\second}$) \\
 		\texttt{P\_sum\_14D} & Numerical & Mean two-week cumulative sum of precipitation prior to the day of measurement ($\si{\milli\metre}$) \\
-		\texttt{Lai} & Numerical & Mean daily leaf area index ($\si{\metre\squared\per\metre\squared}$) \\
+		\texttt{Lai\_500m} & Numerical & Mean daily leaf area index ($\si{\metre\squared\per\metre\squared}$) \\
 		\texttt{Cover\_type} & Categorical & IGBP cover type classifiation of site \\
 		\texttt{Climate\_zone} & Categorical & Main K\"{o}ppen climate group of site\\
 	\end{tabularx}
@@ -37,22 +37,42 @@ Cluster analysis is an exploratory technique which aims to classify objects into
 
 
 \subsection{Random Forest modelling}
-In this study, Random Forest models were trained and tested with \texttt{RandomForestRegressor()} from \texttt{scikit-learn} \parencite{pedregosa2011scikit} using the different methods outlined below.
+In this study, Random Forest models were trained and tested with \texttt{RandomForestRegressor()} from \texttt{scikit-learn} \parencite{pedregosa2011scikit} using the different methods outlined below. Due to time constraints, a single set of optimised parameter values was calculated once using \texttt{GroupKFold()} and \texttt{Optuna} \parencite{akiba2019optuna} to minimise root mean square error (RMSE) on fold predictions. These values were used for all RF models throughout the study (see \autoref{tab:params}). In all cases, metrics for R$^2$, RMSE, and mean absolute error (MAE) were calculated using their respective \texttt{scikit-learn} functions.
+
+
+\begin{table}[H]
+	\caption{Parameters selected for use in all RF training setups in this study. Calculated to minimise RMSE on trials using \texttt{GroupKFold()} and \texttt{Optuna}.}
+	\centering
+	\begin{tabularx}{0.5\linewidth}{l l}
+		\toprule
+		RF parameter & Value \\
+		\midrule
+		\texttt{n\_estimators} & 450 \\
+		\texttt{max\_depth} & 20\\
+		\texttt{min\_samples\_leaf} & 5 \\
+		\texttt{max\_features} & 0.6  \\
+	\end{tabularx}
+	\label{tab:params}
+\end{table}
 
 
 
 \subsubsection{Model Sensitivity Testing}
-To assess the sensitivity of the RF models to different features, a forward feature selection assessment was carried out. Features  
+To assess the sensitivity of the RF models to different features, a forward feature selection assessment was carried out. Non-target (ET) numerical features were added sequentially and the RF model was re-trained and tested with each new feature added. Features were added in the following order: \texttt{T\_air, SW\_rad, VPD, Wspeed, P\_sum\_14D, Lai\_500m, Site\_Age}. Training sites consisted of all sites apart from medoids (see \autoref{tab:all_sites}), with predictions formed and testing carried out at medoid sites. Results can be found in section \ref{model_sens}.
 
 
 \subsubsection{Random Sampling of Training Data}
+To investigate how predictive performance is impacted by including site age as a feature, two separate RF architectures were formed: `Mod' (\autoref{eqn:mod}) and `Mod + Age' (\autoref{eqn:mod_age}).
+
 
 \begin{equation}
 	ET_i = RF_{Mod}(T\_air_i, SW\_rad_i, VPD_i, W\_speed_i, \sum_{i - 13}^{i}P_i, LAI_i)
+	\label{eqn:mod}
 \end{equation}
 \vspace{-0.75em}
 \begin{equation}
 	ET_i = RF_{Mod + Age}(T\_air_i, SW\_rad_i, VPD_i, W\_speed_i, \sum_{i - 13}^{i}P_i, LAI_i, Site\_Age_i)
+	\label{eqn:mod_age}
 \end{equation}
 
 where the target $ET_i$ is the estimated ET rate on the $i$th day (mm/day); $RF(\cdot)$ is the Random Forest model; the features $T\_air$, $SW\_rad$, $VPD$, $W\_speed$, $\sum_{i - 13}^{i}P_i$, $LAI$, $Site\_Age$ are all listed with descriptions in \autoref{tab:cluster_characteristics}.

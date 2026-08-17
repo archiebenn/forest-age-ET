@@ -3,7 +3,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 # May - September 2026
 
-.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer single_held_out generate_plots gower analysis_1.1 analysis_1.2 analysis_2 case_study tex_plots diss
+.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer grid_search single_held_out generate_plots gower analysis_1.1 analysis_1.2 analysis_2 case_study tex_plots diss
 
 .DEFAULT_GOAL := help
 
@@ -49,6 +49,9 @@ gams: ## Forms GAMs (bams) to assess R-squared and RMSE per site for all predict
 
 engineer: ## data prep part 9 - select + engineer variables for ML
 	python scripts/python/14_ml_engineering.py
+
+grid_search: ## added later, but this uses GroupKFold searching to find the best model parameters for the subsequent RF models
+	python scripts/python/15.5_gridsearch.py
 
 single_held_out: ## python script which runs multiple ML architectures and generates preds and stats per site
 	python scripts/python/16_ML_single_held_out.py 

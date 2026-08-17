@@ -16,6 +16,7 @@ np.random.seed(42)
 df = pd.read_csv("data/main/14_pre_processing/df_ml_ready.csv")
 df_sites = pd.read_csv("data/main/21_analysis_1.1/cleaned_sites.csv")
 
+# only keep updates sites (post script 21)
 df_cleaned = df[df["Site_ID"].isin(df_sites["Site_ID"])]
 
 # list of sites
@@ -75,6 +76,7 @@ def parameter_search(trial):
         X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
         y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
 
+        # take on parameters and use all -1 core to run
         rf = RandomForestRegressor(**params, random_state=42, n_jobs=-2)
         rf.fit(X_train, y_train)
         preds = rf.predict(X_test)
@@ -87,6 +89,7 @@ def parameter_search(trial):
 
 # start the search ro minimise RMSE
 study = optuna.create_study(direction="minimize")
+# 20 x 7 = 140 RF fits
 study.optimize(parameter_search, n_trials=20)
 
 # and get the best value and params

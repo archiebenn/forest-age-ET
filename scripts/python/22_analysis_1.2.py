@@ -1,5 +1,5 @@
 # analysis_1.2.py - part 1.2 of final analysis for dissertation
-# this script builds rf models (with and without age) based on 20 randomly samples training sites and predicts on the 7 medoid (representative) test sites, before saving metrics
+# this script builds rf models (with and without age) based on 20 randomly samples training sites and predicts on the 6 medoid (representative) test sites, before saving metrics
 # date: 5-8-2026
 # author: Archie Benn sj19031@bristol.ac.uk
 
