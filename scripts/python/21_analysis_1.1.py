@@ -76,12 +76,12 @@ def feature_adder(features):
 # 2.2 pass feature(s) list to RF model and train/test iteratively per feature subset
 def rf_it_train(feature_sets, train_df, test_df, target):
 
-    #params defined in script 15
+    #params defined from script 15.5
     params = {
-            "n_estimators": 250, 
-            "max_depth": 10, 
-            "min_samples_leaf": 10,
-            "max_features": 0.6
+            "n_estimators": 350, 
+            "max_depth": 17, 
+            "min_samples_leaf": 19,
+            "max_features": 0.35
         }
 
     # setup RF

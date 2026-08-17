@@ -59,12 +59,12 @@ def train_selecta(main_df, train_sites, n):
 # 2.2 random forest training function - trains on training df
 def rf_train(train_df, features_age, features_no_age, target):
 
-    #params defined in script 15
+    #params defined from script 15.5
     params = {
-            "n_estimators": 250, 
-            "max_depth": 10, 
-            "min_samples_leaf": 10,
-            "max_features": 0.6
+            "n_estimators": 350, 
+            "max_depth": 17, 
+            "min_samples_leaf": 19,
+            "max_features": 0.35
         }
 
     # 1. AGE MODEL (full features)

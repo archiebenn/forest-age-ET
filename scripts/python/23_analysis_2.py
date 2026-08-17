@@ -56,12 +56,12 @@ def train_test_8020(site_df):
 # 3.2 function to fit RF models with training data
 def rf_train_temporal(train_df, features_age, features_no_age, target = "ET"):
 
-    #params defined in script 15
+    #params defined from script 15.5
     params = {
-            "n_estimators": 250, 
-            "max_depth": 10, 
-            "min_samples_leaf": 10,
-            "max_features": 0.6
+            "n_estimators": 350, 
+            "max_depth": 17, 
+            "min_samples_leaf": 19,
+            "max_features": 0.35
         }
 
     # 1. AGE MODEL (full features)

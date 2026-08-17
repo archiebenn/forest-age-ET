@@ -34,12 +34,13 @@ df_14 = pd.read_csv("data/main/14_pre_processing/df_ml_ready.csv")
 # this RF function will allow seeds to be looped over for repeated leave one group out 
 def random_forest_normal(X, y, all_sites, case_sites, full_data, seed_list):
 
+    #params defined from script 15.5
     params = {
-        "n_estimators": 250, 
-        "max_depth": 10, 
-        "min_samples_leaf": 10,
-        "max_features": 0.6
-    }
+            "n_estimators": 350, 
+            "max_depth": 17, 
+            "min_samples_leaf": 19,
+            "max_features": 0.35
+        }
 
     # empty lists
     preds_results = []
@@ -134,12 +135,13 @@ def random_forest_normal(X, y, all_sites, case_sites, full_data, seed_list):
 # this RF function will allow seeds to be looped over, but also shuffles training site ages before training the models
 def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list):
 
+    #params defined from script 15.5
     params = {
-        "n_estimators": 250, 
-        "max_depth": 10, 
-        "min_samples_leaf": 10,
-        "max_features": 0.6
-    }
+            "n_estimators": 350, 
+            "max_depth": 17, 
+            "min_samples_leaf": 19,
+            "max_features": 0.35
+        }
 
     # empty lists
     preds_results_shuffled = []
