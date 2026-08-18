@@ -334,7 +334,7 @@ model_variants = {
 
 # set the two case study sites to test on
 case_sites = ["US-UMd", "DE-Lnf"]
-seeds = [1, 42, 123, 2026, 9]
+seeds = [1, 42, 123, 2026, 9, 25, 16, 19, 2, 30]
 
 # set sites as groups to split by  
 site_names = df_14["Site_ID"] 

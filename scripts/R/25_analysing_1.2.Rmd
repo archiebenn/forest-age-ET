@@ -26,8 +26,8 @@ library(tidyplots)
 
 ```{r}
 df_sites <- read_csv(here("data/main/21_analysis_1.1/cleaned_sites.csv"))
-df_metrics <- read_csv(here("data/main/22_analysis_1.2/metrics_1608_1310.csv"))
-df_preds <- read_csv(here("data/main/22_analysis_1.2/predictions_1608_1310.csv"))
+df_metrics <- read_csv(here("data/main/22_analysis_1.2/metrics_1708_2226.csv"))
+df_preds <- read_csv(here("data/main/22_analysis_1.2/predictions_1708_2226.csv"))
 ```
 
 

@@ -100,6 +100,8 @@ site_ids <- rownames(gower_matrix)
 labels <- ifelse(site_ids %in% rownames(pam_result_gower$medoids), site_ids, "")
 
 # visualise clusters
+pal2 = ltc(casa_natal)
+
 # cluster plot
 p_cluster_plot <- fviz_cluster(pam_result_gower, 
              data = gower_matrix,
@@ -109,6 +111,10 @@ p_cluster_plot <- fviz_cluster(pam_result_gower,
     xlab("Dimension 1 (46.7\\%)") +
     ylab("Dimension 2 (20.1\\%)") +
     ggtitle(NULL) +
+    
+    # colour from ltc
+    scale_colour_manual(values = pal2) +
+    scale_fill_manual(values = pal2) +
     
     labs(color = "Cluster", shape = "Cluster", fill = "Cluster") +
     
@@ -120,10 +126,10 @@ p_cluster_plot <- fviz_cluster(pam_result_gower,
 
 
 p_cluster_plot 
-# pheatmap
-#tikz("diss/figures/cluster_plot.tex", width = 6, height = 4, standAlone = TRUE)
-#print(p_cluster_plot)
-#dev.off()
+
+tikz("diss/figures/cluster_plot.tex", width = 6, height = 4, standAlone = TRUE)
+print(p_cluster_plot)
+dev.off()
 
 # silhouette plot
 fviz_silhouette(pam_result_gower)
@@ -137,16 +143,6 @@ df_clustered <- df %>%
     mutate(cluster = factor(pam_result_gower$clustering[Site_ID]))
 write_csv(df_clustered, "data/main/20_gower/df_clustered.csv")
 
-
-
-# plot on map
-p_map <- ggplot() +
-    geom_sf(data = world, fill = "grey95", colour = "grey80") +
-    geom_point(data = df_clustered, aes(Longitude, Latitude, colour = cluster), size = 2.5) +
-    coord_sf(xlim = c(-130, 40), ylim = c(25, 70)) + 
-    theme_minimal()
-
-p_map
 
 
 # *********************************************
@@ -215,13 +211,20 @@ centroids_cat <- centroids %>%
 
 
 
+
 # cluster-level mean z-scores for numerical features
 cluster_means_num <- df_clustered %>%
+    
+    # scale features
     mutate(across(all_of(numerical_features), ~ as.numeric(scale(.)))) %>%
     group_by(cluster) %>%
+    
+    # mean of each feature
     summarise(across(all_of(numerical_features), mean)) %>%
     column_to_rownames("cluster") %>%
     as.matrix()
+
+cluster_means_num
 
 # cluster-level mode for categorical features
 cluster_mode_cat <- df_clustered %>%
@@ -285,9 +288,9 @@ p_heat2
 
 
 # pheatmap
-tikz("diss/figures/pheat2.tex", width = 6, height = 4, standAlone = TRUE)
-print(p_heat2)
-dev.off()
+#tikz("diss/figures/pheat2.tex", width = 6, height = 4, standAlone = TRUE)
+#print(p_heat2)
+#dev.off()
 
 
 # and now form cluster labels with description as a df
@@ -296,6 +299,19 @@ df_cluster_labels <- data.frame(
     medoid_site = pam_result_gower$medoids,
     label = cluster_labels
 )
+
+
+# *********************************************
+# 6. EXTRA
+# *********************************************
+
+# counts of sites/cluster for results section
+df_clustered %>%
+    
+    group_by(cluster) %>%
+    
+    summarise(sites_in_cluster = n())
+
 
 write_csv(df_cluster_labels, "data/main/20_gower/df_cluster_labels.csv")
 

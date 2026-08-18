@@ -32,7 +32,10 @@ pal <- rev(colors_continuous_viridis)
 medoid_coords <- sites_sf %>%
     filter(Site_ID %in% medoid_labels) %>%
     mutate(lon = st_coordinates(.)[,1],
-           lat = st_coordinates(.)[,2])
+           lat = st_coordinates(.)[,2]) %>%
+    
+    # add cluster number to name for clarity on world map
+    mutate(name_cluster = paste(Site_ID, " (", cluster, ")", sep = ""))
 
 
 p <- world %>%
@@ -60,18 +63,43 @@ p <- world %>%
 
 p 
 
+# palette for map
+pal2 = ltc(casa_natal)
 
-p_climates <- world %>%
+# clusters on map
+p_clusters <- world %>%
+    
     ggplot() +
+    # set map colours
     geom_sf(fill = "grey95", colour = "grey75", linewidth = 0.2) + 
-    geom_sf(data = sites_sf, aes(colour = Climate_zone), size = 1) +
-    coord_sf(xlim = c(-145, 32.5), ylim = c(6.5, 70), default_crs = sf::st_crs(4326)) +
-    scale_colour_brewer(palette = "Set1", name = "Climate Zone") +
-    theme_void() +
+    
+    # add points
+    geom_point(data = sites, aes(Longitude, Latitude, colour = factor(cluster)), size = 2, alpha = 0.8) +
+    
+    # set scale limits
+    coord_sf(xlim = c(-145, 32.5), ylim = c(6.5, 75), default_crs = sf::st_crs(4326)) +
+    
+    scale_x_continuous(labels = function(x) paste0(x, "$^\\circ$")) +
+    scale_y_continuous(labels = function(x) paste0(x, "$^\\circ$")) +
+    
+    # hide degrees symbol for latex
+    theme_minimal() +
+    # add repelled site labels for medoid sites
+    geom_text_repel(data = medoid_coords, aes(x = lon, y = lat, label = name_cluster), 
+                    min.segment.length = 0,
+                    box.padding = 1.2) +
+    
+    scale_colour_manual(values = pal2) +
+    
+    
+    # legend name
+    labs(colour = "Cluster") +
+    
     theme(legend.text = element_text(size = 10),
           legend.title = element_text(size = 10),
           legend.margin = margin(r = 10)) 
-p_climates
+
+p_clusters
 
 
 # plot as TikZ object for integration into LaTeX
@@ -80,10 +108,15 @@ options(tikzLatexPackages = c(
     "\\usepackage{MinionPro}\n",
     "\\usepackage{MnSymbol}\n"
 ))
-tikz("diss/figures/world_sites.tex", width = 6, height = 3, standAlone = TRUE)
-print(p)
+#tikz("diss/figures/world_sites.tex", width = 6, height = 3, standAlone = TRUE)
+#print(p)
+#dev.off()
+
+tikz("diss/figures/world_sites_clusters.tex", width = 6, height = 3, standAlone = TRUE)
+print(p_clusters)
 dev.off()
 
 print("site_maps.R complete")
 
-p
+
+

@@ -255,7 +255,11 @@
 - not sure if it will help at all to investigate but oh well  
 - to do: Permutation importance and SHAP dependence plot for new modelson two sites
 
+# 18-8-26
 
+- few days of log to catch up on, but going well  
+- started writing diss. going to have to put full methods in supplementary materials, and a light methods in results  
+- had final meeting with martin today but he's happy with where i am (see martin meeting notes)
 
 
 
