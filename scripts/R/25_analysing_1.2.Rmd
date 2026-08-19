@@ -19,6 +19,9 @@ library(tikzDevice)
 library(ggsignif)
 library(ggh4x)
 library(tidyplots)
+library(kableExtra)
+library(sf)
+library(rnaturalearth)
 ```
 
 # Analysis part 1.2
@@ -46,10 +49,10 @@ df_metrics_added <- df_metrics %>%
     ungroup() %>%
     
     pivot_longer(cols = c(r2_age, r2_no_age), names_to = "model_used", values_to = "r2_value") %>% 
-    mutate(model_used = factor(model_used, levels = c("r2_no_age", "r2_age"))) %>%
+    mutate(model_used = factor(model_used, levels = c("r2_no_age", "r2_age"))) 
     
     # add cluster to name
-    mutate(name_cluster = paste(test_site, " (", test_site_cluster, ")", sep = ""))
+    #mutate(name_cluster = paste(test_site, " (", test_site_cluster, ")", sep = ""))
 
 ```
 
@@ -111,7 +114,7 @@ p1 <- df_metrics_added %>%
                 vjust = 0.5,
                 textsize = 4.25) +
     
-    facet_wrap(~name_cluster)
+    facet_wrap(~test_site)
 
 p1
 ```
@@ -149,7 +152,7 @@ p2 <- df_metrics_added %>%
                 vjust = 0.4,
                 textsize = 2) +
     
-    facet_wrap(~name_cluster, scales = "free_y", nrow = 1) +
+    facet_wrap(~test_site, scales = "free_y", nrow = 1) +
     
     theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) +
 
@@ -238,7 +241,7 @@ p_me3 <- df_metrics_added %>%
                 vjust = 0.5,
                 textsize = 4.25) +
     
-    facet_wrap(~name_cluster)
+    facet_wrap(~test_site)
 
 p_me3
 ```
@@ -567,7 +570,69 @@ dev.off()
 ```
 
 
+```{r}
+# updown counts
+counts <- df_metrics_added %>%
+    
+    filter(model_used == "r2_no_age") %>%
+    
+    group_by(test_site) %>%
+    
+    summarise(up_total = sum(updown == "up"),
+        down_total = sum(updown == "down"))
+
+counts
 
 
+# and mean R2 change
+r2_changes <- df_metrics %>%
+    
+    group_by(test_site) %>%
+    
+    summarise(mean_r2_change = mean(r2_no_age - r2_age))
+
+```
+
+
+
+# generating latex table for full sites
+```{r}
+# add country data for presentation in suppl. materials
+world <- ne_countries(scale = "medium", returnclass = "sf")
+pts <- st_as_sf(df_sites, coords = c("Longitude", "Latitude"), crs = 4326)
+df_sites$Country <- st_join(pts, world["name"])$name
+
+
+# create kable table for direct input to latex
+kable_table <- df_sites %>%
+    
+    select(
+        Site_ID,
+        Days_of_data,
+        Country,
+        Climate_zone,
+        Cover_type,
+        Site_age,
+        ET_90D_peak_mean,
+    ) %>%
+    
+    mutate(Country = recode(Country, "United States of America" = "U.S.A"),
+           Site_age = round(Site_age, 0),
+           ET_90D_peak_mean = round(ET_90D_peak_mean, 2),
+           
+           # highlight medoids in latex table with *** IN SITE ID COLUMN
+           Site_ID = ifelse(Site_ID %in% counts$test_site, paste0(Site_ID, "***"), Site_ID)) %>%
+
+    kbl(format = "latex", booktabs = TRUE, escape = FALSE,
+      caption = "\\centering{Metadata summary of FLUXNET sites used in this study (*** denotes a cluster medoid)}",
+      label = "tab:site_summary",
+      col.names = c("Site ID", "Days of Data", "Country", "Climate Zone",
+                    "Cover Type", "Site Age (years)", "Mean ET 90D Peak (\\si{\\milli\\metre\\per\\day})")) %>%
+    
+  kable_styling(latex_options = c("striped", "hold_position"), font_size = 9) %>%
+    
+  cat(file = here("diss/figures/sites_kable.tex"))
+
+```
 
 

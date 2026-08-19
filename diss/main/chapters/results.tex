@@ -4,48 +4,10 @@
 \section{Results}
 
 \subsection{Flux Tower Site Clustering}
-Cluster analysis was carried out in order to classify sites into groups based on their characteristics. This classification permits the predictability of ET, both within these characterised groups and across them, to be investigated. Gower's distances \parencite{gower1971} were computed as a measure of dissimilarity between all site pairs using the features listed in \autoref{tab:cluster_vars} and saved as a matrix. This matrix was then passed to the Partitioning Around Medoids (PAM) algorithm \parencite{rousseeuw1990} with the silhouette method to form clusters and identify medoid sites - those which have minimal dissimilarity to other sites within each cluster and thus can be seen as representatives of each cluster.\par The silhouette method identified $k = 13$ as the optimal number of clusters based on average silhouette width, but with only 51 sites present this value was dropped to $k = 6$ in order to yield sufficiently well-populated clusters across a range of site characteristics. The cluster assignment solution from PAM with $k = 6$ clusters resulted in a range of site counts by cluster from 3 sites (cluster 6) up to 18 sites (cluster 3), and can be seen in a cluster plot of the first two principal components (\autoref{fig:cluster}). The six medoid sites were geographically distributed with four sites in North America and two sites in Europe (\autoref{fig:map}), and a range of site ages from 20 years (US-Me3) up to 117 years (DE-Lnf). 
+Cluster analysis was carried out in order to classify sites into groups based on their characteristics. This classification permits the predictability of ET, both within these characterised groups and across them, to be investigated. Gower's distances, a measure between pairs of data points, from 0 = completely dissimilar to 1 = completely similar \parencite{gower1971} (see section \ref{sec:cluster} for details), were computed using the features listed in \autoref{tab:cluster_vars} and saved as a matrix. This matrix was passed to the Partitioning Around Medoids (PAM) algorithm \parencite{rousseeuw1990} with the silhouette method to form clusters and identify medoid sites - those which have minimal dissimilarity to other sites within each cluster and thus can be seen as representatives of each cluster.
+\par The silhouette method identified $k = 13$ as the optimal number of clusters based on average silhouette width, but with only 50 sites present this value was dropped to $k = 6$ in order to yield sufficiently well-populated clusters across a range of site characteristics. The cluster assignment solution from PAM with $k = 6$ clusters resulted in a range of site counts by cluster from 3 sites (cluster 6) up to 18 sites (cluster 3), and can be seen in a cluster plot of the first two principal components (\autoref{fig:cluster}). The overall geographic distribution of clusters appears to follow an expected pattern with regards to climatic groups; for example, sites at high latitudes tended to be grouped in cluster 3, with Mediterranean and coastal sites typically grouped in cluster 5 (\autoref{fig:map}). This expected pattern of clusters suggests that the PAM clustering solution captures climate-relevant patterns to some degree, although this was not formally tested. The six medoid sites were geographically distributed with four sites in North America and two sites in Europe (\autoref{fig:map}), and a range of site ages from 20 years (US-Me3) to 117 years (DE-Lnf). 
+\par To define cluster site characteristics, the means of z-score standardised numerical features (mean = 0, sd = 1) and mode of categorical features were considered for each cluster. Mean scaled numeric features can be seen within a heat map (\autoref{fig:pheat}) for a visual comparison across clusters. Mean cluster features $\geq$ 1 sd from the all site mean were considered as `high/low' ($\geq$ 1.5 sd as `very high/very low') in order to qualitatively classify cluster characteristics, with these summarised in \autoref{tab:cluster_characteristics}.
 
- \par To define cluster site characteristics, the means of z-score standardised (mean = 0, sd = 1) numerical features and mode of categorical features were considered for each cluster. Mean scaled numeric features can be seen within a heat map (\autoref{fig:pheat}) for a visual comparison across clusters. Mean cluster features $\geq$ 1 sd from the all site mean were considered as `high/low' ($\geq$ 1.5 sd as `very high/very low') in order to qualitatively classify cluster characteristics, with these summarised in \autoref{tab:cluster_characteristics}.
-
-
-\begin{figure}[H]
-	\fbox{\includegraphics[width=\linewidth]{../../figures/world_sites_clusters.pdf}}
-	\captionsetup{justification=centering}
-	\caption{Map of FLUXNET sites and associated clusters in this study, with cluster medoid site IDs highlighted. The geographic distribution of clusters follows an expected pattern with regards to climate site. CHANGE/ADAPT}
-	\label{fig:map}
-\end{figure}
-
-\begin{figure}[H]
-	\fbox{\includegraphics[width=\linewidth]{../../figures/cluster_plot.pdf}}
-	\captionsetup{justification=centering}
-	\caption{Cluster plot indicating the site positions in the space of the first two principal components, with coloured clusters indicating the PAM solution. Axes indicate percentage of variance explained by each dimension.}
-	\label{fig:cluster}
-\end{figure}
-
-\begin{figure}[H]
-	\fbox{\includegraphics[width=\linewidth]{../../figures/pheat2.pdf}}
-	\captionsetup{justification=centering}
-	\caption{Heatmap of cluster medoid sites and scaled feature values. Scaled features $\geq$ 1.5 standard deviations from the mean of all sites were classed as 'very' (high or low, depending on direction), while features between 1 and 1.5 standard deviations from the mean were classed as high or low, depending on direction, in order to characterise clusters.}
-	\label{fig:pheat}
-\end{figure}
-
-\begin{table}[hbt]
-	\caption{\centering Main characteristics of each cluster defined during cluster analysis}
-	\centering
-	\begin{tabularx}{\linewidth}{llXl}
-		\toprule
-		Cluster & Medoid Site & Defining Characteristics \\
-		\midrule
-		1 & DE-Lnf & Temperate sites without significant features.  \\
-		2 & US-UMd & Continental sites without significant features. \\
-		3 & CA-Obs & Continental sites with low mean air temperatures.  \\
-		4 & CA-TP3 & Continental sites with high precipitation.  \\
-		5 & IT-SRo & Temperate sites with high air temperatures.  \\
-		6 & US-Me3 & Temperate sites with very high VPD, high SW radiation, low stand age, low wind speeds, and low precipitation. \\
-	\end{tabularx}
-	\label{tab:cluster_characteristics}
-\end{table}
 
 
 \subsection{Spatial Generalisation}
@@ -66,21 +28,21 @@ Cluster analysis was carried out in order to classify sites into groups based on
 %Discussion: synthesize — when/why age helps, leakage risk, what it means for future FLUXNET+age model building
 
 \subsubsection{Analysis 1.1 - Model Sensitivity} \label{model_sens}
+Results from model sensitivity testing indicate mixed model performance across the medoid sites, based on regression metrics comparing the predicted and observed daily ET \autoref{fig:adding_features}. In this part of the analysis, features were sequentially added to RF models, and these were then re-trained with each additional feature before testing on all medoid sites (see section \ref{sec:sens} for details).
+\par Predictions of daily ET formed for CA-Obs, US-UMd, and DE-Lnf showed strong performance across the range of input features, while CA-TP3, IT-SRo, and US-Me3 performed poorly when considering R$^2$, RMSE and MAE. 
+\par CA-Obs and DE-Lnf showed very similar patterns of performance, with predictions at both sites climbing across metrics up until \texttt{Lai\_500m} was added (Peak CA-Obs: R$^2$ = 0.90, RMSE = 0.28, MAE = 0.19; Peak DE-Lnf: R$^2$ = 0.87, RMSE = 0.42, MAE = 0.31). Predictions at both sites then declined with the inclusion of \texttt{Site\_age} to the model. US-UMd deviated from this performance pattern slightly, with metrics improving further when \texttt{Site\_age} was included in the model (Peak US-UMd: R$^2$ = 0.87, RMSE = 0.46, MAE = 0.34). At all three of these sites the inclusion of only a single feature in the RF model, \texttt{T\_air}, demonstrated strong to moderate predictive performance (CA-Obs: R$^2$ = 0.76, RMSE = 0.42, MAE = 0.31; US-UMd: R$^2$ = 0.64, RMSE = 0.78, MAE = 0.58; DE-Lnf: R$^2$ = 0.63, RMSE = 0.73, MAE = 0.58).
+\par Predictive performance for daily ET at IT-SRo showed similar patterns to those made at CA-Obs and DE-Lnf, with metrics generally improving up until a peak with the addition of \texttt{Lai\_500m}, but with significantly reduced values (Peak IT-SRo: R$^2$ = 0.28, RMSE = 0.91, MAE = 0.67). Performance at the remaining two sites, CA-TP3 and US-Me3, was particularly mixed and relatively poor (Peak CA-TP3: R$^2$ = 0.54, RMSE = 0.71, MAE = 0.51; Peak US-Me3: R$^2$ = 0.0, RMSE = 0.75, MAE = 0.56). R$^2$ fluctuated between predictions made with consecutively added features at these two sites, with performance at US-Me3 indicating that the model has no explanatory power at this site based on an R$^2$ maximum of 0.0. 
+\par Ratios of RMSE:MAE from peak predictive models for each medoid all fall between 1.33 and 1.48, suggesting that the overall impact of outlier ET predictions, and therefore overall error distribution, was fairly consistent from the best performing models at all sites during this analysis. 
 
-\begin{figure}[H]
-	\fbox{\includegraphics[width=\linewidth]{../../figures/1.1_p1.pdf}}
-	\captionsetup{justification=centering}
-	\caption{R$^2$, RMSE, and MAE for medoid cluster site predictions of ET (ordered left-right and top-bottom) by peak R$^2$ with clusters indicated in facet names. Models built and tested using a consecutively greater number of input features from FLUXNET and LAI data (the `+VPD model' incorporates Tair, SW\_rad, and VPD as training and input features here). R$^2$ performance at only half of the sites was good, and suggests that adding features up to site age improved prediction accuracy at four of the six medoid sites. Adding age as a final feature led to mixed performance CHANGES across the medoid sites.}
-	\label{fig:adding_features}
-\end{figure}
-
-\subsubsection{Analysis 1.2 - Shuffled Training Sets}
+\subsubsection{Analysis 1.2 - Sampled Training Sets}
+\autoref{fig:paired_box} shows the paired results between the `Mod' (described by \autoref{eqn:mod}) and the `Mod + Age' (described by \autoref{eqn:mod_age}) models during the shuffled training set analysis (see section \ref{sec:shuffle} for details). 
+\par Results from this analysis indicate that including age had a significant impact across a range of training set site compositions, with all six medoid sites showing significant differences in R$^2$ between the `Mod' and the `Mod + Age' predictions for daily ET (Wilcoxon signed-rank tests, p < 0.001 for all). The greatest $\Delta$R$^2$ between the two models was at CA-TP3, where R$^2$ had a mean increase of 0.08 when site age was added, while R$^2$ also increased at this site on 91/100 runs with this model.  [CONTINUE]
 
 
 \begin{figure}[H]
 	\fbox{\includegraphics[width=\linewidth]{../../figures/1.2_p3.pdf}}
 	\captionsetup{justification=centering}
-	\caption{Paired box-plots indicate the impact on R$^2$ when age is added as a feature to RF models across 100 repeated runs of randomly sampled training datasets. Points are connected on a per-run basis where training dataset site composition is identical. Wilcoxon signed-rank tests suggest model performances differ significantly at all test sites. DE-Lnf is shown large for readability, with other cluster medoid sites shown at a reduced scale for comparison.}
+	\caption{Paired box-plots indicate the impact on R$^2$ when age is added as a feature to RF models across 100 repeated runs of randomly sampled training datasets. Points are connected on a per-run basis where training dataset site composition is identical. Wilcoxon signed-rank tests suggest model performances differ significantly at all test sites, as indicated by the significance annotation on each facet \parencite{ggsignif}. DE-Lnf is shown large for readability, with other cluster medoid sites shown at a reduced scale for comparison.}
 	\label{fig:paired_box}
 \end{figure}
 
@@ -92,6 +54,9 @@ Cluster analysis was carried out in order to classify sites into groups based on
 	\caption{Plots }
 	\label{fig:r2_gower}
 \end{figure}
+
+
+\subsubsection{Analysis 1.3 - Training by Cluster}
 
 
 \subsection{Temporal Generalisation}

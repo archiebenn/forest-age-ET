@@ -4,6 +4,75 @@
 
 \section{Figures and Tables}
 
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/cluster_plot.pdf}}
+		\captionsetup{justification=centering}
+		\caption{Cluster plot indicating the site positions in the space of the first two principal components, with coloured clusters indicating the PAM solution. Axes indicate the \% variance explained by each dimension.}
+		\label{fig:cluster}
+	\end{subfigure}
+	\hfill
+	\vspace{2em}
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/world_sites_clusters.pdf}}
+		\captionsetup{justification=centering}
+		\caption{Map of all FLUXNET sites and associated clusters in this study, with cluster medoid site IDs highlighted. Visual inspection of cluster geographic distribution aligns with an expected pattern with regards to climatic groupings, suggesting the clustering solution captures climate-relevant patterns.}
+		\label{fig:map}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption{PAM solution from analysis at $k = 6$ clusters and using Gower's distances shown on a cluster plot in \subref{fig:cluster}, and geographic cluster distributions shown in \subref{fig:map}.}
+	\label{fig:clusters_subfigs}
+\end{figure}
+
+
+
+\newpage
+\vspace*{\fill}
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/pheat2.pdf}}
+	\captionsetup{justification=centering}
+	\caption{Heatmap of cluster medoid sites and scaled feature values. Scaled features $\geq$ 1.5 standard deviations from the mean of all sites were classed as 'very' (high or low, depending on direction), while features between 1 and 1.5 standard deviations from the mean were classed as high or low, depending on direction, in order to characterise clusters.}
+	\label{fig:pheat}
+\end{figure}
+\vspace*{\fill}
+
+
+
+\newpage 
+\begin{table}[hbt]
+	\caption{\centering Main characteristics of each cluster defined during cluster analysis}
+	\centering
+	\rowcolors{2}{white}{gray!7}
+	\begin{tabularx}{\linewidth}{llX}
+		\toprule
+		Cluster & Medoid Site & Defining Characteristics \\
+		\midrule
+		1 & DE-Lnf & Temperate sites without significant features.  \\
+		2 & US-UMd & Continental sites without significant features. \\
+		3 & CA-Obs & Continental sites with low mean air temperatures.  \\
+		4 & CA-TP3 & Continental sites with high precipitation.  \\
+		5 & IT-SRo & Temperate sites with high air temperatures.  \\
+		6 & US-Me3 & Temperate sites with very high VPD, high SW radiation, low stand age, low wind speeds, and low precipitation. \\
+	\end{tabularx}
+	\label{tab:cluster_characteristics}
+\end{table}
+
+
+
+\newpage
+\vspace*{\fill}
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/1.1_p1.pdf}}
+	\captionsetup{justification=centering}
+	\caption{R$^2$, RMSE, and MAE for medoid cluster site predictions of daily ET during sensitivity testing (ordered left-right and top-bottom by peak R$^2$). Models were built and tested using a consecutively greater number of input features from FLUXNET and LAI data (for example, the `+VPD model' incorporates Tair, SW\_rad, and VPD as training and input features). R$^2$ performance at only half of the sites was moderate or strong, and suggests that adding features up to LAI improved prediction accuracy at four of the six medoid sites. Adding site age as a final feature led to mixed performance across ET predictions made at medoid sites, with only two of the six benefiting in terms of predictive performance from this input feature.}
+	\label{fig:adding_features}
+\end{figure}
+\vspace*{\fill}
+
+
+
+\newpage
 [space for plot as in \textcite{rao2026decoupled} (fig. 3, E/F)]
 
 

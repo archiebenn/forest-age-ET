@@ -106,7 +106,7 @@ p1 <- df_results_relabelled %>%
     
     # aesthetics
     theme_bw() +
-    xlab("Features included in RF model") +
+    xlab("Features added to the RF model") +
     ylab(NULL) +
     theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) 
 

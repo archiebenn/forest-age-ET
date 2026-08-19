@@ -10,16 +10,17 @@ All scripts used in this study, alongside a guide of how to re-run the full anal
 %	METHODS 600 words
 %----------------------------------------------------------------------------------------
 \subsection{Data Acquisition and Setup}
-Flux tower data were downloaded from the FLUXNET2015 dataset \cite{fluxnet2015} and processed using \texttt{R} (version 4.5.3) \parencite{why_R_you_reading_this} with the \texttt{tidyverse} \parencite{tidy_this_up} suite of packages. Flux data were filtered to only keep North American and European sites whose forest ages are dated in \textcite{besnard2018}, with rows of variables within these sites filtered based on their provided FLUXNET QC flag value. Four-day LAI data (NASA product: MCD15A3H \parencite{myneni2015}) were retrieved using site coordinates via \texttt{MODISTools} \parencite{hufkens2023bluegreen}, filtered on QC, and linearly interpolated between the four-day periods of LAI to provide a continuous daily value, before joining by date and site to the main FLUXNET dataset.\par Site stand ages retrieved from \textcite{besnard2018} are static despite multi-year data ranges often contained at these sites in the FLUXNET. As such, site ages were extrapolated across the range of data at each site to act as a continuous metric, with the provided age set to the first row of the FLUXNET data for each site. K\"{o}ppen climate sites were retrieved and attached based on site latitude and longitude, and these classifications were further simplified to their main groups (Temperate and Continental in this case). A two week cumulative sum of precipitation prior to the day of measurement was also calculated and attached per row, with the first 13 days of data at each site then being discarded. 
+Flux tower data were downloaded from the FLUXNET2015 dataset \cite{fluxnet2015} and processed using \texttt{R} (version 4.5.3) \parencite{why_R_you_reading_this} with the \texttt{tidyverse} \parencite{tidy_this_up} suite of packages. Flux data were filtered to only keep North American and European sites whose forest ages are dated in \textcite{besnard2018}, with rows of variables within these sites filtered based on their provided FLUXNET QC flag value. ET rates were calculated row-wise from the provided \texttt{LE} (latent heat flux) and \texttt{T\_air} columns using the \texttt{LE.to.ET()} function from \texttt{bigleaf} \parencite{a_large_leaf} and multiplying this value by 86400 (\si{\second\per\day}). Four-day LAI data (NASA product: MCD15A3H \parencite{myneni2015}) were retrieved using site coordinates via \texttt{MODISTools} \parencite{hufkens2023bluegreen}, filtered on QC, and linearly interpolated between the four-day periods of LAI to provide a continuous daily value, before joining by date and site to the main FLUXNET dataset.\par Site stand ages retrieved from \textcite{besnard2018} are static despite multi-year data ranges often contained at these sites in the FLUXNET. As such, site ages were extrapolated across the range of data at each site to act as a continuous metric, with the provided age set to the first row of the FLUXNET data for each site. K\"{o}ppen climate sites were retrieved and attached based on site latitude and longitude, and these classifications were further simplified to their main groups (Temperate and Continental in this case). A two week cumulative sum of precipitation prior to the day of measurement was also calculated and attached per row, with the first 13 days of data at each site then being discarded. 
 
 
-\subsection{Cluster Analysis}
-Cluster analysis is an exploratory technique which aims to classify objects into as-yet-unknown groups based on their similarities \parencite{landau2010cluster}. To group sites in this study using cluster analysis, a Gower's distance matrix was first formed. Gower's distances are a similarity measure which can handle both numerical and categorical data to provide a distance value between two data points (sites) from 0 (completely dissimilar) to 1 (completely similar) \parencite{gower1971}. A table of the site features used for these distance calculations can be seen in \autoref{tab:cluster_vars}. The Partitioning Around Medoids (PAM) algorithm and silhouette method was then used to map the Gower's distance matrix into a specified set of clusters \parencite{rousseeuw1990}. PAM identifies medoids, which are the points within each cluster whose sum of dissimilarities to all other sites in the same cluster is minimal, and so, in this case, can be identified as the most representative flux tower sites of each cluster.
+\subsection{Cluster Analysis} \label{sec:cluster}
+Cluster analysis is an exploratory technique which aims to classify objects into as-yet-unknown groups based on their similarities \parencite{landau2010cluster}. To group sites in this study using cluster analysis, a Gower's distance matrix was first formed. Gower's distances are a similarity measure which can handle both numerical and categorical data to provide a distance value between two data points (sites) from 0 (completely dissimilar) to 1 (completely similar) \parencite{gower1971}. A table of the site features used for these distance calculations can be seen in \autoref{tab:cluster_vars}, and in this study Gower's distance is treated as a measure of ecological dissimilarity between pairs of sites. The Partitioning Around Medoids (PAM) algorithm and silhouette method was then used to map the Gower's distance matrix into a specified set of clusters \parencite{rousseeuw1990}. PAM identifies medoids, which are the points within each cluster whose sum of dissimilarities to all other sites in the same cluster is minimal, and so, in this case, can be identified as the most representative flux tower sites of each cluster. 
 
 
 \begin{table}[H]
 	\caption{\centering Variables and definitions used to calculate Gower's distances during cluster analysis.}
 	\centering
+	\rowcolors{2}{white}{gray!7}
 	\begin{tabularx}{\linewidth}{llX}
 		\toprule
 		Variable & Data Type & Definition \\
@@ -44,12 +45,13 @@ Cluster analysis is an exploratory technique which aims to classify objects into
 
 
 \subsection{Random Forest modelling}
-Random Forest models were trained and tested with \texttt{RandomForestRegressor()} from \texttt{scikit-learn} \parencite{pedregosa2011scikit} using the different methods outlined below. Due to time constraints, a single set of optimised parameter values was calculated once using \texttt{GroupKFold()} and \texttt{Optuna} \parencite{akiba2019optuna} to minimise root mean square error (RMSE) on fold predictions. These values were used for all RF models throughout the study (see \autoref{tab:params}). In all cases, metrics for R$^2$, RMSE, and mean absolute error (MAE) were calculated using their respective \texttt{scikit-learn} functions.
+Random Forest models were trained and tested with \texttt{RandomForestRegressor()} from \texttt{scikit-learn} \parencite{pedregosa2011scikit} using the different methods outlined below. Due to time constraints, a single set of optimised parameter values was calculated once using \texttt{GroupKFold()} and \texttt{Optuna} \parencite{akiba2019optuna} to minimise root mean square error (RMSE) on fold predictions. These values were used for all RF models throughout the study (see \autoref{tab:params}). In all cases, regression analysis metrics of R$^2$ (coefficient of determination), RMSE, and mean absolute error (MAE) were calculated from model predictions of ET using their respective \texttt{scikit-learn} functions alongside observed values of ET at each site. R$^2$ was the favoured metric throughout this study due to the interpretability limitations of RMSE and MAE in regression analysis set out by \textcite{chicco2021coefficient}.
 
 
 \begin{table}[H]
 	\caption{\centering Parameters selected for use in all RF training setups in this study. Calculated to minimise RMSE on trials using \texttt{GroupKFold()} and \texttt{Optuna}.}
 	\centering
+	\rowcolors{2}{white}{gray!7}
 	\begin{tabularx}{0.5\linewidth}{l l}
 		\toprule
 		RF parameter & Value \\
@@ -64,12 +66,13 @@ Random Forest models were trained and tested with \texttt{RandomForestRegressor(
 
 
 
-\subsubsection{Model Sensitivity Testing}
-To assess the sensitivity of the RF models to different features, a forward feature selection assessment was carried out. Non-target (ET) numerical features were added sequentially and the RF model was re-trained and tested with each new feature added. Features were added in the following order: \texttt{T\_air, SW\_rad, VPD, Wspeed, P\_sum\_14D, Lai\_500m, Site\_Age}. Training sites consisted of all sites apart from medoids (see \autoref{tab:all_sites}), with predictions formed and testing carried out at medoid sites. Results can be found in section \ref{model_sens}.
+\subsubsection{Model Sensitivity Testing} \label{sec:sens}
+To assess the sensitivity of the RF models to different features, a forward feature selection assessment was carried out. Non-target (ET) numerical features were added sequentially and the RF model was re-trained and tested by forming daily ET predictions at the medoid sites with each new feature added. Features were added in the following order: \texttt{T\_air, SW\_rad, VPD, Wspeed, P\_sum\_14D, Lai\_500m, Site\_Age}. Training sites consisted of all sites apart from medoids (see \autoref{tab:site_summary}), with predictions formed and testing carried out at medoid sites.
 
 
-\subsubsection{Random Sampling of Training Data}
-To investigate how predictive performance is impacted by including site age as a feature, two separate RF architectures were formed: `Mod' (\autoref{eqn:mod}) and `Mod + Age' (\autoref{eqn:mod_age}).
+\subsubsection{Random Sampling of Training Datasets} \label{sec:shuffle}
+To investigate how predictive performance is impacted by including site age as a feature, two separate RF architectures were formed: `Mod' (\autoref{eqn:mod}) and `Mod + Age' (\autoref{eqn:mod_age}). To further assess how the overall ecological similarity of training dataset composition to the test site may impact predictive accuracy of daily ET, a method to subset sites from a larger site pool before RF training was also developed (script \texttt{21\_analysis\_1.2.py}), with details on how this analysis runs below. 
+\par Sites were first separated as follows: 6 medoid sites for testing and the remaining 44 sites as the full training pool. Following this, 20 sites were chosen at random (\texttt{NumPy.random} module) from the training pool, and then two models - `Mod' and `Mod + Age' - are trained on this subset of sites. After training, both models then predict on the six held out medoid sites, and the mean Gower's distance from the full training subset to each test site is calculated and stored alongside prediction performance metrics. This paired process is then repeated a further 99 times, each with a new \texttt{NumPy} seed to avoid using the same subset, to produce 100 runs using this method.
 
 
 \begin{equation}
@@ -93,3 +96,21 @@ where the target $ET_i$ is the estimated ET rate on the $i$th day (mm/day); $RF(
 
 
 \subsection{A Two Site Case Study}
+
+
+\subsection{Site Metadata}
+% big old table from R (code in analysis_1.2.Rmd)
+\input{../figures/sites_kable.tex}
+
+
+
+
+
+
+
+
+
+
+
+
+
