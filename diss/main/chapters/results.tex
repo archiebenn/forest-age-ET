@@ -3,14 +3,17 @@
 %----------------------------------------------------------------------------------------
 \section{Results}
 
-\subsection{Flux Tower Site Clustering}
-Cluster analysis was carried out in order to classify sites into groups based on their characteristics. This classification permits the predictability of ET, both within these characterised groups and across them, to be investigated. Gower's distances, a measure between pairs of data points, from 0 = completely dissimilar to 1 = completely similar \parencite{gower1971} (see section \ref{sec:cluster} for details), were computed using the features listed in \autoref{tab:cluster_vars} and saved as a matrix. This matrix was passed to the Partitioning Around Medoids (PAM) algorithm \parencite{rousseeuw1990} with the silhouette method to form clusters and identify medoid sites - those which have minimal dissimilarity to other sites within each cluster and thus can be seen as representatives of each cluster.
+\subsection{Flux Tower Site Clustering} \label{sec:cluster_res}
+Cluster analysis was carried out in order to classify sites into groups based on their characteristics. This classification permits the predictability of ET, both within these characterised groups and across them, to be investigated. Gower's distances, a measure between pairs of data points, from 0 = completely dissimilar to 1 = completely similar \parencite{gower1971} (see section \ref{sec:cluster} for details), were computed using the features listed in \autoref{tab:cluster_vars} and saved as a matrix. This matrix was passed to the Partitioning Around Medoids (PAM) algorithm \parencite{rousseeuw1990} with the silhouette method to form clusters and identify medoid sites - those which have minimal dissimilarity to others within each cluster and thus can be seen as the representative sites of each cluster.
 \par The silhouette method identified $k = 13$ as the optimal number of clusters based on average silhouette width, but with only 50 sites present this value was dropped to $k = 6$ in order to yield sufficiently well-populated clusters across a range of site characteristics. The cluster assignment solution from PAM with $k = 6$ clusters resulted in a range of site counts by cluster from 3 sites (cluster 6) up to 18 sites (cluster 3), and can be seen in a cluster plot of the first two principal components (\autoref{fig:cluster}). The overall geographic distribution of clusters appears to follow an expected pattern with regards to climatic groups; for example, sites at high latitudes tended to be grouped in cluster 3, with Mediterranean and coastal sites typically grouped in cluster 5 (\autoref{fig:map}). This expected pattern of clusters suggests that the PAM clustering solution captures climate-relevant patterns to some degree, although this was not formally tested. The six medoid sites were geographically distributed with four sites in North America and two sites in Europe (\autoref{fig:map}), and a range of site ages from 20 years (US-Me3) to 117 years (DE-Lnf). 
 \par To define cluster site characteristics, the means of z-score standardised numerical features (mean = 0, sd = 1) and mode of categorical features were considered for each cluster. Mean scaled numeric features can be seen within a heat map (\autoref{fig:pheat}) for a visual comparison across clusters. Mean cluster features $\geq$ 1 sd from the all site mean were considered as `high/low' ($\geq$ 1.5 sd as `very high/very low') in order to qualitatively classify cluster characteristics, with these summarised in \autoref{tab:cluster_characteristics}.
 
 
 
-\subsection{Spatial Generalisation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SPATIAL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Spatial Generalisation} \label{sec:spatial_res}
 
 %Suggested framing:
 
@@ -35,7 +38,7 @@ Results from model sensitivity testing indicate mixed model performance across t
 \par Ratios of RMSE:MAE from peak predictive models for each medoid all fall between 1.33 and 1.48, suggesting that the overall impact of outlier ET predictions, and therefore overall error distribution, was fairly consistent from the best performing models at all sites during this analysis. 
 
 \subsubsection{Analysis 1.2 - Sampled Training Sets}
-\autoref{fig:paired_box} shows the paired results between the `Mod' (described by \autoref{eqn:mod}) and the `Mod + Age' (described by \autoref{eqn:mod_age}) models during the shuffled training set analysis (see section \ref{sec:shuffle} for details). 
+\autoref{fig:paired_box} shows the paired results between the `Mod' (described by \autoref{eqn:mod}) and the `Mod + Age' (described by \autoref{eqn:mod_age}) models during the shuffled and sampled training set analysis (see section \ref{sec:shuffle} for details). 
 \par Results from this analysis indicate that including age had a significant impact across a range of training set site compositions, with all six medoid sites showing significant differences in R$^2$ between the `Mod' and the `Mod + Age' predictions for daily ET (Wilcoxon signed-rank tests, p < 0.001 for all). The greatest $\Delta$R$^2$ between the two models was at CA-TP3, where R$^2$ had a mean increase of 0.08 when site age was added, while R$^2$ also increased at this site on 91/100 runs with this model.  [CONTINUE]
 
 
@@ -57,12 +60,7 @@ Results from model sensitivity testing indicate mixed model performance across t
 
 
 \subsubsection{Analysis 1.3 - Training by Cluster}
-
-
-\subsection{Temporal Generalisation}
-
-
-\subsection{Case Study of US-UMd and DE-Lnf}
+\subsubsection{Case Study of US-UMd and DE-Lnf}
 
 - Look into predictions vs observed at both this R2 plot but also over timeframe  \\
 - US-UMd: Continental Site, 2715 days of data, 90 years old \\
@@ -81,4 +79,40 @@ Results from model sensitivity testing indicate mixed model performance across t
 	\caption{Bar plot showing the effect of different model setups on R$^2$ at DE-Lnf and US-UMd, with error bars indicating standard error. Models were trained using a leave one group out (LOGO) approach, with ten repeats using different \texttt{NumPy} seeds. To assess whether site age was acting as a proxy for other site-level characteristics in these models, a model which randomly shuffled ages between sites was also formed using identical seeds and LOGO approach. This `shuffled age' model appeared to increase R$^2$ at DE-Lnf compared to the Mod + Age model where an opposite effect was observed at US-UMd, suggesting that true age-ET relationships learned by the model transfer well to predicting ET at US-UMd, but not at DE-Lnf.}
 	\label{fig:case_study_bars}
 \end{figure}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEMPORAL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Temporal Generalisation} \label{sec:temporal_res}
+\subsubsection{Analysis 2.1 - Prediction Accuracy}
+
+
+\subsubsection{Analysis 2.2 - Assessing Trends with Time Series Decomposition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

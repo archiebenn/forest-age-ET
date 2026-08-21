@@ -45,66 +45,13 @@ BCOR5mm, % Binding correction
 %----------------------------------------------------------------------------------------
 
 \begin{document}
-	\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
-	\vspace*{1em} % star for top of page
-	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
-	
-	{\centering	
-	\vspace*{8em}
+
+%----------------------------------------------------------------------------------------
+%	FRONT MATTER 
+%----------------------------------------------------------------------------------------
+\input{chapters/titlepage.tex}
 
 
-	\spacedallcaps{\normalsize Archie Benn}\\ \vspace{1em}
-	\spacedallcaps{\Large \bfseries How to Train Your Model}\\ \vspace{1em}
-	\spacedallcaps{\normalsize Assessing the Impacts of Forest Age on the Spatial and Temporal Generalisation of Random Forest Evapotranspiration Models}
-	
-	\vspace{6em}
-	
-	MSc Bioinformatics \\ Supervisor: Martin De Kauwe \\ May - September 2026
-	
-	\vfill
-	
-	\begin{tabular} {cc}
-		\parbox{0.35\textwidth}{\includegraphics[scale=2.5]{uni_logo.png}}
-		&
-		\parbox{0.6\textwidth}{\normalfont \normalsize
-		A dissertation submitted to the University of Bristol in accordance with
-		the requirements of the degree of Master of Science by advanced study
-		in Bioinformatics in the Faculty of Health and Life Sciences.}
-	\end{tabular}}
-
-	
-	\newpage
-	%----------------------------------------------------------------------------------------
-	%	ABSTRACT
-	%----------------------------------------------------------------------------------------
-	
-	\vspace*{3em}
-	\section*{Abstract} 	
-	\normalfont \normalsize
-	The ability to accurately predict evapotranspiration (ET) in regions using methods requiring minimal data input would enable estimations to be made in areas which are underrepresented globally due to the high costs involved in direct ET measurements. These estimations could, in turn, aid in more efficient use of freshwater and in predicting natural phenomena such as droughts. The development of ML models to predict ET has gained popularity in recent years, and being able to understand what links exist between a training dataset and a model which performs well on out-of-sample data should aid in the formation of better-predicting models, thus any explanatory variables which may aid in ET estimations should be explored. One under explored feature in ET ML models is forest age, which may impact ET rates due to age-related changes to canopy complexity and hydraulic conductance. The present study considers the use of forest age as a feature in ML predictions of ET at forest sites contained within the FLUXNET by using methods to explore spatial generalisation of models trained with and without age included, alongside temporal generalisation to assess whether forest age may help predictions across time at single sites. Results from spatial generalisation suggest nuanced results, with age benefiting predictions at some held out test sites, and hurting at others. Further investigation into two sites with opposing results pointed towards x being a factor (MAYBE?). Temporal generalisation suggested forest age  x y z. These findings suggest that forest age may be useful to consider in ML ET modelling in the future, however considerations relating to tree species and the impacts of age on tree dynamics within each species may be useful in determining whether to use forest age or not in predictions. Suggestions for future work include accurate age surveys to be carried out at other FLUXNET sites which may permit `per-species models' to be formed and tested for use with forest age. 
-	
-	\vspace{3em}
-
-	\noindent\textbf{Key words:} Machine Learning, Evapotranspiration, Forest Age, FLUXNET. \\
-	\vspace{1em}
-	\noindent\textbf{Word count:} 4000
-	\vspace*{\fill}
-	
-	
-	
-	%\let\thefootnote\relax\footnotetext{* \textit{Department of Biology, University of Examples, London, United Kingdom}}
-	
-	%\let\thefootnote\relax\footnotetext{\textsuperscript{1} \textit{Department of Chemistry, University of Examples, London, United Kingdom}}
-	
-	\vspace{2em}
-\end{titlepage}
-
-\newpage
-\section*{Dedication and Acknowledgments}
-\section*{Declaration}
-I declare that the work in this dissertation was carried out in accordance with the requirements of the University’s Regulations and Code of Practice for Taught Programmes and that it has not been submitted for any other academic award. Except where indicated by specific reference in the text, this work is my own work. Work done in collaboration with, or with the assistance of others, is indicated as such. I have identified all material in this dissertation which is not my own work through appropriate referencing and acknowledgement. Where I have quoted or otherwise incorporated material which is the work of others, I have included the source in the references. Any views expressed in the dissertation, other than referenced material, are those of the author. \newline \\Archie Benn
-\\\today
-\newpage
 
 %----------------------------------------------------------------------------------------
 %	HEADERS
@@ -118,8 +65,9 @@ I declare that the work in this dissertation was carried out in accordance with 
 %----------------------------------------------------------------------------------------
 %	TABLE OF CONTENTS 
 %----------------------------------------------------------------------------------------
-\setcounter{tocdepth}{2} 
+\setcounter{tocdepth}{3} 
 \tableofcontents 
+
 
 
 

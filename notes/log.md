@@ -261,5 +261,7 @@
 - started writing diss. going to have to put full methods in supplementary materials, and a light methods in results  
 - had final meeting with martin today but he's happy with where i am (see martin meeting notes)
 
+# 19-8-26
 
+- more diss writing - got analysis 1.1 and stated results for 1.2 done, plus some supplementary materials
 

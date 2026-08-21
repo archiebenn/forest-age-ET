@@ -626,7 +626,7 @@ kable_table <- df_sites %>%
     kbl(format = "latex", booktabs = TRUE, escape = FALSE,
       caption = "\\centering{Metadata summary of FLUXNET sites used in this study (*** denotes a cluster medoid)}",
       label = "tab:site_summary",
-      col.names = c("Site ID", "Days of Data", "Country", "Climate Zone",
+      col.names = c("FLUXNET ID", "Days of Data", "Country", "Climate Zone",
                     "Cover Type", "Site Age (years)", "Mean ET 90D Peak (\\si{\\milli\\metre\\per\\day})")) %>%
     
   kable_styling(latex_options = c("striped", "hold_position"), font_size = 9) %>%

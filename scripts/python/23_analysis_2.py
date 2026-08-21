@@ -29,7 +29,6 @@ df_sites = pd.read_csv("data/main/21_analysis_1.1/cleaned_sites.csv")
 # 2. TRAIN/TEST SPLIT FILTERING
 # *********************************************
 # 80/20 train:test, so needs at least 5 years of coverage = 1825 days of coverage
-# also, as some sites have gaps this should be continuous so need to filter on dates, not just number of days of data
 
 sites_long = df_sites.loc[(df_sites["Days_of_data"] >= 1825)]
 df_cleaned = df[df["Site_ID"].isin(sites_long["Site_ID"])]
