@@ -40,6 +40,7 @@ df_08_extra <- df_08_climate %>%
     mutate(ET_90D_peak = max(cumsum(ET) - lag(cumsum(ET), 90, default = 0))/90) %>%
     
     # calculate DOY in radians to then get sin(DOY) and cos(DOY) for input features
+    # scaled to the unit interval (year = 365, lap year of 366 not included as minimal difference in terms of what RF sees)
     mutate(DOY_radians = (2 * pi * yday(Date))/365,
            sin_DOY = sin(DOY_radians),
            cos_DOY = cos(DOY_radians)) %>%

@@ -265,3 +265,10 @@
 
 - more diss writing - got analysis 1.1 and stated results for 1.2 done, plus some supplementary materials
 
+# 21-8-26
+
+- write aims and objectives in the morning and got some discussion ideas too
+- added a cylical representation of date in the year with cos() and sin() into RF models  
+- having to re-write some results as this has changed (mostly +vely) the model predictions  
+- so tonight I need to redo the analysis from 1.2 onwards (don't re-run in full...)
+- then tomorrow I need to finish off writing the results, so do analysis of case study SHAP stuff and also spatial generalisation like time seried decompositions, and go to the pub

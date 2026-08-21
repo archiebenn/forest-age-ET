@@ -162,7 +162,7 @@ features_all = [c for c in df_cleaned.columns if c not in non_features]
 # re-order as the order of added features in this case is important
 feature_order = [
     "Tair", "SW_rad", "VPD", "Wspeed", "P_sum_14D",
-    "Lai_500m", "Site_age"
+    "Lai_500m", "sin_DOY", "cos_DOY", "Site_age"
 ]
 
 # safety check: catches typos/missing cols
