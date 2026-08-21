@@ -589,7 +589,11 @@ r2_changes <- df_metrics %>%
     
     group_by(test_site) %>%
     
-    summarise(mean_r2_change = mean(r2_no_age - r2_age))
+    summarise(mean_r2_no_age = mean(r2_no_age),
+              sd_r2_no_age = sd(r2_no_age),
+              mean_r2_age = mean(r2_age),
+              sd_r2_age = sd(r2_age),
+              mean_r2_change = mean(r2_no_age - r2_age))
 
 ```
 

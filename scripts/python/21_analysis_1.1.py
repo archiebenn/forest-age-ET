@@ -153,7 +153,8 @@ non_features = [
                     "Climate_zone_Continental",
                     "Climate_zone_Polar",
                     "Climate_zone_Temperate",
-                    "Climate_zone_Tropical"
+                    "Climate_zone_Tropical",
+                    "DOY_radians"
                     ]
 
 features_all = [c for c in df_cleaned.columns if c not in non_features]

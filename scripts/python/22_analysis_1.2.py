@@ -152,7 +152,8 @@ non_features = [
                     "Climate_zone_Continental",
                     "Climate_zone_Polar",
                     "Climate_zone_Temperate",
-                    "Climate_zone_Tropical"
+                    "Climate_zone_Tropical",
+                    "DOY_radians"
                     ]
 
 

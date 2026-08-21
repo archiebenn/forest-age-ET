@@ -39,11 +39,18 @@ df_08_extra <- df_08_climate %>%
     # divide by cumulative sum period to get daily peak average in 'high ET season'
     mutate(ET_90D_peak = max(cumsum(ET) - lag(cumsum(ET), 90, default = 0))/90) %>%
     
+    # calculate DOY in radians to then get sin(DOY) and cos(DOY) for input features
+    mutate(DOY_radians = (2 * pi * yday(Date))/365,
+           sin_DOY = sin(DOY_radians),
+           cos_DOY = cos(DOY_radians)) %>%
+    
     ungroup() %>%
    
     # rearrange
     relocate(Site_ID, 
              Date, 
+             sin_DOY,
+             cos_DOY,
              Latitude, 
              Longitude, 
              Continent,
