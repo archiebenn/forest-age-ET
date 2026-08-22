@@ -272,3 +272,10 @@
 - having to re-write some results as this has changed (mostly +vely) the model predictions  
 - so tonight I need to redo the analysis from 1.2 onwards (don't re-run in full...)
 - then tomorrow I need to finish off writing the results, so do analysis of case study SHAP stuff and also spatial generalisation like time seried decompositions, and go to the pub
+
+# 22-8-26 
+
+- not loads more done today but overnight i re-ran the full pipeline with the cyclical representation of day within the year as a feature  
+- re-wrote results up to case study  
+- goal tomorrow is to finish the results for the case study and most of the temporal stuff on the 80/20 split and time series decomposition  
+- this will leave me mon-weds (and thurs on train to glasgow) to start on the discussion and hopefully get about 1000 words done, so with a few days in and after scotland i can polish it off and make it flow etc.
