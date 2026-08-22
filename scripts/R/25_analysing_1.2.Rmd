@@ -29,8 +29,8 @@ library(rnaturalearth)
 
 ```{r}
 df_sites <- read_csv(here("data/main/21_analysis_1.1/cleaned_sites.csv"))
-df_metrics <- read_csv(here("data/main/22_analysis_1.2/metrics_1708_2226.csv"))
-df_preds <- read_csv(here("data/main/22_analysis_1.2/predictions_1708_2226.csv"))
+df_metrics <- read_csv(here("data/main/22_analysis_1.2/metrics_2208_0001.csv"))
+df_preds <- read_csv(here("data/main/22_analysis_1.2/predictions_2208_0001.csv"))
 ```
 
 
@@ -63,7 +63,7 @@ df_metrics_added <- df_metrics %>%
 ```{r}
 diffs <- df_metrics %>%
     
-  filter(test_site == "US-UMd") %>%
+  filter(test_site == "IT-SRo") %>%
   arrange(run) %>%
   mutate(diff = r2_age - r2_no_age) %>%
   pull(diff)
@@ -185,20 +185,10 @@ options(tikzLatexPackages = c(
     "\\usepackage{MnSymbol}\n"
 ))
 
-# p1
-#tikz(here("diss/figures/1.2_p1.tex"), width = 6, height = 4, standAlone = TRUE)
-#print(p1)
-#dev.off()
-
-# p2
-#tikz(here("diss/figures/1.2_p2.tex"), width = 6, height = 2, standAlone = TRUE)
-#print(p2)
-#dev.off()
-
 # p3
-tikz(here("diss/figures/1.2_p3.tex"), width = 6, height = 6, standAlone = TRUE)
-print(p3)
-dev.off()
+#tikz(here("diss/figures/1.2_p3.tex"), width = 6, height = 6, standAlone = TRUE)
+#print(p3)
+#dev.off()
 ```
 
 # looking into US-Me3 composition
@@ -346,9 +336,9 @@ options(tikzLatexPackages = c(
 ))
 
 # p3
-tikz(here("diss/figures/1.2_gower_r2.tex"), width = 6, height = 5, standAlone = TRUE)
-print(p_gower_r2)
-dev.off()
+#tikz(here("diss/figures/1.2_gower_r2.tex"), width = 6, height = 5, standAlone = TRUE)
+#print(p_gower_r2)
+#dev.off()
 
 ```
 
@@ -564,9 +554,9 @@ options(tikzLatexPackages = c(
 ))
 
 # merged plot to tikz
-tikz(here("diss/figures/1.2_merged1.tex"), width = 6, height = 7, standAlone = TRUE)
-print(p_merged1)
-dev.off()
+#tikz(here("diss/figures/1.2_merged1.tex"), width = 6, height = 7, standAlone = TRUE)
+#print(p_merged1)
+#dev.off()
 ```
 
 

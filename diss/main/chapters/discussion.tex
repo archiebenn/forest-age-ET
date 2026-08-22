@@ -8,7 +8,11 @@
 % jiang2023hybrid used a hybrid model. instead of using FLUXNET data as a target, they used a combined model of equations (budyko and something) and used the output of THIS as the target. not necessarily as true as FLUC tower observations, BUT means that a ML models which does well with predicting this equstion can essentially reduce the complexity of the equation itself to take more simple parameters! very cool idea and need to speak about this as a potential solution/looking forward with age included somehow...? - sidesteps the 'not enough aged forest flux site' issue i will discuss.
 
 
-% liyew2025review really nice review paper on feature selection, including critical insights into data sources and selections of model features. could discuss how this relates to my selection of variables/the FLUXNET in general. Use especially in the section on forward feature selection (1.1)
+% liyew2025review really nice review paper on feature selection, including critical insights into data sources and selections of model features. could discuss how this relates to my selection of variables/the FLUXNET in general. Use especially in the section on forward feature selection (1.1). 
+
+% liyew2025review also explicitly does not mention forest age when going ocver the various features used in ET preds - ie. highlight that is has not been used before really even when other biophysical features have been. also mentions that 'models can be trained for different plant functional types in section 3.1 - what about different species/swoodland?'
+
+% liyew2025review - "Therefore, there should be a need for flexible and adaptive feature selection strategies rather than relying on a single, universally optimal feature set". also mentions the feature selection methods of filter, wrapper, and embedding. none of wehich i used but could have been applied - ccan critique mine there/indicate how this could lead to better performance in terms of accuracy and computational cost (my forward selection is actually a type of wrapper method)
 
 % hill2017case concluded that at least four flux towers per site are required to confirm with a statistical confidence of 95 % that the flux over 1 year is not 0 and therefore to accept with a statistical confidence of 5 % that the annual flux is 0. This is of major importance for an ecosystem that is heterogeneous at a scale larger than the flux footprint of a single tower.
 
@@ -18,7 +22,7 @@
 % MAIN IDEA 1
 % i think something key to mention overall about age is that while age itself may undermine several fcators (changes to water retention/evaporation/transpiration etc.), if the effects of age can themselves be decoded/explained by some other, more easily measured variable (perhaps one from a satellite like moisture retention index or something) then age itself becomes slightly redundant as a feature if/once those other variables are available at scale. ie. if what drives age-related changes in ET can be explained by a single other variable, measuring that variable itself would be enough to predict ET. however, if age-related changes are only encoded by other multiple, possibly interacting variables then age itself becomes a useful proxy for all of those and could be more easily measured perhaps. all comes down to whether age is an 'explainer', or an 'explained' variable (just come up with this so not sure if it works)
 
-
+% nayak2026estimationfound that using all available data yielded r-squared of 0.98, but with sparse data dropped to 0.78. also, said that using just 2/3 params gave promising results (Tair and Wspeed).
 
 
 

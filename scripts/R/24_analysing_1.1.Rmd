@@ -24,7 +24,6 @@ library(tikzDevice)
 
 ```{r}
 df_sites <- read_csv(here("data/main/21_analysis_1.1/cleaned_sites.csv"))
-#df_results <- read_csv(here("data/main/21_analysis_1.1/results_1708_2217.csv"))
 df_results <- read_csv(here("data/main/21_analysis_1.1/results_2108_1608.csv"))
 ```
 
