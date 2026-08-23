@@ -39,35 +39,21 @@ Results from model sensitivity testing indicate mixed model performance across t
 
 
 \subsubsection{Analysis 1.2 - Sampled Training Sets}
-\autoref{fig:paired_box} shows the paired results between the `Mod' and the `Mod + Age' models (described by \autoref{eqn:mod} and \autoref{eqn:mod_age} respectively) during the shuffled and sampled training set analysis (see section \ref{sec:shuffle} for details). 
-\par Results from this analysis indicate that including age had a significant impact across a range of training set site compositions, with all six medoid sites showing significant differences in R$^2$ between the `Mod' and the `Mod + Age' predictions for daily ET (Wilcoxon signed-rank tests, p < 0.01 for all). The most negatively impacted of all medoid sites between the two models was at US-Me3, with 58/100 runs resulting in a decreased R$^2$ when age was added (mean $\Delta$R$^2$ = -0.10). Predictions at US-Me3 also have a very high spread of R$^2$ variability which further increased when age was added (R$^2_{Mod}$ = 0.04 $\pm$ 0.24; R$^2_{Mod + Age}$ = -0.06 $\pm$ 0.40). The predictions at CA-TP3 saw the greatest improvement to R$^2$ when age was added, where 75/100 runs increased R$^2$ (mean $\Delta$R$^2$ = +0.02), although the spread of variability also increased alongside this (R$^2_{Mod}$ = 0.53 $\pm$ 0.05; R$^2_{Mod + Age}$ = 0.55 $\pm$ 0.08). Model predictions made at DE-Lnf and US-UMd were strong in both models, although opposite effects were observed at these sites during these runs. DE-Lnf predictive performance negatively impacted with the addition of age (mean $\Delta$R$^2$ = -0.05), with R$^2$ dropping during 88/100 runs and the spread of variability increasing nearly four-fold (R$^2_{Mod}$ = 0.89 $\pm$ 0.01; R$^2_{Mod + Age}$ = 0.84 $\pm$ 0.05). US-UMd performance increased modestly (mean $\Delta$R$^2$ = +0.02) and increased during 85/100 runs, with the spread of variability in R$^2$ remaining consisten between the models (R$^2_{Mod}$ = 0.86 $\pm$ 0.02; R$^2_{Mod + Age}$ = 0.88 $\pm$ 0.02).
+\autoref{fig:paired_box} shows the paired results between the `Mod' and the `Mod + Age' models (described by \autoref{eqn:mod} and \autoref{eqn:mod_age} respectively) during the shuffled and sampled training set analysis (see section \ref{sec:shuffle} for details).  
+\par Results from this analysis indicate that including age had a significant impact across a range of training set site compositions, with all six medoid sites showing significant differences in R$^2$ between the `Mod' and the `Mod + Age' predictions for daily ET (Wilcoxon signed-rank tests, p < 0.01 for all). The largest average effect on R$^2$ between the two models was at US-Me3, with 58/100 runs resulting in a decreased R$^2$ when age was added (mean $\Delta$R$^2$ = -0.10). Predictions at US-Me3 were poor throughout and also had a very high spread of R$^2$ variability which further increased when age was added (R$^2_{Mod}$ = 0.04 $\pm$ 0.24; R$^2_{Mod + Age}$ = -0.06 $\pm$ 0.40). The predictions at CA-TP3 saw the greatest improvement to R$^2$ when age was added, where 75/100 runs increased R$^2$ (mean $\Delta$R$^2$ = +0.02), although the spread of variability also increased alongside this (R$^2_{Mod}$ = 0.53 $\pm$ 0.05; R$^2_{Mod + Age}$ = 0.55 $\pm$ 0.08). 
+\par Model predictions made at DE-Lnf and US-UMd were strong in both models, although opposite effects were observed at these sites during these runs. DE-Lnf predictive performance was negatively impacted with the addition of age (mean $\Delta$R$^2$ = -0.05), with R$^2$ dropping during 88/100 runs and the spread of variability increasing nearly four-fold (R$^2_{Mod}$ = 0.89 $\pm$ 0.013; R$^2_{Mod + Age}$ = 0.84 $\pm$ 0.050). US-UMd performance increased modestly (mean $\Delta$R$^2$ = +0.02) and increased during 85/100 runs, with the spread of variability in R$^2$ remaining consistent between the models (R$^2_{Mod}$ = 0.86 $\pm$ 0.02; R$^2_{Mod + Age}$ = 0.88 $\pm$ 0.02). \\
+
+\par To investigate how the composition of the training dataset impacted model predictions of ET, values of the mean Gower's distance and mean age distance between training and test sites were formed during each of the 100 runs (see section \ref{sec:shuffle} for details).
+\par A visualisation of these results in \autoref{fig:r2_gower} for the full set of sites follow an expected pattern with predictive accuracy falling with increased Gower's and age distances across both models, implying that as the training set of a model becomes less similar to the test site, predictions tend to become less accurate. Multiple linear regression models were used to see if mean Gower's distance or mean age distance significantly predict R$^2$ in both models. The overall regression for `Mod' was statistically significant (R$^2 = 0.60, F(2, 597) = 453.8, p < 0.001$), and both variables independently predicted R$^2_{Mod}$ (Gower's: $\beta = -6.19, p < 0.001$; Age: $\beta = -0.0064, p < 0.001$). The overall regression for `Mod + Age' was statistically significant (R$^2 = 0.54, F(2, 597) = 349, p < 0.001$), and both variables independently predicted R$^2_{Mod + Age}$ (Gower's: $\beta = -7.03, p < 0.001$; Age: $\beta = -0.0056, p < 0.001$).
+\par As site age was included as one of the variables during cluster analysis (\autoref{tab:cluster_vars}), mean Gower's distance and mean age distance are not fully independent ($VIF = 1.52$ for both predictors in both multiple linear regression models), however low multicollinearity indicates each predictor contributes distinct information within the models.  
+\par Across all sites together, greater dissimilarity between Gower's distances and age distances between the test site and training set sites is significantly associated with a lower R$^2$ in both models. However, this relationship is not present within every site individually. Site-specific simple linear models suggest Gower's distance showed no significant relationship with R$^2$ at CA-TP3 in either model, and was significantly positively associated with R$^2$ at US-Me3, only in `Mod + Age'. Similarly, mean age distance was only significantly associated with R$^2$ at US-UMd for both models, with no significant relationship present at the other five medoid sites in either model. 
 
 
 
-
-\begin{figure}[H]
-	\fbox{\includegraphics[width=\linewidth]{../../figures/1.2_p3.pdf}}
-	\captionsetup{justification=centering}
-	\caption{Paired box-plots indicate the impact on R$^2$ when age is added as a feature to RF models across 100 repeated runs of randomly sampled training datasets. Points are connected on a per-run basis where training dataset site composition is identical. Wilcoxon signed-rank tests suggest model performances differ significantly at all test sites, as indicated by the significance annotation on each facet (*** signifies $p < 0.001$, ** signifies $p < 0.01$ \parencite{ggsignif}). DE-Lnf is shown large for readability, with other cluster medoid sites shown at a reduced scale for comparison.}
-	\label{fig:paired_box}
-\end{figure}
-
-\paragraph{Training Set Compositions} Here I will quickly look into the training set compositions of the RF models where age improved OR worsened R$^2$.
-
-\begin{figure}[H]
-	\fbox{\includegraphics[width=\linewidth]{../../figures/1.2_gower_r2.pdf}}
-	\captionsetup{justification=centering}
-	\caption{Plots }
-	\label{fig:r2_gower}
-\end{figure}
-
-
-\subsubsection{Analysis 1.3 - Training by Cluster}
+%\subsubsection{Analysis 1.3 - Training by Cluster}
 \subsubsection{Case Study of US-UMd and DE-Lnf}
-
-- Look into predictions vs observed at both this R2 plot but also over timeframe  \\
-- US-UMd: Continental Site, 2715 days of data, 90 years old \\
-- DE-Lnf: Temperate Site, 2670 days of data, 117 years old
+US-UMd and DE-Lnf will be focused on here due to their opposite responses in predictive performance with the addition of age (\autoref{fig:paired_box}), despite both sites sharing similar site qualities (\autoref{tab:tab:site_summary}) and both displaying strong R$^2$ for daily ET predictions in both models.
+\par 
 
 \begin{figure}[H]
 	\fbox{\includegraphics[width=\linewidth]{../../figures/1.2_merged1.pdf}}

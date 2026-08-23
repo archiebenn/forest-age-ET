@@ -22,6 +22,7 @@ library(tidyplots)
 library(kableExtra)
 library(sf)
 library(rnaturalearth)
+library(paletteer)
 ```
 
 # Analysis part 1.2
@@ -298,11 +299,250 @@ df_train_sets2 <- left_join(df_metrics_wide, df_train_sets,
 ```{r}
 #pal_con <-  ltc(heatmap0, 30, type = "continuous")
 pal_con <- rev(colors_continuous_viridis)
+#pal5 = ltc(hat)
+pal5 <- paletteer::paletteer_d("Manu::Pohutukawa", n = 6)
+
+# plot
+p_gower_r2_no_age <- df_train_sets2 %>%
+    
+    ggplot(aes(x = mean_gower, y = r2_no_age)) +
+    
+    geom_point(aes(colour = test_site), alpha = 0.5) +
+    
+    geom_smooth(method = "lm") +
+    #geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
+    
+    # colour and rename key values
+    scale_colour_manual(
+      name = "Medoid Test Site",
+      values = pal5
+    ) +
+    
+    theme_bw() +
+     theme(legend.position = "top") +
+    xlab("Mean Gower's Distance") +
+    ylab("R$^2_{Mod}$")  +
+    
+    #ylim without rmeoving data
+    coord_cartesian(ylim = c(-1, 1))
+
+
+
+# plot 2
+p_gower_r2_age <- df_train_sets2 %>%
+    
+    ggplot(aes(x = mean_gower, y = r2_age)) +
+    
+    geom_point(aes(colour = test_site), alpha = 0.5) +
+    
+    geom_smooth(method = "lm") +
+    #geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
+    
+    # colour and rename key values
+    scale_colour_manual(
+      name = "Medoid Test Site",
+      values = pal5
+    ) +
+    
+    theme_bw() +
+     theme(legend.position = "top") +
+    xlab("Mean Gower's Distance") +
+    ylab("R$^2_{Mod + Age}$") +
+    
+    #ylim without removing data
+    coord_cartesian(ylim = c(-1, 1))
+
+
+
+
+
+
+# these two form smooth plots of the age distance against r2
+# no age
+p_side_no_age <- ggplot(df_train_sets2, aes(x = mean_age_dist, y = r2_no_age)) +
+    
+  geom_smooth(method = "lm") +
+    geom_point(aes(colour = test_site), alpha = 0.5) +
+    
+    theme_bw() +
+    
+    # colour and rename key values
+    scale_colour_manual(
+      name = "Medoid Test Site",
+      values = pal5
+    ) +
+    
+  # adjust x ticks
+    scale_x_continuous(breaks = c(0, 50, 100)) +
+    
+    #ylim without removing data
+    coord_cartesian(ylim = c(-1, 1)) +
+    
+  theme(axis.title.y = element_blank(), axis.text.y = element_blank()) +
+  xlab("Mean Age Distance (years)")
+
+
+# age 
+p_side_age <- ggplot(df_train_sets2, aes(x = mean_age_dist, y = r2_age)) +
+    
+  geom_smooth(method = "lm") +
+    
+    geom_point(aes(colour = test_site), alpha = 0.5) +
+    
+    theme_bw() +
+    
+    # colour and rename key values
+    scale_colour_manual(
+      name = "Medoid Test Site",
+      values = pal5
+    ) +
+    
+    # adjust x ticks
+    scale_x_continuous(breaks = c(0, 50, 100)) +
+    
+    #ylim without removing data
+    coord_cartesian(ylim = c(-1, 1)) +
+    
+  theme(axis.title.y = element_blank(), axis.text.y = element_blank()) +
+  xlab("Mean Age Distance (years)")
+
+
+
+
+
+
+# these two attach the main to the age distance plots per model
+p_no_age <- p_gower_r2_no_age + 
+    
+    # no margin at side
+  theme(plot.margin = margin(0, 0, 0, 0)) +
+  p_side_no_age +
+  plot_layout(widths = c(9, 1))
+
+p_age <- p_gower_r2_age + 
+  theme(plot.margin = margin(0, 0, 0, 0)) +
+  p_side_age +
+  plot_layout(widths = c(9, 1))
+
+
+# this one joins the two models together into one main plot to sav eout
+# wrap_plots() is patchwork and is a fix for doing multiple levels of patchwork designs
+# couldn't get x axis to group together so hopefully this fixes it 
+design <- "AB\nCD"
+
+# wrap plot call
+p_gower_r2 <- wrap_plots(
+  p_gower_r2_no_age, p_side_no_age,
+  p_gower_r2_age, p_side_age,
+  design = design,
+  widths = c(1, 1)
+) +
+    guide_area() +
+    plot_layout(guides = "collect", axes = "collect") +
+    plot_annotation(caption = "Training Sites $\\rightarrow$ Medoid Test Site") &
+    
+    # the & applies this to ever plot uniformly so overrrides the legend psitioning before
+  theme(legend.position = "top",
+        plot.caption = element_text(hjust = 0.5)) 
+
+
+p_gower_r2
+```
+
+`
+```{r}
+# plot as TikZ object for integration into LaTeX
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{MinionPro}\n",
+    "\\usepackage{MnSymbol}\n"
+))
+
+# p_gower_age
+tikz(here("diss/figures/1.2_gower_r2.tex"), width = 6, height = 4.5, standAlone = TRUE)
+print(p_gower_r2)
+dev.off()
+
+```
+```{r}
+df_train_sets2 %>%
+    
+    ggplot(aes(x = mean_gower, y = r2_age)) +
+    
+    geom_point(aes(colour = test_site), alpha = 0.5) +
+    
+    geom_smooth(method = "lm") +
+    #geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
+    
+    # colour and rename key values
+    scale_colour_manual(
+      name = "Medoid Test Site",
+      values = pal5
+    ) +
+    
+    theme_bw() +
+     theme(legend.position = "top") +
+    xlab("Mean Gower's Distance") +
+    ylab("R$^2_{Mod}$")  +
+    
+    #ylim without rmeoving data
+    #coord_cartesian(ylim = c(-1, 1)) +
+    
+    facet_wrap(~test_site)
+
+```
+
+##  some stats
+```{r}
+# fit the multiple linear models properly to get stats
+mlm_r2_no_age <- lm(r2_no_age ~ mean_gower + mean_age_dist, data = df_train_sets2)
+mlm_r2_age <- lm(r2_age ~ mean_gower + mean_age_dist, data = df_train_sets2)
+
+summary(mlm_r2_age)
+
+
+car::vif(mlm_r2_age)
+```
+
+```{r}
+# stats for just us-me3
+me3 <- df_train_sets2 %>% filter(test_site == "US-Me3")
+
+summary(lm(r2_no_age ~ mean_gower, data = me3))
+summary(lm(r2_age ~ mean_gower, data = me3))
+summary(lm(r2_no_age ~ mean_age_dist, data = me3))
+summary(lm(r2_age ~ mean_age_dist, data = me3))
+
+
+library(broom)
+
+results <- df_train_sets2 %>%
+  group_by(test_site) %>%
+  group_modify(~ {
+    m1 <- lm(r2_no_age ~ mean_gower, data = .x)
+    m2 <- lm(r2_age ~ mean_gower, data = .x)
+    m3 <- lm(r2_no_age ~ mean_age_dist, data = .x)
+    m4 <- lm(r2_age ~ mean_age_dist, data = .x)
+    bind_rows(
+      tidy(m1) %>% mutate(model = "r2_no_age", predictor = "gower"),
+      tidy(m2) %>% mutate(model = "r2_age", predictor = "gower"),
+      tidy(m3) %>% mutate(model = "r2_no_age", predictor = "age_dist"),
+      tidy(m4) %>% mutate(model = "r2_age", predictor = "age_dist")
+    )
+  }) %>%
+  filter(term != "(Intercept)")
+
+results
+
+```
+
+
+```{r}
 
 # plot
 p_gower_r2 <- df_train_sets2 %>%
     
-    ggplot(aes(x = mean_gower, y = r2_change)) +
+    ggplot(aes(x = mean_gower, y = r2_no_age)) +
     
     geom_point(aes(colour = mean_age_dist), alpha = 0.5) +
     
@@ -318,50 +558,10 @@ p_gower_r2 <- df_train_sets2 %>%
     theme_bw() +
      theme(legend.position = "top") +
     xlab("Mean Gower's Distance, Medoid Site $\\rightarrow$ Training Set") +
-    ylab("$\\Delta$R$^2$ with Mod + Age") +
-    
-    facet_wrap(~test_site, scales = "free")
+    ylab("$\\Delta$R$^2$ with Mod + Age")  
+    #facet_wrap(~test_site, scales = "free_y")
 
 p_gower_r2
-
-```
-
-`
-```{r}
-# plot as TikZ object for integration into LaTeX
-options(tikzLatexPackages = c(
-    getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
-))
-
-# p3
-#tikz(here("diss/figures/1.2_gower_r2.tex"), width = 6, height = 5, standAlone = TRUE)
-#print(p_gower_r2)
-#dev.off()
-
-```
-
-```{r}
-# plot
-p_ages_r2 <- df_train_sets2 %>%
-    
-    ggplot(aes(x = mean_age_dist, y = r2_age)) +
-    
-    geom_smooth(method = "lm") +
-    geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
-    
-    geom_point() +
-
-    
-    theme_bw() +
-     theme(legend.position = "top") +
-    xlab("Mean Absolute Difference of Ages, Medoid Site $\\rightarrow$ Training Set (Years)") +
-    ylab("Mod + Age R$^2$") +
-    
-    facet_wrap(~test_site, scales = "free")
-
-p_ages_r2
 
 ```
 

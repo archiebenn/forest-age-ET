@@ -69,7 +69,28 @@
 \end{figure}
 \vspace*{\fill}
 
+\newpage
+\vspace*{\fill}
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/1.2_p3.pdf}}
+	\captionsetup{justification=centering}
+	\caption{Paired box-plots indicate the impact on R$^2$ when age is added as a feature to RF models across 100 repeated runs of randomly sampled training datasets. Points are connected on a per-run basis where training dataset site composition is identical. Wilcoxon signed-rank tests suggest model performances differ significantly at all test sites, as indicated by the significance annotation on each facet (*** signifies $p < 0.001$, ** signifies $p < 0.01$ \parencite{ggsignif}). DE-Lnf is shown large for readability as an example, with other cluster medoid sites shown at a reduced scale for comparison.}
+	\label{fig:paired_box}
+\end{figure}
+\vspace*{\fill}
 
 
 \newpage
-[space for plot as in \textcite{rao2026decoupled} (fig. 3, E/F)]
+\vspace*{\fill}
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/1.2_gower_r2.pdf}}
+	\captionsetup{justification=centering}
+	\caption{Plots displaying how R$^2$ of ET predictions relates to the mean Gower's distance and mean age distance from the training sites to each medoid test site with all sites together (100 runs). All fitted lines are a simple single linear regressions. The top plots are results from Mod, and the lower plots are results from Mod + Age, with results from all medoid test sites shown per plot. Visualisation indicate a correlation between R$^2$ and the mean Gower's distance in both Mod and Mod + Age, implying that models formed from datasets more closely related to the test sites produce more accurate predictions of ET. A relationship between R$^2$ and the mean age distance can be seen on the side plots, where predictions at test sites whose ages were further from the mean age of the training sites were typically lowered in both models.}
+	\label{fig:r2_gower}
+\end{figure}
+\vspace*{\fill}
+
+%Yes, that's fine — actually it's a strength, not a problem. You're testing mean_age_dist against R² separately in both models (Mod and Mod+Age), which lets you ask:
+%In Mod (no age feature at all): does age-distance still hurt predictions, purely through whatever confounded pathway (e.g. correlated with other environmental features)? Yes, it does (significant, β = −0.0064).
+%In Mod + Age (age included as a feature): does age-distance still hurt predictions, even though the model now has direct access to age information and should theoretically be able to compensate/extrapolate more sensibly? Also yes (significant, β = −0.0056).
+%That comparison is actually informative: age-distance hurting performance even when age is explicitly in the model suggests the RF isn't fully compensating for the mismatch just by having the feature — reinforcing your central finding about generalisation limits. It's a valid and useful analysis regardless of whether age is a feature in the specific model being tested.

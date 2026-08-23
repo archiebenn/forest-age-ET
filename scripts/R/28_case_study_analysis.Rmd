@@ -21,6 +21,7 @@ library(conflicted)
 # analysis of case study: US-Umd and DE-Lnf medoid sites  
 
 ```{r}
+conflicts_prefer(dplyr::filter)
 conflicts_prefer(here::here)
 
 df_stats <- read_csv(here("data/main/27_case_study/stats.csv"))
@@ -92,9 +93,9 @@ options(tikzLatexPackages = c(
 ))
 
 # p1
-tikz(here("diss/figures/case_study_bars.tex"), width = 6, height = 4, standAlone = TRUE)
-print(p1)
-dev.off()
+#tikz(here("diss/figures/case_study_bars.tex"), width = 6, height = 4, standAlone = TRUE)
+#print(p1)
+#dev.off()
 
 ```
 
@@ -146,16 +147,133 @@ p2 <- df_stats %>%
 ```
 
 # SHAP stuff
+using a function from script 17
 
 ```{r}
 
+# quick rename for function(messy i know)
+df_preds_rename <- df_preds %>%
+    
+    rename(site = Site_ID) %>%
+    mutate(model = recode(model, "mod" = "Mod",
+                          "mod+age" = "Mod + Age"))
+df_stats2 <- df_stats %>%
+    
+    mutate(model = recode(model, "mod" = "Mod",
+                          "mod+age" = "Mod + Age"))
+
+df_shap_test2 <- df_shap_test %>%
+    
+    mutate(model = recode(model, "mod" = "Mod",
+                          "mod+age" = "Mod + Age"))
 
 
+preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val = FALSE){
+    
+    # get r2 and rmse form stats_df
+    stats_sub <- stats_df %>%
+        filter(model == mod, site == site_id, shuffled == shuffled_val) %>%
+        summarise(r2 = mean(r2), rmse = mean(rmse))
+    
+    # plot ET vs time per site
+    pred_p <- data %>%
+        
+        filter(model == mod) %>%
+        filter(site == site_id) %>%
+        ggplot(aes(x = Date)) +
+        
+        # fit observed and predicted to same plot
+        geom_line(aes(y = observed_ET, colour = "Observed"), alpha = 0.6) +
+        geom_line(aes(y = predicted_ET, colour = "Predicted"), alpha = 0.6) +
+        
+        ylab("Daily ET (mm)") +
+        
+        theme_minimal()+
+        
+        # legend
+        scale_colour_manual(name = NULL, 
+                             values = c("Observed" = pal3[2], "Predicted" = pal3[5])) +
+        
+        # move legend to bottom
+        theme(legend.position = "bottom") +
+        
+        # add stats to plot
+        geom_text(data = stats_sub,
+                  aes(x = -Inf, y = Inf, 
+                      label = paste("R-squared = ", round(r2, 2), 
+                                    "\nRMSE = ", round(rmse, 2))),
+                  hjust = -0.1, vjust = 1.2,  
+                  size = 3) 
+    
+    
+    # create df of SHAP score means across features
+    shap_site_summary <- shap_df %>%
+        
+        # select chosen rows
+        filter(model == mod, site == site_id, shuffled == shuffled_val) %>%
+        
+        # leave only actual RF model features
+        select(-seed, -model, -site, -shuffled, -Site_age_raw) %>%
 
+        # apply summaries across all columns with everything()
+        # set mean_dir to now represent whether direction is +ve or -ve as men is set to abs(mean) now
+        summarise(across(everything(), list(mean = function(x) mean(abs(x)), mean_dir = mean, sd = sd))) %>%
+        
+        # pivot across all (will drop non numeric NAs later), then name feature/value (sd or mean)
+        # "_(?=mean$|mean_dir$|sd$)"is a lookahead which sees what follows the underscore and then sorts 
+        pivot_longer(everything(), names_to = c("feature", ".value"), names_sep = "_(?=mean$|mean_dir$|sd$)") %>%
+        drop_na()
+    
+    # and now the shap plot
+    shap_p <- shap_site_summary %>%
+        
+        # re-orders features by most important
+        ggplot(aes(x = reorder(feature, mean), y = mean, fill = mean_dir > 0)) +
+        
+        geom_col(position=position_dodge()) +
+        geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.2) +
+        
+        # aesthetics
+        theme_minimal() +
+        xlab("Features in Model") +
+        ylab(NULL) +
+        ggtitle("SHAP feature importance") +
+        scale_fill_manual(name = NULL,
+                          values = c("TRUE" = pal3[1], "FALSE" = pal3[3]), 
+                          labels = c("TRUE" = "+ impact", "FALSE" = "- impact")) +
+        
+        # move legend to bottom
+        theme(legend.position = "bottom") +
+        
+        # flip coords to fit in feature names easily
+        coord_flip()
+    
+    # forming the arranged plot of the above two with patchwork lib
+    final_p <- pred_p + shap_p + plot_layout(widths = c(1.3, 1)) +
+        plot_annotation(title = paste(site_id, " (model: ", mod, ")", sep = "" ))
+    
+    return(final_p)
+}
 
 ```
 
 
+```{r}
+pal3 <- ltc("dora")
+
+# US-UMd
+p_no_age_umd <- preds_with_SHAP("Mod", "US-UMd", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
+p_age_umd <- preds_with_SHAP("Mod + Age", "US-UMd", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
+p_age_umd_shuffled <- preds_with_SHAP("Mod + Age", "US-UMd", df_preds_rename, df_stats, df_shap_test, shuffled_val = TRUE)
+
+# DE-Lnf
+p_no_age_umd <- preds_with_SHAP("Mod", "DE-Lnf", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
+p_age_umd <- preds_with_SHAP("Mod + Age", "DE-Lnf", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
+p_age_umd_shuffled <- preds_with_SHAP("Mod + Age", "DE-Lnf", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = TRUE)
+
+p_age_umd 
+    
+```
 
 
 
