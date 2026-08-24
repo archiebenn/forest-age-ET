@@ -30,7 +30,7 @@ Cluster analysis was carried out in order to classify sites into groups based on
 %Temporal: shorter section — does age still help/hurt over time at a couple of long-record sites, tying back to the leakage question (age varies within-site here, so it's a cleaner test)
 %Discussion: synthesize — when/why age helps, leakage risk, what it means for future FLUXNET+age model building
 
-\subsubsection{Analysis 1.1 - Model Sensitivity} \label{model_sens}
+\subsection{Analysis 1.1 - Model Sensitivity} \label{sec:model_sens}
 Results from model sensitivity testing indicate mixed model performance across the medoid sites, based on regression metrics comparing the predicted and observed daily ET \autoref{fig:adding_features}. In this part of the analysis, features were sequentially added to RF models, and these were then re-trained with each additional feature before testing on all medoid sites (see section \ref{sec:sens} for details).
 \par Predictions of daily ET formed for CA-Obs, US-UMd, and DE-Lnf showed strong performance across the range of input features, while CA-TP3, IT-SRo, and US-Me3 performed poorly when considering R$^2$, RMSE and MAE. 
 \par CA-Obs and DE-Lnf showed very similar patterns of performance, with predictions at both sites typically strong and climbing across metrics up until \texttt{cos\_DOY} was added (Peak CA-Obs: R$^2$ = 0.90, RMSE = 0.28, MAE = 0.19; Peak DE-Lnf: R$^2$ = 0.90, RMSE = 0.38, MAE = 0.28). Predictions at both sites then declined with the inclusion of \texttt{Site\_age} to the model ($\Delta$R$^2$ from \texttt{cos\_DOY $\rightarrow$ Site\_age}: CA-Obs = -0.07; DE-Lnf = -0.04). US-UMd deviated from this performance pattern slightly, with metrics improving further when \texttt{Site\_age} was included in the model (Peak US-UMd: R$^2$ = 0.90, RMSE = 0.41, MAE = 0.28, $\Delta$R$^2$ from \texttt{cos\_DOY $\rightarrow$ Site\_age} = +0.03). At all three of these sites the inclusion of only a single feature in the RF model, \texttt{T\_air}, demonstrated strong to moderate predictive performance (CA-Obs: R$^2$ = 0.76, RMSE = 0.42, MAE = 0.31; US-UMd: R$^2$ = 0.64, RMSE = 0.78, MAE = 0.58; DE-Lnf: R$^2$ = 0.63, RMSE = 0.73, MAE = 0.58).
@@ -38,7 +38,7 @@ Results from model sensitivity testing indicate mixed model performance across t
 \par Ratios of RMSE:MAE from peak predictive models at each medoid all fall between 1.33 and 1.48, suggesting that the overall impact of outlier ET predictions, and therefore overall error distribution, was fairly consistent from the best performing models at all sites during this analysis. 
 
 
-\subsubsection{Analysis 1.2 - Sampled Training Sets}
+\subsection{Analysis 1.2 - Sampled Training Sets} \label{sec:sampled}
 \autoref{fig:paired_box} shows the paired results between the `Mod' and the `Mod + Age' models (described by \autoref{eqn:mod} and \autoref{eqn:mod_age} respectively) during the shuffled and sampled training set analysis (see section \ref{sec:shuffle} for details).  
 \par Results from this analysis indicate that including age had a significant impact across a range of training set site compositions, with all six medoid sites showing significant differences in R$^2$ between the `Mod' and the `Mod + Age' predictions for daily ET (Wilcoxon signed-rank tests, p < 0.01 for all). The largest average effect on R$^2$ between the two models was at US-Me3, with 58/100 runs resulting in a decreased R$^2$ when age was added (mean $\Delta$R$^2$ = -0.10). Predictions at US-Me3 were poor throughout and also had a very high spread of R$^2$ variability which further increased when age was added (R$^2_{Mod}$ = 0.04 $\pm$ 0.24; R$^2_{Mod + Age}$ = -0.06 $\pm$ 0.40). The predictions at CA-TP3 saw the greatest improvement to R$^2$ when age was added, where 75/100 runs increased R$^2$ (mean $\Delta$R$^2$ = +0.02), although the spread of variability also increased alongside this (R$^2_{Mod}$ = 0.53 $\pm$ 0.05; R$^2_{Mod + Age}$ = 0.55 $\pm$ 0.08). 
 \par Model predictions made at DE-Lnf and US-UMd were strong in both models, although opposite effects were observed at these sites during these runs. DE-Lnf predictive performance was negatively impacted with the addition of age (mean $\Delta$R$^2$ = -0.05), with R$^2$ dropping during 88/100 runs and the spread of variability increasing nearly four-fold (R$^2_{Mod}$ = 0.89 $\pm$ 0.013; R$^2_{Mod + Age}$ = 0.84 $\pm$ 0.050). US-UMd performance increased modestly (mean $\Delta$R$^2$ = +0.02) and increased during 85/100 runs, with the spread of variability in R$^2$ remaining consistent between the models (R$^2_{Mod}$ = 0.86 $\pm$ 0.02; R$^2_{Mod + Age}$ = 0.88 $\pm$ 0.02). \\
@@ -46,21 +46,64 @@ Results from model sensitivity testing indicate mixed model performance across t
 \par To investigate how the composition of the training dataset impacted model predictions of ET, values of the mean Gower's distance and mean age distance between training and test sites were formed during each of the 100 runs (see section \ref{sec:shuffle} for details).
 \par A visualisation of these results in \autoref{fig:r2_gower} for the full set of sites follow an expected pattern with predictive accuracy falling with increased Gower's and age distances across both models, implying that as the training set of a model becomes less similar to the test site, predictions tend to become less accurate. Multiple linear regression models were used to see if mean Gower's distance or mean age distance significantly predict R$^2$ in both models. The overall regression for `Mod' was statistically significant (R$^2 = 0.60, F(2, 597) = 453.8, p < 0.001$), and both variables independently predicted R$^2_{Mod}$ (Gower's: $\beta = -6.19, p < 0.001$; Age: $\beta = -0.0064, p < 0.001$). The overall regression for `Mod + Age' was statistically significant (R$^2 = 0.54, F(2, 597) = 349, p < 0.001$), and both variables independently predicted R$^2_{Mod + Age}$ (Gower's: $\beta = -7.03, p < 0.001$; Age: $\beta = -0.0056, p < 0.001$).
 \par As site age was included as one of the variables during cluster analysis (\autoref{tab:cluster_vars}), mean Gower's distance and mean age distance are not fully independent ($VIF = 1.52$ for both predictors in both multiple linear regression models), however low multicollinearity indicates each predictor contributes distinct information within the models.  
-\par Across all sites together, greater dissimilarity between Gower's distances and age distances between the test site and training set sites is significantly associated with a lower R$^2$ in both models. However, this relationship is not present within every site individually. Site-specific simple linear models suggest Gower's distance showed no significant relationship with R$^2$ at CA-TP3 in either model, and was significantly positively associated with R$^2$ at US-Me3, only in `Mod + Age'. Similarly, mean age distance was only significantly associated with R$^2$ at US-UMd for both models, with no significant relationship present at the other five medoid sites in either model. 
+\par Across all sites together, greater dissimilarity between Gower's distances and age distances between the test site and training set sites is significantly associated with a lower R$^2$ in both models. However, this relationship is not present within every site individually. Site-specific simple linear models suggest Gower's distance showed no significant relationship with R$^2$ at CA-TP3 in either model, and was significantly positively associated with R$^2$ in `Mod + Age' predictions at US-Me3. Similarly, mean age distance was only significantly associated with R$^2$ at US-UMd for both models, with no significant relationship present at the other five medoid sites in either model. 
 
 
 
 %\subsubsection{Analysis 1.3 - Training by Cluster}
-\subsubsection{Case Study of US-UMd and DE-Lnf}
-US-UMd and DE-Lnf will be focused on here due to their opposite responses in predictive performance with the addition of age (\autoref{fig:paired_box}), despite both sites sharing similar site qualities (\autoref{tab:tab:site_summary}) and both displaying strong R$^2$ for daily ET predictions in both models.
-\par 
+\subsection{Case Study of US-UMd and DE-Lnf}
+US-UMd and DE-Lnf share similar site qualities (\autoref{tab:tab:site_summary}) and both show strong R$^2$ for daily ET predictions in both models, yet the predictive performance responses in both section \ref{sec:model_sens} and section \ref{sec:sampled} were opposite when age was added as a feature to the models (for example, in \autoref{fig:paired_box}). New RF models were trained and tested using a single-site cross-validation approach and SHAP analysis was carried out on predictions (see section \ref{sec:case_study} for details). Performance results from regression metrics followed the same pattern as in sections \ref{sec:model_sens} and \ref{sec:sampled}, with R$^2$ improving in US-UMd predictions (R$^2_{Mod}$ = 0.86; R$^2_{Mod}$ = 0.90) and dropping in DE-Lnf predictions (R$^2_{Mod}$ = 0.90; R$^2_{Mod}$ = 0.86) with the addition of forest age as a feature. 
+\par \autoref{subfig:umd1} and \autoref{subfig:lnf1} display scatter plots comparing the predicted and observed daily ET from each model at the sites. Visual comparisons of these plots suggests a tightening of points relative to the 1:1 line with the addition of age at US-UMd, particularly at the extremes. At DE-Lnf, the addition of age appears to cause low observed ET to be over-predicted, particularly in winter and autumn, in an opposite response to predictions of low observed ET at US-UMd. Both models at both sites appear to under-predict peak daily ET in summer given the clustering of points below the 1:1 line at higher observed ET.
+\par The time series plots of predictions from `Mod + Age' (\autoref{subfig:umd2} and \autoref{subfig:lnf2}) indicate a strong cyclical predictive performance overall at both sites. Both models captured abnormal lows during summer months; for example, at US-UMd in summer 2011 largely captured an ET rate which is typically seen during mid-winter, demonstrating the flexibility of these models. Despite this, extreme ET peaks were missed in consecutive years at US-UMd; for example, a peak in summer 2010 was under-predicted by the model by nearly 2mm/day.
+
+
+
+\par The SHAP feature importance order was similar at both sites
+
 
 \begin{figure}[H]
-	\fbox{\includegraphics[width=\linewidth]{../../figures/1.2_merged1.pdf}}
+	\centering
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/umd_main.pdf}}
+		\captionsetup{justification=centering}
+		\caption{Subset of 5000 points comparing the observed daily ET and predicted daily ET from the two RF models with a 1:1 line shown in red (perfect model line). `Mod + Age' improved prediction metrics overall compared to `Mod', with a higher R$^2$ and lower RMSE and MAE. Visually, points appear tighter to the 1:1 line at both extremes, although extreme highs in observed daily ET rates are often under-predicted in both models.}
+		\label{subfig:umd1}
+	\end{subfigure}
+	\hfill
+	\vspace{2em}
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/umd_main2.pdf}}
+		\captionsetup{justification=centering}
+		\caption{Time series observed daily ET overlaid with the predicted daily ET using the `Mod + Age' RF model seen on the left, with average SHAP feature importance values across all predictions made with this model on the right. Time series plot suggests a strong fit to the observed data but with peak ET rates in extreme summers being under-predicted, in line with the shape seen in plot \subref{subfig:umd1}. Feature importance with SHAP...[CONTINUE] }
+		\label{subfig:umd2}
+	\end{subfigure}
 	\captionsetup{justification=centering}
-	\caption{Subset of 2500 data points}
-	\label{fig:pred_obs}
+	\caption{Case Study plots for site US-UMd.}
+	\label{fig:umd}
 \end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/lnf_main.pdf}}
+		\captionsetup{justification=centering}
+		\caption{Subset of 2500}
+		\label{subfig:lnf1}
+	\end{subfigure}
+	\hfill
+	\vspace{2em}
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/lnf_main2.pdf}}
+		\captionsetup{justification=centering}
+		\caption{M.}
+		\label{subfig:lnf2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption{Case Study plots for site DE-Lnf.}
+	\label{fig:lnf}
+\end{figure}
+
+
 
 \begin{figure}[H]
 	\fbox{\includegraphics[width=\linewidth]{../../figures/case_study_bars.pdf}}
@@ -77,11 +120,11 @@ US-UMd and DE-Lnf will be focused on here due to their opposite responses in pre
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TEMPORAL
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Temporal Generalisation} \label{sec:temporal_res}
-\subsubsection{Analysis 2.1 - Prediction Accuracy}
+%\subsection{Temporal Generalisation} \label{sec:temporal_res}
+%\subsubsection{Analysis 2.1 - Prediction Accuracy}
 
 
-\subsubsection{Analysis 2.2 - Time Series Decomposition}
+%\subsubsection{Analysis 2.2 - Time Series Decomposition}
 
 
 

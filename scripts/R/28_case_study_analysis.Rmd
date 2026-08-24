@@ -16,6 +16,7 @@ library(ggrepel)
 library(gridExtra)
 library(tikzDevice)
 library(conflicted)
+library(patchwork)
 ```
 
 # analysis of case study: US-Umd and DE-Lnf medoid sites  
@@ -24,12 +25,143 @@ library(conflicted)
 conflicts_prefer(dplyr::filter)
 conflicts_prefer(here::here)
 
+df_14 <- read_csv(here("data/main/14_pre_processing/df_ml_ready.csv"))
 df_stats <- read_csv(here("data/main/27_case_study/stats.csv"))
 df_preds <- read_csv(here("data/main/27_case_study/preds.csv"))
 df_shap_test <- read_csv(here("data/main/27_case_study/test_shap.csv"))
 df_shap_train <- read_csv(here("data/main/27_case_study/train_shap.csv"))
 ```
-## 1. stats
+
+## 1. pred vs. observed at these two sites
+c/p from end of 1.2 .Rmd script with some adjustments for this case study 
+
+- adapting the df 
+
+```{r}
+# attach stats to preds dfs
+df_preds_stats <- df_preds %>%
+    
+    rename("site" = "Site_ID") %>%
+    
+    # and add a seasonal tag based on the month (Northern hemisphere)
+    mutate(
+        season = case_when(
+            month(Date) %in% c(12, 1, 2) ~ "Winter",
+            month(Date) %in% c(3, 4, 5) ~ "Spring",
+            month(Date) %in% c(6, 7, 8) ~ "Summer",
+            month(Date) %in% c(9, 10, 11) ~ "Autumn"
+        )
+    ) %>%
+    
+    # and join them
+    left_join(df_stats, by = c("seed", "model", "site", "shuffled"), relationship = "many-to-one")
+```
+
+
+```{r}
+# stats df
+df_preds_stats_rounded <- df_preds_stats %>%
+
+    # r2 and rmse per site/model/shuffled combo (not seed as want averages across all seeds)
+    group_by(model, site, shuffled) %>%
+    summarise(mean_r2 = round(mean(r2), 2), 
+              mean_rmse = round(mean(rmse), 2),
+              mean_mae = round(mean(mae), 2),
+              .groups = "drop")
+
+# for re-naming facets
+model_names <- list(
+    "mod" = "Mod",
+    "mod+age" = "Mod + Age"
+)
+
+# as_labeller()= ggplot function to convert named vector to a labeller (to rename facets here)
+# redundant now as changed names on 24-8-26 but still
+mod_labeller <- as_labeller(c("Mod" = "Mod", "Mod + Age" = "Mod + Age"))
+
+```
+
+- and now for the plotting function
+
+```{r}
+# fro sampler
+set.seed(42)
+
+# plotter function for unshuffled preds/obs
+plotter_r2 <- function(testing_site){
+    
+    # palettes
+    pal = ltc(shuggie)
+    pal_p = ltc(dora)
+    
+    # for colouring facets later
+    #strip_colours <- if (testing_site == "US-UMd") c(pal_f[5], pal_f[1]) else c(pal_f[1], pal_f[5])
+
+    # plot
+    p_r2 <- df_preds_stats %>%
+    
+        # use only test site and non shuffled models
+    filter(site == testing_site,
+           shuffled != TRUE) %>%
+    
+    # take a sample of 2500 rows
+    slice_sample(n = 2500) %>%
+
+    ggplot(aes(x = observed_ET, y = predicted_ET)) +
+        
+    # add points and colour by season for visual aid
+    geom_point(alpha = 0.4,  aes(colour = season)) +
+        
+    # colour and rename key values
+    scale_colour_manual(
+      name = "Season",
+      values = pal
+    ) +
+        
+    # 1:1 line (ie. a perfect model)
+    geom_abline(slope = 1, intercept = 0, colour = pal_p[3], linetype = "dashed") +
+    
+    theme_bw()+
+    #theme(legend.position = "bottom") +
+    xlab("Observed ET (mm/day)") +
+    ylab("Predicted ET (mm/day)") +
+    ggtitle(testing_site) +
+    
+    # add mean R2 and RMSE and MAE (separately to fix in-line issue)
+     geom_text(data = df_preds_stats_rounded %>% filter(site == testing_site, shuffled != TRUE),
+          aes(x = -Inf, y = Inf, label = paste0("$\\overline{\\mathrm{R^2}}$ = ", mean_r2)),
+          hjust = -0.15, vjust = 2, size = 3.5, inherit.aes = FALSE) +
+        
+    geom_text(data = df_preds_stats_rounded %>% filter(site == testing_site, shuffled != TRUE),
+          aes(x = -Inf, y = Inf, label = paste0("$\\overline{\\mathrm{RMSE}}$ = ", mean_rmse, " mm/day")),
+          hjust = -0.1, vjust = 4, size = 3.5, inherit.aes = FALSE) +
+        
+    geom_text(data = df_preds_stats_rounded %>% filter(site == testing_site, shuffled != TRUE),
+          aes(x = -Inf, y = Inf, label = paste0("$\\overline{\\mathrm{MAE}}$ = ", mean_mae, " mm/day")),
+          hjust = -0.1, vjust = 6, size = 3.5, inherit.aes = FALSE) +
+        
+        facet_wrap(~model, labeller = mod_labeller)
+    
+    # bit hacky but gets facet to be coloured based on r2 improvement or not when adding age
+    #facet_wrap2(~pred_model, labeller = mod_labeller,
+     #           strip = strip_themed(background_x = elem_list_rect(fill = strip_colours)))
+    
+    return(p_r2)
+}
+```
+
+```{r}
+# generate the plots for the two focus medoid sites
+p_US_UMd <- plotter_r2("US-UMd")
+p_US_UMd
+```
+
+```{r}
+p_DE_Lnf <- plotter_r2("DE-Lnf")
+p_DE_Lnf 
+```
+
+## 2. shap stats
 
 ```{r}
 # standard error function
@@ -127,7 +259,7 @@ p2 <- df_stats %>%
     
     # aesthetics
     theme_bw() +
-    ylab("R$^2$") +
+    ylab("RMSE") +
     scale_fill_manual(values = pal, 
                       labels = c("mod.FALSE" = "Mod",
                                   "mod+age.FALSE" = "Mod + Age",
@@ -153,34 +285,39 @@ using a function from script 17
 
 # quick rename for function(messy i know)
 df_preds_rename <- df_preds %>%
-    
     rename(site = Site_ID) %>%
     mutate(model = recode(model, "mod" = "Mod",
                           "mod+age" = "Mod + Age"))
 df_stats2 <- df_stats %>%
-    
     mutate(model = recode(model, "mod" = "Mod",
                           "mod+age" = "Mod + Age"))
 
 df_shap_test2 <- df_shap_test %>%
-    
     mutate(model = recode(model, "mod" = "Mod",
-                          "mod+age" = "Mod + Age"))
+                          "mod+age" = "Mod + Age")) 
+```
 
-
+```{r}
 preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val = FALSE){
     
     # get r2 and rmse form stats_df
     stats_sub <- stats_df %>%
         filter(model == mod, site == site_id, shuffled == shuffled_val) %>%
-        summarise(r2 = mean(r2), rmse = mean(rmse))
+        summarise(r2 = mean(r2), 
+                  rmse = mean(rmse),
+                  mae = mean(mae))
     
     # plot ET vs time per site
     pred_p <- data %>%
         
         filter(model == mod) %>%
         filter(site == site_id) %>%
+        
+        # keep only every fifth day for the plot (.tex file was too big so couldn't compile)
+        slice(seq(1, n(), by = 5)) %>%
         ggplot(aes(x = Date)) +
+        
+        
         
         # fit observed and predicted to same plot
         geom_line(aes(y = observed_ET, colour = "Observed"), alpha = 0.6) +
@@ -192,18 +329,10 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
         
         # legend
         scale_colour_manual(name = NULL, 
-                             values = c("Observed" = pal3[2], "Predicted" = pal3[5])) +
+                             values = c("Observed" = pal3[1], "Predicted" = pal3[3])) +
         
         # move legend to bottom
-        theme(legend.position = "bottom") +
-        
-        # add stats to plot
-        geom_text(data = stats_sub,
-                  aes(x = -Inf, y = Inf, 
-                      label = paste("R-squared = ", round(r2, 2), 
-                                    "\nRMSE = ", round(rmse, 2))),
-                  hjust = -0.1, vjust = 1.2,  
-                  size = 3) 
+        theme(legend.position = "bottom") 
     
     
     # create df of SHAP score means across features
@@ -213,7 +342,7 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
         filter(model == mod, site == site_id, shuffled == shuffled_val) %>%
         
         # leave only actual RF model features
-        select(-seed, -model, -site, -shuffled, -Site_age_raw) %>%
+        select(-seed, -model, -site, -shuffled, -Site_age_raw, -Date) %>%
 
         # apply summaries across all columns with everything()
         # set mean_dir to now represent whether direction is +ve or -ve as men is set to abs(mean) now
@@ -221,8 +350,17 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
         
         # pivot across all (will drop non numeric NAs later), then name feature/value (sd or mean)
         # "_(?=mean$|mean_dir$|sd$)"is a lookahead which sees what follows the underscore and then sorts 
-        pivot_longer(everything(), names_to = c("feature", ".value"), names_sep = "_(?=mean$|mean_dir$|sd$)") %>%
+        pivot_longer(
+            cols = matches("_(mean|mean_dir|sd)$"),
+            names_to = c("feature", ".value"),
+            names_sep = "_(?=mean$|mean_dir$|sd$)"
+        ) %>%
+
+        # for tikz
+        mutate(feature = gsub("_", "\\\\_", feature)) %>%
+        
         drop_na()
+    
     
     # and now the shap plot
     shap_p <- shap_site_summary %>%
@@ -236,11 +374,11 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
         # aesthetics
         theme_minimal() +
         xlab("Features in Model") +
-        ylab(NULL) +
+        ylab("SHAP value") +
         ggtitle("SHAP feature importance") +
         scale_fill_manual(name = NULL,
                           values = c("TRUE" = pal3[1], "FALSE" = pal3[3]), 
-                          labels = c("TRUE" = "+ impact", "FALSE" = "- impact")) +
+                          labels = c("TRUE" = "+ Impact", "FALSE" = "- Impact")) +
         
         # move legend to bottom
         theme(legend.position = "bottom") +
@@ -250,7 +388,7 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
     
     # forming the arranged plot of the above two with patchwork lib
     final_p <- pred_p + shap_p + plot_layout(widths = c(1.3, 1)) +
-        plot_annotation(title = paste(site_id, " (model: ", mod, ")", sep = "" ))
+        plot_annotation(title = paste(mod, " at ", site_id, sep = "" ))
     
     return(final_p)
 }
@@ -264,20 +402,324 @@ pal3 <- ltc("dora")
 # US-UMd
 p_no_age_umd <- preds_with_SHAP("Mod", "US-UMd", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
 p_age_umd <- preds_with_SHAP("Mod + Age", "US-UMd", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
-p_age_umd_shuffled <- preds_with_SHAP("Mod + Age", "US-UMd", df_preds_rename, df_stats, df_shap_test, shuffled_val = TRUE)
+p_age_umd_shuffled <- preds_with_SHAP("Mod + Age", "US-UMd", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = TRUE)
 
 # DE-Lnf
-p_no_age_umd <- preds_with_SHAP("Mod", "DE-Lnf", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
-p_age_umd <- preds_with_SHAP("Mod + Age", "DE-Lnf", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
-p_age_umd_shuffled <- preds_with_SHAP("Mod + Age", "DE-Lnf", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = TRUE)
+p_no_age_lnf <- preds_with_SHAP("Mod", "DE-Lnf", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
+p_age_lnf <- preds_with_SHAP("Mod + Age", "DE-Lnf", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
+p_age_lnf_shuffled <- preds_with_SHAP("Mod + Age", "DE-Lnf", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = TRUE)
 
-p_age_umd 
+p_no_age_lnf
+p_age_lnf
+p_no_age_umd
     
+```
+
+# main combination plots for two sites
+
+```{r}
+# plot as TikZ object for integration into LaTeX
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{MinionPro}\n",
+    "\\usepackage{MnSymbol}\n"
+))
+
+# main us-umd
+tikz(here("diss/figures/umd_main.tex"), width = 6, height = 4, standAlone = TRUE)
+print(p_US_UMd)
+dev.off()
+
+tikz(here("diss/figures/umd_main2.tex"), width = 6, height = 3.5, standAlone = TRUE)
+print(p_age_umd)
+dev.off()
+
+
+
+# main de-lnf
+tikz(here("diss/figures/lnf_main.tex"), width = 6, height = 4, standAlone = TRUE)
+print(p_DE_Lnf)
+dev.off()
+
+tikz(here("diss/figures/lnf_main2.tex"), width = 6, height = 3.5, standAlone = TRUE)
+print(p_age_lnf)
+dev.off()
+```
+
+
+# SHAP time series hetamap
+
+```{r}
+shap_heatmap <- function(shap_df, pred_data, site_id, shuffled_val = FALSE){
+    
+    # same palette as before
+    pal3 <- ltc("dora")
+    
+    # first, convert to long 
+    shap_long <- shap_df %>%
+        
+        filter(model == "Mod + Age", site == site_id, shuffled == shuffled_val) %>%
+        
+        # get week number
+        mutate(week = floor_date(Date, "week")) %>%
+        
+        pivot_longer(
+            cols = c(sin_DOY, cos_DOY, Lai_500m, P_sum_14D, SW_rad, Tair, Wspeed, VPD, Site_age),
+            names_to = "feature",
+            values_to = "shap_value"
+        ) %>%
+        
+        # aggregate values by week and take means (so less thing grids)
+        group_by(week, feature) %>%
+        summarise(mean_shap = mean(shap_value), .groups = "drop") %>%
+        
+        # for tikz
+        mutate(feature = gsub("_", "\\\\_", feature)) %>%
+        
+        # from forcats package - used to reorder categorical levels
+        # this oves site age to top of heatmap which is what i want
+        # moving to end with Inf makes it at top of heatmap for some reason
+        mutate(feature = fct_relevel(feature, "Site\\_age", after = Inf))
+
+    
+    # now build the heatmap
+    shap_heatmap <- shap_long %>%
+        
+        ggplot(aes(x = week, y = feature, fill = mean_shap)) +
+            
+        geom_tile() +
+        
+        # gradient for SHAP values
+        scale_fill_gradient2(
+            name = "SHAP value (weekly mean)",
+            low = pal3[3],
+            mid = "white",
+            high = pal3[1],
+            midpoint = 0
+        ) +
+            
+        theme_minimal() +
+            
+        ylab("Features\n(Mod + Age)") +
+            
+        xlab("Date") +
+            
+        theme(
+            axis.text.y = element_text(size = 8),
+            legend.position = "bottom")
+        
+        
+    return(shap_heatmap)
+
+}
+```
+
+## compute differences between predictions in both models and plot on time series graph
+
+```{r}
+# function to do this
+difference_plotter <- function(site_id){
+    
+    # first form df with diffs per prediction row
+    df_diff <- df_preds_rename %>%
+        
+        # only non shuffles
+        filter(site == site_id, shuffled == FALSE) %>%
+        group_by(Date, model) %>%
+        summarise(predicted_ET = mean(predicted_ET), .groups = "drop") %>%
+        pivot_wider(names_from = model, values_from = predicted_ET) %>%
+        
+        # subtract non-age from age values
+        # therefore +ve = increased ET pred with age added
+        # -ve values = decreased ET pred when age added
+        mutate(diff = `Mod + Age` - Mod)
+    
+    # now plot difference
+    p_diff <- df_diff %>%
+        
+        # thin as before
+        slice(seq(1, n(), by = 5)) %>%   
+        
+        ggplot(aes(x = Date, y = diff)) +
+        ggtitle(site_id) +
+        
+        geom_hline(yintercept = 0, linetype = "dashed", colour = "firebrick") +
+        
+        geom_line(colour = "black", alpha = 0.75) +
+        theme_minimal() +
+        ylab("$\\Delta$Predicted ET\nMod+Age - Mod\n(mm/day)") +
+        xlab("Date") +
+        theme(legend.position = "none")
+    
+    return(p_diff)
+
+}
+
+```
+
+## combine above two plots per site
+
+```{r}
+shap_heat_umd <- shap_heatmap(df_shap_test2, df_preds_rename, "US-UMd")
+p_diff_umd <- difference_plotter("US-UMd")
+
+# final, joined plot for differences and SHAP values from adding age model
+p_umd_shap_final <- p_diff_umd / shap_heat_umd +
+    plot_layout(
+        heights = c(1, 2),
+        axes = "collect"
+    )
+
+p_umd_shap_final
+```
+
+
+```{r}
+shap_heat_lnf <- shap_heatmap(df_shap_test2, df_preds_rename, "DE-Lnf")
+p_diff_lnf <- difference_plotter("DE-Lnf")
+
+# final, joined plot for differences and SHAP values from adding age model
+p_lnf_shap_final <- p_diff_lnf / shap_heat_lnf +
+    plot_layout(
+        heights = c(1, 2),
+        axes = "collect"
+    )
+
+p_lnf_shap_final
+```
+
+```{r}
+# save both of these plots
+# plot as TikZ object for integration into LaTeX
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{MinionPro}\n",
+    "\\usepackage{MnSymbol}\n"
+))
+
+# main us-umd
+tikz(here("diss/figures/umd_shap_diff.tex"), width = 6, height = 5, standAlone = TRUE)
+print(p_umd_shap_final)
+dev.off()
+
+tikz(here("diss/figures/lnf_shap_diff.tex"), width = 6, height = 5, standAlone = TRUE)
+print(p_lnf_shap_final)
+dev.off()
+
 ```
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## having a look at the training set ages and ET for this case study
+
+```{r}
+# training set = all minus these two sites
+df_cs_training <- df_14 %>%
+    
+    filter(Site_ID != "US-UMd",
+           Site_ID != "DE-Lnf")
+```
+
+## mean age of training
+```{r}
+mean_training_age <- df_cs_training %>%
+    
+    summarise(mean_train_age = mean(Site_age)) %>%
+    
+    pull(mean_train_age)
+
+```
+
+- mean site age is 111.38
+
+```{r}
+mean_usd_age <- df_14 %>%
+    
+    filter(Site_ID == "US-UMd") %>%
+    
+    summarise(mean_us_umd_age = mean(Site_age)) %>%
+    pull(mean_us_umd_age)
+
+
+mean_lnf_age <- df_14 %>%
+    
+    filter(Site_ID == "DE-Lnf") %>%
+    
+    summarise(mean_de_lnf_age = mean(Site_age)) %>%
+    pull(mean_de_lnf_age)
+
+```
+
+## a plot of age vs et in training data
+
+```{r}
+p_age_et <- df_cs_training %>%
+    
+    group_by(Site_ID) %>%
+    
+    # summarise mean values across training data
+    summarise(mean_age = mean(Site_age),
+              mean_ET = mean(ET),
+              mean_peak_ET = mean(ET_90D_peak)) %>%
+    
+    pivot_longer(cols = c(mean_ET, mean_peak_ET),
+                 names_to = "metric",
+                 values_to = "value") %>%
+    
+    ggplot(aes(x = mean_age, y = value)) +
+    
+    theme_bw() +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    ylab("ET (mm/day)") +
+    xlab("Mean Site Age in Training Data (years)") +
+    facet_wrap(~metric)
+
+
+p_age_et
+
+```
+
+
+## stats for lm for each
+```{r}
+df_site_means <- df_cs_training %>%
+  group_by(Site_ID) %>%
+  summarise(
+    mean_age = mean(Site_age),
+    mean_ET  = mean(ET),
+    mean_peak_ET = mean(ET_90D_peak)
+  )
+
+mean_et_age_lm <- lm(mean_ET ~ mean_age, data = df_site_means)
+mean_et_peak_age_lm <- lm(mean_peak_ET ~ mean_age, data = df_site_means)
+```
+
+## summarising
+
+```{r}
+summary(mean_et_age_lm)
+summary(mean_et_peak_age_lm)
+```
+ 
+ 
 
 
 

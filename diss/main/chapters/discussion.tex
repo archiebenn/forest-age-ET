@@ -3,7 +3,9 @@
 %----------------------------------------------------------------------------------------
 \section{Discussion}
 
-
+%%%%%%%%%%%%%%%%%%
+% GENERAL NOTES/LITERATURE/IDEAS
+%%%%%%%%%%%%%%%%%%
 
 % jiang2023hybrid used a hybrid model. instead of using FLUXNET data as a target, they used a combined model of equations (budyko and something) and used the output of THIS as the target. not necessarily as true as FLUC tower observations, BUT means that a ML models which does well with predicting this equstion can essentially reduce the complexity of the equation itself to take more simple parameters! very cool idea and need to speak about this as a potential solution/looking forward with age included somehow...? - sidesteps the 'not enough aged forest flux site' issue i will discuss.
 
@@ -27,7 +29,23 @@
 
 
 
+%%%%%%%%%%%%%%%%%%
+% ANALYSIS 1.1 - FEATURE SELECTION/MODEL SENSITIVITY
+%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%
+% ANALYSIS 1.2 - SHUFFLED
+%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%
+% ANALYSIS 1.3 - CASE STUDY
+%%%%%%%%%%%%%%%%%%
+
+% in the US-UMd, Mod+Age improves over Mod. Looking at obs vs preds can see how some winter predictions are being overestimated by Mod, and this seems corrected by Mod+Age. Comparing this to SHAP it becomes clear that overall at this site the model with age is using site age negatively so it oculd be bringing down the predictions somewhat. Likewise, an opposite response is seen with DE-Lnf where SHAP shows site age is pushing predictions higher, particularly in the autumn and winter months and is hurting the predictions.
+
+% however, looking at training dataset, the average site age is 111 years old. DE-Lnf average in the tests is 122, while US-UMd average is 94. The simplicity of this is that RF is likely using age as a site-level identifier (as site age differs minimally within sites, and maximally between sites unlike other variables which are more dynamic and direct drivers of ET). Essentially, there must be a relationship between age and ET, even if weak, in the training set (which RF learns) in which older sites have higher ET than younger sites. Therefore the RF uses site age to push ET predictions up if the site age > trining average, and down if site age < average (which is what heppens in this case). So age is being seen as a site level offset, rather than as a daily predictor.
+
+% are these issues/benefits with site age coming during winter months when the model has less variable data in other predictors to rely on, but the site age is constant and so the additive/drop of each becomes more obvious?
 
 
 

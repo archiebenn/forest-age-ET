@@ -84,6 +84,10 @@ def random_forest_normal(X, y, all_sites, case_sites, full_data, seed_list):
             # add shap columns
             fold_shap_df["site"] = site
             fold_shap_df["seed"] = seed
+            # get the original indices of the shap sampled rows
+            sample_idx = X_shap_subset.index
+            # add Date from full_data for the heatmap
+            fold_shap_df["Date"] = df_14.loc[sample_idx, "Date"].values
             # only add age if mod+age model or will crash!
             if "Site_age" in X_shap_subset.columns:
                 fold_shap_df["Site_age_raw"] = X_shap_subset["Site_age"].values
@@ -244,6 +248,11 @@ def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list)
             # add shap columns
             fold_shap_df["site"] = site
             fold_shap_df["seed"] = seed
+            # get the original indices of the shap sampled rows
+            sample_idx = X_shap_subset.index
+            # add Date from full_data for the heatmap
+            fold_shap_df["Date"] = df_14.loc[sample_idx, "Date"].values
+
             # check if age is there or will crash (not there in mod only model)
             if "Site_age" in X_shap_subset.columns:
                 fold_shap_df["Site_age_raw"] = X_shap_subset["Site_age"].values
@@ -251,7 +260,7 @@ def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list)
             shap_results_shuffled.append(fold_shap_df)
 
             # shap analysis of X_train as well for full age range of sites vs shap dependence on age plot in R later
-            X_train_shap_subset = X_train.sample(200, random_state=seed)
+            X_train_shap_subset = X_train.sample(10, random_state=seed)
             # run shap on training
             train_shap_values = explainer.shap_values(X_train_shap_subset)
             train_shap_df = pd.DataFrame(train_shap_values, columns=X_train_shap_subset.columns)
@@ -329,13 +338,13 @@ non_features = [
 
 # features (values) to drop based on model (keys)
 model_variants = {
-    "mod": ["Site_age"],
-    "mod+age": []
+    "Mod": ["Site_age"],
+    "Mod + Age": []
 }
 
 # set the two case study sites to test on
 case_sites = ["US-UMd", "DE-Lnf"]
-seeds = [1, 42, 123, 2026, 9, 25, 16, 19, 2, 30]
+seeds = [0, 1, 2, 3, 4]
 
 # set sites as groups to split by  
 site_names = df_14["Site_ID"] 
@@ -389,7 +398,7 @@ for model in model_variants:
     shap_train_list.append(shap_train_normal)
 
     # only run this second shuffling function if age is included in model othersie pointless
-    if model == "mod+age":
+    if model == "Mod + Age":
 
         # second RF run: shuffled training data ages across seed list
         preds_shuffled, stats_shuffled, shap_test_shuffled, shap_train_shuffled = random_forest_shuffle_age(X=X, y=y,

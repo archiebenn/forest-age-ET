@@ -80,10 +80,18 @@ tex_plots: ## run latex on the individual plots from tikzDevice for integration 
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_p3.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_gower_r2.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode pheat2.tex
-	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_merged1.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode case_study_bars.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode cluster_plot.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode world_sites_clusters.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode umd_main.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode umd_main2.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode lnf_main.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode lnf_main2.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode umd_shap_diff.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode lnf_shap_diff.tex
+
+
+
 
 
 diss: tex_plots ## compile diss PDF with LaTeX
