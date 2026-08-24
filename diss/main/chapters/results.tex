@@ -54,8 +54,7 @@ Results from model sensitivity testing indicate mixed model performance across t
 \subsection{Case Study of US-UMd and DE-Lnf}
 US-UMd and DE-Lnf share similar site qualities (\autoref{tab:tab:site_summary}) and both show strong R$^2$ for daily ET predictions in both models, yet the predictive performance responses in both section \ref{sec:model_sens} and section \ref{sec:sampled} were opposite when age was added as a feature to the models (for example, in \autoref{fig:paired_box}). New RF models were trained and tested using a single-site cross-validation approach and SHAP analysis was carried out on predictions (see section \ref{sec:case_study} for details). Performance results from regression metrics followed the same pattern as in sections \ref{sec:model_sens} and \ref{sec:sampled}, with R$^2$ improving in US-UMd predictions (R$^2_{Mod}$ = 0.86; R$^2_{Mod}$ = 0.90) and dropping in DE-Lnf predictions (R$^2_{Mod}$ = 0.90; R$^2_{Mod}$ = 0.86) with the addition of forest age as a feature. 
 \par \autoref{subfig:umd1} and \autoref{subfig:lnf1} display scatter plots comparing the predicted and observed daily ET from each model at the sites. Visual comparisons of these plots suggests a tightening of points relative to the 1:1 line with the addition of age at US-UMd, particularly at the extremes. At DE-Lnf, the addition of age appears to cause low observed ET to be over-predicted, particularly in winter and autumn, in an opposite response to predictions of low observed ET at US-UMd. Both models at both sites appear to under-predict peak daily ET in summer given the clustering of points below the 1:1 line at higher observed ET.
-\par The time series plots of predictions from `Mod + Age' (\autoref{subfig:umd2} and \autoref{subfig:lnf2}) indicate a strong cyclical predictive performance overall at both sites. Both models captured abnormal lows during summer months; for example, at US-UMd in summer 2011 largely captured an ET rate which is typically seen during mid-winter, demonstrating the flexibility of these models. Despite this, extreme ET peaks were missed in consecutive years at US-UMd; for example, a peak in summer 2010 was under-predicted by the model by nearly 2mm/day.
-
+\par The time series plots of predictions from `Mod + Age' (\autoref{subfig:umd2} and \autoref{subfig:lnf2}) indicate a strong cyclical predictive performance overall at both sites. Both models captured abnormal lows during summer months; for example, at US-UMd in summer 2011 largely captured an ET rate which is typically seen during mid-winter, demonstrating the flexibility of these models. Despite this, extreme ET peaks were missed in consecutive years at US-UMd; for example, a peak in summer 2010 was under-predicted by the model by nearly 2mm/day. 
 
 
 \par The SHAP feature importance order was similar at both sites
@@ -104,6 +103,29 @@ US-UMd and DE-Lnf share similar site qualities (\autoref{tab:tab:site_summary}) 
 \end{figure}
 
 
+
+\newpage
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/umd_shap_diff.pdf}}
+		\captionsetup{justification=centering}
+		\caption{}
+		\label{subfig:diff_umd}
+	\end{subfigure}
+	\hfill
+	\vspace{2em}
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/lnf_shap_diff.pdf}}
+		\captionsetup{justification=centering}
+		\caption{yer}
+		\label{subfig:diff_lnf}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption{C}
+	\label{fig:diff_umd}
+\end{figure}
 
 \begin{figure}[H]
 	\fbox{\includegraphics[width=\linewidth]{../../figures/case_study_bars.pdf}}

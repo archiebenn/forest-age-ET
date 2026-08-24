@@ -598,11 +598,11 @@ options(tikzLatexPackages = c(
 ))
 
 # main us-umd
-tikz(here("diss/figures/umd_shap_diff.tex"), width = 6, height = 5, standAlone = TRUE)
+tikz(here("diss/figures/umd_shap_diff.tex"), width = 6, height = 4, standAlone = TRUE)
 print(p_umd_shap_final)
 dev.off()
 
-tikz(here("diss/figures/lnf_shap_diff.tex"), width = 6, height = 5, standAlone = TRUE)
+tikz(here("diss/figures/lnf_shap_diff.tex"), width = 6, height = 4, standAlone = TRUE)
 print(p_lnf_shap_final)
 dev.off()
 
