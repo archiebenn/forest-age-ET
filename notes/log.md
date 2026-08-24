@@ -279,3 +279,10 @@
 - re-wrote results up to case study  
 - goal tomorrow is to finish the results for the case study and most of the temporal stuff on the 80/20 split and time series decomposition  
 - this will leave me mon-weds (and thurs on train to glasgow) to start on the discussion and hopefully get about 1000 words done, so with a few days in and after scotland i can polish it off and make it flow etc.
+
+# 24-8-26
+
+- a lot of plotting today and some writing - up to about 2000 words and need to start discussion tomorrow ideally  
+- did some nice plots and think i may have found some sort of relationship with how age affects the models  
+- being a site-level identifier, and if above average age of training, increase ET, if below, decrease (as there is a weak ET-site age (non signif) relationship)  
+- still an interesting finding, and seems to apply more hevaily during winter perdiods, possibly because other variables are less impactful here ie. lower Tair etc.  
