@@ -309,7 +309,7 @@ p_gower_r2_no_age <- df_train_sets2 %>%
     
     geom_point(aes(colour = test_site), alpha = 0.5) +
     
-    geom_smooth(method = "lm") +
+    geom_smooth(method = "lm", colour = "firebrick") +
     #geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
     
     # colour and rename key values
@@ -335,7 +335,7 @@ p_gower_r2_age <- df_train_sets2 %>%
     
     geom_point(aes(colour = test_site), alpha = 0.5) +
     
-    geom_smooth(method = "lm") +
+    geom_smooth(method = "lm", colour = "firebrick") +
     #geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
     
     # colour and rename key values
@@ -361,7 +361,7 @@ p_gower_r2_age <- df_train_sets2 %>%
 # no age
 p_side_no_age <- ggplot(df_train_sets2, aes(x = mean_age_dist, y = r2_no_age)) +
     
-  geom_smooth(method = "lm") +
+  geom_smooth(method = "lm", colour = "firebrick") +
     geom_point(aes(colour = test_site), alpha = 0.5) +
     
     theme_bw() +
@@ -385,7 +385,7 @@ p_side_no_age <- ggplot(df_train_sets2, aes(x = mean_age_dist, y = r2_no_age)) +
 # age 
 p_side_age <- ggplot(df_train_sets2, aes(x = mean_age_dist, y = r2_age)) +
     
-  geom_smooth(method = "lm") +
+  geom_smooth(method = "lm", colour = "firebrick") +
     
     geom_point(aes(colour = test_site), alpha = 0.5) +
     

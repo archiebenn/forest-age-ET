@@ -90,6 +90,179 @@
 \end{figure}
 \vspace*{\fill}
 
+
+\newpage
+\vspace*{\fill}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.9\linewidth]{../../figures/umd_main.pdf}}
+		\captionsetup{justification=centering}
+		\caption{Subset of 5000 points comparing the observed daily ET and predicted daily ET from the two RF models with a 1:1 line shown in red (perfect model line). `Mod + Age' improved prediction metrics overall compared to `Mod', with a higher R$^2$ and lower RMSE and MAE. Visually, points appear tighter to the 1:1 line at both extremes, although extreme highs in observed daily ET rates are often under-predicted in both models.}
+		\label{subfig:umd1}
+	\end{subfigure}
+	\hfill
+	\vspace{2em}
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.9\linewidth]{../../figures/lnf_main.pdf}}
+		\captionsetup{justification=centering}
+		\caption{Subset of 2500}
+		\label{subfig:lnf1}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption{Case Study plots for site US-UMd.}
+	\label{fig:umd}
+\end{figure}
+\vspace*{\fill}
+
+
+
+
+\vspace*{\fill}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.9\linewidth]{../../figures/umd_main2.pdf}}
+		\captionsetup{justification=centering}
+		\caption{Time series observed daily ET overlaid with the predicted daily ET using the `Mod + Age' RF model seen on the left, with average SHAP feature importance values across all predictions made with this model on the right. Time series plot suggests a strong fit to the observed data but with peak ET rates in extreme summers being under-predicted, in line with the shape seen in plot \subref{subfig:umd1}. Feature importance with SHAP...[CONTINUE] }
+		\label{subfig:umd2}
+	\end{subfigure}
+	\hfill
+	\vspace{2em}
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.9\linewidth]{../../figures/lnf_main2.pdf}}
+		\captionsetup{justification=centering}
+		\caption{M.}
+		\label{subfig:lnf2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption{Case Study plots for site DE-Lnf.}
+	\label{fig:lnf}
+\end{figure}
+\vspace*{\fill}
+
+
+\newpage
+\vspace*{\fill}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/umd_shap_diff.pdf}}
+		\captionsetup{justification=centering}
+		\caption{}
+		\label{subfig:diff_umd}
+	\end{subfigure}
+	\hfill
+	\vspace{2em}
+	\begin{subfigure}[t]{\linewidth}
+		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/lnf_shap_diff.pdf}}
+		\captionsetup{justification=centering}
+		\caption{yer}
+		\label{subfig:diff_lnf}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption{C}
+	\label{fig:diff_umd}
+\end{figure}
+
+\newpage
+\vspace*{\fill}
+\begin{figure}[H]
+	\fbox{\includegraphics[width=0.9\linewidth]{../../figures/umd_scatter.pdf}}
+	\captionsetup{justification=centering}
+	\caption{yh}
+	\label{fig:umd_scatter}
+\end{figure}
+
+\begin{table}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Multiple linear regression model results for US-UMd \parencite{stargazer}}
+	\label{tab:mlr_umd} 
+	\begin{tabular}{@{\extracolsep{5pt}}lc} 
+		\\[-1.8ex]\hline 
+		\hline \\[-1.8ex] 
+		& \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
+		\cline{2-2} 
+		\\[-1.8ex] & ET\_diff \\ 
+		\hline \\[-1.8ex] 
+		Site\_age & 2.467$^{***}$ \\ 
+		& (0.049) \\ 
+		cos\_DOY & $-$0.064$^{***}$ \\ 
+		& (0.007) \\ 
+		SW\_rad & 0.004 \\ 
+		& (0.005) \\ 
+		Constant & 0.131$^{***}$ \\ 
+		& (0.004) \\ 
+		\hline \\[-1.8ex] 
+		Observations & 1,250 \\ 
+		R$^{2}$ & 0.766 \\ 
+		Adjusted R$^{2}$ & 0.766 \\ 
+		Residual Std. Error & 0.058 (df = 1246) \\ 
+		F Statistic & 1,361.375$^{***}$ (df = 3; 1246) \\ 
+		\hline 
+		\hline \\[-1.8ex] 
+		\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+	\end{tabular}
+\end{table}
+\vspace*{\fill}
+
+
+\newpage
+\vspace*{\fill}
+\begin{figure}[H]
+	\fbox{\includegraphics[width=0.9\linewidth]{../../figures/lnf_scatter.pdf}}
+	\captionsetup{justification=centering}
+	\caption{bbb}
+	\label{fig:lnf_scatter}
+\end{figure}
+
+\begin{table}[h]
+	\centering
+	%\rowcolors{2}{white}{gray!7}
+	\captionsetup{justification=centering}
+	\caption{Multiple linear regression model results for DE-Lnf \parencite{stargazer}}
+	\label{tab:mlr_lnf} 
+	\begin{tabular}{@{\extracolsep{5pt}}lc} 
+		\\[-1.8ex]\hline 
+		\hline \\[-1.8ex] 
+		& \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
+		\cline{2-2} 
+		\\[-1.8ex] & ET\_diff \\ 
+		\hline \\[-1.8ex] 
+		Site\_age & 2.494$^{***}$ \\ 
+		& (0.036) \\ 
+		cos\_DOY & $-$0.036$^{***}$ \\ 
+		& (0.006) \\ 
+		SW\_rad & 0.043$^{***}$ \\ 
+		& (0.007) \\ 
+		Constant & $-$0.117$^{***}$ \\ 
+		& (0.003) \\ 
+		\hline \\[-1.8ex] 
+		Observations & 1,250 \\ 
+		R$^{2}$ & 0.830 \\ 
+		Adjusted R$^{2}$ & 0.829 \\ 
+		Residual Std. Error & 0.060 (df = 1246) \\ 
+		F Statistic & 2,025.979$^{***}$ (df = 3; 1246) \\ 
+		\hline 
+		\hline \\[-1.8ex] 
+		\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+	\end{tabular} 
+\end{table}
+\vspace*{\fill}
+
+
+\newpage
+\vspace*{\fill}
+\begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/case_study_bars.pdf}}
+	\captionsetup{justification=centering}
+	\caption{Bar plot showing the effect of different model setups on R$^2$ at DE-Lnf and US-UMd, with error bars indicating standard error. To assess whether site age was acting as a proxy for other site-level characteristics in these models, a model which randomly shuffled ages between sites was also formed using identical seeds and LOGO approach. Predictions form the `shuffled age' model resulted in an increased R$^2$ at DE-Lnf compared to the `Mod + Age' model, where an opposite effect was observed at US-UMd, consistent with previous findings between the two models. This suggests that both models are learning from true age-ET relationships}
+	\label{fig:case_study_bars}
+\end{figure}
+\vspace*{\fill}
+
+
 %Yes, that's fine — actually it's a strength, not a problem. You're testing mean_age_dist against R² separately in both models (Mod and Mod+Age), which lets you ask:
 %In Mod (no age feature at all): does age-distance still hurt predictions, purely through whatever confounded pathway (e.g. correlated with other environmental features)? Yes, it does (significant, β = −0.0064).
 %In Mod + Age (age included as a feature): does age-distance still hurt predictions, even though the model now has direct access to age information and should theoretically be able to compensate/extrapolate more sensibly? Also yes (significant, β = −0.0056).

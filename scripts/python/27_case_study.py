@@ -77,7 +77,7 @@ def random_forest_normal(X, y, all_sites, case_sites, full_data, seed_list):
             # shap analysis on a subset of X_test (was massively slowing down script)
             explainer = shap.TreeExplainer(rf)
             # random 250 rows of X_test with seed
-            X_shap_subset = X_test.sample(250, random_state=seed)
+            X_shap_subset = X_test.sample(2, random_state=seed)
             # run shap
             shap_values = explainer.shap_values(X_shap_subset)
             fold_shap_df = pd.DataFrame(shap_values, columns=X_shap_subset.columns)            
@@ -95,7 +95,7 @@ def random_forest_normal(X, y, all_sites, case_sites, full_data, seed_list):
             shap_results.append(fold_shap_df)
 
             # shap analysis of X_train as well for full age range of sites vs shap dependence on age plot in R later
-            X_train_shap_subset = X_train.sample(200, random_state=seed)
+            X_train_shap_subset = X_train.sample(2, random_state=seed)
             # run shap on training
             train_shap_values = explainer.shap_values(X_train_shap_subset)
             train_shap_df = pd.DataFrame(train_shap_values, columns=X_train_shap_subset.columns)
@@ -241,7 +241,7 @@ def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list)
             # shap analysis on a subset of X_test (was massively slowing down script)
             explainer = shap.TreeExplainer(rf)
             # random 250 rows of X_test with seed
-            X_shap_subset = X_test.sample(250, random_state=seed)
+            X_shap_subset = X_test.sample(2, random_state=seed)
             # run shap
             shap_values = explainer.shap_values(X_shap_subset)
             fold_shap_df = pd.DataFrame(shap_values, columns=X_shap_subset.columns)
@@ -260,7 +260,7 @@ def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list)
             shap_results_shuffled.append(fold_shap_df)
 
             # shap analysis of X_train as well for full age range of sites vs shap dependence on age plot in R later
-            X_train_shap_subset = X_train.sample(10, random_state=seed)
+            X_train_shap_subset = X_train.sample(2, random_state=seed)
             # run shap on training
             train_shap_values = explainer.shap_values(X_train_shap_subset)
             train_shap_df = pd.DataFrame(train_shap_values, columns=X_train_shap_subset.columns)
@@ -298,6 +298,81 @@ def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list)
     # return out preds, stats, and shap dfs
     return preds_results_shuffled, pd.DataFrame(stats_results_shuffled), shap_results_shuffled, shap_train_results_shuffled
     
+
+
+
+# 2.3 RANDOM FOREST EXACT REVERSED AGE
+def random_forest_reverse_age(X, y, all_sites, case_sites, full_data, seed_list):
+
+    params = {
+            "n_estimators": 350, 
+            "max_depth": 17, 
+            "min_samples_leaf": 19,
+            "max_features": 0.35
+        }
+
+    preds_results_reversed = []
+    stats_results_reversed = []
+
+
+    for site in case_sites:
+
+        train_idx = all_sites[all_sites != site].index
+        test_idx = all_sites[all_sites == site].index
+
+        X_train, X_test = X.loc[train_idx], X.loc[test_idx]
+        y_train, y_test = y.loc[train_idx], y.loc[test_idx]
+
+        site_id_train = all_sites.loc[train_idx]
+        sites = site_id_train.unique()
+
+        # get one representative (mean) age per training site, then build reversal map
+        site_mean_ages = X_train.groupby(site_id_train)["Site_age"].mean()
+        sorted_sites = site_mean_ages.sort_values().index.to_numpy()
+        reversed_sites = sorted_sites[::-1]
+        
+        # map: site -> the age-rank-mirrored site's age value
+        reversal_map = dict(zip(sorted_sites, site_mean_ages.loc[reversed_sites].values))
+
+        for i, seed in enumerate(seed_list, start=1):
+
+            X_train_reversed = X_train.copy()
+
+            for s in sites:
+
+                # get the index of site in training data
+                s_idx = site_id_train[site_id_train == s].index
+                # replace this site's age with its mirrored counterpart's age
+                X_train_reversed.loc[s_idx, "Site_age"] = reversal_map[s]
+
+            rf = RandomForestRegressor(**params, 
+                                       random_state=seed, 
+                                       n_jobs=-2)
+            
+            rf.fit(X_train_reversed, y_train)
+
+            # preds and stats
+            preds = rf.predict(X_test)
+            rmse = np.sqrt(mean_squared_error(y_test, preds))
+            r2 = r2_score(y_test, preds)
+            mae = mean_absolute_error(y_test, preds)
+
+            # take the full original rows for this fold and append predictions to it
+            fold_df = full_data.loc[test_idx].copy()
+            fold_df["observed_ET"] = y_test.values
+            fold_df["predicted_ET"] = preds
+            fold_df["seed"] = seed
+
+            # appending to lists
+            preds_results_reversed.append(fold_df)
+            stats_results_reversed.append({"site": site, "seed": seed, "rmse": rmse, "mae": mae, "r2": r2})
+
+
+            print(f"REVERSED RF test site {site} complete for seed {i}/{len(seed_list)}.")
+
+    preds_results_reversed = pd.concat(preds_results_reversed, ignore_index=True)
+
+    return preds_results_reversed, pd.DataFrame(stats_results_reversed)
 
 
 
@@ -383,13 +458,13 @@ for model in model_variants:
 
     # add columns for if results are from shuffled or not, and model used to generate them
     preds_normal["model"] = model
-    preds_normal["shuffled"] = False
+    preds_normal["age_transform"] = "normal"
     stats_normal["model"] = model
-    stats_normal["shuffled"] = False   
+    stats_normal["age_transform"] = "normal"   
     shap_test_normal["model"] = model
-    shap_test_normal["shuffled"] = False
+    shap_test_normal["age_transform"] = "normal"
     shap_train_normal["model"] = model
-    shap_train_normal["shuffled"] = False
+    shap_train_normal["age_transform"] = "normal"
 
     # now append these to main out lists of results
     stats_list.append(stats_normal)
@@ -409,19 +484,34 @@ for model in model_variants:
 
         # add columns for if results are from shuffled or not, and model used to generate them
         preds_shuffled["model"] = model
-        preds_shuffled["shuffled"] = True
+        preds_shuffled["age_transform"] = "shuffled"
         stats_shuffled["model"] = model
-        stats_shuffled["shuffled"] = True   
+        stats_shuffled["age_transform"] = "shuffled" 
         shap_test_shuffled["model"] = model
-        shap_test_shuffled["shuffled"] = True
+        shap_test_shuffled["age_transform"] = "shuffled"
         shap_train_shuffled["model"] = model
-        shap_train_shuffled["shuffled"] = True
+        shap_train_shuffled["age_transform"] = "shuffled"
 
         # append shuffled to main results lists
         stats_list.append(stats_shuffled)
         preds_list.append(preds_shuffled)
         shap_test_list.append(shap_test_shuffled)
         shap_train_list.append(shap_train_shuffled)
+
+        # third RF run: reversed age ranking across seed list (no SHAP - stats/preds only)
+        preds_reversed, stats_reversed = random_forest_reverse_age(X=X, y=y,
+                                                                    all_sites=site_names,
+                                                                    case_sites=case_sites,
+                                                                    full_data=df_14,
+                                                                    seed_list=seeds)
+
+        preds_reversed["model"] = model
+        preds_reversed["age_transform"] = "reversed"
+        stats_reversed["model"] = model
+        stats_reversed["age_transform"] = "reversed"
+
+        stats_list.append(stats_reversed)
+        preds_list.append(preds_reversed)
 
     print(f"Run for {model} model complete")
 
@@ -433,10 +523,10 @@ shap_test_df = pd.concat(shap_test_list, ignore_index=True)
 shap_train_df = pd.concat(shap_train_list, ignore_index=True)
 
 # and write all out
-stats_df.to_csv("data/main/27_case_study/stats.csv", index=False)
-preds_df.to_csv("data/main/27_case_study/preds.csv", index=False)
-shap_test_df.to_csv("data/main/27_case_study/test_shap.csv", index=False)
-shap_train_df.to_csv("data/main/27_case_study/train_shap.csv", index=False)
+stats_df.to_csv("data/main/27_case_study/stats2.csv", index=False)
+preds_df.to_csv("data/main/27_case_study/preds2.csv", index=False)
+shap_test_df.to_csv("data/main/27_case_study/test_shap2.csv", index=False)
+shap_train_df.to_csv("data/main/27_case_study/train_shap2.csv", index=False)
 
 
 print("case_study.py complete")

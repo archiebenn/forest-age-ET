@@ -1,0 +1,127 @@
+---
+title: "30_case_study_analysis2.Rmd"
+output: html_document
+date: "2026-08-25"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+rm(list = ls())
+
+library(tidyverse)
+library(here)
+library(ltc)
+library(ggrepel)
+library(gridExtra)
+library(tikzDevice)
+library(conflicted)
+library(patchwork)
+library(stargazer)
+library(modelsummary)
+```
+
+
+# analysis of case study: US-Umd and DE-Lnf medoid sites  
+## part 4 - manipulating site ages experiment
+
+```{r}
+conflicts_prefer(dplyr::filter)
+conflicts_prefer(here::here)
+
+df_14 <- read_csv(here("data/main/14_pre_processing/df_ml_ready.csv"))
+df_stats <- read_csv(here("data/main/27_case_study/stats.csv"))
+df_preds <- read_csv(here("data/main/27_case_study/preds.csv"))
+```
+
+
+
+```{r}
+# standard error function
+se <- function(x) {sd(x) / sqrt(length(x))}
+
+# colours
+pal = ltc(casa_natal)
+
+# bar plot
+p1 <- df_stats %>%
+    
+    # group by conditions
+    group_by(site, model, shuffled) %>%
+    
+    # stats per combination
+    summarise(mean_r2 = mean(r2),
+              se_r2 = se(r2),
+              sd_r2 = sd(r2),
+              .groups = "drop") %>%
+    
+    # plot bar chart with the fill as interaction between model and shuffles boolean value
+    ggplot(aes(x = interaction(model, shuffled), y = mean_r2, fill = interaction(model, shuffled))) +
+    
+    # columns and standard error bars
+    geom_col(position = "dodge", 
+             width = 0.75, 
+             alpha = 0.75,
+             colour = "black", 
+             linewidth = 0.2) +
+    
+    geom_errorbar(aes(ymin = mean_r2 - se_r2, ymax = mean_r2 + se_r2),
+                position = position_dodge(0.9), width = 0.2) +
+    
+    # aesthetics
+    theme_bw() +
+    ylab("R$^2$") +
+    scale_fill_manual(values = pal, 
+                      labels = c("Mod.FALSE" = "Mod",
+                                  "Mod + Age.FALSE" = "Mod + Age",
+                                  "Mod + Age.TRUE" = "Mod + Shuffled Age")) +
+    
+    # zoom y
+    coord_cartesian(ylim = c(0.75, 0.9)) +
+    facet_wrap(~site) +
+    xlab("") +
+    theme(legend.position = "top", 
+          axis.ticks.x = element_blank(),
+          axis.text.x = element_blank()) +
+    labs(fill = "RF Model") 
+    
+
+p1
+
+```
+
+```{r}
+# plot as TikZ object for integration into LaTeX
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{MinionPro}\n",
+    "\\usepackage{MnSymbol}\n"
+))
+
+# p1
+tikz(here("diss/figures/case_study_bars.tex"), width = 6, height = 4, standAlone = TRUE)
+print(p1)
+dev.off()
+
+```
+
+```{r}
+summary_stats <- df_stats %>%
+    
+    # group by conditions
+    group_by(site, model, shuffled) %>%
+    
+    # stats per combination
+    summarise(mean_r2 = mean(r2),
+              mean_mae = mean(mae),
+              mean_rmse = mean(rmse),
+              sd_r2 = sd(r2),
+              .groups = "drop")
+```
+
+
+
+
+
+
+

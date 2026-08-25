@@ -431,6 +431,7 @@ dependencies:
   - r-sparsem=1.84_2=r45heaba542_1
   - r-sparsevctrs=0.3.6=r45h54b55ab_0
   - r-squarem=2026.1=r45hc72bb7e_0
+  - r-stargazer=5.2.3=r45hc72bb7e_4
   - r-stringi=1.8.7=r45h3d52c89_2
   - r-stringr=1.6.0=r45h785f33e_0
   - r-styler=1.11.0=r45hc72bb7e_0

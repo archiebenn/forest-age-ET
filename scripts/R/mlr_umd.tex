@@ -1,0 +1,36 @@
+\begin{table}
+\centering
+\begin{talltblr}[         %% tabularray outer open
+caption={Regression of \$\textbackslash{}Delta\$ET on Site\textbackslash{}\_age SHAP and seasonal predictors},
+note{}={+ p \num{< 0.1}, * p \num{< 0.05}, ** p \num{< 0.01}, *** p \num{< 0.001}},
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]Q[]},
+hline{2}={1-3}{solid, black, 0.05em},
+hline{16}={1-3}{solid, black, 0.05em},
+hline{1}={1-3}{solid, black, 0.08em},
+hline{20}={1-3}{solid, black, 0.08em},
+column{2-3}={}{halign=c},
+column{1}={}{halign=l},
+}                     %% tabularray inner close
+& Mod (3 predictors) & Mod (full) \\
+(Intercept) & \num{0.131}*** & \num{0.145}*** \\
+& (\num{0.004}) & (\num{0.005}) \\
+Site\textbackslash{}\_age & \num{2.467}*** & \num{2.605}*** \\
+& (\num{0.049}) & (\num{0.057}) \\
+cos\textbackslash{}\_DOY & \num{-0.064}*** & \num{-0.043}*** \\
+& (\num{0.007}) & (\num{0.008}) \\
+SW\textbackslash{}\_rad & \num{0.004} & \num{0.007} \\
+& (\num{0.005}) & (\num{0.007}) \\
+Tair &  & \num{-0.031}+ \\
+&  & (\num{0.017}) \\
+Lai\textbackslash{}\_500m &  & \num{-0.042}** \\
+&  & (\num{0.015}) \\
+VPD &  & \num{-0.006} \\
+&  & (\num{0.035}) \\
+Num.Obs. & \num{1250} & \num{1250} \\
+R2 & \num{0.766} & \num{0.771} \\
+R2 Adj. & \num{0.766} & \num{0.770} \\
+RMSE & \num{0.06} & \num{0.06} \\
+\end{talltblr}
+\end{table}

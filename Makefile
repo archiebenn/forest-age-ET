@@ -89,6 +89,8 @@ tex_plots: ## run latex on the individual plots from tikzDevice for integration 
 	cd diss/figures && pdflatex -interaction=nonstopmode lnf_main2.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode umd_shap_diff.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode lnf_shap_diff.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode lnf_scatter.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode umd_scatter.tex
 
 
 

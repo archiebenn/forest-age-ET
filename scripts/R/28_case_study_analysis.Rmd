@@ -17,6 +17,8 @@ library(gridExtra)
 library(tikzDevice)
 library(conflicted)
 library(patchwork)
+library(stargazer)
+library(modelsummary)
 ```
 
 # analysis of case study: US-Umd and DE-Lnf medoid sites  
@@ -161,75 +163,7 @@ p_DE_Lnf <- plotter_r2("DE-Lnf")
 p_DE_Lnf 
 ```
 
-## 2. shap stats
 
-```{r}
-# standard error function
-se <- function(x) {sd(x) / sqrt(length(x))}
-
-# colours
-pal = ltc(casa_natal)
-
-# bar plot
-p1 <- df_stats %>%
-    
-    # group by conditions
-    group_by(site, model, shuffled) %>%
-    
-    # stats per combination
-    summarise(mean_r2 = mean(r2),
-              se_r2 = se(r2),
-              sd_r2 = sd(r2),
-              .groups = "drop") %>%
-    
-    # plot bar chart with the fill as interaction between model and shuffles boolean value
-    ggplot(aes(x = interaction(model, shuffled), y = mean_r2, fill = interaction(model, shuffled))) +
-    
-    # columns and standard error bars
-    geom_col(position = "dodge", 
-             width = 0.75, 
-             alpha = 0.75,
-             colour = "black", 
-             linewidth = 0.2) +
-    
-    geom_errorbar(aes(ymin = mean_r2 - se_r2, ymax = mean_r2 + se_r2),
-                position = position_dodge(0.9), width = 0.2) +
-    
-    # aesthetics
-    theme_bw() +
-    ylab("R$^2$") +
-    scale_fill_manual(values = pal, 
-                      labels = c("mod.FALSE" = "Mod",
-                                  "mod+age.FALSE" = "Mod + Age",
-                                  "mod+age.TRUE" = "Mod + Shuffled Age")) +
-    
-    # zoom y
-    coord_cartesian(ylim = c(0.75, 0.9)) +
-    facet_wrap(~site) +
-    xlab("") +
-    theme(legend.position = "top", 
-          axis.ticks.x = element_blank(),
-          axis.text.x = element_blank()) +
-    labs(fill = "RF Model")
-
-p1
-
-```
-
-```{r}
-# plot as TikZ object for integration into LaTeX
-options(tikzLatexPackages = c(
-    getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
-))
-
-# p1
-#tikz(here("diss/figures/case_study_bars.tex"), width = 6, height = 4, standAlone = TRUE)
-#print(p1)
-#dev.off()
-
-```
 
 ```{r}
 # bar plot
@@ -300,6 +234,11 @@ df_shap_test2 <- df_shap_test %>%
 ```{r}
 preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val = FALSE){
     
+    # palettes
+    pal6 = ltc("paloma")
+    pal3 <- ltc("midnight")
+    pal4 <- ltc("pantone23")
+    
     # get r2 and rmse form stats_df
     stats_sub <- stats_df %>%
         filter(model == mod, site == site_id, shuffled == shuffled_val) %>%
@@ -320,8 +259,8 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
         
         
         # fit observed and predicted to same plot
-        geom_line(aes(y = observed_ET, colour = "Observed"), alpha = 0.6) +
-        geom_line(aes(y = predicted_ET, colour = "Predicted"), alpha = 0.6) +
+        geom_line(aes(y = observed_ET, colour = "Observed"), alpha = 0.75) +
+        geom_line(aes(y = predicted_ET, colour = "Predicted"), alpha = 0.75) +
         
         ylab("Daily ET (mm)") +
         
@@ -329,7 +268,7 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
         
         # legend
         scale_colour_manual(name = NULL, 
-                             values = c("Observed" = pal3[1], "Predicted" = pal3[3])) +
+                             values = c("Observed" = pal6[1], "Predicted" = pal6[5])) +
         
         # move legend to bottom
         theme(legend.position = "bottom") 
@@ -374,10 +313,10 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
         # aesthetics
         theme_minimal() +
         xlab("Features in Model") +
-        ylab("SHAP value") +
+        ylab("Absolute SHAP value") +
         ggtitle("SHAP feature importance") +
         scale_fill_manual(name = NULL,
-                          values = c("TRUE" = pal3[1], "FALSE" = pal3[3]), 
+                          values = c("TRUE" = pal3[3], "FALSE" = pal4[3]), 
                           labels = c("TRUE" = "+ Impact", "FALSE" = "- Impact")) +
         
         # move legend to bottom
@@ -397,8 +336,6 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
 
 
 ```{r}
-pal3 <- ltc("dora")
-
 # US-UMd
 p_no_age_umd <- preds_with_SHAP("Mod", "US-UMd", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
 p_age_umd <- preds_with_SHAP("Mod + Age", "US-UMd", df_preds_rename, df_stats2, df_shap_test2, shuffled_val = FALSE)
@@ -453,7 +390,8 @@ dev.off()
 shap_heatmap <- function(shap_df, pred_data, site_id, shuffled_val = FALSE){
     
     # same palette as before
-    pal3 <- ltc("dora")
+    pal3 <- ltc("midnight")
+    pal4 <- ltc("pantone23")
     
     # first, convert to long 
     shap_long <- shap_df %>%
@@ -492,9 +430,9 @@ shap_heatmap <- function(shap_df, pred_data, site_id, shuffled_val = FALSE){
         # gradient for SHAP values
         scale_fill_gradient2(
             name = "SHAP value (weekly mean)",
-            low = pal3[3],
+            low = pal4[3],
             mid = "white",
-            high = pal3[1],
+            high = pal3[3],
             midpoint = 0
         ) +
             
@@ -611,10 +549,125 @@ dev.off()
 
 
 
+### testing real correletion between site age and delta ET
+- this will check statistically and on a scatter whether the SHAP vlues of site_age actually line up with the change in ET between the predictions  
+- checks on raw/daily values, not weekly (that was just for heatmap visualisation)  
+
+```{r}
+age_driver_check <- function(site_id){
+    
+    # get diff in predictions (same as difference_plotter)
+    df_diff <- df_preds_rename %>%
+        
+        # only non-shuffled ages
+        filter(site == site_id, shuffled == FALSE) %>%
+        
+         group_by(Date, model) %>%
+
+        
+        summarise(predicted_ET = mean(predicted_ET), .groups = "drop") %>%
+        
+        pivot_wider(names_from = model, values_from = predicted_ET) %>%
+        
+        # difference in ET values om models per day 
+        mutate(ET_diff = `Mod + Age` - Mod) %>%
+            
+        select(Date, ET_diff)
+    
+    # get raw (non-weekly-averaged) SHAP values for the three features of interest
+    df_shap_vals <- df_shap_test2 %>%
+        
+        # shap for mod+age
+        filter(model == "Mod + Age", site == site_id, shuffled == FALSE) %>%
+        
+        # take these predictors as they are both dominant in the two sites
+        select(Date, Site_age, cos_DOY, SW_rad, Tair, Lai_500m, VPD)
+    
+    # join on date
+    df_join <- df_diff %>%
+        inner_join(df_shap_vals, by = "Date")
+    
+    # simple correlations
+    cors <- df_join %>%
+        summarise(
+            cor_age    = cor(ET_diff, Site_age, use = "complete.obs"),
+            cor_cosDOY = cor(ET_diff, cos_DOY, use = "complete.obs"),
+            cor_SWrad  = cor(ET_diff, SW_rad, use = "complete.obs")
+        )
+    
+    # multi linear regression can show contribution of Site_age once
+    # cos_DOY and SW_rad SHAP are controlled for
+    mod1 <- lm(ET_diff ~ Site_age + cos_DOY + SW_rad, data = df_join)
+
+    # scatter to sanity-check against the time series impression
+    p_scatter <- df_join %>%
+        ggplot(aes(x = Site_age, y = ET_diff)) +
+        
+        # lines to highlight quadrants
+        geom_hline(yintercept = 0, linetype = "dashed", colour = "firebrick")+
+        geom_vline(xintercept = 0, linetype = "dashed", colour = "firebrick") +
+        
+        geom_point(alpha = 0.25) +
+        geom_smooth(method = "lm", colour = "steelblue") +
+        theme_minimal() +
+        ggtitle(paste(site_id)) +
+        xlab("Site Age SHAP value") +
+        ylab("$\\Delta$Predicted ET \nMod + Age - Mod (mm/day)")
+    
+    # list of four accessible elements via console
+    list_res <- list(
+        model1 = mod1,
+        correlations = cors,
+        model1_summary = summary(mod1),
+        scatter_plot = p_scatter,
+        joined_data = df_join
+    )
+    
+    return(list_res)
+}
+```
+
+```{r}
+# run the above for both sites
+res_umd <- age_driver_check("US-UMd")
+res_lnf <- age_driver_check("DE-Lnf")
+
+res_umd$correlations
+res_umd$model1_summary
+res_umd_scatter <- res_umd$scatter_plot
+
+res_lnf$correlations
+res_lnf$model1_summary
+res_lnf_scatter <- res_lnf$scatter_plot
+res_lnf$scatter
+
+```
+
+```{r}
+# regression model tables
+stargazer::stargazer(res_lnf$model1, type = "latex") 
 
 
+```
 
 
+```{r}
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{MinionPro}\n",
+    "\\usepackage{MnSymbol}\n"
+))
+
+# main us-umd
+tikz(here("diss/figures/umd_scatter.tex"), width = 6, height = 4, standAlone = TRUE)
+print(res_umd_scatter)
+dev.off()
+
+tikz(here("diss/figures/lnf_scatter.tex"), width = 6, height = 4, standAlone = TRUE)
+print(res_lnf_scatter)
+dev.off()
+
+```
 
 
 
