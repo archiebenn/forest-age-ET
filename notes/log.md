@@ -286,3 +286,8 @@
 - did some nice plots and think i may have found some sort of relationship with how age affects the models  
 - being a site-level identifier, and if above average age of training, increase ET, if below, decrease (as there is a weak ET-site age (non signif) relationship)  
 - still an interesting finding, and seems to apply more hevaily during winter perdiods, possibly because other variables are less impactful here ie. lower Tair etc.  
+
+# 25-8-26
+
+- carried on and finished results today eventually and currently at 2800 words when i should be at about 2000, but finished all plots etc.
+- tomorrow i will start the discussion
