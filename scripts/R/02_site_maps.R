@@ -13,6 +13,22 @@ library(tikzDevice)
 library(ltc)
 library(tidyplots)
 
+# serif plots
+options(tikzLatexPackages = c(
+    getOption("tikzLatexPackages"),
+    "\\usepackage{tgheros}",
+    "\\renewcommand{\\familydefault}{\\sfdefault}",
+    "\\usepackage{sansmath}",
+    "\\sansmath"
+))
+
+# minion pro plots
+#options(tikzLatexPackages = c(
+#    getOption("tikzLatexPackages"),
+#    "\\usepackage{MinionPro}\n",
+#    "\\usepackage{MnSymbol}\n"
+#))
+
 # attach LATEST main fluxnet df after site selections etc. (22-7-2026)
 sites <- read_csv("data/main/20_gower/df_clustered.csv")
 medoids <- read_csv("data/main/20_gower/df_cluster_labels.csv")
@@ -103,11 +119,6 @@ p_clusters
 
 
 # plot as TikZ object for integration into LaTeX
-options(tikzLatexPackages = c(
-    getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
-))
 #tikz("diss/figures/world_sites.tex", width = 6, height = 3, standAlone = TRUE)
 #print(p)
 #dev.off()

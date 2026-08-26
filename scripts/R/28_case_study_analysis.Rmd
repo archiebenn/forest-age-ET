@@ -18,7 +18,23 @@ library(tikzDevice)
 library(conflicted)
 library(patchwork)
 library(stargazer)
-library(modelsummary)
+
+# serif plots
+options(tikzLatexPackages = c(
+  getOption("tikzLatexPackages"),
+  "\\usepackage{tgheros}",
+  "\\renewcommand{\\familydefault}{\\sfdefault}",
+  "\\usepackage{sansmath}",
+  "\\sansmath"
+))
+
+# minion pro plots
+#options(tikzLatexPackages = c(
+#    getOption("tikzLatexPackages"),
+#    "\\usepackage{MinionPro}\n",
+#    "\\usepackage{MnSymbol}\n"
+#))
+
 ```
 
 # analysis of case study: US-Umd and DE-Lnf medoid sites  
@@ -131,15 +147,15 @@ plotter_r2 <- function(testing_site){
     
     # add mean R2 and RMSE and MAE (separately to fix in-line issue)
      geom_text(data = df_preds_stats_rounded %>% filter(site == testing_site, shuffled != TRUE),
-          aes(x = -Inf, y = Inf, label = paste0("$\\overline{\\mathrm{R^2}}$ = ", mean_r2)),
+          aes(x = -Inf, y = Inf, label = paste0("$\\overline{R^2} = ", mean_r2, "$")),
           hjust = -0.15, vjust = 2, size = 3.5, inherit.aes = FALSE) +
         
     geom_text(data = df_preds_stats_rounded %>% filter(site == testing_site, shuffled != TRUE),
-          aes(x = -Inf, y = Inf, label = paste0("$\\overline{\\mathrm{RMSE}}$ = ", mean_rmse, " mm/day")),
+          aes(x = -Inf, y = Inf, label = paste0("$\\overline{RMSE} = ", mean_rmse, "$\\,mm/day")),
           hjust = -0.1, vjust = 4, size = 3.5, inherit.aes = FALSE) +
         
     geom_text(data = df_preds_stats_rounded %>% filter(site == testing_site, shuffled != TRUE),
-          aes(x = -Inf, y = Inf, label = paste0("$\\overline{\\mathrm{MAE}}$ = ", mean_mae, " mm/day")),
+          aes(x = -Inf, y = Inf, label = paste0("$\\overline{MAE} = ", mean_mae, "$\\,mm/day")),
           hjust = -0.1, vjust = 6, size = 3.5, inherit.aes = FALSE) +
         
         facet_wrap(~model, labeller = mod_labeller)
@@ -163,54 +179,6 @@ p_DE_Lnf <- plotter_r2("DE-Lnf")
 p_DE_Lnf 
 ```
 
-
-
-```{r}
-# bar plot
-p2 <- df_stats %>%
-    
-    # group by conditions
-    group_by(site, model, shuffled) %>%
-    
-    # stats per combination
-    summarise(mean_rmse = mean(rmse),
-              se_rmse = se(rmse),
-              sd_rmse = sd(rmse),
-              .groups = "drop") %>%
-    
-    # plot bar chart with the fill as interaction between model and shuffles boolean value
-    ggplot(aes(x = interaction(model, shuffled), y = mean_rmse, fill = interaction(model, shuffled))) +
-    
-    # columns and standard error bars
-    geom_col(position = "dodge", 
-             width = 0.75, 
-             alpha = 0.85,
-             colour = "black", 
-             linewidth = 0.2) +
-    
-    geom_errorbar(aes(ymin = mean_rmse - se_rmse, ymax = mean_rmse + se_rmse),
-                position = position_dodge(0.9), width = 0.2) +
-    
-    # aesthetics
-    theme_bw() +
-    ylab("RMSE") +
-    scale_fill_manual(values = pal, 
-                      labels = c("mod.FALSE" = "Mod",
-                                  "mod+age.FALSE" = "Mod + Age",
-                                  "mod+age.TRUE" = "Mod + Shuffled Age")) +
-    
-    # zoom y
-    #coord_cartesian(ylim = c(0.75, 0.9)) +
-    facet_wrap(~site) +
-    xlab("") +
-    theme(legend.position = "top", 
-          axis.ticks.x = element_blank(),
-          axis.text.x = element_blank()) +
-    labs(fill = "RF Model")
-
-#p2
-
-```
 
 # SHAP stuff
 using a function from script 17
@@ -312,9 +280,9 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
         
         # aesthetics
         theme_minimal() +
-        xlab("Features in Model") +
+        xlab("Features") +
         ylab("Absolute SHAP value") +
-        ggtitle("SHAP feature importance") +
+        ggtitle("SHAP importance") +
         scale_fill_manual(name = NULL,
                           values = c("TRUE" = pal3[3], "FALSE" = pal4[3]), 
                           labels = c("TRUE" = "+ Impact", "FALSE" = "- Impact")) +
@@ -356,12 +324,6 @@ p_no_age_umd
 
 ```{r}
 # plot as TikZ object for integration into LaTeX
-options(tikzLatexPackages = c(
-    getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
-))
-
 # main us-umd
 tikz(here("diss/figures/umd_main.tex"), width = 6, height = 4, standAlone = TRUE)
 print(p_US_UMd)
@@ -529,12 +491,6 @@ p_lnf_shap_final
 ```{r}
 # save both of these plots
 # plot as TikZ object for integration into LaTeX
-options(tikzLatexPackages = c(
-    getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
-))
-
 # main us-umd
 tikz(here("diss/figures/umd_shap_diff.tex"), width = 6, height = 4, standAlone = TRUE)
 print(p_umd_shap_final)
@@ -652,12 +608,6 @@ stargazer::stargazer(res_lnf$model1, type = "latex")
 
 
 ```{r}
-options(tikzLatexPackages = c(
-    getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
-))
-
 # main us-umd
 tikz(here("diss/figures/umd_scatter.tex"), width = 6, height = 4, standAlone = TRUE)
 print(res_umd_scatter)
@@ -743,7 +693,13 @@ p_age_et <- df_cs_training %>%
     geom_smooth(method = "lm") +
     ylab("ET (mm/day)") +
     xlab("Mean Site Age in Training Data (years)") +
-    facet_wrap(~metric)
+    facet_wrap(~metric) +
+    
+    # add medoid ids
+    geom_text_repel(aes(label = case_when(Site_ID %in% c("US-UMd", "DE-Lnf") ~ Site_ID)),
+                min.segment.length = 2,
+                force = 150,
+                box.padding = 1.25)
 
 
 p_age_et

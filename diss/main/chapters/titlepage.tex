@@ -5,13 +5,33 @@
 % -sum=1,1,0,0,0,0,0 does normal words + headers, no others (captions/equations etc.)
 % write18 just runs like normal command line
 % so does sum of all, then saves just the number from the 'Total' line and sets that to th eobject \wordcountresult
+% total (not applicable to function as multiple files means it prints a 'Total' so need to grep that)
+%TOTAL WORD COUNTFOR MULTIPLE FILES
 \immediate\write18{texcount -inc -brief -sum=1,1,0,0,0,0,0 chapters/intro.tex chapters/results.tex chapters/discussion.tex chapters/conclusion.tex | grep Total | grep -oE '[0-9]+' > wordcount.tmp> wordcount.tmp}
 \newread\wcfile
 \openin\wcfile=wordcount.tmp
 % writes result of word count here to this object
-\read\wcfile to \wordcountresult
+\read\wcfile to \wordcountresulttotal
 \closein\wcfile
 
+
+% SINGLE FILE WORD COUNT FUNCTION
+\newcounter{wcfilecount}
+\newcommand{\getwordcount}[2]{%
+	% #1 = files to count (space-separated), #2 = macro name to store result in
+	\stepcounter{wcfilecount}%
+	\immediate\write18{texcount -inc -brief -sum=1,1,0,0,0,0,0 #1 | grep -oE '[0-9]+' > wordcount\thewcfilecount.tmp}%
+	\newread\wcfile
+	\openin\wcfile=wordcount\thewcfilecount.tmp
+	\read\wcfile to #2
+	\closein\wcfile
+}
+
+% and running the function to generate word count totals per section and total
+\getwordcount{chapters/intro.tex}{\wordcountresultintro}
+\getwordcount{chapters/results.tex}{\wordcountresultres}
+\getwordcount{chapters/discussion.tex}{\wordcountresultdiscuss}
+\getwordcount{chapters/conclusion.tex}{\wordcountresultconc}
 
 \begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
 	\vspace*{1em} % star for top of page
@@ -54,8 +74,12 @@
 	\vspace{3em}
 	
 	\noindent\textbf{Key words:} Machine Learning, Evapotranspiration, FLUXNET, Forest Age. \\
-	\vspace{1em}
-	\noindent\textbf{Word count:} \wordcountresult 
+	\noindent\textbf{Word count total:} \wordcountresulttotal\\
+	\noindent\textbf{Introduction:} \wordcountresultintro\\
+	\noindent\textbf{Results:} \wordcountresultres\\
+	\noindent\textbf{Discussion:} \wordcountresultdiscuss\\
+	\noindent\textbf{Conclusion:} \wordcountresultconc\\
+	
 	\vspace*{\fill}
 	
 	
@@ -69,7 +93,7 @@
 
 \newpage
 \section*{Dedication and Acknowledgments}
-I would like to thank my supervisor Professor Martin de Kauwe for his help and guidance throughout the duration of this project.
+I would like to thank my supervisor Martin de Kauwe for his help and guidance throughout the duration of this project.
 % even if his football references went over my head.
 
 \section*{Declaration}

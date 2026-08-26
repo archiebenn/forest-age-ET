@@ -16,6 +16,21 @@ library(ggrepel)
 library(gridExtra)
 library(tikzDevice)
 
+# serif plots
+options(tikzLatexPackages = c(
+  getOption("tikzLatexPackages"),
+  "\\usepackage{tgheros}",
+  "\\renewcommand{\\familydefault}{\\sfdefault}",
+  "\\usepackage{sansmath}",
+  "\\sansmath"
+))
+
+# minion pro plots
+#options(tikzLatexPackages = c(
+#    getOption("tikzLatexPackages"),
+#    "\\usepackage{MinionPro}\n",
+#    "\\usepackage{MnSymbol}\n"
+#))
 
 ```
 
@@ -91,14 +106,14 @@ p1 <- df_results_relabelled %>%
     scale_colour_manual(
       name = NULL,
       values = c("r2" = pal[3], "rmse" = pal[1], "mae" = pal[2]),
-      labels = c("r2" = "R$^2$", "rmse" = "RMSE\n(mm/day)", "mae" = "MAE\n(mm/day)")
+      labels = c("r2" = "$R^2$", "rmse" = "$RMSE$\n(mm/day)", "mae" = "$MAE$\n(mm/day)")
     ) + 
     
     # and for the geom_points
      scale_shape_manual(
         name = NULL,
         values = c("r2" = 5, "rmse" = 2, "mae" = 4),  # 16 = filled circle, 17 = filled triangle
-        labels = c("r2" = "R$^2$", "rmse" = "RMSE\n(mm/day)", "mae" = "MAE\n(mm/day)")
+        labels = c("r2" = "$R^2$", "rmse" = "$RMSE$\n(mm/day)", "mae" = "$MAE$\n(mm/day)")
       ) +
         
     # facet by medoid/test site
@@ -108,18 +123,13 @@ p1 <- df_results_relabelled %>%
     theme_bw() +
     xlab("Features added to the RF model") +
     ylab(NULL) +
-    theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) 
 
 p1
 ```
 
 ```{r}
 # plot as TikZ object for integration into LaTeX
-options(tikzLatexPackages = c(
-    getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
-))
 tikz(here("diss/figures/1.1_p1.tex"), width = 6, height = 4, standAlone = TRUE)
 print(p1)
 dev.off()
@@ -131,7 +141,7 @@ dev.off()
 ```{r}
 p_age <- df_sites %>%
     
-    ggplot(aes(x = Site_age, y = ET_mean)) +
+    ggplot(aes(x = Site_age, y = ET_mean, colour = Climate_zone)) +
     
     geom_point() +
     
@@ -140,7 +150,13 @@ p_age <- df_sites %>%
     theme_minimal() +
     xlab("Site Age (years)") +
     ylab("Mean daily ET (mm)") +
-    facet_wrap(~Climate_zone)
+    facet_wrap(~Climate_zone) +
+    
+    # add medoid ids
+    geom_text_repel(aes(label = Site_ID),
+                    min.segment.length = 0,
+                    force = 100,
+                    box.padding = 1.25)
 
 p_age
     

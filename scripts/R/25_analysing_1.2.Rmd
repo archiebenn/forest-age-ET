@@ -23,6 +23,22 @@ library(kableExtra)
 library(sf)
 library(rnaturalearth)
 library(paletteer)
+
+# serif plots
+options(tikzLatexPackages = c(
+  getOption("tikzLatexPackages"),
+  "\\usepackage{tgheros}",
+  "\\renewcommand{\\familydefault}{\\sfdefault}",
+  "\\usepackage{sansmath}",
+  "\\sansmath"
+))
+
+# minion pro plots
+#options(tikzLatexPackages = c(
+#    getOption("tikzLatexPackages"),
+#    "\\usepackage{MinionPro}\n",
+#    "\\usepackage{MnSymbol}\n"
+#))
 ```
 
 # Analysis part 1.2
@@ -91,13 +107,13 @@ p1 <- df_metrics_added %>%
     
     # colour and rename key values
     scale_colour_manual(
-      name = "R$^2$ Impact",
+      name = "$R^2$ Impact",
       values = c(up = pal[2], down = pal[5], no_change = pal[1]),
       labels = c(up = "Improved", down = "Worsened", no_change = "No change")
     ) +
     
     theme_minimal() + 
-    ylab("R$^2$") + 
+    ylab("$R^2$") + 
     xlab("RF model") +
 
     geom_point(alpha = 0.25) +
@@ -133,13 +149,13 @@ p2 <- df_metrics_added %>%
     
     # colour and rename key values
     scale_colour_manual(
-      name = "R$^2$ Impact",
+      name = "$R^2$ Impact",
       values = c(up = pal[2], down = pal[5], no_change = pal[1]),
       labels = c(up = "Improved", down = "Worsened", no_change = "No change")
     ) +
     
     theme_minimal() + 
-    ylab("R$^2$") + 
+    ylab("$R^2$") + 
     xlab("RF model") +
     
     geom_point(alpha = 0.25, size = 0.5) +
@@ -180,16 +196,10 @@ p3
 
 ```{r}
 # plot as TikZ object for integration into LaTeX
-options(tikzLatexPackages = c(
-    getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
-))
-
 # p3
-#tikz(here("diss/figures/1.2_p3.tex"), width = 6, height = 6, standAlone = TRUE)
-#print(p3)
-#dev.off()
+tikz(here("diss/figures/1.2_p3.tex"), width = 6, height = 6, standAlone = TRUE)
+print(p3)
+dev.off()
 ```
 
 # looking into US-Me3 composition
@@ -299,8 +309,7 @@ df_train_sets2 <- left_join(df_metrics_wide, df_train_sets,
 ```{r}
 #pal_con <-  ltc(heatmap0, 30, type = "continuous")
 pal_con <- rev(colors_continuous_viridis)
-#pal5 = ltc(hat)
-pal5 <- paletteer::paletteer_d("Manu::Pohutukawa", n = 6)
+pal5 = ltc(casa_natal)
 
 # plot
 p_gower_r2_no_age <- df_train_sets2 %>%
@@ -309,7 +318,7 @@ p_gower_r2_no_age <- df_train_sets2 %>%
     
     geom_point(aes(colour = test_site), alpha = 0.5) +
     
-    geom_smooth(method = "lm", colour = "firebrick") +
+    geom_smooth(method = "lm") +
     #geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
     
     # colour and rename key values
@@ -321,7 +330,7 @@ p_gower_r2_no_age <- df_train_sets2 %>%
     theme_bw() +
      theme(legend.position = "top") +
     xlab("Mean Gower's Distance") +
-    ylab("R$^2_{Mod}$")  +
+    ylab("$R^2_{Mod}$")  +
     
     #ylim without rmeoving data
     coord_cartesian(ylim = c(-1, 1))
@@ -335,7 +344,7 @@ p_gower_r2_age <- df_train_sets2 %>%
     
     geom_point(aes(colour = test_site), alpha = 0.5) +
     
-    geom_smooth(method = "lm", colour = "firebrick") +
+    geom_smooth(method = "lm") +
     #geom_hline(yintercept = 0, linetype = "dashed", colour = "red") +
     
     # colour and rename key values
@@ -347,7 +356,7 @@ p_gower_r2_age <- df_train_sets2 %>%
     theme_bw() +
      theme(legend.position = "top") +
     xlab("Mean Gower's Distance") +
-    ylab("R$^2_{Mod + Age}$") +
+    ylab("$R^2_{Mod + Age}$") +
     
     #ylim without removing data
     coord_cartesian(ylim = c(-1, 1))
@@ -361,7 +370,7 @@ p_gower_r2_age <- df_train_sets2 %>%
 # no age
 p_side_no_age <- ggplot(df_train_sets2, aes(x = mean_age_dist, y = r2_no_age)) +
     
-  geom_smooth(method = "lm", colour = "firebrick") +
+  geom_smooth(method = "lm") +
     geom_point(aes(colour = test_site), alpha = 0.5) +
     
     theme_bw() +
@@ -385,7 +394,7 @@ p_side_no_age <- ggplot(df_train_sets2, aes(x = mean_age_dist, y = r2_no_age)) +
 # age 
 p_side_age <- ggplot(df_train_sets2, aes(x = mean_age_dist, y = r2_age)) +
     
-  geom_smooth(method = "lm", colour = "firebrick") +
+  geom_smooth(method = "lm") +
     
     geom_point(aes(colour = test_site), alpha = 0.5) +
     
@@ -452,12 +461,6 @@ p_gower_r2
 `
 ```{r}
 # plot as TikZ object for integration into LaTeX
-options(tikzLatexPackages = c(
-    getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
-))
-
 # p_gower_age
 tikz(here("diss/figures/1.2_gower_r2.tex"), width = 6, height = 4.5, standAlone = TRUE)
 print(p_gower_r2)
@@ -483,7 +486,7 @@ df_train_sets2 %>%
     theme_bw() +
      theme(legend.position = "top") +
     xlab("Mean Gower's Distance") +
-    ylab("R$^2_{Mod}$")  +
+    ylab("$R^2_{Mod}$")  +
     
     #ylim without rmeoving data
     #coord_cartesian(ylim = c(-1, 1)) +
@@ -691,7 +694,7 @@ kable_table <- df_sites %>%
       col.names = c("FLUXNET ID", "Days of Data", "Country", "Climate Zone",
                     "Cover Type", "Site Age (years)", "Mean ET 90D Peak (\\si{\\milli\\metre\\per\\day})")) %>%
     
-  kable_styling(latex_options = c("striped", "hold_position"), font_size = 9) %>%
+  kable_styling(latex_options = c("striped", "hold_position"), font_size = 8) %>%
     
   cat(file = here("diss/figures/sites_kable.tex"))
 

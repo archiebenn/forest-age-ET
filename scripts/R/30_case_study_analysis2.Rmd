@@ -19,6 +19,22 @@ library(conflicted)
 library(patchwork)
 library(stargazer)
 library(modelsummary)
+
+# serif plots
+options(tikzLatexPackages = c(
+  getOption("tikzLatexPackages"),
+  "\\usepackage{tgheros}",
+  "\\renewcommand{\\familydefault}{\\sfdefault}",
+  "\\usepackage{sansmath}",
+  "\\sansmath"
+))
+
+# minion pro plots
+#options(tikzLatexPackages = c(
+#    getOption("tikzLatexPackages"),
+#    "\\usepackage{MinionPro}\n",
+#    "\\usepackage{MnSymbol}\n"
+#))
 ```
 
 
@@ -92,12 +108,6 @@ p1
 
 ```{r}
 # plot as TikZ object for integration into LaTeX
-options(tikzLatexPackages = c(
-    getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
-))
-
 # p1
 tikz(here("diss/figures/case_study_bars.tex"), width = 6, height = 4, standAlone = TRUE)
 print(p1)

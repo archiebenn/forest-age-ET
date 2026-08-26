@@ -18,13 +18,21 @@ library(ltc)
 library(tikzDevice)
 library(ggrepel)
 
-
-# plot as TikZ object for integration into LaTeX
+# serif plots
 options(tikzLatexPackages = c(
     getOption("tikzLatexPackages"),
-    "\\usepackage{MinionPro}\n",
-    "\\usepackage{MnSymbol}\n"
+    "\\usepackage{tgheros}",
+    "\\renewcommand{\\familydefault}{\\sfdefault}",
+    "\\usepackage{sansmath}",
+    "\\sansmath"
 ))
+
+# minion pro plots
+#options(tikzLatexPackages = c(
+#    getOption("tikzLatexPackages"),
+#    "\\usepackage{MinionPro}\n",
+#    "\\usepackage{MnSymbol}\n"
+#))
 
 
 # set numpy seed
@@ -121,7 +129,7 @@ p_cluster_plot <- fviz_cluster(pam_result_gower,
     # add medoid ids
     geom_text_repel(aes(label = ifelse(rownames(gower_matrix) %in% medoid_ids, rownames(gower_matrix), "")),
                     min.segment.length = 0,
-                    force = 25,
+                    force = 100,
                     box.padding = 1.25)
 
 
@@ -275,7 +283,7 @@ p_heat2 <- pheatmap(
     fontsize_col = 10,
     display_numbers = TRUE,
     number_color = "black",
-    angle_col = 45,
+    angle_col = 90,
 
     #color = hcl.colors(50, "BluYl"),
 
@@ -288,9 +296,9 @@ p_heat2
 
 
 # pheatmap
-#tikz("diss/figures/pheat2.tex", width = 6, height = 4, standAlone = TRUE)
-#print(p_heat2)
-#dev.off()
+tikz("diss/figures/pheat2.tex", width = 6, height = 4, standAlone = TRUE)
+print(p_heat2)
+dev.off()
 
 
 # and now form cluster labels with description as a df

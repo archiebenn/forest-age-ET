@@ -291,3 +291,9 @@
 
 - carried on and finished results today eventually and currently at 2800 words when i should be at about 2000, but finished all plots etc.
 - tomorrow i will start the discussion
+
+# 26-8-26
+
+- decent amount of writing and have been blurting out words into the discussion so nearly at 1000 words there already  
+- have also formed a loose backbone for the discussion but lots to talk about  
+- will be cutting a lot and trimming sentences heavily at the end
