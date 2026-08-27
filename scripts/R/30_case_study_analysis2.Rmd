@@ -48,6 +48,8 @@ conflicts_prefer(here::here)
 df_14 <- read_csv(here("data/main/14_pre_processing/df_ml_ready.csv"))
 df_stats <- read_csv(here("data/main/27_case_study/stats.csv"))
 df_preds <- read_csv(here("data/main/27_case_study/preds.csv"))
+df_yearly <- read_csv(here("data/main/10_filtering2/df_yearly2.csv"))
+
 ```
 
 
@@ -129,8 +131,56 @@ summary_stats <- df_stats %>%
               .groups = "drop")
 ```
 
+```{r}
+# filter out non-training sites from .py scripts
+site_col <- df_14 %>%
+    filter(! Site_ID %in% c("CA-TP1", "CA-TP4", "US-Me2", "US-Me5", "US-Me6", "CH-Dav")) %>%
+    select(Site_ID) 
+
+# convert to list (def a better way to do this)
+site_list <- unique(site_list$Site_ID)
+
+# now filter yearly site data to these sites only
+df_yearly_clean <- df_yearly %>%
+    filter(Site_ID %in% site_list)
 
 
+```
+
+
+```{r}
+p_age_et <- df_cs_training %>%
+    
+    group_by(Site_ID) %>%
+    
+    # summarise mean values across training data
+    summarise(mean_age = mean(Site_age),
+              mean_ET = mean(ET),
+              mean_peak_ET = mean(ET_90D_peak)) %>%
+    
+    pivot_longer(cols = c(mean_ET, mean_peak_ET),
+                 names_to = "metric",
+                 values_to = "value") %>%
+    
+    ggplot(aes(x = mean_age, y = value)) +
+    
+    theme_bw() +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    ylab("ET (mm/day)") +
+    xlab("Mean Site Age in Training Data (years)") +
+    facet_wrap(~metric) +
+    
+    # add medoid ids
+    geom_text_repel(aes(label = case_when(Site_ID %in% c("US-UMd", "DE-Lnf") ~ Site_ID)),
+                min.segment.length = 2,
+                force = 150,
+                box.padding = 1.25)
+
+
+p_age_et
+
+```
 
 
 
