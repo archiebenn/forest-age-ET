@@ -138,7 +138,7 @@ site_col <- df_14 %>%
     select(Site_ID) 
 
 # convert to list (def a better way to do this)
-site_list <- unique(site_list$Site_ID)
+site_list <- unique(site_col$Site_ID)
 
 # now filter yearly site data to these sites only
 df_yearly_clean <- df_yearly %>%
@@ -149,27 +149,18 @@ df_yearly_clean <- df_yearly %>%
 
 
 ```{r}
-p_age_et <- df_cs_training %>%
+p_age_et <- df_yearly_clean %>%
     
     group_by(Site_ID) %>%
-    
-    # summarise mean values across training data
-    summarise(mean_age = mean(Site_age),
-              mean_ET = mean(ET),
-              mean_peak_ET = mean(ET_90D_peak)) %>%
-    
-    pivot_longer(cols = c(mean_ET, mean_peak_ET),
-                 names_to = "metric",
-                 values_to = "value") %>%
-    
-    ggplot(aes(x = mean_age, y = value)) +
+
+    ggplot(aes(x = Site_age, y = ET_90D_peak_sum)) +
     
     theme_bw() +
-    geom_point() +
+    geom_point(aes(colour = Climate_zone, shape = Cover_type))+
     geom_smooth(method = "lm") +
-    ylab("ET (mm/day)") +
-    xlab("Mean Site Age in Training Data (years)") +
-    facet_wrap(~metric) +
+    ylab("ET (mm/year)") +
+    xlab("Site Age (years)") +
+    #facet_wrap(~Climate_zone) +
     
     # add medoid ids
     geom_text_repel(aes(label = case_when(Site_ID %in% c("US-UMd", "DE-Lnf") ~ Site_ID)),
@@ -182,6 +173,13 @@ p_age_et
 
 ```
 
+```{r}
+sum_et_age_lm <- lm(ET_year ~ Site_age, data = df_yearly_clean)
+sum_et_peak_age_lm <- lm(ET_90D_peak_sum ~ Site_age, data = df_yearly_clean)
+```
 
+```{r}
+summary(sum_et_peak_age_lm)
 
+```
 

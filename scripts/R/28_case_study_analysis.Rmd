@@ -18,6 +18,7 @@ library(tikzDevice)
 library(conflicted)
 library(patchwork)
 library(stargazer)
+library(ggsignif)
 
 # serif plots
 options(tikzLatexPackages = c(
@@ -125,10 +126,12 @@ plotter_r2 <- function(testing_site){
     # take a sample of 2500 rows
     slice_sample(n = 2500) %>%
 
-    ggplot(aes(x = observed_ET, y = predicted_ET)) +
+    ggplot(aes(x = predicted_ET, y = observed_ET)) +
         
     # add points and colour by season for visual aid
-    geom_point(alpha = 0.4,  aes(colour = season)) +
+    geom_point(alpha = 0.4, 
+               aes(colour = season)
+               ) +
         
     # colour and rename key values
     scale_colour_manual(
@@ -141,8 +144,8 @@ plotter_r2 <- function(testing_site){
     
     theme_bw()+
     #theme(legend.position = "bottom") +
-    xlab("Observed ET (mm/day)") +
-    ylab("Predicted ET (mm/day)") +
+    ylab("Observed ET (mm/day)") +
+    xlab("Predicted ET (mm/day)") +
     ggtitle(testing_site) +
     
     # add mean R2 and RMSE and MAE (separately to fix in-line issue)
@@ -541,7 +544,15 @@ age_driver_check <- function(site_id){
     
     # join on date
     df_join <- df_diff %>%
-        inner_join(df_shap_vals, by = "Date")
+        inner_join(df_shap_vals, by = "Date") %>%
+        
+        # add seasons 
+        mutate(season = case_when(
+            month(Date) %in% c(12, 1, 2) ~ "Winter",
+            month(Date) %in% c(3, 4, 5) ~ "Spring",
+            month(Date) %in% c(6, 7, 8) ~ "Summer",
+            month(Date) %in% c(9, 10, 11) ~ "Autumn"
+        ))
     
     # simple correlations
     cors <- df_join %>%
@@ -554,6 +565,9 @@ age_driver_check <- function(site_id){
     # multi linear regression can show contribution of Site_age once
     # cos_DOY and SW_rad SHAP are controlled for
     mod1 <- lm(ET_diff ~ Site_age + cos_DOY + SW_rad, data = df_join)
+    
+    # and an mlr model for seasonal diffs
+    mod_seasonal <- lm(ET_diff ~ Site_age * season, data = df_join)
 
     # scatter to sanity-check against the time series impression
     p_scatter <- df_join %>%
@@ -570,12 +584,23 @@ age_driver_check <- function(site_id){
         xlab("Site Age SHAP value") +
         ylab("$\\Delta$Predicted ET \nMod + Age - Mod (mm/day)")
     
+    # boxplot per season
+    p_seasonal_box <- df_join %>%
+        ggplot(aes(x = season, y = ET_diff)) +
+        geom_boxplot() +
+        geom_hline(yintercept = 0, linetype = "dashed", colour = "firebrick") +
+        theme_minimal() +
+        ggtitle(paste(site_id)) +
+        ylab("$\\Delta$Predicted ET (mm/day)")
+    
     # list of four accessible elements via console
     list_res <- list(
         model1 = mod1,
+        model_seasonal = summary(mod_seasonal),
         correlations = cors,
         model1_summary = summary(mod1),
         scatter_plot = p_scatter,
+        seasonal_boxplot = p_seasonal_box,
         joined_data = df_join
     )
     
@@ -591,11 +616,13 @@ res_lnf <- age_driver_check("DE-Lnf")
 res_umd$correlations
 res_umd$model1_summary
 res_umd_scatter <- res_umd$scatter_plot
+res_umd_seasons <- res_umd$seasonal_boxplot
 
 res_lnf$correlations
 res_lnf$model1_summary
 res_lnf_scatter <- res_lnf$scatter_plot
 res_lnf$scatter
+res_lnf_seasons <- res_lnf$seasonal_boxplot
 
 ```
 
@@ -603,8 +630,17 @@ res_lnf$scatter
 # regression model tables
 stargazer::stargazer(res_lnf$model1, type = "latex") 
 
+res_lnf_seasons
+res_umd_seasons
+```
+
+```{r}
+res_umd$model_seasonal
+res_lnf$model_seasonal
 
 ```
+
+
 
 
 ```{r}
@@ -622,9 +658,42 @@ dev.off()
 
 
 
+```{r}
+# plot for changes to ET across each seasom mod vs mod+age
+season_boxplot_fn <-  function(data, site_id){
+    
+    p <- data %>%
+        
+        # non filtered and by site
+        
+        filter(shuffled == FALSE,
+           site == site_id) %>%
+        
+        ggplot(aes(x = model, y = predicted_ET)) +
+        
+        geom_boxplot(outlier.shape = NA, alpha = 0.6) +
+        
+        geom_signif(comparisons = list(c("Mod + Age", "Mod")), 
+                
+                test = "wilcox.test", test.args = list(paired = TRUE),
+                map_signif_level = TRUE,
+                vjust = 0.5,
+                textsize = 4.25) +
+        
+        ylab("Predicted ET (mm/day)") +
+        xlab("Season and Model") +
+        ggtitle(site_id) +
+        
+        facet_wrap(~season) +
+        
+        theme_bw()
+    
+    return(p)
+}
 
+season_boxplot_fn(df_preds_stats, "DE-Lnf")
 
-
+```
 
 
 

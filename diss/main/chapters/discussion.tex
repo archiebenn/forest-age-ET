@@ -31,16 +31,39 @@ Given the limitation of ML methods to extrapolate outside of feature values whic
 \subsubsection{Model Generalisation}
 \par Results from sampled training datasets in section \ref{sec:sampled} were highly variable in predictive performance. \textcite{ahmadi2025enhancing} formed models with the aim of enhance generalisation capacity and reduce overfitting predictions to a single site by training on diverse time series data from multiple sites in a manner similar to the present study. However, model performance from \textcite{ahmadi2025enhancing} was far stronger and more stable across unseen sites compared to the present study. This is likely because, as in \textcite{ferreira2022exploring}, training and testing sites were confined to much smaller and similar geographic regions; all 55 sites from \textcite{ahmadi2025enhancing} were contained within the Central Valley of California - a climatically homogeneous region. In turn, training and test data were likely confined within a much narrower range compared to this study which should enable higher predictive accuracy, although this is also confounded with the use of deep learning and automatic hyperparameter optimisation per model in \textcite{ahmadi2025enhancing} which was not utilised here. This claim is partially supported by regression analysis in section \ref{sec:sampled}, where overall site similarity to the test site (using Gower's distance) was able to predict $R^2$ in both models across the full set of medoid sites, with accuracy falling as similarity reduced. This relationship was also significant at the finer site-level scale for 4/6 medoid test sites, indicating that the all site trend was not just an artifact from cross-site pooling.
 \subsubsection{Forest Site Age as a Feature}
-This study was directed by previous work carried out in \textcite{besnard2018} where forest age was used as a predictor in net ecosystem productivity (NEP) estimations using RF models. While current literature surrounding the use of forest age in ML ET models is sparse, this prior work was able to establish forest age as a dominant factor in NEP statio-temporal variability at a global scale, providing evidence that models are able to learn from forest age for flux-predictions using RF. The present study found more nuanced and site-specific results while investigating ET predictions, despite using 50 FLUXNET forest sites which were also used and dated in the NEP study. For feature selection, \textcite{besnard2018} carried out a similar method (reversed) with features sequentially removed, and found that removing forest age always substantially decreased model performance, contrasting to the current study in which forest age appeared to have a less substantial impact. The are many possible explanations for the contrasting impact observed on the two fluxes in both of these studies. Crucially, \textcite{besnard2018} predicted carbon fluxes rather than water fluxes. Carbon fluxes such as NEP across forest ecosystems may be more directly correlated with the age of those forests than any ET-age relationship, encouraging the RF models to place greater importance on forest age when forming NEP predictions. Furthermore, `age' in the RF models in \textcite{besnard2018} was not solely raw age. Instead, a pre-defined nonlinear relationship between NEP and age \parencite{amiro2010ecosystem} was fitted, and a predicted value per site year from this was treated as a separate variable in the models alongside raw age. ML models do not consider the feasibility of relationships between variables; forcing a clean, pre-fitted variable mapped to age across all training data could allow RF models to place high importance on this feature, possibly over raw site age, regardless of how accurately mapping parameter values to this nonlinear equation was able to explain the true relationship in the first place.
+This study was positioned by previous work carried out in \textcite{besnard2018} where forest age was used as a predictor in net ecosystem productivity (NEP) estimations using RF models. While current literature surrounding the use of forest age in ML ET models is sparse, this prior work was able to establish forest age as a dominant factor in NEP statio-temporal variability at a global scale, providing evidence that models are able to learn from forest age for flux-predictions using RF. 
+\par The present study found more nuanced and site-specific results while investigating ET predictions, despite using 50 FLUXNET forest sites which were also used and dated in the NEP study. For feature selection, \textcite{besnard2018} carried out a similar method (reversed) with features sequentially removed, and found that removing forest age always substantially decreased model performance, contrasting to the current study in which forest age appeared to have a less substantial impact. There are many possible explanations for the contrasting impact observed on the two fluxes in both of these studies. Crucially, \textcite{besnard2018} predicted carbon fluxes rather than water fluxes. Carbon fluxes such as NEP across forest ecosystems may be more directly correlated with the age of those forests than any ET-age relationship, encouraging the RF models to place greater importance on forest age when forming NEP predictions. Furthermore, `age' in the models used in \textcite{besnard2018} was not solely raw age as in the present study. Instead, a pre-defined nonlinear relationship between NEP and age \parencite{amiro2010ecosystem} was fitted, and a predicted value per site year from this was treated as a separate variable in the models alongside raw age. In contrast, the present study was designed to let the RF models draw any ET-age relationships from raw age alone. \textcite{oishi2020} demonstrated an age-ET relationship but this was particular to a specific region and species composition; no generalisable equation form exists as with NEP in \parencite{amiro2010ecosystem}. Even if one did exist, forcing it as a fixed input into a model, as in \textcite{besnard2018}, risks imposing model outputs which are constrained to a specific pattern and may not hold true across all sites. The use of raw age alone in this study likely led to a noisier age-target relationship across models, and could explain the highly site-dependent impacts on predictions compared to the clean global signal in \textcite{besnard2018}, independent of whether the target was NEP or ET.
+\par %how model age genuinely does impact predictions, not just as a proxy for other site level features (shuffle and also delta et bits)
+US-UMd and DE-Lnf were highly predictable sites but had opposing reactions in predictive performance with the addition of age. Overall SHAP model importance at both sites places shortwave radiation, a representation of date in the year, LAI, and air temperature as the most important variables when forming predictions at both sites. Air temperature, shortwave radiation, and LAI are commonly ranked highly in ET predictive model feature importance \parencite{liyew2025review}. However, a representation of the day of year such as \texttt{cos\_DOY}, which was ranked alongside shortwave radiation here, does not appear highly ranked in other studies. Predicting across large latitudes may not be feasible with this approach, particularly across the equator (train/test). A better approach may be to include a variable for the hour angle at sunset as in \textcite{huang2024integrating}, which would not only capture time throughout the year at sites and potentially enable cross-equatorial predictions, but may additionally capture plant stomatal open and closure timings which is crucial in transpiration rates \parencite{resco2016genetic}. `Mod' and `Mod + Age' predictions at both sites suggested that summer extremes tended to be under-predicted and winter lows were typically over-predicted at both sites (\autoref{fig:scatters}). Comparing the two models reveals where the differences in predictive performance may be arising: US-UMd predictions appear to be reduced with the addition of age
 
 
-%So the pipeline was: fit the nonlinear age→NEP curve separately (from amiro2010ecosystem) (via gnls, cross-validated), generate a predicted value from that curve for every site-year, then hand the RF both the raw age number and this pre-computed nonlinear transform as two separate input columns. The RF isn't discovering the nonlinearity itself from raw age alone — they pre-engineered it as a feature.
 
-%This is actually a relevant methodological contrast for your work: you're relying on the RF to learn any age-ET relationship purely from raw Site_age, with no equivalent hand-fitted nonlinear transform feeding it. Might be worth a line in your discussion/limitations — it's a plausible reason your age effects look weaker/noisier or more site-idiosyncratic than Besnard's clean global signal, independent of the ET-vs-NEP question.
+
+
+% in the US-UMd, Mod+Age improves over Mod. Looking at obs vs preds can see how some winter predictions are being overestimated by Mod, and this seems corrected by Mod+Age. Comparing this to SHAP it becomes clear that overall at this site the model with age is using site age negatively so it oculd be bringing down the predictions somewhat. Likewise, an opposite response is seen with DE-Lnf where SHAP shows site age is pushing predictions higher, particularly in the autumn and winter months and is hurting the predictions.
+
+% however, looking at training dataset, the average site age is 111 years old. DE-Lnf average in the tests is 122, while US-UMd average is 94. The simplicity of this is that RF is likely using age as a site-level identifier (as site age differs minimally within sites, and maximally between sites unlike other variables which are more dynamic and direct drivers of ET). Essentially, there must be a relationship between age and ET, even if weak, in the training set (which RF learns) in which older sites have higher ET than younger sites. Therefore the RF uses site age to push ET predictions up if the site age > trining average, and down if site age < average (which is what heppens in this case). So age is being seen as a site level offset, rather than as a daily predictor.
+
+% are these issues/benefits with site age coming during winter months when the model has less variable data in other predictors to rely on, but the site age is constant and so the additive/drop of each becomes more obvious?
+
+
+%State it as a genuine open question. "Why forest age exerts opposite directional effects on ET predictions at these two sites remains unclear from this analysis" — then speculate briefly (a sentence or two, clearly flagged as speculation) about plausible mechanisms: species-specific hydraulic/canopy aging trajectories, non-linear age-ET relationships where different sites sit on different parts of the curve, or age interacting with something site-specific (canopy structure, climate) that isn't captured by your other features. This is the most defensible option — you're not overclaiming, and it's a legitimate direction for "future work."
+
+
+
+
+
+
+
+\par % age as an explainer vs explained variable as closing for this section
+
+
 
 % model sensitivity
 % distances and mixed training datasets
 % case study
+% are there any papers on features which, while not age, cna be found to be better predictors when trained on more similar sites consistently?
+
 
 
 
@@ -61,7 +84,7 @@ This study was directed by previous work carried out in \textcite{besnard2018} w
 
 
 
-
+%DEVELOPMENTAL DYNAMICS - nice term to use 
 
 
 %%%%%%%%%%%%%%%%%%
@@ -86,23 +109,7 @@ This study was directed by previous work carried out in \textcite{besnard2018} w
 
 
 
-%%%%%%%%%%%%%%%%%%
-% ANALYSIS 1.1 - FEATURE SELECTION/MODEL SENSITIVITY
-%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%
-% ANALYSIS 1.2 - SHUFFLED
-%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%
-% ANALYSIS 1.3 - CASE STUDY=
-%%%%%%%%%%%%%%%%%%
-
-% in the US-UMd, Mod+Age improves over Mod. Looking at obs vs preds can see how some winter predictions are being overestimated by Mod, and this seems corrected by Mod+Age. Comparing this to SHAP it becomes clear that overall at this site the model with age is using site age negatively so it oculd be bringing down the predictions somewhat. Likewise, an opposite response is seen with DE-Lnf where SHAP shows site age is pushing predictions higher, particularly in the autumn and winter months and is hurting the predictions.
-
-% however, looking at training dataset, the average site age is 111 years old. DE-Lnf average in the tests is 122, while US-UMd average is 94. The simplicity of this is that RF is likely using age as a site-level identifier (as site age differs minimally within sites, and maximally between sites unlike other variables which are more dynamic and direct drivers of ET). Essentially, there must be a relationship between age and ET, even if weak, in the training set (which RF learns) in which older sites have higher ET than younger sites. Therefore the RF uses site age to push ET predictions up if the site age > trining average, and down if site age < average (which is what heppens in this case). So age is being seen as a site level offset, rather than as a daily predictor.
-
-% are these issues/benefits with site age coming during winter months when the model has less variable data in other predictors to rely on, but the site age is constant and so the additive/drop of each becomes more obvious?
 
 
 
