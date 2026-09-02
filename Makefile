@@ -91,6 +91,9 @@ tex_plots: ## run latex on the individual plots from tikzDevice for integration 
 	cd diss/figures && pdflatex -interaction=nonstopmode lnf_shap_diff.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode lnf_scatter.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode umd_scatter.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode age_et_gam.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode age_et_gam_ns.tex
+	cd diss/figures && pdflatex -interaction=nonstopmode shap_dependence.tex
 
 
 

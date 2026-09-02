@@ -168,6 +168,7 @@
 \newpage
 \vspace*{\fill}
 \begin{figure}[H]
+	\centering
 	\fbox{\includegraphics[width=0.85\linewidth]{../../figures/umd_scatter.pdf}}
 	\captionsetup{justification=centering}
 	\caption{yh}
@@ -211,6 +212,7 @@
 \newpage
 \vspace*{\fill}
 \begin{figure}[H]
+	\centering
 	\fbox{\includegraphics[width=0.85\linewidth]{../../figures/lnf_scatter.pdf}}
 	\captionsetup{justification=centering}
 	\caption{bbb}
@@ -255,12 +257,42 @@
 \newpage
 \vspace*{\fill}
 \begin{figure}[H]
+	\fbox{\includegraphics[width=\linewidth]{../../figures/shap_dependence.pdf}}
+	\captionsetup{justification=centering}
+	\caption{SHAP dependence plot for \texttt{Site\_age}. Test site SHAP values are highlighted in colour and represent model decisions for this feature on the unseen test sites when forming predictions for daily ET. Training site SHAP values are represented by the black points, and the red dashed line represents the mean forest age at all sites in this study. An almost stepwise, clear separation is visible for SHAP importance around the mean value for raw site age: a negative importance is typically placed at sites where forest age falls below the all-site mean, and positive at sites above this value. As the forest ages of US-UMd and DE-Lnf fall on separate sides of the all-site mean this may explain the model decisions in pushing ET predictions up (DE-Lnf) or down (US-UMd), with season-specific importance further relating to changes in overall $R^2$.}
+	\label{fig:shap_dependence}
+\end{figure}
+\vspace*{\fill}
+
+\newpage
+\vspace*{\fill}
+\begin{figure}[H]
 	\fbox{\includegraphics[width=\linewidth]{../../figures/case_study_bars.pdf}}
 	\captionsetup{justification=centering}
-	\caption{Bar plot showing the effect of different model setups on R$^2$ at DE-Lnf and US-UMd, with error bars indicating standard error. To assess whether site age was acting as a proxy for other site-level characteristics in these models, a model which randomly shuffled ages between sites was also formed using identical seeds and LOGO approach. Predictions form the `shuffled age' model resulted in an increased R$^2$ at DE-Lnf compared to the `Mod + Age' model, where an opposite effect was observed at US-UMd, consistent with previous findings between the two models. This suggests that both models are learning from true age-ET relationships}
+	\caption{Bar plot showing the effect of different model setups on $R^2$ at DE-Lnf and US-UMd, with error bars indicating standard error. To assess whether site age was acting as a proxy for other site-level characteristics in these models, a model which randomly shuffled ages between sites was also formed using identical seeds and LOGO approach. Predictions form the `shuffled age' model resulted in an increased $R^2$ at DE-Lnf compared to the `Mod + Age' model, where an opposite effect was observed at US-UMd, consistent with previous findings between the two models. This suggests that both models are learning from true age-ET relationships}
 	\label{fig:case_study_bars}
 \end{figure}
 \vspace*{\fill}
+
+\newpage
+\vspace*{\fill}
+\begin{figure}[H]
+	\begin{subfigure}{0.95\linewidth}
+		\fbox{\includegraphics[width=\linewidth]{../../figures/age_et_gam_ns.pdf}}
+		\captionsetup{justification=centering}
+		\subcaption{ET sum for site years plotted against the raw forest age at sites. A GAM with $k=7$ is fitted as a visual aid. }
+	\end{subfigure}
+	\begin{subfigure}{0.95\linewidth}
+		\fbox{\includegraphics[width=\linewidth]{../../figures/age_et_gam.pdf}}
+		\captionsetup{justification=centering}
+		\subcaption{Sum 90D ET}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption{A GAM with $k=7$ is fitted as a visual aid.}
+	\label{fig:age_et_all}
+\end{figure}
+\vspace*{\fill}
+
 
 
 %Yes, that's fine — actually it's a strength, not a problem. You're testing mean_age_dist against R² separately in both models (Mod and Mod+Age), which lets you ask:

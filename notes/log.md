@@ -216,24 +216,24 @@
 - need to now figure out what i will do with these results/how to cluster the training sites and metrics properly downstream in R (cluster analysis all in R)  
 - also need to do the other 2 scripts soon ish  
 
-# 9-8-26
+## 9-8-26
 
 - setup and finished `analysis_1.1.py` and ran this with the iteratively added features to test r-squared and rmse for the medoid sites  
 - decided to remove the categorical variables from models as these are largely site dpeendent and also complicates model  
 - so now just need to do temporal analysis and then get on with analysing it all  
 
-# 10-8-26
+## 10-8-26
 
 - found a bug which caused the koeppen lookup index thing to be mis-categorising lots of the sites (to do with index values being returned instead of characters..., and meant sites in Germany and France were coming up as 'Tropical' etc.), so fixed that and then re-ran all scripts from there downstream  
 - finished `analysis_2.py`, and now just need to run it to get results before doing analysis exploration in 3 `.Rmd` files and tarting my actual final plots/stats  
 
-# 11-8-26 
+## 11-8-26 
 
 - started exploration of analysis results for part 1.1 and 1.2 in `.Rmd` files  
 - also generated two main plots for the diss and got those looking nice  
 - need to carry on exploring 1.2 results and part 2 results tomorrow, and think of some more plots etc.  
 
-# 12-8-26
+## 12-8-26
 
 - did some more fixing of plots  
 - tried to assess cluster numbers but think i'll stick with 6, and did pheatmap plot for this too (cleaned it up)  
@@ -241,7 +241,7 @@
 - look into focusing on one +ve and one -ve cluster and doing random huffling of age within the training sites to assess robustness  
 - also pred vs obs as a plot 
 
-# 13-8-26  
+## 13-8-26  
 
 - found a potential correlation between effect of inclusing age and climate zone (may benefit continental sites more than temperate - need to investigate)  
 - made 1:1 and R-squared plots for the two sites I will focus on in the spatial generalisation part (US-UMd and DE-Lnf)  
@@ -249,23 +249,23 @@
 - can i come up with a hypothesis to then move back and apply to main dataset again? 
 - also another plot to consider would be R2 or RMSE (both) against run count - does this value change significantly? although actually paired boxplot already might show that 
 
-# 14-8-26
+## 14-8-26
 
 - added peak 90 days of ET as a daily measure average to site dataframes while on train to/from oxford  
 - not sure if it will help at all to investigate but oh well  
 - to do: Permutation importance and SHAP dependence plot for new modelson two sites
 
-# 18-8-26
+## 18-8-26
 
 - few days of log to catch up on, but going well  
 - started writing diss. going to have to put full methods in supplementary materials, and a light methods in results  
 - had final meeting with martin today but he's happy with where i am (see martin meeting notes)
 
-# 19-8-26
+## 19-8-26
 
 - more diss writing - got analysis 1.1 and stated results for 1.2 done, plus some supplementary materials
 
-# 21-8-26
+## 21-8-26
 
 - write aims and objectives in the morning and got some discussion ideas too
 - added a cylical representation of date in the year with cos() and sin() into RF models  
@@ -273,27 +273,34 @@
 - so tonight I need to redo the analysis from 1.2 onwards (don't re-run in full...)
 - then tomorrow I need to finish off writing the results, so do analysis of case study SHAP stuff and also spatial generalisation like time seried decompositions, and go to the pub
 
-# 22-8-26 
+## 22-8-26 
 
 - not loads more done today but overnight i re-ran the full pipeline with the cyclical representation of day within the year as a feature  
 - re-wrote results up to case study  
 - goal tomorrow is to finish the results for the case study and most of the temporal stuff on the 80/20 split and time series decomposition  
 - this will leave me mon-weds (and thurs on train to glasgow) to start on the discussion and hopefully get about 1000 words done, so with a few days in and after scotland i can polish it off and make it flow etc.
 
-# 24-8-26
+## 24-8-26
 
 - a lot of plotting today and some writing - up to about 2000 words and need to start discussion tomorrow ideally  
 - did some nice plots and think i may have found some sort of relationship with how age affects the models  
 - being a site-level identifier, and if above average age of training, increase ET, if below, decrease (as there is a weak ET-site age (non signif) relationship)  
 - still an interesting finding, and seems to apply more hevaily during winter perdiods, possibly because other variables are less impactful here ie. lower Tair etc.  
 
-# 25-8-26
+## 25-8-26
 
 - carried on and finished results today eventually and currently at 2800 words when i should be at about 2000, but finished all plots etc.
 - tomorrow i will start the discussion
 
-# 26-8-26
+## 26-8-26
 
 - decent amount of writing and have been blurting out words into the discussion so nearly at 1000 words there already  
 - have also formed a loose backbone for the discussion but lots to talk about  
 - will be cutting a lot and trimming sentences heavily at the end
+
+# September
+
+## 3-9-26  
+
+- lots of discussion brain dumped over the last few days (on trains etc.)  
+- nearing 6000 words so need to cut about 2000 tomorrow and then submit!

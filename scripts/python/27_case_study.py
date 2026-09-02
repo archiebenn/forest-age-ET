@@ -76,8 +76,8 @@ def random_forest_normal(X, y, all_sites, case_sites, full_data, seed_list):
 
             # shap analysis on a subset of X_test (was massively slowing down script)
             explainer = shap.TreeExplainer(rf)
-            # random 250 rows of X_test with seed
-            X_shap_subset = X_test.sample(2, random_state=seed)
+            # random 100 rows of X_test with seed
+            X_shap_subset = X_test.sample(100, random_state=seed)
             # run shap
             shap_values = explainer.shap_values(X_shap_subset)
             fold_shap_df = pd.DataFrame(shap_values, columns=X_shap_subset.columns)            
@@ -94,12 +94,16 @@ def random_forest_normal(X, y, all_sites, case_sites, full_data, seed_list):
             # append to shap results list
             shap_results.append(fold_shap_df)
 
+            # access training site id
+            site_id_train = all_sites.loc[train_idx]
+
             # shap analysis of X_train as well for full age range of sites vs shap dependence on age plot in R later
-            X_train_shap_subset = X_train.sample(2, random_state=seed)
+            X_train_shap_subset = X_train.sample(100, random_state=seed)
             # run shap on training
             train_shap_values = explainer.shap_values(X_train_shap_subset)
             train_shap_df = pd.DataFrame(train_shap_values, columns=X_train_shap_subset.columns)
-            train_shap_df["site"] = site 
+            train_shap_df["site"] = site_id_train.loc[X_train_shap_subset.index].values
+            train_shap_df["heldout_site"] = site  
             train_shap_df["seed"] = seed
             if "Site_age" in X_train_shap_subset.columns:
                 train_shap_df["Site_age_raw"] = X_train_shap_subset["Site_age"].values
@@ -240,8 +244,8 @@ def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list)
 
             # shap analysis on a subset of X_test (was massively slowing down script)
             explainer = shap.TreeExplainer(rf)
-            # random 250 rows of X_test with seed
-            X_shap_subset = X_test.sample(2, random_state=seed)
+            # random 100 rows of X_test with seed
+            X_shap_subset = X_test.sample(100, random_state=seed)
             # run shap
             shap_values = explainer.shap_values(X_shap_subset)
             fold_shap_df = pd.DataFrame(shap_values, columns=X_shap_subset.columns)
@@ -260,11 +264,12 @@ def random_forest_shuffle_age(X, y, all_sites, case_sites, full_data, seed_list)
             shap_results_shuffled.append(fold_shap_df)
 
             # shap analysis of X_train as well for full age range of sites vs shap dependence on age plot in R later
-            X_train_shap_subset = X_train.sample(2, random_state=seed)
+            X_train_shap_subset = X_train.sample(100, random_state=seed)
             # run shap on training
             train_shap_values = explainer.shap_values(X_train_shap_subset)
             train_shap_df = pd.DataFrame(train_shap_values, columns=X_train_shap_subset.columns)
-            train_shap_df["site"] = site 
+            train_shap_df["site"] = site_id_train.loc[X_train_shap_subset.index].values
+            train_shap_df["heldout_site"] = site 
             train_shap_df["seed"] = seed
             # only add age if mod+age model or will crash!
             if "Site_age" in X_train_shap_subset.columns:
@@ -499,19 +504,19 @@ for model in model_variants:
         shap_train_list.append(shap_train_shuffled)
 
         # third RF run: reversed age ranking across seed list (no SHAP - stats/preds only)
-        preds_reversed, stats_reversed = random_forest_reverse_age(X=X, y=y,
-                                                                    all_sites=site_names,
-                                                                    case_sites=case_sites,
-                                                                    full_data=df_14,
-                                                                    seed_list=seeds)
+        #preds_reversed, stats_reversed = random_forest_reverse_age(X=X, y=y,
+         #                                                           all_sites=site_names,
+          #                                                          case_sites=case_sites,
+           #                                                         full_data=df_14,
+            #                                                        seed_list=seeds)
 
-        preds_reversed["model"] = model
-        preds_reversed["age_transform"] = "reversed"
-        stats_reversed["model"] = model
-        stats_reversed["age_transform"] = "reversed"
+        #preds_reversed["model"] = model
+        #preds_reversed["age_transform"] = "reversed"
+        #stats_reversed["model"] = model
+        #stats_reversed["age_transform"] = "reversed"
 
-        stats_list.append(stats_reversed)
-        preds_list.append(preds_reversed)
+        #stats_list.append(stats_reversed)
+        #preds_list.append(preds_reversed)
 
     print(f"Run for {model} model complete")
 

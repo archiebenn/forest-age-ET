@@ -44,7 +44,7 @@ Cluster analysis is an exploratory technique which aims to classify objects into
 
 
 
-\subsection{Random Forest Modelling and Evaluation Metrics}
+\subsection{Random Forest Modelling and Evaluation Metrics}\label{sec:RF}
 Random Forest models were trained and tested with \texttt{RandomForestRegressor()} from \texttt{scikit-learn} \parencite{pedregosa2011scikit} using the different methods outlined below. Due to time constraints, a single set of optimised parameter values was calculated once using \texttt{GroupKFold()} and \texttt{Optuna} \parencite{akiba2019optuna} to minimise root mean square error (RMSE) on fold predictions. These values were used for all RF models throughout the study (see \autoref{tab:params}). 
 \par In all cases, regression analysis metrics of R$^2$ (coefficient of determination), RMSE, and mean absolute error (MAE) were calculated from model predictions of ET using their respective \texttt{scikit-learn} functions alongside observed values of ET at each site. R$^2$ aims to explain the proportion of variance captured by the model, while RMSE emphasises the size of errors against observed values. MAE was also used due to its simplicity and ability to compare to RMSE for a greater understanding of error structure. While no consensus has been reached on a unified metric to evaluate ML models and predictive accuracy, a model with the the highest values of R$^2$ and lowest values of RMSE is deemed the most accurate here \parencite{chicco2021coefficient, liyew2025review}.
 

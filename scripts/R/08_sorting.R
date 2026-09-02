@@ -89,7 +89,7 @@ df_yearly <- df_08_extra %>%
               ET_year = sum(ET), 
               
               # sum of 90D peak ET
-              ET_90D_peak_sum = sum(ET_90D_peak),
+              ET_90D_peak_sum = max(cumsum(ET) - lag(cumsum(ET), 90, default = 0)),
               
               # get maximum value of 90 day cumulative sum of ET (so 90 day period back from this = max ET period)
               # divide by cumulative sum period to get daily peak average in 'high ET season'

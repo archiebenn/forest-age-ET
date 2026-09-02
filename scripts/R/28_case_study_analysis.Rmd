@@ -256,7 +256,8 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
 
         # apply summaries across all columns with everything()
         # set mean_dir to now represent whether direction is +ve or -ve as men is set to abs(mean) now
-        summarise(across(everything(), list(mean = function(x) mean(abs(x)), mean_dir = mean, sd = sd))) %>%
+        summarise(across(everything(), list(mean = function(x) mean(abs(x)), 
+                                            mean_dir = mean, sd = sd))) %>%
         
         # pivot across all (will drop non numeric NAs later), then name feature/value (sd or mean)
         # "_(?=mean$|mean_dir$|sd$)"is a lookahead which sees what follows the underscore and then sorts 

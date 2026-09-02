@@ -50,6 +50,9 @@ df_stats <- read_csv(here("data/main/27_case_study/stats.csv"))
 df_preds <- read_csv(here("data/main/27_case_study/preds.csv"))
 df_yearly <- read_csv(here("data/main/10_filtering2/df_yearly2.csv"))
 
+df_shap_test <- read_csv(here("data/main/27_case_study/test_shap2.csv"))
+df_shap_train <- read_csv(here("data/main/27_case_study/train_shap2.csv"))
+
 ```
 
 
@@ -149,37 +152,167 @@ df_yearly_clean <- df_yearly %>%
 
 
 ```{r}
+pal = ltc(trio3)
+
+mean_age <- df_yearly_clean %>%
+    
+    # for highlighting two sites
+    summarise(mean_age_all = mean(Site_age))
+
 p_age_et <- df_yearly_clean %>%
     
-    group_by(Site_ID) %>%
-
+    filter(!Site_ID %in% c("US-UMd", "DE-Lnf")) %>%
+    
+    # pick one of these two
+    #ggplot(aes(x = Site_age, y = ET_year)) +
     ggplot(aes(x = Site_age, y = ET_90D_peak_sum)) +
     
     theme_bw() +
-    geom_point(aes(colour = Climate_zone, shape = Cover_type))+
-    geom_smooth(method = "lm") +
-    ylab("ET (mm/year)") +
+    geom_point(alpha = 0.25)+
+    geom_vline(xintercept = mean_age$mean_age_all, colour = "firebrick", linetype = "dashed") +
+    
+    # fit gam for visual aid
+    geom_smooth(method = "gam", formula = y ~ s(x, k = 7), se = FALSE, alpha = 0.15, colour = pal[3])  +
+    ylab("90 day peak ET sum (mm)") +
+    xlab("Site Age (years)") +
+
+    # adding in us-umd and de-lnf after plotting without them (reflects training data)
+    geom_point(data = df_yearly_clean %>% 
+                   filter(Site_ID %in% c("US-UMd", "DE-Lnf")),
+           aes(x = Site_age, 
+               
+               #y = ET_year,
+               y = ET_90D_peak_sum, 
+               colour = Site_ID),
+           
+           shape = 20, fill = NA, size = 2, stroke = 1) +
+    
+    # colour and rename
+    scale_colour_manual(
+      name = "Test Site",
+      values = pal
+    ) 
+
+
+p_age_et_ns <- df_yearly_clean %>%
+    
+    filter(!Site_ID %in% c("US-UMd", "DE-Lnf")) %>%
+    
+    # pick one of these two
+    ggplot(aes(x = Site_age, y = ET_year)) +
+
+    theme_bw() +
+    geom_point(alpha = 0.25)+
+    geom_vline(xintercept = mean_age$mean_age_all, colour = "firebrick", linetype = "dashed") +
+    
+    # fit gam for visual aid
+    geom_smooth(method = "gam", formula = y ~ s(x, k = 7), se = FALSE, alpha = 0.15, colour = pal[3])  +    
+    ylab("Yearly ET sum (mm)") +
     xlab("Site Age (years)") +
     #facet_wrap(~Climate_zone) +
     
-    # add medoid ids
-    geom_text_repel(aes(label = case_when(Site_ID %in% c("US-UMd", "DE-Lnf") ~ Site_ID)),
-                min.segment.length = 2,
-                force = 150,
-                box.padding = 1.25)
+    # adding in us-umd and de-lnf after plotting without them (reflects training data)
+    geom_point(data = df_yearly_clean %>% 
+                   filter(Site_ID %in% c("US-UMd", "DE-Lnf")),
+           aes(x = Site_age, 
+               
+               y = ET_year,
+               colour = Site_ID),
+           
+           shape = 20, fill = NA, size = 2, stroke = 1) +
+    
+    # colour and rename
+    scale_colour_manual(
+      name = "Test Site",
+      values = pal
+    ) 
+    
+    
 
 
+p_age_et_ns
 p_age_et
 
 ```
 
-```{r}
-sum_et_age_lm <- lm(ET_year ~ Site_age, data = df_yearly_clean)
-sum_et_peak_age_lm <- lm(ET_90D_peak_sum ~ Site_age, data = df_yearly_clean)
-```
 
 ```{r}
-summary(sum_et_peak_age_lm)
+# plot as TikZ object for integration into LaTeX
+# p1
+tikz(here("diss/figures/age_et_gam.tex"), width = 6, height = 4, standAlone = TRUE, sanitize = TRUE)
+print(p_age_et)
+dev.off()
+tikz(here("diss/figures/age_et_gam_ns.tex"), width = 6, height = 4, standAlone = TRUE, sanitize = TRUE)
+print(p_age_et_ns)
+dev.off()
+```
+
+
+```{r}
+# colour palette
+pal = ltc(casa_natal)
+
+p_shap_age <- bind_rows( df_shap_train %>% mutate(split = "train"), df_shap_test %>% mutate(split = NULL)) %>%
+    
+    # no shuffled and only age RF obviously
+    filter(age_transform != "shuffled",
+           model == "Mod + Age") %>%
+    
+    # x = raw age, y = SHAP importance for age
+    ggplot(aes(x = Site_age_raw, y = Site_age)) +
+    
+    theme_bw() +
+    
+    # add in points
+    geom_point(alpha = 0.3) +
+
+    # colour and rename
+    scale_colour_manual(
+      name = "Test Site",
+      values = pal
+    ) +
+    
+    # mean age of all sites 
+    geom_vline(xintercept = mean_age$mean_age_all, colour = "firebrick", linetype = "dashed") +
+
+    
+    # fit gam for visual aid
+    #geom_smooth(method = "gam", formula = y ~ s(x, k = 10), se = FALSE, alpha = 0.25)  +
+
+    # SHAP = 0 line
+    geom_hline(yintercept = 0, colour = "black", alpha = 0.5) +
+    ylab("SHAP value for \\texttt{Site\\_age}") +
+    xlab("Site Age (years)") +
+    
+    geom_smooth(method = "gam", formula = y ~ s(x, k = 7), se = FALSE, alpha = 0.15, colour = pal[5])  +    
+
+    
+    # colour test sites 
+    geom_point(data = df_shap_test %>% filter(site %in% c("US-UMd", "DE-Lnf"),
+                                              model == "Mod + Age",
+                                              age_transform != "shuffled"),
+           aes(x = Site_age_raw, 
+               
+               y = Site_age,
+               colour = site),
+           
+           shape = 20, fill = NA, stroke = 1, alpha = 0.3)
+    
+
+p_shap_age
+```
+
+
+```{r}
+tikz(here("diss/figures/shap_dependence.tex"), width = 6, height = 4, standAlone = TRUE)
+print(p_shap_age)
+dev.off()
+```
+
+
+```{r}
+# fit the same gam as in the plot and see if significant or not
+
 
 ```
 
