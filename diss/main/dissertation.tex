@@ -69,16 +69,26 @@ BCOR5mm, % Binding correction
 \tableofcontents 
 
 
+%----------------------------------------------------------------------------------------
+%	ABBREVIATIONS 
+%----------------------------------------------------------------------------------------
+\newpage
+\addsec{Abbreviations}
+\printacronyms[heading=none]
+
+
 
 
 %----------------------------------------------------------------------------------------
 %   CHAPTERS
 %----------------------------------------------------------------------------------------
 \newpage 
+%\linenumbers
 \input{chapters/intro.tex}
 \input{chapters/results.tex}
 \input{chapters/discussion.tex}
 \input{chapters/conclusion.tex}
+%\nolinenumbers
 
 
 
@@ -86,8 +96,10 @@ BCOR5mm, % Binding correction
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
 \newpage
-\renewcommand{\refname}{\spacedlowsmallcaps{References}} 
-\printbibliography
+\printbibliography[
+heading=bibintoc,
+title={References}
+]
 
 
 

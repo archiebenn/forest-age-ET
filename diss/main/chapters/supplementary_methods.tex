@@ -2,6 +2,19 @@
 %  SUPPLEMENTARY
 %----------------------------------------------------------------------------------------
 \newpage
+
+%supplementary setup
+\appendix
+\setcounter{equation}{0}
+\setcounter{table}{0}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesubsection}{S\arabic{section}.\arabic{subsection}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+
+
+
 \section{Supplementary Materials and Methods}
 All scripts used in this study, alongside a guide of how to re-run the full analysis, can be found at: \url{https://github.com/archiebenn/forest-age-ET.git}
 
@@ -10,7 +23,7 @@ All scripts used in this study, alongside a guide of how to re-run the full anal
 %	METHODS 600 words
 %----------------------------------------------------------------------------------------
 \subsection{Data Acquisition and Variables Setup}
-Flux tower data were downloaded from the FLUXNET2015 dataset \cite{fluxnet2015} and processed using \texttt{R} (version 4.5.3) \parencite{why_R_you_reading_this} with the \texttt{tidyverse} \parencite{tidy_this_up} suite of packages. Flux data were filtered to only keep North American and European sites whose forest ages are dated in \textcite{besnard2018}, with rows of variables within these sites filtered based on their provided FLUXNET QC flag value. ET rates were calculated row-wise from the provided \texttt{LE} (latent heat flux) and \texttt{T\_air} columns using the \texttt{LE.to.ET()} function from \texttt{bigleaf} \parencite{a_large_leaf} and multiplying this value by 86400 (\si{\second\per\day}). Therefore, ET represents actual ET (AET) throughout this study. Four-day LAI data (NASA product: MCD15A3H \parencite{myneni2015}) were retrieved using site coordinates via \texttt{MODISTools} \parencite{hufkens2023bluegreen}, filtered on QC, and linearly interpolated between the four-day periods of LAI to provide a continuous daily value, before joining by date and site to the main FLUXNET dataset.\par Site stand ages retrieved from \textcite{besnard2018} are static despite multi-year data ranges often contained at these sites in the FLUXNET. As such, site ages were extrapolated across the range of data at each site to act as a continuous metric, with the provided age set to the first row of the FLUXNET data for each site. K\"{o}ppen climate sites were retrieved and attached based on site latitude and longitude, and these classifications were further simplified to their main groups (Temperate and Continental in this case). To represent the day of year (DOY), $\sin()$ and $\cos()$ functions were applied to the radian value of the day within the year ($\frac{2 \pi \mathrm{DOY}}{365}$) and together provide a cyclical representation of the day of year. A two week cumulative sum of precipitation prior to the day of measurement was also calculated and attached per row, with the first 13 days of data at each site then being discarded. 
+Flux tower data were downloaded from the FLUXNET2015 dataset \cite{fluxnet2015} and processed using \texttt{R} (version 4.5.3) \parencite{why_R_you_reading_this} with the \texttt{tidyverse} \parencite{tidy_this_up} suite of packages. Flux data were filtered to only keep North American and European sites whose forest ages are dated in \textcite{besnard2018}, with rows of variables within these sites filtered based on their provided FLUXNET QC flag value. \ac{ET} rates were calculated row-wise from the provided \texttt{LE} (latent heat flux) and \texttt{T\_air} columns using the \texttt{LE.to.ET}() function from \texttt{bigleaf} \parencite{a_large_leaf} and multiplying this value by 86400 (\si{\second\per\day}). Therefore, \ac{ET} represents actual \ac{ET} (AET) throughout this study. Four-day LAI data (NASA product: MCD15A3H \parencite{myneni2015}) were retrieved using site coordinates via \texttt{MODISTools} \parencite{hufkens2023bluegreen}, filtered on QC, and linearly interpolated between the four-day periods of LAI to provide a continuous daily value, before joining by date and site to the main FLUXNET dataset.\par Site stand ages retrieved from \textcite{besnard2018} are static despite multi-year data ranges often contained at these sites in the FLUXNET. As such, site ages were extrapolated across the range of data at each site to act as a continuous metric, with the provided age set to the first row of the FLUXNET data for each site. K\"{o}ppen climate sites were retrieved and attached based on site latitude and longitude, and these classifications were further simplified to their main groups (Temperate and Continental in this case). To represent the day of year (DOY), $\sin()$ and $\cos()$ functions were applied to the radian value of the day within the year ($\frac{2 \pi \mathrm{DOY}}{365}$) and together provide a cyclical representation for time throughout the year. A two week cumulative sum of precipitation prior to the day of measurement was also calculated and attached per row, with the first 13 days of data at each site then being discarded. 
 
 
 \subsection{Cluster Analysis} \label{sec:cluster}
@@ -25,7 +38,7 @@ Cluster analysis is an exploratory technique which aims to classify objects into
 		\toprule
 		Variable & Data Type & Definition \\
 		\midrule
-		\texttt{ET} & Numerical &  Mean daily ET rate ($\si{\milli\metre\per\day}$ )\\
+		\texttt{\ac{ET}} & Numerical &  Mean daily \ac{ET} rate ($\si{\milli\metre\per\day}$ )\\
 		\texttt{T\_air} & Numerical & Mean air temperature at site (\si{\degreeCelsius}) \\
 		\texttt{SW\_rad} & Numerical & Mean daily incoming short-wave radiation ($\si{\watt\per\metre\squared}$) \\
 		\texttt{VPD} & Numerical & Mean daily vapour pressure deficit (\si{\hecto\pascal}) \\
@@ -45,17 +58,17 @@ Cluster analysis is an exploratory technique which aims to classify objects into
 
 
 \subsection{Random Forest Modelling and Evaluation Metrics}\label{sec:RF}
-Random Forest models were trained and tested with \texttt{RandomForestRegressor()} from \texttt{scikit-learn} \parencite{pedregosa2011scikit} using the different methods outlined below. Due to time constraints, a single set of optimised parameter values was calculated once using \texttt{GroupKFold()} and \texttt{Optuna} \parencite{akiba2019optuna} to minimise root mean square error (RMSE) on fold predictions. These values were used for all RF models throughout the study (see \autoref{tab:params}). 
-\par In all cases, regression analysis metrics of R$^2$ (coefficient of determination), RMSE, and mean absolute error (MAE) were calculated from model predictions of ET using their respective \texttt{scikit-learn} functions alongside observed values of ET at each site. R$^2$ aims to explain the proportion of variance captured by the model, while RMSE emphasises the size of errors against observed values. MAE was also used due to its simplicity and ability to compare to RMSE for a greater understanding of error structure. While no consensus has been reached on a unified metric to evaluate ML models and predictive accuracy, a model with the the highest values of R$^2$ and lowest values of RMSE is deemed the most accurate here \parencite{chicco2021coefficient, liyew2025review}.
+Random Forest models were trained and tested with \texttt{RandomForestRegressor()} from \texttt{scikit-learn} \parencite{pedregosa2011scikit} using the different methods outlined below. Due to time constraints, a single set of optimised parameter values was calculated once using \texttt{GroupKFold()} and \texttt{Optuna} \parencite{akiba2019optuna} to minimise root mean square error (RMSE) on fold predictions. These values were used for all \ac{RF} models throughout the study (see \autoref{tab:params}). 
+\par In all cases, regression analysis metrics of R$^2$ (coefficient of determination), RMSE, and mean absolute error (MAE) were calculated from model predictions of \ac{ET} using their respective \texttt{scikit-learn} functions alongside observed values of \ac{ET} at each site. R$^2$ aims to explain the proportion of variance captured by the model, while RMSE emphasises the size of errors against observed values. MAE was also used due to its simplicity and ability to compare to RMSE for a greater understanding of error structure. While no consensus has been reached on a unified metric to evaluate ML models and predictive accuracy, a model with the the highest values of R$^2$ and lowest values of RMSE is deemed the most accurate here \parencite{chicco2021coefficient, liyew2025review}.
 
 
 \begin{table}[H]
-	\caption{\centering Parameters selected for use in all RF training setups in this study. Calculated to minimise RMSE on trials using \texttt{GroupKFold()} and \texttt{Optuna}.}
+	\caption{\centering Parameters selected for use in all \ac{RF} training setups in this study. Calculated to minimise RMSE on trials using \texttt{GroupKFold()} and \texttt{Optuna}.}
 	\centering
 	\rowcolors{2}{white}{gray!7}
 	\begin{tabularx}{0.5\linewidth}{l l}
 		\toprule
-		RF parameter & Value \\
+		\ac{RF} parameter & Value \\
 		\midrule
 		\texttt{n\_estimators} & 350 \\
 		\texttt{max\_depth} & 17 \\
@@ -66,14 +79,14 @@ Random Forest models were trained and tested with \texttt{RandomForestRegressor(
 \end{table}
 
 \begin{table}[H]
-	\caption{\centering All Features and definitions included in different RF model setups during training and inference.}
+	\caption{\centering All Features and definitions included in different \ac{RF} model setups during training and inference.}
 	\centering
 	\rowcolors{2}{white}{gray!7}
 	\begin{tabularx}{\linewidth}{lX}
 		\toprule
 		Variable & Definition \\
 		\midrule
-		\texttt{ET} &  Mean daily ET rate ($\si{\milli\metre\per\day}$ )\\
+		\texttt{\ac{ET}} &  Mean daily \ac{ET} rate ($\si{\milli\metre\per\day}$ )\\
 		\texttt{Site\_age} &  Mean forest stand age at site (years) \\
 		\texttt{T\_air} &  Mean air temperature at site (\si{\degreeCelsius}) \\
 		\texttt{SW\_rad} & Mean daily incoming short-wave radiation ($\si{\watt\per\metre\squared}$) \\
@@ -90,11 +103,11 @@ Random Forest models were trained and tested with \texttt{RandomForestRegressor(
 
 
 \subsubsection{Model Sensitivity Testing} \label{sec:sens}
-To assess the sensitivity of the RF models to different features, a forward feature selection assessment was carried out. Non-target (ET) numerical features were added sequentially and the RF model was re-trained and tested by forming daily ET predictions at the medoid sites with each new feature added. Features were added in the following order: \texttt{T\_air, SW\_rad, VPD, Wspeed, P\_sum\_14D, Lai\_500m, sin\_DOY, cos\_DOY, Site\_Age}. Training sites consisted of all sites apart from medoids (see \autoref{tab:tab:site_summary}), with predictions formed and testing carried out at medoid sites.
+To assess the sensitivity of the \ac{RF} models to different features, a forward feature selection assessment was carried out. Non-target (\ac{ET}) numerical features were added sequentially and the \ac{RF} model was re-trained and tested by forming daily \ac{ET} predictions at the medoid sites with each new feature added. Features were added in the following order: \texttt{T\_air, SW\_rad, VPD, Wspeed, P\_sum\_14D, Lai\_500m, sin\_DOY, cos\_DOY, Site\_Age}. Training sites consisted of all sites apart from medoids (see \autoref{tab:tab:site_summary}), with predictions formed and testing carried out at medoid sites.
 
 
 \subsubsection{Random Sampling of Training Datasets} \label{sec:shuffle}
-To investigate how predictive performance is impacted by including site age as a feature, two separate RF architectures were formed: `Mod' (\autoref{eqn:mod}) and `Mod + Age' (\autoref{eqn:mod_age}).
+To investigate how predictive performance is impacted by including site age as a feature, two separate \ac{RF} architectures were formed: `Mod' (\autoref{eqn:mod}) and `Mod + Age' (\autoref{eqn:mod_age}).
 
 \begin{equation}
 	ET_i = RF\left(T\_air_i, SW\_rad_i, VPD_i, W\_speed_i, \sum_{i - 13}^{i}P, LAI_i, \sin\_DOY_i, \cos\_DOY_i\right)
@@ -106,8 +119,8 @@ To investigate how predictive performance is impacted by including site age as a
 	\label{eqn:mod_age}
 \end{equation}
 
-where the target $ET_i$ is the estimated ET rate on the $i$th day (mm/day); $RF(\cdot)$ is the Random Forest model; the features $T\_air$, $SW\_rad$, $VPD$, $W\_speed$, $\sum_{i - 13}^{i}P_i$, $LAI$, $Site\_Age$ are all listed with descriptions in \autoref{tab:features}. 
-\par To further assess how the overall ecological similarity of training dataset composition to the test site may impact predictive accuracy of daily ET, a method to subset sites from a larger site pool before RF training was also developed allowing Gower's distances of training sites to be varied and potential effects investigated (script \texttt{21\_analysis\_1.2.py}), with details on how this analysis runs below. 
+where the target $ET_i$ is the estimated \ac{ET} rate on the $i$th day (mm/day); $RF(\cdot)$ is the Random Forest model; the features $T\_air$, $SW\_rad$, $VPD$, $W\_speed$, $\sum_{i - 13}^{i}P_i$, $LAI$, $Site\_Age$ are all listed with descriptions in \autoref{tab:features}. 
+\par To further assess how the overall ecological similarity of training dataset composition to the test site may impact predictive accuracy of daily \ac{ET}, a method to subset sites from a larger site pool before \ac{RF} training was also developed allowing Gower's distances of training sites to be varied and potential effects investigated (script \texttt{21\_analysis\_1.2.py}), with details on how this analysis runs below. 
 \par Sites were first separated as follows: 6 medoid sites for testing and the remaining 44 sites as the full training pool. Following this, 20 sites were chosen at random (\texttt{NumPy.random} module) from the training pool, and then two models - `Mod' and `Mod + Age' - are trained on this subset of sites. After training, both models then predict on the six held out medoid sites, and the mean Gower's distance and mean age distance from the full training subset to each test site is calculated and stored alongside prediction performance metrics. This paired process is then repeated a further 99 times, each with a new \texttt{NumPy} seed to avoid using the same subset, to produce 100 runs using this method.
 
 
@@ -115,9 +128,9 @@ where the target $ET_i$ is the estimated ET rate on the $i$th day (mm/day); $RF(
 \par this is where i need to explain gower's distance mean plot etc.
 
 \subsubsection{Two Site Case Study: US-UMd and DE-Lnf} \label{sec:case_study}
-- details on LOGO approach  
+- details on \ac{LOGO} approach  
 - random shuffle details 
-- heatmap and $\Delta$Predicted ET details
+- heatmap and $\Delta$Predicted \ac{ET} details
 
 
 
@@ -129,7 +142,7 @@ where the target $ET_i$ is the estimated ET rate on the $i$th day (mm/day); $RF(
 
 
 
-
+\renewcommand{\theequation}{\arabic{equation}}
 
 
 

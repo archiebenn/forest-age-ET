@@ -53,11 +53,39 @@ dottedtoc % Dotted lines leading to the page numbers in the table of contents
 %----------------------------------------------------------------------------------------
 \usepackage{microtype}
 \usepackage{tgheros}
+
+%%% uni formatting
 \renewcommand{\familydefault}{\sfdefault} % when reverting back add eulermath to classicthesis option
 \usepackage{newtxsf}
+\linespread{1.1}
+\usepackage{lineno}
+
+
+% code to stop section line numbering from substack
+% Source - https://tex.stackexchange.com/a/635606
+% Posted by Jinwen
+% Retrieved 2026-09-03, License - CC BY-SA 4.0
+\newif\ifLNturnsON
+\def\LocallyStopLineNumbers{\LNturnsONfalse%
+	\ifLineNumbers\LNturnsONtrue\fi\nolinenumbers}
+\def\ResumeLineNumbers{\ifLNturnsON\linenumbers\fi}
+
+\makeatletter
+
+\titleformat{\section}
+{\LocallyStopLineNumbers\normalfont\Large\bfseries}{\thesection}{1em}{}[\ResumeLineNumbers]
+\titleformat{\subsection}
+{\LocallyStopLineNumbers\normalfont\large\bfseries}{\thesubsection}{1em}{}[\ResumeLineNumbers]
+\titleformat{\subsubsection}
+{\LocallyStopLineNumbers\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}[\ResumeLineNumbers]
+\titleformat{\paragraph}[runin]
+{\LocallyStopLineNumbers\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}[\ResumeLineNumbers]
+\titleformat{\subparagraph}[runin]
+{\LocallyStopLineNumbers\normalfont\normalsize\bfseries}{\thesubparagraph}{1em}{}[\ResumeLineNumbers]
+%%% end of uni formatting
+
 %\usepackage[mathlf]{MinionPro} % onlytext
 \usepackage{float}
-\linespread{1.1}
 \usepackage[margin=3cm]{geometry}
 \usepackage{subcaption}
 \usepackage{caption}
@@ -81,6 +109,7 @@ dottedtoc % Dotted lines leading to the page numbers in the table of contents
 \usepackage{tabularx}
 \usepackage[table]{xcolor}
 \linespread{1.25}
+\usepackage{acro}
 
 
 
@@ -112,6 +141,68 @@ pdfsubject={}, % PDF Subject
 pdfkeywords={}, % PDF Keywords
 pdfcreator={pdfLaTeX}, % PDF Creator
 pdfproducer={LaTeX with hyperref and ClassicThesis} % PDF producer
+}
+
+
+
+%----------------------------------------------------------------------------------------
+%	ACRONYMS
+%---------------------------------------------------------------------------------------
+
+
+
+
+\DeclareAcronym{ET}{
+	short=ET,
+	long=Evapotranspiration,
+}
+\DeclareAcronym{SHAP}{
+	short=SHAP,
+	long=SHapley Additive exPlanations,
+}
+\DeclareAcronym{ML}{
+	short=ML,
+	long=Machine Learning,
+}
+\DeclareAcronym{RF}{
+	short=RF,
+	long=Random Forest,
+}
+\DeclareAcronym{DL}{
+	short=DL,
+	long=Deep Learning,
+}
+\DeclareAcronym{EC}{
+	short=EC,
+	long=Eddy Covariance,
+}
+\DeclareAcronym{PAM}{
+	short=PAM,
+	long=Partitioning Around Medoids,
+}
+\DeclareAcronym{R2}{
+	short={$R^2$},
+	long=Coefficient of determination,
+}
+\DeclareAcronym{RMSE}{
+	short=RMSE,
+	long=Root Mean Square Error,
+}
+\DeclareAcronym{MAE}{
+	short=MAE,
+	long=Mean Absolute Error,
+}
+\DeclareAcronym{LOGO}{
+	short=LOGO,
+	long=Leave One Group Out,
+}
+\DeclareAcronym{NEP}{
+	short=NEP,
+	long=Net Ecosystem Productivity,
+}
+\DeclareAcronym{LAI}{
+	short=LAI,
+	long=Leaf Area Index,
 }
 
 
