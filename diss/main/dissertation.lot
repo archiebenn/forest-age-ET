@@ -1,6 +1,0 @@
-\deactivateaddvspace 
-\contentsline {table}{\numberline {1}{\ignorespaces \centering Main characteristics of each cluster defined during cluster analysis}}{19}{table.caption.8}%
-\contentsline {table}{\numberline {2}{\ignorespaces \centering Variables and definitions used to calculate Gower's distances during cluster analysis.}}{23}{table.caption.10}%
-\contentsline {table}{\numberline {3}{\ignorespaces \centering Parameters selected for use in all RF training setups in this study. Calculated to minimise RMSE on trials using \texttt {GroupKFold()} and \texttt {Optuna}.}}{23}{table.caption.11}%
-\contentsline {table}{\numberline {4}{\ignorespaces \centering {Metadata summary of FLUXNET sites used in this study (*** denotes a cluster medoid)}}}{25}{table.caption.12}%
-\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

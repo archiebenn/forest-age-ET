@@ -284,9 +284,6 @@ p_shap_age <- bind_rows( df_shap_train %>% mutate(split = "train"), df_shap_test
     ylab("SHAP value for \\texttt{Site\\_age}") +
     xlab("Site Age (years)") +
     
-    geom_smooth(method = "gam", formula = y ~ s(x, k = 7), se = FALSE, alpha = 0.15, colour = pal[5])  +    
-
-    
     # colour test sites 
     geom_point(data = df_shap_test %>% filter(site %in% c("US-UMd", "DE-Lnf"),
                                               model == "Mod + Age",

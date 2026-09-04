@@ -22,8 +22,8 @@
 \documentclass[
 11pt, % Main document font size
 a4paper, % Paper type, use 'letterpaper' for US Letter paper
-oneside, % One page layout (no page indentation)
-%twoside, % Two page layout (page indentation for binding and different headers)
+%oneside, % One page layout (no page indentation)
+twoside, % Two page layout (page indentation for binding and different headers)
 headinclude,footinclude, % Extra spacing for the header and footer
 BCOR5mm, % Binding correction
 ]{scrartcl}
@@ -45,6 +45,7 @@ BCOR5mm, % Binding correction
 %----------------------------------------------------------------------------------------
 
 \begin{document}
+\pagenumbering{roman}
 
 %----------------------------------------------------------------------------------------
 %	FRONT MATTER 
@@ -65,7 +66,7 @@ BCOR5mm, % Binding correction
 %----------------------------------------------------------------------------------------
 %	TABLE OF CONTENTS 
 %----------------------------------------------------------------------------------------
-\setcounter{tocdepth}{3} 
+\setcounter{tocdepth}{2} 
 \tableofcontents 
 
 
@@ -78,17 +79,19 @@ BCOR5mm, % Binding correction
 
 
 
-
-%----------------------------------------------------------------------------------------
+%-----------------------------------------------------------
 %   CHAPTERS
 %----------------------------------------------------------------------------------------
-\newpage 
-\linenumbers
+\cleardoublepage
+\pagenumbering{arabic}
+\input{lit_review_copy.tex}
+%\linenumbers
+\cleardoublepage 
 \input{chapters/intro.tex}
 \input{chapters/results.tex}
 \input{chapters/discussion.tex}
 \input{chapters/conclusion.tex}
-\nolinenumbers
+%\nolinenumbers
 
 
 

@@ -74,7 +74,8 @@ analysis_2: ## temporal analysis - trains RF models on earliest 80% of FLUXNET d
 case_study: ## looking into US-Umd and DE-Lnf in depth with SHAP values and straining site age perturbations
 	python scripts/python/27_case_study.py
 
-tex_plots: ## run latex on the individual plots from tikzDevice for integration as pdfs into main .tex 
+tex_plots: ## run latex on the individual plots from tikzDevice for integration as pdfs into main .tex
+	cd diss/figures/oishi_plot && pdflatex -interaction=nonstopmode oishi_et_plot.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode world_sites.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.1_p1.tex
 	cd diss/figures && pdflatex -interaction=nonstopmode 1.2_p3.tex

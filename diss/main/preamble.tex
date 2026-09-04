@@ -52,12 +52,11 @@ dottedtoc % Dotted lines leading to the page numbers in the table of contents
 % MY PACKAGES
 %----------------------------------------------------------------------------------------
 \usepackage{microtype}
-\usepackage{tgheros}
-
+%\usepackage{tgheros}
 %%% uni formatting
-\renewcommand{\familydefault}{\sfdefault} % when reverting back add eulermath to classicthesis option
+%\renewcommand{\familydefault}{\sfdefault} % when reverting back add eulermath to classicthesis option
 \usepackage{newtxsf}
-\linespread{1.1}
+\linespread{1.15}
 \usepackage{lineno}
 
 
@@ -84,9 +83,10 @@ dottedtoc % Dotted lines leading to the page numbers in the table of contents
 {\LocallyStopLineNumbers\normalfont\normalsize\bfseries}{\thesubparagraph}{1em}{}[\ResumeLineNumbers]
 %%% end of uni formatting
 
-%\usepackage[mathlf]{MinionPro} % onlytext
+\usepackage[mathlf]{MinionPro} % onlytext
 \usepackage{float}
-\usepackage[margin=3cm]{geometry}
+%\usepackage[margin=3cm]{geometry}   % for non-printing
+\usepackage[twoside,inner=3.5cm,outer=2.5cm,top=3cm,bottom=3cm]{geometry}
 \usepackage{subcaption}
 \usepackage{caption}
 \captionsetup{
@@ -98,18 +98,34 @@ dottedtoc % Dotted lines leading to the page numbers in the table of contents
 	textfont=normalfont
 }
 
-\usepackage[style=numeric,
+\usepackage[style=authoryear,
  maxbibnames=10,
  minbibnames=10,
- sorting=none]{biblatex}
+ maxcitenames=2]{biblatex}
+ 
+ % italicised 'et al.' from stackexchange:
+ \renewbibmacro*{name:andothers}{% Based on name:andothers from biblatex.def
+ 	\ifboolexpr{
+ 		test {\ifnumequal{\value{listcount}}{\value{liststop}}}
+ 		and
+ 		test \ifmorenames
+ 	}
+ 	{\ifnumgreater{\value{liststop}}{1}
+ 		{\finalandcomma}
+ 		{}%
+ 		\andothersdelim\bibstring[\emph]{andothers}}
+ 	{}}
+ 	
+ 	\setlength\bibitemsep{0.4\baselineskip} % spacing in reference list
+ 
 \addbibresource{references.bib}
 \usepackage{siunitx}
 \usepackage{gensymb}
 \usepackage{nicefrac}
 \usepackage{tabularx}
 \usepackage[table]{xcolor}
-\linespread{1.25}
 \usepackage{acro}
+\usepackage{tikz}
 
 
 
@@ -203,6 +219,30 @@ pdfproducer={LaTeX with hyperref and ClassicThesis} % PDF producer
 \DeclareAcronym{LAI}{
 	short=LAI,
 	long=Leaf Area Index,
+}
+\DeclareAcronym{RNN}{
+	short=RNN,
+	long=Recurrent Neural Network,
+}
+\DeclareAcronym{ANN}{
+	short=ANN,
+	long=Artificial Neural Network,
+}
+\DeclareAcronym{SVM}{
+	short=SVM,
+	long=Support Vector Machine,
+}
+\DeclareAcronym{RS}{
+	short=RS,
+	long=Remote Sensing,
+}
+\DeclareAcronym{VPD}{
+	short=VPD,
+	long=Vapour Pressure Deficit,
+}
+\DeclareAcronym{SC}{
+	short={$g_s$},
+	long=Stomatal Conductance,
 }
 
 
