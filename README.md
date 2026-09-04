@@ -3,17 +3,16 @@ Does forest age as a predictor in ML ET models affect spatial generalisation and
 
 # Steps for re-running the full analysis in this project
 ## Requirements  
-`micromamba` installation  (see: https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html). To install, run:
+- Micromamba installation
+- To install, run:
 
 ```bash
 "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
 ```
   
 ## 1. Download FLUXNET data
-Download to `~/Downloads`  
-Full FLUXNET2015 data should be downloaded from https://fluxnet.org/data/download-historical-data/ and selecting FLUXNET2015: CC-BY-4.0  
-> [!IMPORTANT]
-> This must be done manually before any further steps to reproduce this analysis, and must be downloaded to `~\Downloads`
+- Download to `~/Downloads`  
+- Full FLUXNET2015 data can be downloaded from https://fluxnet.org/data/download-historical-data/ and selecting FLUXNET2015: CC-BY-4.0  
 
 ## 2. Environment setup
 Setup the `micromamba` and python environments to ensure reproducibility:  
