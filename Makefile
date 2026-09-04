@@ -3,7 +3,7 @@
 # author:  Archie Benn sj19031@bristol.ac.uk
 # May - September 2026
 
-.PHONY: help all setup sites map fluxnet lai filter ET_plots climates sorting filter2 gams engineer grid_search single_held_out generate_plots gower analysis_1.1 analysis_1.2 analysis_2 case_study tex_plots diss
+.PHONY: help all setup sites sort map fluxnet lai filter ET_plots climates sorting filter2 gams engineer grid_search single_held_out generate_plots gower analysis_1.1 analysis_1.2 analysis_2 case_study tex_plots diss
 
 .DEFAULT_GOAL := help
 
@@ -12,10 +12,15 @@ ARCHITECTURE ?= rf
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
-all: setup sites fluxnet lai filter ET_plots climates sorting filter2 engineer gower analysis_1.1 analysis_1.2 analysis_2 case_study map tex_plots diss
+all: setup sites sort fluxnet lai filter ET_plots climates sorting filter2 engineer gower analysis_1.1 analysis_1.2 analysis_2 case_study
 
 setup: ## setup the folder structure for data to be read into/out of
+	chmod +x scripts/bash/setup.sh
 	./scripts/bash/setup.sh
+
+sort: ## copy downloaded FLUXNET zips, extract DD csvs for selected sites only
+	chmod +x scripts/bash/sort_csv.sh
+	./scripts/bash/sort_csv.sh
 
 sites: ## data prep  part 1 - filter sites, make csv, create world map
 	Rscript scripts/R/01_sites.R

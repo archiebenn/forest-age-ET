@@ -23,10 +23,16 @@ mkdir -p 12_GAM_testing
 mkdir -p 13_GAM_exploration
 mkdir -p 14_pre_processing
 mkdir -p 15_random_forest_test
+mkdir -p 15.5_gridsearch
 mkdir -p 16_ML_results
 mkdir -p 17_plots_generate
 mkdir -p 18_single_site_exploration
 mkdir -p 19_decomposition
+mkdir -p 20_gower
+mkdir -p 21_analysis_1.1
+mkdir -p 21_analysis_1.2
+mkdir -p 27_case_study
+
 
 
 

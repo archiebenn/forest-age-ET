@@ -539,4 +539,3 @@ dependencies:
     - xlsx2csv==0.8.6
     - yarl==1.22.0
 
-prefix: "/home/ab/micromamba/envs/bbinf_project"
