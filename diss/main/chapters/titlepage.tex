@@ -43,7 +43,7 @@
 		
 		\spacedallcaps{\normalsize Archie Benn}\\ \vspace{1em}
 		\spacedallcaps{\Large \bfseries How to Train Your Model}\\ \vspace{1em}
-		\spacedallcaps{\normalsize Assessing the Impacts of Forest Age on the Spatial Generalisation of Random Forest Evapotranspiration Models}
+		\spacedallcaps{\normalsize Assessing the Influence of Forest Age as a Feature on Random Forest Evapotranspiration Predictions}
 		
 		\vspace{6em}
 		
@@ -66,31 +66,18 @@
 	%	ABSTRACT
 	%----------------------------------------------------------------------------------------
 	
-	\vspace*{3em}
+	\vspace*{2em}
 	\section*{Abstract} 	
 	\normalfont \normalsize
-	\subsection*{Background}
-	 \ac{ML} methods are increasingly being used to generate accurate predictions of \ac{ET} in data sparse regions globally, making it important to understand how site characteristics and model predictors impact generalisation performance to unseen areas. Forest age as a predictor in \ac{ET} models is under-explored, despite its potential to encode age-related changes to forest ecosystems which may affect \ac{ET} rates.
-	 
-	\subsection*{Methods}
-	This study considers the influence of forest age on \ac{ET} predictions by carrying out cluster analysis with generalisation experiments at FLUXNET sites, using \ac{RF} models trained with and without forest age as a feature. \ac{SHAP} analysis was used to interrogate if age impacted model decision making, and a shuffled-age experiment was used to assess whether real age-ET relationships were being learned by the models.
-	
-	\subsection*{Results}
-	Forest age produced strong but non-uniform effects on predictive performance in the models, and greater ecological dissimilarity between training and test data reduced generalisation capabilities. A two case study sites suggested the models were using forest age as a site-level offset, increasing or decreasing prediction values based on the age of the site relative to the training set mean age. Time-series \ac{SHAP} analysis of these predictions indicated greater importance was placed on age during winter months, and impacts on overall $R^2$ could be explained by these seasonally-driven changes to predictions at both sites. Models also learned a real age-ET relationship... (REAL?)
-	
-	
-	Results from spatial generalisation suggest nuanced results, with age benefiting predictions at some held out test sites, and hurting at others. Further investigation into two sites with opposing results pointed towards x being a factor (MAYBE?). Temporal generalisation suggested forest age  x y z. 
-	\subsection*{Conclusion}
-	These findings suggest that forest age may be useful to consider in \ac{ML} \ac{ET} modelling in the future, however considerations relating to tree species and the impacts of age on tree dynamics within each species may be useful in determining whether to use forest age or not in predictions. Suggestions for future work include accurate age surveys to be carried out at other FLUXNET sites which may permit `per-species models' to be formed and tested for use with forest age. 
-	
+	 \ac{ML} methods are increasingly being used to generate predictions of \ac{ET} in data-sparse regions, making it important to understand how site characteristics and model predictors impact generalisation in unseen areas. Forest age is under-explored as a predictor in \ac{ET} models, despite its potential to encode age-related changes in trees which may influence \ac{ET} rates. This study considers the effects of forest age on \ac{ET} predictions by carrying out generalisation experiments at FLUXNET sites, using \ac{RF} models trained with and without forest age as a feature. Forest age produced detectable but non-uniform effects on predictive performance in the models, and a two-site case study indicated that forest age was used as a site-level offset, shifting predictions based on the test site age relative to the training set mean age. Time-series \acs{SHAP} analysis of these predictions indicated age exerted its strongest influence during winter, and impacts on overall $R^2$ could be explained by these seasonally-driven changes at both sites. Shuffled-age analysis confirmed models were learning true-age information, although the validity of this underlying age-ET relationship was constrained by species and climate heterogeneity in the training sets. Species-specific developmental dynamics are expected to largely influence age-ET relationships, and future work here should prioritise the formation of species-specific models. Ultimately, forest age will only be valuable as a predictor if it captures information about ET not already provided by more readily available measurements; if other variables describe this information more easily, the use of forest age becomes redundant.
 	\vspace{3em}
 	
-	\noindent\textbf{Key words:} Machine Learning, Evapotranspiration, FLUXNET, Forest Age. \\
-	\noindent\textbf{Word count total:} \wordcountresulttotal\\
-	\noindent\textbf{Introduction:} \wordcountresultintro\\
-	\noindent\textbf{Results:} \wordcountresultres\\
-	\noindent\textbf{Discussion:} \wordcountresultdiscuss\\
-	\noindent\textbf{Conclusion:} \wordcountresultconc\\
+	\noindent\textbf{Key words:} Machine Learning, Evapotranspiration, Forest Age, FLUXNET. \\
+	\noindent\textbf{Word count:} \wordcountresulttotal\\
+	%\noindent\textbf{Introduction:} \wordcountresultintro\\
+	%\noindent\textbf{Results:} \wordcountresultres\\
+	%\noindent\textbf{Discussion:} \wordcountresultdiscuss\\
+	%\noindent\textbf{Conclusion:} \wordcountresultconc\\
 	
 	\vspace*{\fill}
 	

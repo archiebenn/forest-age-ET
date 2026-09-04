@@ -63,7 +63,7 @@
 \begin{figure}[H]
 	\fbox{\includegraphics[width=\linewidth]{../../figures/1.1_p1.pdf}}
 	\captionsetup{justification=centering}
-	\caption{R$^2$, RMSE, and MAE for medoid cluster site predictions of daily ET during sensitivity testing (ordered left-right and top-bottom by peak R$^2$). Models were built and tested using a consecutively greater number of input features from FLUXNET and LAI data (for example, the `+VPD model' incorporates Tair, SW\_rad, and VPD as training and input features). R$^2$ performance at only half of the sites was moderate or strong, and suggests that adding features up to LAI improved prediction accuracy at four of the six medoid sites. Adding site age as a final feature led to mixed performance across ET predictions made at medoid sites, with only two of the six benefiting in terms of predictive performance from this input feature.}
+	\caption{R$^2$, RMSE, and MAE for medoid cluster site predictions of daily ET during sensitivity testing (ordered left-right and top-bottom by peak R$^2$). Models were built and tested using a consecutively greater number of input features from FLUXNET and LAI data (for example, the `+VPD model' incorporates Tair, SW\_rad, and VPD as training and input features). R$^2$ performance at only half of the sites was moderate or strong, and suggests that adding features up to LAI improved prediction accuracy at four of the six medoid sites. Adding site age as a final feature led to mixed performance across ET predictions made at medoid sites, with only two of the six benefiting in terms of predictive performance.}
 	\label{fig:adding_features}
 \end{figure}
 \vspace*{\fill}
@@ -84,7 +84,7 @@
 \begin{figure}[H]
 	\fbox{\includegraphics[width=\linewidth]{../../figures/1.2_gower_r2.pdf}}
 	\captionsetup{justification=centering}
-	\caption{Plots displaying how R$^2$ of ET predictions relates to the mean Gower's distance and mean age distance from the training sites to each medoid test site with all sites together (100 runs). All fitted lines are a simple single linear regressions. The top plots are results from Mod, and the lower plots are results from Mod + Age, with results from all medoid test sites shown per plot. Visualisation indicate a correlation between R$^2$ and the mean Gower's distance in both Mod and Mod + Age, implying that models formed from datasets more closely related to the test sites produce more accurate predictions of ET. A relationship between R$^2$ and the mean age distance can be seen on the side plots, where predictions at test sites whose ages were further from the mean age of the training sites were typically lowered in both models.}
+	\caption{Plots displaying how R$^2$ of ET predictions relates to the mean Gower's distance and mean age distance from the training sites to each medoid test site with all sites together (100 runs). All fitted lines are a simple single linear regressions.}
 	\label{fig:r2_gower}
 \end{figure}
 \vspace*{\fill}
@@ -95,7 +95,8 @@
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[t]{\linewidth}
-		\fbox{\includegraphics[width=0.9\linewidth]{../../figures/umd_main.pdf}}
+		\centering
+		\fbox{\includegraphics[width=0.85\linewidth]{../../figures/umd_main.pdf}}
 		\captionsetup{justification=centering}
 		\caption{Subset of 5000 points comparing the observed daily ET and predicted daily ET from the two RF models with a 1:1 line shown in red (perfect model line). `Mod + Age' improved prediction metrics overall compared to `Mod', with a higher R$^2$ and lower RMSE and MAE. Visually, points appear tighter to the 1:1 line at both extremes, although extreme highs in observed daily ET rates are often under-predicted in both models.}
 		\label{subfig:umd1}
@@ -103,9 +104,10 @@
 	\hfill
 	\vspace{2em}
 	\begin{subfigure}[t]{\linewidth}
-		\fbox{\includegraphics[width=0.9\linewidth]{../../figures/lnf_main.pdf}}
+		\centering
+		\fbox{\includegraphics[width=0.85\linewidth]{../../figures/lnf_main.pdf}}
 		\captionsetup{justification=centering}
-		\caption{Subset of 2500}
+		\caption{Subset of 5000 points comparing observed and predicted daily ET from the two RF models at DE-Lnf, with a 1:1 line shown in red. Unlike US-UMd, 'Mod + Age' worsened prediction metrics overall compared to 'Mod', with a lower $R2$ and higher RMSE and MAE. The addition of age appears to cause low observed ET to be over-predicted, an opposite response to that seen at US-UMd}
 		\label{subfig:lnf1}
 	\end{subfigure}
 	\captionsetup{justification=centering}
@@ -121,21 +123,23 @@
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[t]{\linewidth}
-		\fbox{\includegraphics[width=0.9\linewidth]{../../figures/umd_main2.pdf}}
+		\centering
+		\fbox{\includegraphics[width=0.85\linewidth]{../../figures/umd_main2.pdf}}
 		\captionsetup{justification=centering}
-		\caption{Time series observed daily ET overlaid with the predicted daily ET using the `Mod + Age' RF model seen on the left, with average SHAP feature importance values across all predictions made with this model on the right. Time series plot suggests a strong fit to the observed data but with peak ET rates in extreme summers being under-predicted, in line with the shape seen in plot \subref{subfig:umd1}. Feature importance with SHAP...[CONTINUE] }
+		\caption{Dominant features from SHAP importance here are \texttt{SW\_rad} and \texttt{cos\_DOY}, indicating that the radiation intensity and day length is the primary driver of ET predictions at both sites. \texttt{Site\_age} ranked 6th in feature importance here US-UMd.}
 		\label{subfig:umd2}
 	\end{subfigure}
 	\hfill
 	\vspace{2em}
 	\begin{subfigure}[t]{\linewidth}
-		\fbox{\includegraphics[width=0.9\linewidth]{../../figures/lnf_main2.pdf}}
+		\centering
+		\fbox{\includegraphics[width=0.85\linewidth]{../../figures/lnf_main2.pdf}}
 		\captionsetup{justification=centering}
-		\caption{M.}
+		\caption{As with US-UMd, dominant features from SHAP importance are \texttt{SW\_rad} and \texttt{cos\_DOY}. \texttt{Site\_age} ranked 5th in importance at DE-Lnf, slightly below its 6th-place ranking at US-UMd.}
 		\label{subfig:lnf2}
 	\end{subfigure}
 	\captionsetup{justification=centering}
-	\caption{Case Study plots for site DE-Lnf.}
+	\caption{Time series observed daily ET overlaid with the predicted daily ET using the `Mod + Age' RF model seen on the left, with average SHAP feature importance values across all predictions made with this model on the right. Time series plot suggests a strong fit to the observed cyclical data, but with peak ET rates in extreme summers being under-predicted, and winters frequently over-predicted at both sites.}
 	\label{fig:shap_preds}
 \end{figure}
 \vspace*{\fill}
@@ -144,23 +148,25 @@
 \newpage
 \vspace*{\fill}
 \begin{figure}[H]
-	\centering
+
 	\begin{subfigure}[t]{\linewidth}
-		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/umd_shap_diff.pdf}}
+		\centering
+		\fbox{\includegraphics[width=0.8\linewidth]{../../figures/umd_shap_diff.pdf}}
 		\captionsetup{justification=centering}
-		\caption{}
+		\caption{\texttt{Site\_age} at US-UMd exerted a mostly negative impact on ET predictions, with this absolute value peaking during winter months and appearing to align with negative values on the $\Delta$Predicted ET line above.}
 		\label{subfig:diff_umd}
 	\end{subfigure}
 	\hfill
-	\vspace{2em}
+	\vspace{1em}
 	\begin{subfigure}[t]{\linewidth}
-		\fbox{\includegraphics[width=0.95\linewidth]{../../figures/lnf_shap_diff.pdf}}
+		\centering
+		\fbox{\includegraphics[width=0.8\linewidth]{../../figures/lnf_shap_diff.pdf}}
 		\captionsetup{justification=centering}
-		\caption{yer}
+		\caption{\texttt{Site\_age} at DE-Lnf exerted a mostly positive impact on ET predictions, with this absolute value also peaking during winter months and appearing to align with positive values on the $\Delta$Predicted ET line above.}
 		\label{subfig:diff_lnf}
 	\end{subfigure}
 	\captionsetup{justification=centering}
-	\caption{C}
+	\caption{Time-series plots of weekly mean SHAP values aligned with daily $\Delta$Predicted ET between the `Mod' and `Mod + Age'. The red dashed line in the top plots indicates no change to daily ET predictions when age was included in the models. All predictors in the `Mod + Age' models, apart from \texttt{W\_speed} and \texttt{P\_sum\_14D} showed yearly cycles of importance according to SHAP.}
 	\label{fig:diffs_et}
 \end{figure}
 
@@ -168,9 +174,9 @@
 \vspace*{\fill}
 \begin{figure}[H]
 	\centering
-	\fbox{\includegraphics[width=0.85\linewidth]{../../figures/umd_scatter.pdf}}
+	\fbox{\includegraphics[width=0.7\linewidth]{../../figures/umd_scatter.pdf}}
 	\captionsetup{justification=centering}
-	\caption{yh}
+	\caption{Scatter plot of $\Delta$Predicted ET against SHAP values for \texttt{Site\_age} at US-UMd, overlaid with a simple linear model. A strong, near-linear positive relationship is visible, consistent with the multiple linear regression results (Table \ref{tab:mlr_umd}) confirming \texttt{Site\_age} SHAP as the dominant predictor of $\Delta$Predicted ET at this site.}
 	\label{fig:umd_scatter}
 \end{figure}
 
@@ -212,9 +218,9 @@
 \vspace*{\fill}
 \begin{figure}[H]
 	\centering
-	\fbox{\includegraphics[width=0.85\linewidth]{../../figures/lnf_scatter.pdf}}
+	\fbox{\includegraphics[width=0.7\linewidth]{../../figures/lnf_scatter.pdf}}
 	\captionsetup{justification=centering}
-	\caption{bbb}
+	\caption{Scatter plot of $\Delta$Predicted ET against SHAP values for \texttt{Site\_age} at DE-Lnf, overlaid with a simple linear model. As with US-UMd, a strong, near-linear positive relationship is visible, consistent with the multiple linear regression results (Table \ref{tab:mlr_lnf}) confirming \texttt{Site\_age} SHAP as the dominant predictor of $\Delta$Predicted ET at this site.}
 	\label{fig:lnf_scatter}
 \end{figure}
 
@@ -258,7 +264,7 @@
 \begin{figure}[H]
 	\fbox{\includegraphics[width=\linewidth]{../../figures/shap_dependence.pdf}}
 	\captionsetup{justification=centering}
-	\caption{SHAP dependence plot for \texttt{Site\_age}. Test site SHAP values are highlighted in colour and represent model decisions for this feature on the unseen test sites when forming predictions for daily ET. Training site SHAP values are represented by the black points, and the red dashed line represents the mean forest age at all sites in this study. An almost stepwise, clear separation is visible for SHAP importance around the mean value for raw site age: a negative importance is typically placed at sites where forest age falls below the all-site mean, and positive at sites above this value. As the forest ages of US-UMd and DE-Lnf fall on separate sides of the all-site mean this may explain the model decisions in pushing ET predictions up (DE-Lnf) or down (US-UMd), with season-specific importance further relating to changes in overall $R^2$.}
+	\caption{SHAP dependence plot for \texttt{Site\_age}. Training site SHAP values are represented by the black points, test sites are coloured, and the red dashed line represents the mean forest age at all sites in this study. A GAM with $k=7$ is also fitted as a visual aid. An almost stepwise, clear separation is visible for SHAP importance around the mean value for raw site age: a negative importance is typically placed at sites where forest age falls below the all-site mean, and positive at sites above this value.}
 	\label{fig:shap_dependence}
 \end{figure}
 \vspace*{\fill}
@@ -276,18 +282,9 @@
 \newpage
 \vspace*{\fill}
 \begin{figure}[H]
-	\begin{subfigure}{0.95\linewidth}
-		\fbox{\includegraphics[width=\linewidth]{../../figures/age_et_gam_ns.pdf}}
-		\captionsetup{justification=centering}
-		\subcaption{ET sum for site years plotted against the raw forest age at sites. A GAM with $k=7$ is fitted as a visual aid. }
-	\end{subfigure}
-	\begin{subfigure}{0.95\linewidth}
-		\fbox{\includegraphics[width=\linewidth]{../../figures/age_et_gam.pdf}}
-		\captionsetup{justification=centering}
-		\subcaption{Sum 90D ET}
-	\end{subfigure}
+	\fbox{\includegraphics[width=\linewidth]{../../figures/age_et_gam_ns.pdf}}
 	\captionsetup{justification=centering}
-	\caption{A GAM with $k=7$ is fitted as a visual aid.}
+	\caption{ET sum for all site years plotted against the raw forest age at sites. A GAM with $k=7$ is fitted as a visual aid, and suggests a gradual increase in ET sum up to a peak at around 185 years, before declining again. This nonlinear pattern is consistent with the shape of the SHAP dependence plot (Figure \ref{fig:shap_dependence}) and may reflect the underlying age-ET relationship the RF model is learning from.}
 	\label{fig:age_et_all}
 \end{figure}
 \vspace*{\fill}
