@@ -15,7 +15,7 @@ Does forest age as a predictor in ML ET models affect spatial generalisation and
 - Full FLUXNET2015 data can be downloaded from https://fluxnet.org/data/download-historical-data/ and selecting FLUXNET2015: CC-BY-4.0  
 
 ## 2. Environment setup
-Setup the `micromamba` and python environments to ensure reproducibility:  
+Setup the Micromamba and Python environments to ensure reproducibility:  
   
 ```
 # clone repo
