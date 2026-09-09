@@ -83,7 +83,8 @@ facet_order <- df_results_relabelled %>%
 
 ```{r}
 # colour palette
-pal = ltc(trio1)
+#pal <- ltc(trio1)
+pal <- viridis::viridis(3)
 
 
 p1 <- df_results_relabelled %>%

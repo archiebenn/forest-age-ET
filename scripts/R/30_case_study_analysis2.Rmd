@@ -62,7 +62,8 @@ df_shap_train <- read_csv(here("data/main/27_case_study/train_shap2.csv"))
 se <- function(x) {sd(x) / sqrt(length(x))}
 
 # colours
-pal = ltc(casa_natal)
+#pal = ltc(casa_natal)
+pal <- viridis::viridis(3)
 
 # bar plot
 p1 <- df_stats %>%
@@ -152,7 +153,8 @@ df_yearly_clean <- df_yearly %>%
 
 
 ```{r}
-pal = ltc(trio3)
+#pal = ltc(trio3)
+pal <- viridis::viridis(3)
 
 mean_age <- df_yearly_clean %>%
     
@@ -168,11 +170,11 @@ p_age_et <- df_yearly_clean %>%
     ggplot(aes(x = Site_age, y = ET_90D_peak_sum)) +
     
     theme_bw() +
-    geom_point(alpha = 0.25)+
+    geom_point(alpha = 0.05)+
     geom_vline(xintercept = mean_age$mean_age_all, colour = "firebrick", linetype = "dashed") +
     
     # fit gam for visual aid
-    geom_smooth(method = "gam", formula = y ~ s(x, k = 7), se = FALSE, alpha = 0.15, colour = pal[3])  +
+    geom_smooth(method = "gam", formula = y ~ s(x, k = 7), se = FALSE, alpha = 0.5, colour = pal[3])  +
     ylab("90 day peak ET sum (mm)") +
     xlab("Site Age (years)") +
 
@@ -202,11 +204,11 @@ p_age_et_ns <- df_yearly_clean %>%
     ggplot(aes(x = Site_age, y = ET_year)) +
 
     theme_bw() +
-    geom_point(alpha = 0.25)+
+    geom_point(alpha = 0.15)+
     geom_vline(xintercept = mean_age$mean_age_all, colour = "firebrick", linetype = "dashed") +
     
     # fit gam for visual aid
-    geom_smooth(method = "gam", formula = y ~ s(x, k = 7), se = FALSE, alpha = 0.15, colour = pal[3])  +    
+    geom_smooth(method = "gam", formula = y ~ s(x, k = 7), se = FALSE, alpha = 0.25)  +    
     ylab("Yearly ET sum (mm)") +
     xlab("Site Age (years)") +
     #facet_wrap(~Climate_zone) +
@@ -250,7 +252,8 @@ dev.off()
 
 ```{r}
 # colour palette
-pal = ltc(casa_natal)
+#pal = ltc(casa_natal)
+pal <- viridis::viridis(2)
 
 p_shap_age <- bind_rows( df_shap_train %>% mutate(split = "train"), df_shap_test %>% mutate(split = NULL)) %>%
     
@@ -264,7 +267,7 @@ p_shap_age <- bind_rows( df_shap_train %>% mutate(split = "train"), df_shap_test
     theme_bw() +
     
     # add in points
-    geom_point(alpha = 0.3) +
+    geom_point(alpha = 0.05) +
 
     # colour and rename
     scale_colour_manual(
@@ -277,7 +280,7 @@ p_shap_age <- bind_rows( df_shap_train %>% mutate(split = "train"), df_shap_test
 
     
     # fit gam for visual aid
-    #geom_smooth(method = "gam", formula = y ~ s(x, k = 10), se = FALSE, alpha = 0.25)  +
+    geom_smooth(method = "gam", formula = y ~ s(x, k = 7), se = FALSE, alpha = 0.25)  +
 
     # SHAP = 0 line
     geom_hline(yintercept = 0, colour = "black", alpha = 0.5) +

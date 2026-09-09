@@ -105,7 +105,8 @@ p_clusters <- world %>%
                     min.segment.length = 0,
                     box.padding = 1.2) +
     
-    scale_colour_manual(values = pal2) +
+    #scale_colour_manual(values = pal2) +
+    scale_colour_viridis_d() +
     
     
     # legend name

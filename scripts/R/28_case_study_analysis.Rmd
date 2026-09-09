@@ -19,6 +19,7 @@ library(conflicted)
 library(patchwork)
 library(stargazer)
 library(ggsignif)
+library(scico)
 
 # serif plots
 options(tikzLatexPackages = c(
@@ -110,8 +111,9 @@ set.seed(42)
 plotter_r2 <- function(testing_site){
     
     # palettes
-    pal = ltc(shuggie)
+    #pal = ltc(shuggie)
     pal_p = ltc(dora)
+    pal = viridis::viridis(4)
     
     # for colouring facets later
     #strip_colours <- if (testing_site == "US-UMd") c(pal_f[5], pal_f[1]) else c(pal_f[1], pal_f[5])
@@ -130,7 +132,7 @@ plotter_r2 <- function(testing_site){
         
     # add points and colour by season for visual aid
     geom_point(alpha = 0.4, 
-               aes(colour = season)
+               aes(colour = season, shape = season)
                ) +
         
     # colour and rename key values
@@ -138,6 +140,11 @@ plotter_r2 <- function(testing_site){
       name = "Season",
       values = pal
     ) +
+        
+        scale_shape_manual(
+  name = "Season",
+  values = c(15, 16, 17, 18)  # one per season level
+) +
         
     # 1:1 line (ie. a perfect model)
     geom_abline(slope = 1, intercept = 0, colour = pal_p[3], linetype = "dashed") +
@@ -206,7 +213,8 @@ df_shap_test2 <- df_shap_test %>%
 preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val = FALSE){
     
     # palettes
-    pal6 = ltc("paloma")
+    #pal6 = ltc("paloma")
+    pal6 <- viridis::viridis(2)
     pal3 <- ltc("midnight")
     pal4 <- ltc("pantone23")
     
@@ -230,16 +238,18 @@ preds_with_SHAP <- function(mod, site_id, data, stats_df, shap_df, shuffled_val 
         
         
         # fit observed and predicted to same plot
-        geom_line(aes(y = observed_ET, colour = "Observed"), alpha = 0.75) +
-        geom_line(aes(y = predicted_ET, colour = "Predicted"), alpha = 0.75) +
+        geom_line(aes(y = observed_ET, colour = "Observed", linetype = "Observed"), alpha = 0.75) +
+        geom_line(aes(y = predicted_ET, colour = "Predicted", linetype = "Predicted"), alpha = 0.75) +
+        scale_colour_manual(name = NULL, values = c("Observed" = pal6[1], "Predicted" = pal6[2])) +
+        scale_linetype_manual(name = NULL, values = c("Observed" = "solid", "Predicted" = "dashed")) +
         
         ylab("Daily ET (mm)") +
         
         theme_minimal()+
         
         # legend
-        scale_colour_manual(name = NULL, 
-                             values = c("Observed" = pal6[1], "Predicted" = pal6[5])) +
+        #scale_colour_manual(name = NULL, 
+                            # values = c("Observed" = pal6[1], "Predicted" = pal6[5])) +
         
         # move legend to bottom
         theme(legend.position = "bottom") 
@@ -394,13 +404,20 @@ shap_heatmap <- function(shap_df, pred_data, site_id, shuffled_val = FALSE){
         geom_tile() +
         
         # gradient for SHAP values
-        scale_fill_gradient2(
-            name = "SHAP value (weekly mean)",
-            low = pal4[3],
-            mid = "white",
-            high = pal3[3],
-            midpoint = 0
-        ) +
+        #scale_fill_gradient2(
+         #   name = "SHAP value (weekly mean)",
+          #  low = pal4[3],
+           # mid = "white",
+            #high = pal3[3],
+            #midpoint = 0
+        #) +
+        
+        # bw friendly
+        scale_fill_scico(
+    name = "SHAP value (weekly mean)",
+    palette = "lajolla",
+    midpoint = 0
+) +
             
         theme_minimal() +
             

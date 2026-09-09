@@ -23,6 +23,8 @@ library(kableExtra)
 library(sf)
 library(rnaturalearth)
 library(paletteer)
+library(broom)
+
 
 # serif plots
 options(tikzLatexPackages = c(
@@ -94,7 +96,8 @@ shapiro.test(diffs)
 
 ```{r}
 # colour palette
-pal = ltc(alger)
+#pal <- ltc(alger)
+pal <- viridis::viridis(5)
 
 p1 <- df_metrics_added %>%
     
@@ -205,7 +208,8 @@ dev.off()
 # looking into US-Me3 composition
 ```{r}
 # colour palette
-pal = ltc(alger)
+#pal = ltc(alger)
+pal <- viridis::viridis(5)
 
 p_me3 <- df_metrics_added %>%
     
@@ -309,7 +313,8 @@ df_train_sets2 <- left_join(df_metrics_wide, df_train_sets,
 ```{r}
 #pal_con <-  ltc(heatmap0, 30, type = "continuous")
 pal_con <- rev(colors_continuous_viridis)
-pal5 = ltc(casa_natal)
+#pal5 <- ltc(casa_natal)
+pal5 <- viridis::viridis(6)
 
 # plot
 p_gower_r2_no_age <- df_train_sets2 %>%
@@ -467,6 +472,7 @@ print(p_gower_r2)
 dev.off()
 
 ```
+
 ```{r}
 df_train_sets2 %>%
     
@@ -515,9 +521,6 @@ summary(lm(r2_no_age ~ mean_gower, data = me3))
 summary(lm(r2_age ~ mean_gower, data = me3))
 summary(lm(r2_no_age ~ mean_age_dist, data = me3))
 summary(lm(r2_age ~ mean_age_dist, data = me3))
-
-
-library(broom)
 
 results <- df_train_sets2 %>%
   group_by(test_site) %>%
@@ -605,6 +608,7 @@ df_summary <- df_sites %>%
 
 ```{r}    
 pal2 = ltc(lincoln)
+
 
 # now plot facets
 p_clusters_bar <- df_summary %>%

@@ -83,6 +83,12 @@ dottedtoc % Dotted lines leading to the page numbers in the table of contents
 {\LocallyStopLineNumbers\normalfont\normalsize\bfseries}{\thesubparagraph}{1em}{}[\ResumeLineNumbers]
 %%% end of uni formatting
 
+% headers and section numbering
+\setcounter{secnumdepth}{1}   % only \section gets a number, subsections won't
+\setcounter{tocdepth}{1} 
+\renewcommand{\subsectionmark}[1]{} % only sections in headers, no deeper
+\renewcommand{\subsubsectionmark}[1]{}
+
 \usepackage[mathlf]{MinionPro} % onlytext
 \usepackage{float}
 %\usepackage[margin=3cm]{geometry}   % for non-printing

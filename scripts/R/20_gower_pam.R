@@ -121,8 +121,12 @@ p_cluster_plot <- fviz_cluster(pam_result_gower,
     ggtitle(NULL) +
     
     # colour from ltc
-    scale_colour_manual(values = pal2) +
-    scale_fill_manual(values = pal2) +
+    #scale_colour_manual(values = pal2) +
+    #scale_fill_manual(values = pal2) +
+    
+    # b/w friendly
+    scale_colour_viridis_d() +
+    scale_fill_viridis_d() +
     
     labs(color = "Cluster", shape = "Cluster", fill = "Cluster") +
     
@@ -282,10 +286,11 @@ p_heat2 <- pheatmap(
     fontsize_row = 10,
     fontsize_col = 10,
     display_numbers = TRUE,
-    number_color = "black",
+    number_color = "white",
     angle_col = 90,
 
     #color = hcl.colors(50, "BluYl"),
+    color = viridis::viridis(50),
 
     # for tikzdevice
     labels_col = gsub("_", "\\\\_", colnames(centroids_mat)),

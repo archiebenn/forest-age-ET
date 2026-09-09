@@ -300,7 +300,7 @@
 
 # September
 
-## 3-9-26  
+## 2-9-26  
 
 - lots of discussion brain dumped over the last few days (on trains etc.)  
 - nearing 6000 words so need to cut about 2000 tomorrow and then submit!

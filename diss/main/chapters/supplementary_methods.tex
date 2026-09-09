@@ -59,7 +59,7 @@ Cluster analysis is an exploratory technique which aims to classify objects into
 
 \subsection{Random Forest Modelling and Evaluation Metrics}\label{sec:RF}
 Random Forest models were trained and tested with \texttt{RandomForestRegressor()} from \texttt{scikit-learn} \parencite{pedregosa2011scikit} using the different methods outlined below. Due to time constraints, a single set of optimised parameter values was calculated once using \texttt{GroupKFold()} and \texttt{Optuna} \parencite{akiba2019optuna} to minimise root mean square error (RMSE) on fold predictions. These values were used for all \ac{RF} models throughout the study (see \autoref{tab:params}). 
-\par In all cases, regression analysis metrics of \ac{R2}, \ac{RMSE}, \ac{MAE} were calculated from model predictions of \ac{ET} using their respective \texttt{scikit-learn} functions alongside observed values of \ac{ET} at each site. R$^2$ aims to explain the proportion of variance captured by the model, while RMSE emphasises the size of errors against observed values. MAE was also used due to its simplicity and ability to compare to RMSE for a greater understanding of error structure. While no consensus has been reached on a unified metric to evaluate ML models and predictive accuracy, a model with the the highest values of R$^2$ and lowest values of RMSE is deemed the most accurate here \parencite{chicco2021coefficient, liyew2025review}.
+\par In all cases, regression analysis metrics of \ac{R2}, \ac{RMSE}, \ac{MAE} were calculated from model predictions of \ac{ET} using their respective \texttt{scikit-learn} functions alongside observed values of \ac{ET} at each site. \ac{R2} aims to explain the proportion of variance captured by the model, while RMSE emphasises the size of errors against observed values. MAE was also used due to its simplicity and ability to compare to RMSE for a greater understanding of error structure. While no consensus has been reached on a unified metric to evaluate ML models and predictive accuracy, a model with the the highest values of \ac{R2} and lowest values of RMSE is deemed the most accurate here \parencite{chicco2021coefficient, liyew2025review}.
 
 
 \begin{table}[H]
@@ -107,7 +107,7 @@ To assess the sensitivity of the \ac{RF} models to different features, a forward
 
 
 \subsubsection{Random Sampling of Training Datasets} \label{sec:shuffle}
-To investigate how predictive performance is impacted by including site age as a feature, two separate \ac{RF} architectures were formed: `Mod' (\autoref{eqn:mod}) and `Mod + Age' (\autoref{eqn:mod_age})\footnote{Code for this analysis is available in \texttt{21\_analysis\_1.2.py} on GitHub.}.
+To investigate how predictive performance is impacted by including site age as a feature, two separate \ac{RF} architectures were formed: `Mod' (\autoref{eqn:mod}) and `Mod + Age' (\autoref{eqn:mod_age}).
 
 \begin{equation}
 	ET_i = RF\left(T\_air_i, SW\_rad_i, VPD_i, W\_speed_i, \sum_{i - 13}^{i}P, LAI_i, \sin\_DOY_i, \cos\_DOY_i\right)
@@ -120,7 +120,7 @@ To investigate how predictive performance is impacted by including site age as a
 \end{equation}
 
 where the target $ET_i$ is the estimated \ac{ET} rate on the $i$th day (mm/day); $RF(\cdot)$ is the Random Forest model; the features $T\_air$, $SW\_rad$, $VPD$, $W\_speed$, $\sum_{i - 13}^{i}P_i$, $LAI$, $Site\_Age$ are all listed with descriptions in \autoref{tab:features}. 
-\par To further assess how the overall ecological similarity of training dataset composition to the test site may impact predictive accuracy of daily \ac{ET}, a method to subset sites from a larger site pool before \ac{RF} training was also developed allowing Gower's distances of training sites to be varied and potential effects investigated (script \texttt{21\_analysis\_1.2.py}), with details on how this analysis runs below. 
+\par To further assess how the overall ecological similarity of training dataset composition to the test site may impact predictive accuracy of daily \ac{ET}, a method to subset sites from a larger site pool before \ac{RF} training was also developed allowing Gower's distances of training sites to be varied and potential effects investigated, with details on how this analysis runs below\footnote{Code for this analysis is available in \texttt{21\_analysis\_1.2.py} on GitHub.}. 
 \par Sites were first separated as follows: 6 medoid sites for testing and the remaining 44 sites as the full training pool. Following this, 20 sites were chosen at random (\texttt{NumPy.random} module) from the training pool, and then two models - `Mod' and `Mod + Age' - are trained on this subset of sites. After training, both models then predict on the six held out medoid sites, and the mean Gower's distance and mean age distance from the full training subset to each test site is calculated and stored alongside prediction performance metrics. This paired process is then repeated a further 99 times, each with a new \texttt{NumPy} seed to avoid using the same subset, to produce 100 runs using this method.
 
 
