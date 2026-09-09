@@ -25,6 +25,12 @@ presentation/
 *.synctex.gz
 *.toc
 
+# diss - keep ONLY dissertation.pdf
+diss/**/*
+!diss/
+!diss/main/
+!diss/main/dissertation.pdf
+
 # R
 *.Rproj
 .Rproj.user
